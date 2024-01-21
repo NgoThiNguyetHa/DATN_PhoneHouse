@@ -35,6 +35,7 @@ app.use('/uudais',uuDaiRouter)
 // parse application/json
 app.use(bodyParser.json())
 
+
 //connection database mongoodb
 const mongoURL= 'mongodb+srv://hoanglong180903:tVppUteM4IrqkvDv@cluster0.2gdloo3.mongodb.net/MyNodejsApp'
 mongoose.connect(mongoURL)

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 require('../models/DungLuong')
 
 const DungLuong = mongoose.model("dungluong")
+ 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

@@ -5,6 +5,7 @@ require('../models/DienThoai')
 
 const DienThoai = mongoose.model("dienthoai")
 
+
 /* GET DienThoai listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');

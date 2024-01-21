@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
 router.post('/addUuDai', function(req, res, next) {
     const uudai = new UuDai({
     giamGia: req.body.giamGia,
-    soLuong: req.body.soLuong,
     thoiGian: req.body.thoiGian,
     trangThai: req.body.trangThai,
   })
@@ -64,5 +63,6 @@ router.put("/updateUuDai/:id", async (req, res ) => {
     return res.status(500).json({message: err.message})
   }
 })
+
 
 module.exports = router;

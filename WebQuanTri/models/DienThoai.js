@@ -9,5 +9,6 @@ const DienThoaiSchema = mongoose.Schema({
     maRam: {type: mongoose.Schema.Types.ObjectId, ref: 'ram'},
     maDungLuong: {type: mongoose.Schema.Types.ObjectId, ref: 'dungluong'},
 
+    
 });
 module.exports = mongoose.model('dienthoai', DienThoaiSchema);
