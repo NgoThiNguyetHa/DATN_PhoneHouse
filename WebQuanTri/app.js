@@ -3,10 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var bodyParser = require('body-parser')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var mauRouter = require('./routes/MauRoutersAPI');
+var ramRouter = require('./routes/RamRoutersAPI');
+var dungLuongRouter = require('./routes/DungLuongRoutersAPI')
+var dienThoaiRouter = require('./routes/DienThoaiRoutersAPI')
+var uuDaiRouter = require('./routes/UuDaiRoutersAPI')
+const mongoose = require('mongoose');
+const { error } = require('console');
 var app = express();
 
 // view engine setup
@@ -21,6 +27,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/maus', mauRouter);
+app.use('/rams',ramRouter)
+app.use('/dungluongs',dungLuongRouter)
+app.use('/dienthoais',dienThoaiRouter)
+app.use('/uudais',uuDaiRouter)
+// parse application/json
+app.use(bodyParser.json())
+
+//connection database mongoodb
+const mongoURL= 'mongodb+srv://hoanglong180903:tVppUteM4IrqkvDv@cluster0.2gdloo3.mongodb.net/MyNodejsApp'
+mongoose.connect(mongoURL)
+.then(() => {
+  console.log("connection successfully")
+})
+.catch((error) => {
+  console.log("Error connecting to database")
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,3 +63,7 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+const port = process.env.PORT || 6868;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
