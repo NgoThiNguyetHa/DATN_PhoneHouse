@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mauRouter = require('./routes/MauRoutersAPI');
@@ -11,8 +12,14 @@ var ramRouter = require('./routes/RamRoutersAPI');
 var dungLuongRouter = require('./routes/DungLuongRoutersAPI')
 var dienThoaiRouter = require('./routes/DienThoaiRoutersAPI')
 var uuDaiRouter = require('./routes/UuDaiRoutersAPI')
+var HangSanXuatAPI = require('./routes/HangSanXuatAPI');
+var CuaHangAPI = require('./routes/CuaHangAPI');
+var DiaChiNhanHangAPI = require('./routes/DiaChiNhanHangAPI');
+
 const mongoose = require('mongoose');
 const { error } = require('console');
+
+
 var app = express();
 
 // view engine setup
@@ -32,6 +39,9 @@ app.use('/rams',ramRouter)
 app.use('/dungluongs',dungLuongRouter)
 app.use('/dienthoais',dienThoaiRouter)
 app.use('/uudais',uuDaiRouter)
+app.use('/hangsanxuats' , HangSanXuatAPI) // Hãng sản xuất
+app.use('/cuahangs' , CuaHangAPI) // Cửa hàng
+app.use('/diachinhanhangs', DiaChiNhanHangAPI) //Địa chỉ nhận hàng
 // parse application/json
 app.use(bodyParser.json())
 
@@ -64,7 +74,7 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-const port = process.env.PORT || 6868;
+const port = process.env.PORT || 8686;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
