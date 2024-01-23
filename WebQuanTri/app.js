@@ -15,6 +15,10 @@ var uuDaiRouter = require('./routes/UuDaiRoutersAPI')
 var HangSanXuatAPI = require('./routes/HangSanXuatAPI');
 var CuaHangAPI = require('./routes/CuaHangAPI');
 var DiaChiNhanHangAPI = require('./routes/DiaChiNhanHangAPI');
+var HoaDonAPI = require('./routes/HoaDonAPI');
+var ChiTietHoaDonAPI = require('./routes/ChiTietHoaDonAPI');
+var GioHangAPI = require('./routes/GioHangAPI');
+var ChiTietGioHangAPI = require('./routes/ChiTietGioHangAPI');
 
 const mongoose = require('mongoose');
 const { error } = require('console');
@@ -42,6 +46,10 @@ app.use('/uudais',uuDaiRouter)
 app.use('/hangsanxuats' , HangSanXuatAPI) // Hãng sản xuất
 app.use('/cuahangs' , CuaHangAPI) // Cửa hàng
 app.use('/diachinhanhangs', DiaChiNhanHangAPI) //Địa chỉ nhận hàng
+app.use('/hoadons' , HoaDonAPI) // Hóa đơn
+app.use('/chitiethoadons', ChiTietHoaDonAPI) //Chi tiết hóa đơn
+app.use('/giohangs', GioHangAPI) //Giỏ hàng
+app.use('/chitietgiohangs', ChiTietGioHangAPI) //Chi tiết giỏ hàng
 // parse application/json
 app.use(bodyParser.json())
 
