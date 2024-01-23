@@ -15,6 +15,8 @@ var uuDaiRouter = require('./routes/UuDaiRoutersAPI')
 var HangSanXuatAPI = require('./routes/HangSanXuatAPI');
 var CuaHangAPI = require('./routes/CuaHangAPI');
 var DiaChiNhanHangAPI = require('./routes/DiaChiNhanHangAPI');
+var khachHangAPI = require('./routes/KhachHangAPI');
+
 
 const mongoose = require('mongoose');
 const { error } = require('console');
@@ -42,6 +44,8 @@ app.use('/uudais',uuDaiRouter)
 app.use('/hangsanxuats' , HangSanXuatAPI) // Hãng sản xuất
 app.use('/cuahangs' , CuaHangAPI) // Cửa hàng
 app.use('/diachinhanhangs', DiaChiNhanHangAPI) //Địa chỉ nhận hàng
+app.use('/khachhangs',khachHangAPI)
+
 // parse application/json
 app.use(bodyParser.json())
 
