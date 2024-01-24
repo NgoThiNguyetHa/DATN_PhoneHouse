@@ -42,6 +42,16 @@ router.post('/addKhachHang', async (req, res, next) =>{
     }
 });
 
+router.get('/getAllKhachHang', async (req,res) => {
+    try {
+      const khachHang = await KhachHang.find();
+      res.json(khachHang);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  })
+
+  
 router.post('/dangNhapKhachHang', async (req, res) => {
     try {
         const { email, password } = req.body;
