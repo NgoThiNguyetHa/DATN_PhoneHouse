@@ -9,6 +9,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.appcuahang.databinding.ActivityMainBinding;
@@ -21,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+    ActionMode mActionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +59,37 @@ public class MainActivity extends AppCompatActivity {
       FragmentTransaction transaction = manager.beginTransaction();
       transaction.replace(R.id.main_frame,fragment);
       transaction.commit();
+    }
+
+    private boolean actionToolbar(){
+        if (mActionMode != null){
+            return false;
+        }
+        mActionMode = startSupportActionMode(mCallback);
+        return true;
+    }
+
+    private ActionMode.Callback mCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.dialog);
+
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
     }
 }
