@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/icon_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/navBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/icon_bill"
+        android:title="Hóa đơn" />
+    <item
+        android:id="@+id/navNotify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/icon_notify"
+        android:title="Thông báo" />
+    <item
+        android:id="@+id/navUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/icon_user"
+        android:title="Người dùng" />
+</menu>
