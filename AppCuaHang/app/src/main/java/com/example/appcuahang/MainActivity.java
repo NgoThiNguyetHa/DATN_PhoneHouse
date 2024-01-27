@@ -13,6 +13,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
+//import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.fragment.BillOrderFragment;
 import com.example.appcuahang.fragment.HomeFragment;
@@ -61,35 +62,4 @@ public class MainActivity extends AppCompatActivity {
       transaction.commit();
     }
 
-    private boolean actionToolbar(){
-        if (mActionMode != null){
-            return false;
-        }
-        mActionMode = startSupportActionMode(mCallback);
-        return true;
-    }
-
-    private ActionMode.Callback mCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.dialog);
-
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
-        }
-    }
 }
