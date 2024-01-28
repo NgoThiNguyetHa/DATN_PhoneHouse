@@ -125,7 +125,7 @@ public class RamFragment extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_ram_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_ram_imageView);
 
-        tvTitle.setText("Dialog Thêm Màu");
+        tvTitle.setText("Dialog Thêm Ram");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
