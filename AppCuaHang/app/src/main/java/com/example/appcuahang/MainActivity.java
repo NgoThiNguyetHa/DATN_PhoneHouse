@@ -23,6 +23,7 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+//import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.fragment.BillOrderFragment;
 import com.example.appcuahang.fragment.BrandFragment;

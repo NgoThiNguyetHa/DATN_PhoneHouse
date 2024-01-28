@@ -26,7 +26,9 @@ var danhGiaRouter = require('./routes/DanhGiaApi')
 const mongoose = require('mongoose');
 const { error } = require('console');
 
+
 var app = express();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
