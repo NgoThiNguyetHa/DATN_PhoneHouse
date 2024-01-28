@@ -3,7 +3,18 @@
     <style name="Base.Theme.AppCuaHang" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryVariant">#00CDBD</item>
+        <item name="colorPrimary">#5FB1C1</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/material_dynamic_primary20</item>
+        <item name="colorSecondaryVariant">@color/material_dynamic_primary70</item>
     </style>
 
     <style name="Theme.AppCuaHang" parent="Base.Theme.AppCuaHang" />
+
+    <style name="MyCusTomTextAppearance" parent="TextAppearance.Design.Tab"
+        >
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

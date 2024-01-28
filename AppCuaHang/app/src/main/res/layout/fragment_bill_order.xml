@@ -3,13 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.BillOrderFragment"
-    android:background="#B61C1C">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.BillOrderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        >
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_layout"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_custom_dialog"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/black"
+            app:tabMode="fixed"
+            app:tabIndicatorHeight="0dp"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorAnimationDuration="1000"
+            >
+        </com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager2"/>
+    </LinearLayout>
 
 </FrameLayout>

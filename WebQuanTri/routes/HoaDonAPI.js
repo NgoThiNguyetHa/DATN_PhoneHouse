@@ -42,6 +42,46 @@ router.get('/getHoaDon', async (req,res) => {
   }
 })
 
+router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang', async (req, res) => {
+  try {
+    const trangThaiNhanHang = req.params.trangThaiNhanHang;
+    // const hoaDon = await HoaDon.find({ trangThaiNhanHang });
+    const hoaDon = await HoaDon.find({ trangThaiNhanHang })
+            .populate("maKhachHang")
+            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
+            .populate("maCuaHang")
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, res) => {
+  try {
+    const trangThaiNhanHang = req.params.trangThaiNhanHang;
+    const maCuaHang = req.params.maCuaHang;
+    const hoaDon = await HoaDon.find({ trangThaiNhanHang , maCuaHang })
+            .populate("maKhachHang")
+            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
+            .populate("maCuaHang")
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/getHoaDonTheoChiTiet', async (req, res) => {
+  try {
+    const hoaDon = await HoaDon.find()
+            .populate("maKhachHang")
+            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
+            .populate("maCuaHang")
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.delete('/deleteHoaDon/:id', async (req,res) => {
   try{
     const data =  await HoaDon.findByIdAndDelete(req.params.id)
