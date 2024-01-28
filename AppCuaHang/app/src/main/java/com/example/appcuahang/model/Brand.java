@@ -8,8 +8,7 @@ public class Brand {
     public Brand() {
     }
 
-    public Brand(String _id, String tenHang, String maCuaHang) {
-        this._id = _id;
+    public Brand(String tenHang, String maCuaHang) {
         this.tenHang = tenHang;
         this.maCuaHang = maCuaHang;
     }
