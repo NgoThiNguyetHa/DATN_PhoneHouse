@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.BillOrderFragment">
 
     <LinearLayout
@@ -14,6 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tab_layout"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_custom_dialog"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/black"
+            app:tabMode="fixed"
+            app:tabIndicatorHeight="0dp"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorAnimationDuration="1000"
             >
         </com.google.android.material.tabs.TabLayout>
         <androidx.viewpager.widget.ViewPager
