@@ -11,7 +11,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-/* POST Mau. */
 
 router.post('/addChiTietHoaDon', function(req, res, next) {
     const chiTietHoaDon = new ChiTietHoaDon({
