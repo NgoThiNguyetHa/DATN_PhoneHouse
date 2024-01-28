@@ -7,6 +7,8 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appcuahang.activity.ManHinhDangNhap;
+
 public class ManHinhChao extends AppCompatActivity {
 
     @Override
@@ -16,7 +18,7 @@ public class ManHinhChao extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), ManHinhDangNhap.class));
                 finish();
             }
         }, 3000);

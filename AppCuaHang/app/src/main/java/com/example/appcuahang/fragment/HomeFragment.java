@@ -1,5 +1,6 @@
 package com.example.appcuahang.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(getLayoutInflater(), container, false);
+        ((Activity)getContext()).setTitle("Màn Hình Chính");
         return binding.getRoot();
     }
 }

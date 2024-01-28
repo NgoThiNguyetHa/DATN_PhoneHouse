@@ -2,19 +2,30 @@ package com.example.appcuahang;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.fragment.BillOrderFragment;
+import com.example.appcuahang.fragment.BrandFragment;
 import com.example.appcuahang.fragment.HomeFragment;
 import com.example.appcuahang.fragment.MoreFragment;
 import com.example.appcuahang.fragment.NotificationFragment;
@@ -23,17 +34,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-    ActionMode mActionMode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         actionBottomNav();
+        fullScreen();
     }
 
     public void actionBottomNav() {
+        setSupportActionBar(binding.mainToolBar);
         binding.mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,36 +71,15 @@ public class MainActivity extends AppCompatActivity {
       transaction.replace(R.id.main_frame,fragment);
       transaction.commit();
     }
-
-    private boolean actionToolbar(){
-        if (mActionMode != null){
-            return false;
-        }
-        mActionMode = startSupportActionMode(mCallback);
-        return true;
-    }
-
-    private ActionMode.Callback mCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.dialog);
-
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
+    private void fullScreen(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null){
+                controller.hide(WindowInsets.Type.statusBars());
+            }
+        }else{
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
+
 }
