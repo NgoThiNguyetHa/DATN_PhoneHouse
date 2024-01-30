@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
-        android:textSize="24dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:layout_marginBottom="15dp"
         />
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hãy kiểm tra email và mật khẩu để tiếp tục"
-        android:textSize="13dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
         />
@@ -73,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
-        android:layout_margin="20dp"
+        android:layout_margin="25dp"
+        android:textSize="18dp"
         />
 </LinearLayout>
