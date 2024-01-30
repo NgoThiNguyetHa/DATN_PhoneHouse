@@ -40,7 +40,7 @@ router.get('/getHangSanXuat', async (req,res) => {
 router.get('/getHangSanXuatTheoCuaHang/:maCuaHang', async (req,res) => {
   try {
     const maCuaHang = req.params.maCuaHang;
-    const hangSanXuat = await HangSanXuat.find({ maCuaHang }).populate("maCuaHang");
+    const hangSanXuat = await HangSanXuat.find({ maCuaHang });
     res.json(hangSanXuat);
   } catch (error) {
     res.status(500).json({ error: error.message });

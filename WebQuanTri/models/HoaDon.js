@@ -5,7 +5,7 @@ const HoaDonSchema = mongoose.Schema({
     ngayTao:{type: String},
     trangThaiNhanHang:{type: String},
     phuongThucThanhToan:{type: String},
-    maDiaChiNhanHang:{type: mongoose.Schema.Types.ObjectId, ref: 'diaChiNhanHang'},
+    maDiaChiNhanHang:{type: mongoose.Schema.Types.ObjectId, ref: 'diaChiNhanHang' , default: null},
     maKhachHang:{type: mongoose.Schema.Types.ObjectId, ref: 'khachhang'},
     maCuaHang:{type: mongoose.Schema.Types.ObjectId, ref: 'cuaHang'}
 

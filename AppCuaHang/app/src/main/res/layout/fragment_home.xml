@@ -438,7 +438,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/rc_lichSuGiaoDich"
-                        tools:listitem="@layout/item_lichsugiaodich"
+                        tools:listitem="@layout/item_lich_su_giao_dich"
                         />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

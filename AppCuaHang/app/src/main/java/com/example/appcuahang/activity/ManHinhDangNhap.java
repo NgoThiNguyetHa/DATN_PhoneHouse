@@ -58,13 +58,17 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 String userName = loginResponse.getCuaHang().getUsername();
                                 String email = loginResponse.getCuaHang().getEmail();
                                 String passWord = loginResponse.getCuaHang().getPassword();
-                                sharedPreferences.saveUserData(cuaHangId,userName,email,passWord);
+                                String phone = loginResponse.getCuaHang().getSdt();
+                                String address = loginResponse.getCuaHang().getDiaChi();
+                                sharedPreferences.saveUserData(cuaHangId,userName,email,passWord,phone,address);
                                 Intent intent = new Intent(ManHinhDangNhap.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
-                            } else {
+                            } else{
+                                Toast.makeText(ManHinhDangNhap.this, "Dữ liệu trống", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            Toast.makeText(ManHinhDangNhap.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                         }
                     }
 
