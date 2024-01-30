@@ -19,7 +19,8 @@ import com.example.appcuahang.R;
 
 
 public class MoreFragment extends Fragment {
-    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam;
+//    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan;
     String _idStore;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +41,8 @@ public class MoreFragment extends Fragment {
     }
 
     public void initView(View view){
-        cv_mau = view.findViewById(R.id.cv_mau);
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
-        cv_loaiRam = view.findViewById(R.id.cv_loaiRam);
     }
 
     private void action(){
@@ -60,20 +59,6 @@ public class MoreFragment extends Fragment {
                 replaceFragment(new BillOrderFragment());
             }
         });
-        cv_mau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new MauFragment());
-            }
-        });
-        cv_loaiRam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new RamFragment());
-            }
-        });
-
-
     }
 
     private void replaceFragment(Fragment fragment){

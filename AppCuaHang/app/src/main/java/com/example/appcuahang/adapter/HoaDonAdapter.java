@@ -14,6 +14,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.model.AddressDelivery;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.Client;
+import com.example.appcuahang.model.Store;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,8 +43,14 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
         HoaDon hoaDon = list.get(position);
         Client khachHang = hoaDon.getMaKhachHang();
         AddressDelivery diaChiNhanHang = hoaDon.getMaDiaChiNhanHang();
-        holder.tvKhachHang.setText(""+diaChiNhanHang.getTenNguoiNhan());
-        holder.tvDCNhanHang.setText(""+diaChiNhanHang.getDiaChi());
+        Store store = hoaDon.getMaCuaHang();
+        if (diaChiNhanHang == null){
+            holder.tvKhachHang.setText(""+khachHang.getUsername());
+            holder.tvDCNhanHang.setText(""+store.getDiaChi());
+        }else{
+            holder.tvKhachHang.setText(""+diaChiNhanHang.getTenNguoiNhan());
+            holder.tvDCNhanHang.setText(""+diaChiNhanHang.getDiaChi());
+        }
         if (hoaDon.getTrangThaiNhanHang().equals("Đang xử lý")){
             holder.tvTrangThai.setTextColor(Color.GREEN);
         }else if (hoaDon.getTrangThaiNhanHang().equals("Đã giao")){
@@ -55,7 +62,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
 
         holder.tvPhuongThuc.setText("Thanh toán: "+hoaDon.getPhuongThucThanhToan());
         holder.tvNgayDat.setText("Ngày đặt: "+hoaDon.getNgayTao());
-        holder.tvTongTien.setText(""+hoaDon.getTongTien());
+        holder.tvTongTien.setText(""+hoaDon.getTongTien() +" đ");
 
         SimpleDateFormat sdfInput = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat sdfOutput = new SimpleDateFormat("dd\n'thg' MM", Locale.getDefault());

@@ -27,7 +27,7 @@ public interface ApiService {
     @POST("hangsanxuats/addHangSanXuat")
     Call<Brand> postHangSanXuat(@Body Brand hangSanXuat);
 
-    @PUT("hangsanxuats/updateHoaDon/{id}")
+    @PUT("hangsanxuats/updateHangSanXuat/{id}")
     Call<Brand> putHangSanXuat(@Path("id") String id,
                             @Body Brand hangSanXuat);
 
@@ -45,4 +45,9 @@ public interface ApiService {
     @POST("cuahangs/dangNhapCuaHang")
     Call<LoginResponse> DangNhap(@Field("email") String email,
                                  @Field("password") String password);
+
+    //thay đổi thông tin - đổi mật khẩu
+    @PUT("cuahangs/updateCuaHang/{id}")
+    Call<Store> putCuaHang(@Path("id") String id,
+                               @Body Store store);
 }
