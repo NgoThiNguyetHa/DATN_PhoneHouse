@@ -19,8 +19,8 @@ import com.example.appcuahang.R;
 
 
 public class MoreFragment extends Fragment {
-    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam;
+//    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan;
     String _idStore;
     @Override
     public void onCreate(Bundle savedInstanceState) {
