@@ -23,6 +23,7 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+//import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.databinding.ActivityMainBinding;
 import com.example.appcuahang.fragment.BillOrderFragment;
 import com.example.appcuahang.fragment.BrandFragment;
@@ -33,53 +34,53 @@ import com.example.appcuahang.fragment.ProductFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        actionBottomNav();
-        fullScreen();
-    }
+  ActivityMainBinding binding;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    actionBottomNav();
+    fullScreen();
+  }
 
-    public void actionBottomNav() {
-        setSupportActionBar(binding.mainToolBar);
-        binding.mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (R.id.ic_home == item.getItemId()){
-                    replaceFragment(new HomeFragment());
-                }else if (R.id.ic_product == item.getItemId()){
-                    replaceFragment(new ProductFragment());
-                }else if (R.id.ic_bill == item.getItemId()){
-                    replaceFragment(new BillOrderFragment());
-                }else if (R.id.ic_notification == item.getItemId()){
-                    replaceFragment(new NotificationFragment());
-                }else {
-                    replaceFragment(new MoreFragment());
-                }
-                return true;
-            }
-        });
-        replaceFragment(new HomeFragment());
-    }
-
-    private void replaceFragment(Fragment fragment){
-      FragmentManager manager = getSupportFragmentManager();
-      FragmentTransaction transaction = manager.beginTransaction();
-      transaction.replace(R.id.main_frame,fragment);
-      transaction.commit();
-    }
-    private void fullScreen(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            WindowInsetsController controller = getWindow().getInsetsController();
-            if (controller != null){
-                controller.hide(WindowInsets.Type.statusBars());
-            }
-        }else{
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+  public void actionBottomNav() {
+    setSupportActionBar(binding.mainToolBar);
+    binding.mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (R.id.ic_home == item.getItemId()){
+          replaceFragment(new HomeFragment());
+        }else if (R.id.ic_product == item.getItemId()){
+          replaceFragment(new ProductFragment());
+        }else if (R.id.ic_bill == item.getItemId()){
+          replaceFragment(new BillOrderFragment());
+        }else if (R.id.ic_notification == item.getItemId()){
+          replaceFragment(new NotificationFragment());
+        }else {
+          replaceFragment(new MoreFragment());
         }
+        return true;
+      }
+    });
+    replaceFragment(new HomeFragment());
+  }
+
+  private void replaceFragment(Fragment fragment){
+    FragmentManager manager = getSupportFragmentManager();
+    FragmentTransaction transaction = manager.beginTransaction();
+    transaction.replace(R.id.main_frame,fragment);
+    transaction.commit();
+  }
+  private void fullScreen(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+      WindowInsetsController controller = getWindow().getInsetsController();
+      if (controller != null){
+        controller.hide(WindowInsets.Type.statusBars());
+      }
+    }else{
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+  }
 
 }
