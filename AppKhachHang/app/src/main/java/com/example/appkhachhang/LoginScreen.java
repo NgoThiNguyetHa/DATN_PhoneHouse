@@ -33,6 +33,14 @@ public class LoginScreen extends AppCompatActivity {
         setContentView(R.layout.activity_login_screen);
         txtForgotPassword = findViewById(R.id.txtForgotPassword);
         txtNonAccount = findViewById(R.id.txtDangky);
+
+        txtNonAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
+                startActivity(intent);
+            }
+        });
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
