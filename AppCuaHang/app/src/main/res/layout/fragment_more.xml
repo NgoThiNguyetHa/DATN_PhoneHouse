@@ -49,16 +49,19 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="15dp">
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="170dp"
+                    android:layout_height="73dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/mau" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
