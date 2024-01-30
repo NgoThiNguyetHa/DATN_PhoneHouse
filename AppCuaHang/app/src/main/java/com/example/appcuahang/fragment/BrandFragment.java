@@ -34,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appcuahang.R;
+
+
 import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
@@ -79,7 +81,7 @@ public class BrandFragment extends Fragment {
         rc_brand = view.findViewById(R.id.rc_brand);
     }
 
-    private void initVariable(){
+    private void initVariable(){ // thêm mới cả hàm
         list = new ArrayList<>();
         listBackUp = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
@@ -91,7 +93,7 @@ public class BrandFragment extends Fragment {
             }
 
             @Override
-            public void editBrand(Brand idBrand) {
+            public void editBrand(Brand idBrand) { //
                 updateData(idBrand);
             }
 
@@ -125,9 +127,9 @@ public class BrandFragment extends Fragment {
 //                    listBackUp.clear();
 //                    listBackUp.addAll(data);
 //                    fillDataRecyclerView();
-                    list.clear();
-                    list.addAll(data);
-                    adapter.notifyDataSetChanged();
+                    list.clear(); // sửa lại
+                    list.addAll(data);// sửa lại
+                    adapter.notifyDataSetChanged();// sửa lại
                 } else {
                     // Handle error
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
@@ -200,7 +202,7 @@ public class BrandFragment extends Fragment {
     }
 
 
-    private void updateData(Brand brand) {
+    private void updateData(Brand brand) { // thêm sửa mới
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_brand, null);
         builder.setView(view);

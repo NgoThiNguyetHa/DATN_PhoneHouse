@@ -33,6 +33,8 @@ import com.example.appcuahang.adapter.MauAdapter;
 import com.example.appcuahang.api.ApiMauService;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
+import com.example.appcuahang.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.untils.MySharedPreferences;
@@ -47,6 +49,7 @@ import retrofit2.Response;
 public class MauFragment extends Fragment {
     RecyclerView rc_mau;
     List<Mau> list = new ArrayList<>();
+    List<Mau> listBackUp;
     MauAdapter adapter;
     GridLayoutManager manager;
     //MySharedPreferences mySharedPreferences;
@@ -65,13 +68,36 @@ public class MauFragment extends Fragment {
     }
     private void initView(View view){
         rc_mau = view.findViewById(R.id.rc_mau);
+    }
+    private void initVariable(){ // thêm mới cả hàm
+        list = new ArrayList<>();
+        listBackUp = new ArrayList<>();
+        manager = new GridLayoutManager(getContext(), 2);
+        rc_mau.setLayoutManager(manager);
+        adapter = new MauAdapter(getContext(), new IItemMauListenner() {
+            @Override
+            public void deleteBrand(String idBrand) {
 
+            }
+
+            @Override
+            public void editMau(Mau isMau) { //
+                updateData(isMau);
+            }
+
+            @Override
+            public void showDetail(String idBrand) {
+
+            }
+        });
+        adapter.setData(list);
+        rc_mau.setAdapter(adapter);
     }
     private void getData(){
         list = new ArrayList<>();
         manager = new GridLayoutManager(getContext(),2);
         rc_mau.setLayoutManager(manager);
-        ApiMauService apiMauService = ApiRetrofit.getApiMauService();
+        ApiMauService apiMauService = (ApiMauService) ApiRetrofit.getApiMauService();
 
         Call<List<Mau>> call = apiMauService.getMau();
         call.enqueue(new Callback<List<Mau>>() {
@@ -79,7 +105,7 @@ public class MauFragment extends Fragment {
             public void onResponse(Call<List<Mau>> call, Response<List<Mau>> response) {
                 if (response.isSuccessful()) {
                     List<Mau> data = response.body();
-                    adapter = new MauAdapter(getContext(),data);
+                    adapter = new MauAdapter(getContext(), (IItemMauListenner) data);
                     rc_mau.setAdapter(adapter);
                 } else {
                     // Handle error
@@ -161,5 +187,63 @@ public class MauFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+    private void updateData(Mau mau) { // thêm sửa mới
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_mau, null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        EditText edTenMau = view.findViewById(R.id.dl_mau_edTenMau);
+        EditText edGiaTien = view.findViewById(R.id.dl_mau_edGiaMau);
+        Button btnSave = view.findViewById(R.id.dl_mau_btnSave);
+        TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
+        ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
+
+        tvTitle.setText("Cập Nhật Màu");
+        edTenMau.setText(mau.getTenMau());
+        edGiaTien.setText(mau.getGiaTien());
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tenMau = edTenMau.getText().toString().trim();
+                String giaTien = edGiaTien.getText().toString().trim();
+                ApiMauService apiMauService = ApiRetrofit.getApiMauService();
+                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau, giaTien));
+                call.enqueue(new Callback<Mau>() {
+                    @Override
+                    public void onResponse(Call<Mau> call, Response<Mau> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            getData();
+                            dialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mau> call, Throwable t) {
+                        Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 }

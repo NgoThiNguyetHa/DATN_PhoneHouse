@@ -64,6 +64,7 @@ public class RamFragment extends Fragment {
     private void initView(View view){
         rc_ram = view.findViewById(R.id.rc_ram);
     }
+
     private void getData(){
         list = new ArrayList<>();
         manager = new GridLayoutManager(getContext(),2);
@@ -131,7 +132,7 @@ public class RamFragment extends Fragment {
             public void onClick(View v) {
                 String tenRam = edTenRam.getText().toString().trim();
                 Integer giaTien = Integer.parseInt(edGiaTien.getText().toString().trim());
-                ApiRamService apiRamService = ApiRetrofit.getApiRamService();
+                ApiRamService apiRamService = (ApiRamService) ApiRetrofit.getApiMauService();
                 Call<Ram> call = apiRamService.postRam(new Ram(tenRam , giaTien));
                 call.enqueue(new Callback<Ram>() {
                     @Override

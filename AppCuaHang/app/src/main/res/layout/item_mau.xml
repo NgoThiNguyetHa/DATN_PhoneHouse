@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:id="@+id/mMau">
 
         <ImageView
             android:layout_width="30dp"
