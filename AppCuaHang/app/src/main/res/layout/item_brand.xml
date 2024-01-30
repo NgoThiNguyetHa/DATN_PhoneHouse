@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+    android:id="@+id/cardView">
 
     <LinearLayout
+        android:id="@+id/mParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -15,7 +17,7 @@
         android:layout_margin="10dp">
 
         <ImageView
-
+            android:id="@+id/item_imgBrand"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
@@ -23,7 +25,7 @@
 
         <TextView
             android:id="@+id/item_tvBrand"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"

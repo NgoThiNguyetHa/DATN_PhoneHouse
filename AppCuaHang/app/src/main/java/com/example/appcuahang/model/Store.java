@@ -19,6 +19,17 @@ public class Store {
         this.email = email;
     }
 
+    public Store(String password) {
+        this.password = password;
+    }
+
+    public Store(String diaChi, String username, String sdt, String email) {
+        this.diaChi = diaChi;
+        this.username = username;
+        this.sdt = sdt;
+        this.email = email;
+    }
+
     public void set_id(String _id) {
         this._id = _id;
     }
