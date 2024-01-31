@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:shadowColor="#5FB1C1"
-        android:text="Sign In to your\n account"
+        android:text="Đăng nhập tài khoản\ncủa bạn"
         android:textColor="#5FB1C1"
         android:textColorHint="#e1e1e1"
         android:textSize="30dp"

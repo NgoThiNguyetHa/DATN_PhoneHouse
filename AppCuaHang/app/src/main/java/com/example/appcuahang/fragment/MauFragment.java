@@ -1,5 +1,6 @@
 package com.example.appcuahang.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -52,24 +53,29 @@ public class MauFragment extends Fragment {
     List<Mau> listBackUp;
     MauAdapter adapter;
     GridLayoutManager manager;
-    //MySharedPreferences mySharedPreferences;
+
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_mau, container, false);
-        ((Activity)getContext()).setTitle("Màu");
+        ((Activity) getContext()).setTitle("Màu");
         initView(view);
         getData();
+        initVariable();
+        fillDataRecyclerView();
         return view;
     }
-    private void initView(View view){
+
+    private void initView(View view) {
         rc_mau = view.findViewById(R.id.rc_mau);
     }
-    private void initVariable(){ // thêm mới cả hàm
+
+    private void initVariable() {
         list = new ArrayList<>();
         listBackUp = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
@@ -93,11 +99,12 @@ public class MauFragment extends Fragment {
         adapter.setData(list);
         rc_mau.setAdapter(adapter);
     }
-    private void getData(){
+
+    private void getData() {
         list = new ArrayList<>();
-        manager = new GridLayoutManager(getContext(),2);
+        manager = new GridLayoutManager(getContext(), 2);
         rc_mau.setLayoutManager(manager);
-        ApiMauService apiMauService = (ApiMauService) ApiRetrofit.getApiMauService();
+        ApiMauService apiMauService = ApiRetrofit.getApiMauService();
 
         Call<List<Mau>> call = apiMauService.getMau();
         call.enqueue(new Callback<List<Mau>>() {
@@ -105,8 +112,10 @@ public class MauFragment extends Fragment {
             public void onResponse(Call<List<Mau>> call, Response<List<Mau>> response) {
                 if (response.isSuccessful()) {
                     List<Mau> data = response.body();
-                    adapter = new MauAdapter(getContext(), (IItemMauListenner) data);
-                    rc_mau.setAdapter(adapter);
+
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
                 } else {
                     // Handle error
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
@@ -116,23 +125,26 @@ public class MauFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Mau>> call, Throwable t) {
                 // Handle failure
-                Log.e("mau",t.getMessage());
+                Log.e("mau", t.getMessage());
             }
         });
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.dialog,menu);
+        inflater.inflate(R.menu.dialog, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.btn_add){
+        if (id == R.id.btn_add) {
             dialog();
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_mau, null);
@@ -162,7 +174,7 @@ public class MauFragment extends Fragment {
                 String tenMau = edTenMau.getText().toString().trim();
                 Integer giaTien = Integer.parseInt(edGiaTien.getText().toString().trim());
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.postMau(new Mau(tenMau , giaTien));
+                Call<Mau> call = apiMauService.postMau(new Mau(tenMau, giaTien));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -170,6 +182,7 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            fillDataRecyclerView();
                         }
                     }
 
@@ -188,6 +201,14 @@ public class MauFragment extends Fragment {
             }
         });
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void fillDataRecyclerView() {
+        list.clear();
+        list.addAll(listBackUp);
+        adapter.notifyDataSetChanged();
+    }
+
     private void updateData(Mau mau) { // thêm sửa mới
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_mau, null);
@@ -212,14 +233,14 @@ public class MauFragment extends Fragment {
 
         tvTitle.setText("Cập Nhật Màu");
         edTenMau.setText(mau.getTenMau());
-        edGiaTien.setText(mau.getGiaTien());
+        edGiaTien.setText(mau.getGiaTien() + "");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenMau = edTenMau.getText().toString().trim();
                 String giaTien = edGiaTien.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau, giaTien));
+                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau, Integer.parseInt(giaTien)));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -227,6 +248,7 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            fillDataRecyclerView();
                         }
                     }
 
@@ -235,8 +257,10 @@ public class MauFragment extends Fragment {
                         Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
+
 
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override

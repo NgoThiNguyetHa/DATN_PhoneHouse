@@ -43,6 +43,9 @@ public class MoreFragment extends Fragment {
     public void initView(View view){
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
+        cv_ThongTinCaNhan = view.findViewById(R.id.cv_thongTinCaNhan);
+        cv_mau = view.findViewById(R.id.cv_mau);
+        cv_loaiRam = view.findViewById(R.id.cv_loaiRam);
     }
 
     private void action(){
@@ -57,6 +60,24 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(new BillOrderFragment());
+            }
+        });
+        cv_ThongTinCaNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new InfoStoreFragment());
+            }
+        });
+        cv_mau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new MauFragment());
+            }
+        });
+        cv_loaiRam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new RamFragment());
             }
         });
     }
