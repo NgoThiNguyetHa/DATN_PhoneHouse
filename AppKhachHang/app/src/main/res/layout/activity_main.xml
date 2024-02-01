@@ -6,11 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/main_toolBar"
+        android:background="#FFF"
+        app:titleTextColor="#000000"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        app:menu="@menu/toolbar_home_menu"/>
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView"
         android:layout_width="match_parent"

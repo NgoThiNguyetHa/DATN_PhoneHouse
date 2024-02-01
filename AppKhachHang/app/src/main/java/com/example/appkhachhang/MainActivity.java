@@ -2,6 +2,7 @@ package com.example.appkhachhang;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,13 +21,15 @@ public class MainActivity extends AppCompatActivity {
 
   BottomNavigationView bottomNavigationView;
   FrameLayout frameLayout;
+  Toolbar toolbar;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     bottomNavigationView = findViewById(R.id.bottomNavView);
     frameLayout = findViewById(R.id.frameLayout);
-
+    toolbar = findViewById(R.id.main_toolBar);
+    setSupportActionBar(toolbar);
 
     bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
       @Override
