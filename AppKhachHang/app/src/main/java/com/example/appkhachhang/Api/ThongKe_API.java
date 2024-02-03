@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.SanPham;
+import com.example.appkhachhang.Model.SanPhamHot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,5 +22,5 @@ public interface ThongKe_API {
             .build().create(ThongKe_API.class);
 
     @GET("getDienThoaiHotNhat")
-    Call<List<SanPham>> getSanPhamHot();
+    Call<List<SanPhamHot>> getSanPhamHot();
 }

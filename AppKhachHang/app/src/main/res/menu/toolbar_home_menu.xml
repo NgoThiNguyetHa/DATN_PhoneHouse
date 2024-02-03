@@ -4,10 +4,7 @@
 
     <item
         android:id="@+id/gioHang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:showAsAction="always"
-        android:icon="@drawable/icon_home"
-        android:iconTint="@color/black"
+        android:icon="@drawable/icon_shopping_cart"
         android:title="Giỏ hàng"/>
 </menu>

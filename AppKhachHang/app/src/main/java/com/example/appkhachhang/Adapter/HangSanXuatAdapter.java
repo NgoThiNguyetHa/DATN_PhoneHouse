@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appkhachhang.DetailScreen;
+import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.R;
@@ -20,10 +23,12 @@ import java.util.List;
 public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.ViewHolder> {
     private Context context;
     private List<HangSanXuat> list;
-
-    public HangSanXuatAdapter(Context context, List<HangSanXuat> list) {
+    private final OnItemClickListenerHang onItemClickListenerHang;
+    public HangSanXuatAdapter(Context context, List<HangSanXuat> list, OnItemClickListenerHang onItemClickListenerHang) {
         this.context = context;
         this.list = list;
+        this.onItemClickListenerHang = onItemClickListenerHang;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,6 +44,12 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
         String fullCoverImgUrl = hangSanXuat.getAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgHang);
         holder.tvTenHang.setText(hangSanXuat.getTenHang());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -54,6 +65,17 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
             super(itemView);
             imgHang = itemView.findViewById(R.id.img_Hang);
             tvTenHang = itemView.findViewById(R.id.tv_tenHang);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListenerHang!=null){
+                        int pos = getAdapterPosition();
+                        if (pos!=RecyclerView.NO_POSITION){
+                            onItemClickListenerHang.onItemClickHang(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
