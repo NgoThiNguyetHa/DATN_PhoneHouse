@@ -2,7 +2,7 @@ package com.example.appkhachhang.Model;
 
 public class SanPhamHot {
     SanPham sanPham;
-    int soLuong;
+    Number soLuong;
 
     public SanPhamHot() {
     }
@@ -15,11 +15,11 @@ public class SanPhamHot {
         this.sanPham = sanPham;
     }
 
-    public int getSoLuong() {
+    public Number getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(Number soLuong) {
         this.soLuong = soLuong;
     }
 }

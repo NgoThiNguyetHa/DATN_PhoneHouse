@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -21,16 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
   BottomNavigationView bottomNavigationView;
   FrameLayout frameLayout;
-  Toolbar toolbar;
+  @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     bottomNavigationView = findViewById(R.id.bottomNavView);
     frameLayout = findViewById(R.id.frameLayout);
-    toolbar = findViewById(R.id.main_toolBar);
-    setSupportActionBar(toolbar);
-
     bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {

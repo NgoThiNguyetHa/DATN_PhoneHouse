@@ -29,6 +29,9 @@ import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.SanPham_API;
 import com.example.appkhachhang.Api.ThongKe_API;
+import com.example.appkhachhang.Interface.OnItemClickListenerHang;
+import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
+import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.Model.SanPhamHot;
@@ -41,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnItemClickListenerSanPham, OnItemClickListenerSanPhamHot, OnItemClickListenerHang {
     RecyclerView recyclerViewSP, recyclerViewSPHot, recyclerViewHang;
     SanPhamAdapter sanPhamAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
@@ -49,6 +52,9 @@ public class HomeFragment extends Fragment {
     List<SanPham> list;
     List<SanPhamHot> listSPHot;
     List<HangSanXuat> listHang;
+    Toolbar toolbar;
+    AppCompatActivity activity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,41 +68,60 @@ public class HomeFragment extends Fragment {
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
+        toolbar = view.findViewById(R.id.main_toolBar);
+        activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setTitle("Home");
+        }
+        sanPham();
+        sanPhamHot();
+        hangSanXuat();
+    }
+
+
+    void sanPham(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSP.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         getListSanPham();
-        sanPhamAdapter = new SanPhamAdapter(getContext(), list);
+        sanPhamAdapter = new SanPhamAdapter(getContext(), list, this);
         recyclerViewSP.setAdapter(sanPhamAdapter);
+    }
+
+    void sanPhamHot(){
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
         listSPHot = new ArrayList<>();
         getSanPhamHot();
-        sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot);
+        sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot, this);
         recyclerViewSPHot.setAdapter(sanPhamAdapter);
+    }
+
+    void hangSanXuat(){
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext());
         linearLayoutManager2.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewHang.setLayoutManager(linearLayoutManager2);
         listHang = new ArrayList<>();
         getHangSanXuat();
-        hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang);
+        hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, this);
         recyclerViewHang.setAdapter(hangSanXuatAdapter);
     }
 
     void getSanPhamHot(){
-        ThongKe_API.thongKeApi.getSanPhamHot().enqueue(new Callback<List<SanPham>>() {
+        ThongKe_API.thongKeApi.getSanPhamHot().enqueue(new Callback<List<SanPhamHot>>() {
             @Override
-            public void onResponse(Call<List<SanPham>> call, Response<List<SanPham>> response) {
-                list.clear();
-                list.addAll(response.body());
+            public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
+                listSPHot.clear();
+                listSPHot.addAll(response.body());
                 sanPhamAdapter.notifyDataSetChanged();
-                Log.e("abc", "onResponse: " + list.get(0).getMaMau() + "");
             }
 
             @Override
-            public void onFailure(Call<List<SanPham>> call, Throwable t) {
+            public void onFailure(Call<List<SanPhamHot>> call, Throwable t) {
                Log.e("error", t.getMessage());
 
             }
@@ -110,7 +135,6 @@ public class HomeFragment extends Fragment {
                 listHang.clear();
                 listHang.addAll(response.body());
                 hangSanXuatAdapter.notifyDataSetChanged();
-                Log.e("abcabc", "onResponse: " + listHang.get(0).getTenHang() );
             }
 
             @Override
@@ -121,6 +145,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
     void getListSanPham(){
         SanPham_API.sanPhamApi.getAllSanPham().enqueue(new Callback<List<SanPham>>() {
             @Override
@@ -128,7 +153,6 @@ public class HomeFragment extends Fragment {
                 list.clear();
                 list.addAll(response.body());
                 sanPhamAdapter.notifyDataSetChanged();
-                Log.e("abc", "onResponse: " + list.get(0).getMaMau() + "");
             }
 
             @Override
@@ -139,4 +163,38 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.gioHang){
+            Toast.makeText(activity, "Gio hang", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClickHang(int position) {
+
+    }
+
+    @Override
+    public void onItemClickSP(int position) {
+
+    }
+
+    @Override
+    public void onItemClickSPHot(int position) {
+
+    }
 }

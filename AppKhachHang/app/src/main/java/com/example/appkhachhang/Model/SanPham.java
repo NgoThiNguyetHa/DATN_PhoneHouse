@@ -6,12 +6,12 @@ public class SanPham {
     Number giaTien;
     Number soLuong;
     String anh;
-    Object maMau;
-    Object maRam;
-    Object maDungLuong;
-    Object maHangSX;
-    Object maUuDai;
-    Object maChiTiet;
+    Mau maMau;
+    Ram maRam;
+    DungLuong maDungLuong;
+    HangSanXuat maHangSX;
+    UuDai maUuDai;
+    ChiTietDienThoai maChiTiet;
 
     public SanPham() {
     }
@@ -56,51 +56,51 @@ public class SanPham {
         this.anh = anh;
     }
 
-    public Object getMaMau() {
+    public Mau getMaMau() {
         return maMau;
     }
 
-    public void setMaMau(Object maMau) {
+    public void setMaMau(Mau maMau) {
         this.maMau = maMau;
     }
 
-    public Object getMaRam() {
+    public Ram getMaRam() {
         return maRam;
     }
 
-    public void setMaRam(Object maRam) {
+    public void setMaRam(Ram maRam) {
         this.maRam = maRam;
     }
 
-    public Object getMaDungLuong() {
+    public DungLuong getMaDungLuong() {
         return maDungLuong;
     }
 
-    public void setMaDungLuong(Object maDungLuong) {
+    public void setMaDungLuong(DungLuong maDungLuong) {
         this.maDungLuong = maDungLuong;
     }
 
-    public Object getMaHangSX() {
+    public HangSanXuat getMaHangSX() {
         return maHangSX;
     }
 
-    public void setMaHangSX(Object maHangSX) {
+    public void setMaHangSX(HangSanXuat maHangSX) {
         this.maHangSX = maHangSX;
     }
 
-    public Object getMaUuDai() {
+    public UuDai getMaUuDai() {
         return maUuDai;
     }
 
-    public void setMaUuDai(Object maUuDai) {
+    public void setMaUuDai(UuDai maUuDai) {
         this.maUuDai = maUuDai;
     }
 
-    public Object getMaChiTiet() {
+    public ChiTietDienThoai getMaChiTiet() {
         return maChiTiet;
     }
 
-    public void setMaChiTiet(Object maChiTiet) {
+    public void setMaChiTiet(ChiTietDienThoai maChiTiet) {
         this.maChiTiet = maChiTiet;
     }
 }
