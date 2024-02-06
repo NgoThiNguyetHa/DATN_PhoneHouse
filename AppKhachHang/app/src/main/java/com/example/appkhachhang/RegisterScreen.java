@@ -68,9 +68,14 @@ public class RegisterScreen extends AppCompatActivity {
         User_API.userApi.addUserDK(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (validate() == true && checkBox.isChecked()){
-                    if (response.body() != null){
-                        Toast.makeText(RegisterScreen.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                if (validate() == true){
+                    if (checkBox.isChecked()) {
+                        if (response.body() != null) {
+                            Toast.makeText(RegisterScreen.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        checkBox.setError("Bạn cần đồng ý với điều khoản và điều kiện");
+                        checkBox.requestFocus();
                     }
                 }
             }
