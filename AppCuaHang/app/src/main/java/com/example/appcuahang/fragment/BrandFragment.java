@@ -1,19 +1,14 @@
 package com.example.appcuahang.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,9 +32,8 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
-import com.example.appcuahang.model.LoginResponse;
 import com.example.appcuahang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
