@@ -19,8 +19,8 @@ import com.example.appcuahang.R;
 
 
 public class MoreFragment extends Fragment {
-//    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan;
+    //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan, cv_DungLuong;
     String _idStore;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,8 @@ public class MoreFragment extends Fragment {
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
         cv_ThongTinCaNhan = view.findViewById(R.id.cv_thongTinCaNhan);
+        cv_DungLuong = view.findViewById(R.id.cv_DungLuong);
+
     }
 
     private void action(){
@@ -64,6 +66,12 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 replaceFragment(new InfoStoreFragment());
+            }
+        });
+        cv_DungLuong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new DungLuongFragament());
             }
         });
     }
