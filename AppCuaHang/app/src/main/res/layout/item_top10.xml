@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:gravity="center"
             android:src="@drawable/img_3" />
 
@@ -26,6 +26,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -42,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Giá: 000.000.000 đ"
+                android:text="Giá: 0đ"
                 android:textStyle="bold"
                 android:textSize="16dp"
                 android:textColor="#FF0000"/>

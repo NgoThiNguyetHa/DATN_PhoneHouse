@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.HomeFragment">
+    tools:context=".fragment.HomeFragment"
+    android:background="#F6F6F6">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,9 +30,10 @@
                     android:src="@drawable/baseline_date_range_24"
                     />
                 <TextView
+                    android:id="@+id/tvNgay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hôm nay, 22/01/2024"
+                    android:text="Hôm nay, 22-01-2024"
                     android:textSize="14dp"
                     android:layout_margin="5dp"
                     android:textStyle="bold"
@@ -72,7 +74,7 @@
                             android:textColor="#fff"
                             android:textSize="18dp"
                             android:textStyle="bold"
-                            android:text="100"/>
+                            android:text="0"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -133,7 +135,7 @@
                             android:textColor="#fff"
                             android:textSize="18dp"
                             android:textStyle="bold"
-                            android:text="100"/>
+                            android:text="0"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -194,7 +196,7 @@
                             android:textColor="#fff"
                             android:textSize="18dp"
                             android:textStyle="bold"
-                            android:text="100"/>
+                            android:text="0"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -255,7 +257,7 @@
                             android:textColor="#fff"
                             android:textSize="18dp"
                             android:textStyle="bold"
-                            android:text="100"/>
+                            android:text="0"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -356,7 +358,7 @@
                                     android:id="@+id/tvTongDoanhThu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:text="1.000.000.000"
+                                    android:text="0"
                                     android:textSize="16dp"
                                     android:textStyle="bold"
                                     android:textColor="#FF0000"
@@ -371,28 +373,10 @@
                                     android:layout_marginLeft="7dp"/>
                             </LinearLayout>
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_margin="10dp"
-                            android:gravity="right"
-                            >
-                            <TextView
-                                android:id="@+id/tvSoLuongDonHang"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:textStyle="bold"
-                                android:text="100 đơn hàng"
-                                android:gravity="center_vertical"
-                                android:textColor="#000000"
-                                android:textSize="16dp"
-                                />
-                        </LinearLayout>
+
                     </LinearLayout>
                     <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/thongke_bieuDoDoanhThu"
+                        android:id="@+id/home_bieuDoDoanhThu"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"/>
                     <!--             view   bieu do -->

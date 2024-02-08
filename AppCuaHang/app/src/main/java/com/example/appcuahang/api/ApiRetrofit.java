@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
-    private static final String BASE_URL = "http://192.168.1.8:8686/";
+    private static final String BASE_URL = "http://192.168.1.9:8686/";
 
 //     private static final String BASE_URL = "http://10.0.2.2:8686/";
 //    private static final String BASE_URL = "http://192.168.1.106:8686/";
@@ -27,5 +27,35 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService.class);
+    }
+
+    public static ApiMauService getApiMauService() {
+        if (apiMauService == null) {
+            apiMauService = createApiMauService();
+        }
+        return apiMauService;
+    }
+
+    private static ApiMauService createApiMauService() {
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiMauService.class);
+    }
+
+    public static ApiRamService getApiRamService() {
+        if (apiRamService == null) {
+            apiRamService = createApiRamService();
+        }
+        return apiRamService;
+    }
+
+    private static ApiRamService createApiRamService() {
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiRamService.class);
     }
 }
