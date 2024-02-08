@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,8 +23,13 @@ import com.example.appcuahang.R;
 
 
 public class MoreFragment extends Fragment {
+
+//    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan , cv_thongKe;
+
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
     CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan, cv_DungLuong;
+
     String _idStore;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +52,9 @@ public class MoreFragment extends Fragment {
     public void initView(View view){
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
+        cv_thongKe = view.findViewById(R.id.cv_thongKe);
         cv_ThongTinCaNhan = view.findViewById(R.id.cv_thongTinCaNhan);
         cv_DungLuong = view.findViewById(R.id.cv_DungLuong);
-
     }
 
     private void action(){
@@ -62,6 +71,10 @@ public class MoreFragment extends Fragment {
                 replaceFragment(new BillOrderFragment());
             }
         });
+        cv_thongKe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new StatisticalFragment());
         cv_ThongTinCaNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,5 +95,19 @@ public class MoreFragment extends Fragment {
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.dialog, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.btn_add) {
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
