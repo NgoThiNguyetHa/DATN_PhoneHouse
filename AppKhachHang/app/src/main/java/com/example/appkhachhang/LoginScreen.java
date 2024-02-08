@@ -96,7 +96,6 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 list = response.body();
-                Log.e("zzzzz", "onResponse: "+list.size() + "");
             }
 
             @Override

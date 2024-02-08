@@ -1,6 +1,5 @@
 package com.example.appcuahang.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,20 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appcuahang.R;
-import com.example.appcuahang.fragment.HomeFragment;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
