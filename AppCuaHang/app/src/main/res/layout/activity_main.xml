@@ -31,7 +31,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav"
         app:itemIconSize="24dp"
-        app:itemPaddingBottom="12dp"
+        app:itemPaddingBottom="8dp"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         android:elevation="4dp"

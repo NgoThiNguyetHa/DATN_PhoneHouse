@@ -23,8 +23,13 @@ import com.example.appcuahang.R;
 
 
 public class MoreFragment extends Fragment {
+
 //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
     CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan , cv_thongKe;
+
+    //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan, cv_DungLuong;
+
     String _idStore;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class MoreFragment extends Fragment {
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
         cv_thongKe = view.findViewById(R.id.cv_thongKe);
+        cv_ThongTinCaNhan = view.findViewById(R.id.cv_thongTinCaNhan);
+        cv_DungLuong = view.findViewById(R.id.cv_DungLuong);
     }
 
     private void action(){
@@ -64,11 +71,20 @@ public class MoreFragment extends Fragment {
                 replaceFragment(new BillOrderFragment());
             }
         });
-
         cv_thongKe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 replaceFragment(new StatisticalFragment());
+        cv_ThongTinCaNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new InfoStoreFragment());
+            }
+        });
+        cv_DungLuong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new DungLuongFragament());
             }
         });
     }
