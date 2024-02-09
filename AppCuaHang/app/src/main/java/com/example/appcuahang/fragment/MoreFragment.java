@@ -24,13 +24,13 @@ import com.example.appcuahang.R;
 
 public class MoreFragment extends Fragment {
 
-//    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan , cv_thongKe;
+    //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
+    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong;
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon , cv_mau , cv_loaiRam , cv_ThongTinCaNhan, cv_DungLuong;
 
     String _idStore;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +42,23 @@ public class MoreFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view =  inflater.inflate(R.layout.fragment_more, container, false);
-        ((Activity)getContext()).setTitle("Nhiều Hơn");
+        View view = inflater.inflate(R.layout.fragment_more, container, false);
+        ((Activity) getContext()).setTitle("Nhiều Hơn");
         initView(view);
         action();
         return view;
     }
 
-    public void initView(View view){
+    public void initView(View view) {
         cv_hangSanXuat = view.findViewById(R.id.cv_hangSanXuat);
         cv_hoaDon = view.findViewById(R.id.cv_hoaDon);
         cv_thongKe = view.findViewById(R.id.cv_thongKe);
         cv_ThongTinCaNhan = view.findViewById(R.id.cv_thongTinCaNhan);
         cv_DungLuong = view.findViewById(R.id.cv_DungLuong);
+        cv_loaiRam = view.findViewById(R.id.cv_loaiRam);
     }
 
-    private void action(){
+    private void action() {
         cv_hangSanXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +76,8 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(new StatisticalFragment());
+            }
+        });
         cv_ThongTinCaNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,9 +90,15 @@ public class MoreFragment extends Fragment {
                 replaceFragment(new DungLuongFragament());
             }
         });
+        cv_loaiRam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new RamFragment());
+            }
+        });
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
@@ -110,4 +119,5 @@ public class MoreFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

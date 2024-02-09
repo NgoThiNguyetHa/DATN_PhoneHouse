@@ -34,10 +34,6 @@
                         android:src="@drawable/img_10"
                         android:layout_margin="5dp"
                         />
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/img_10"
-                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -68,14 +64,6 @@
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:src="@drawable/mau" />
-                    android:padding="5dp"
-                   >
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/mau"
-                        android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -176,8 +164,28 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 app:cardCornerRadius="15dp"
-                android:layout_margin="10dp">
-              
+                android:layout_margin="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/image_72__2_" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Thống kê"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_DungLuong"
                 android:layout_width="0dp"
@@ -195,15 +203,6 @@
                         android:layout_height="40dp"
                         android:layout_margin="8dp"
                         android:src="@drawable/image_72__2_" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="Thống kê"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/dungluong" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

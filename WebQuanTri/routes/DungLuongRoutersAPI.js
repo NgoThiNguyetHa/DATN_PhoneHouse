@@ -16,8 +16,6 @@ router.get('/', function(req, res, next) {
 router.post('/addDungLuong', function(req, res, next) {
     const dungluong = new DungLuong({
     boNho: req.body.boNho,
-    giaTien: req.body.giaTien
-  
   })
   console.log(dungluong);
   dungluong.save()
