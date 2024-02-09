@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
 router.post('/addRam', function(req, res, next) {
     const ram = new Ram({
     RAM: req.body.RAM,
-    giaTien: req.body.giaTien
   })
   ram.save()
   .then(data => {

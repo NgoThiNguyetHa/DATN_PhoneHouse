@@ -9,7 +9,7 @@ public class ApiRetrofit {
 
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-     private static final String BASE_URL = "http://192.168.0.110:8686/";
+//     private static final String BASE_URL = "http://192.168.0.110:8686/";
 
 //    private static final String BASE_URL = "http://192.168.1.106:8686/";
 
