@@ -11,7 +11,8 @@ public class ApiRetrofit {
 
 //     private static final String BASE_URL = "http://192.168.0.110:8686/";
 
-//    private static final String BASE_URL = "http://192.168.1.106:8686/";
+    //    private static final String BASE_URL = "http://192.168.1.106:8686/";
+//     private static final String BASE_URL = "http://192.168.1.143:8686/"; //hantnph28876
 
 
     private static ApiService apiService;
@@ -47,7 +48,6 @@ public class ApiRetrofit {
                 .build()
                 .create(ApiMauService.class);
     }
-
     public static ApiRamService getApiRamService() {
         if (apiRamService == null) {
             apiRamService = createApiRamService();
