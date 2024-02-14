@@ -6,10 +6,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiRetrofit {
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-     private static final String BASE_URL = "http://192.168.0.199:8686/";
-     //yen
+//     private static final String BASE_URL = "http://192.168.0.199:8686/";
+    //yen
 
-//    private static final String BASE_URL = "http://192.168.1.106:8686/";
+    //    private static final String BASE_URL = "http://192.168.1.106:8686/";
+    private static final String BASE_URL = "http://192.168.1.143:8686/";
 
 
     private static ApiService apiService;
@@ -30,6 +31,7 @@ public class ApiRetrofit {
                 .build()
                 .create(ApiService.class);
     }
+
     public static ApiMauService getApiMauService() {
         if (apiMauService == null) {
             apiMauService = createApiMauService();
@@ -44,6 +46,7 @@ public class ApiRetrofit {
                 .build()
                 .create(ApiMauService.class);
     }
+
     public static ApiRamService getApiRamService() {
         if (apiRamService == null) {
             apiRamService = createApiRamService();
