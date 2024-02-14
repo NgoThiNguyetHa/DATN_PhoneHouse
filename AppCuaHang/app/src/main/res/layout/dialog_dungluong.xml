@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp"
-    android:layout_margin="10dp">
+    android:layout_margin="15dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,66 +12,52 @@
         android:gravity="center"
         >
         <ImageView
-            android:id="@+id/dl_brand_imageView"
+            android:id="@+id/dl_dungLuong_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/frame_113"
             android:layout_gravity="right"
             />
         <TextView
-            android:id="@+id/dl_brand_tvTitle"
+            android:id="@+id/dl_dungLuong_tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Dialog Thêm/Sửa Hãng Sản Xuất"
+            android:text="Dialog Thêm/Sửa Dung Lượng"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:layout_marginBottom="15dp"/>
+            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_margin="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dl_brand_edTenHang"
+                android:id="@+id/dl_dungLuong_edTenDungLuong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tên hãng"/>
+                android:hint="Dung lượng"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            >
-
-            <ImageView
-                android:id="@+id/dl_brand_uploadImageView"
-                android:layout_width="150dp"
-                android:layout_height="107dp"
-                android:layout_gravity="center"
-                android:src="@drawable/img_14" />
-
-            <TextView
-                android:id="@+id/dl_brand_tvUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Upload image"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <Button
-            android:id="@+id/dl_brand_btnSave"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="15dp"/>
+            android:layout_margin="10dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dl_dungLuong_edGiaDungLuong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Giá tiền"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/dl_dungLuong_btnSave"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Cập nhật"
+            android:layout_margin="10dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
