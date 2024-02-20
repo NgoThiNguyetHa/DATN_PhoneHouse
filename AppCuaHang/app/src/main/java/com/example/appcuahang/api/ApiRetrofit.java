@@ -9,8 +9,10 @@ public class ApiRetrofit {
 
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-     private static final String BASE_URL = "http://192.168.0.189:8686/";
-     //Yen
+     //private static final String BASE_URL = "http://192.168.0.189:8686/"; //Yen
+
+
+     private static final String BASE_URL = "http://192.168.1.103:8686/";//Long
 
     //    private static final String BASE_URL = "http://192.168.1.106:8686/";
 //     private static final String BASE_URL = "http://192.168.1.143:8686/"; //hantnph28876
@@ -27,7 +29,6 @@ public class ApiRetrofit {
         }
         return apiService;
     }
-
     private static ApiService createApiService() {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -37,7 +38,7 @@ public class ApiRetrofit {
     }
     public static ApiMauService getApiMauService() {
         if (apiMauService == null) {
-            apiMauService = createApiMauService();
+            apiMauService = (ApiMauService) createApiMauService();
         }
         return apiMauService;
     }
@@ -49,13 +50,13 @@ public class ApiRetrofit {
                 .build()
                 .create(ApiMauService.class);
     }
+    //RAM
     public static ApiRamService getApiRamService() {
         if (apiRamService == null) {
-            apiRamService = createApiRamService();
+            apiRamService = (ApiRamService) createApiRamService();
         }
         return apiRamService;
     }
-
     private static ApiRamService createApiRamService() {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
