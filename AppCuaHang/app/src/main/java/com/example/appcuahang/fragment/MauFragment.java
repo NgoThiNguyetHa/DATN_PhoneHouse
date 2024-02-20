@@ -34,7 +34,7 @@ import com.example.appcuahang.adapter.MauAdapter;
 import com.example.appcuahang.api.ApiMauService;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
+//import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;

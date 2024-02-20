@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
+//import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
