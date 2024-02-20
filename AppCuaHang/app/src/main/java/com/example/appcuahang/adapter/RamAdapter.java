@@ -38,8 +38,7 @@ public class RamAdapter extends RecyclerView.Adapter<RamAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Ram ram = list.get(position);
-        holder.tvRam.setText(""+ram.getRAM());
-        holder.tvGiaTien.setText(""+ram.getGiaTien());
+        holder.tvRam.setText(""+ram.getRAM() +" GB");
         holder.mRam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,12 +54,10 @@ public class RamAdapter extends RecyclerView.Adapter<RamAdapter.MyViewHolder>{
     }
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvRam;
-        TextView tvGiaTien;
         LinearLayout mRam;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvRam = itemView.findViewById(R.id.item_tvRam);
-            tvGiaTien = itemView.findViewById(R.id.item_tvGiaTien);
             mRam = itemView.findViewById(R.id.mRam);
         }
     }

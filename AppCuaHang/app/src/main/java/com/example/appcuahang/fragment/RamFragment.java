@@ -46,6 +46,7 @@ import com.example.appcuahang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +58,7 @@ public class RamFragment extends Fragment {
     List<Ram> listBackUp;
     RamAdapter adapter;
     GridLayoutManager manager;
+    EditText edTenRam;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -165,8 +167,7 @@ public class RamFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        EditText edTenRam = view.findViewById(R.id.dl_ram_edTenRam);
-        EditText edGiaTien = view.findViewById(R.id.dl_ram_edGiaRam);
+        edTenRam = view.findViewById(R.id.dl_ram_edTenRam);
         Button btnSave = view.findViewById(R.id.dl_ram_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_ram_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_ram_imageView);
@@ -175,10 +176,12 @@ public class RamFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Validate()){
+
+
                 String tenRam = edTenRam.getText().toString().trim();
-                Integer giaTien = Integer.parseInt(edGiaTien.getText().toString().trim());
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
-                Call<Ram> call = apiRamService.postRam(new Ram(tenRam, giaTien));
+                Call<Ram> call = apiRamService.postRam(new Ram(tenRam));
                 call.enqueue(new Callback<Ram>() {
                     @Override
                     public void onResponse(Call<Ram> call, Response<Ram> response) {
@@ -195,6 +198,7 @@ public class RamFragment extends Fragment {
                         Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
             }
         });
 
@@ -229,22 +233,22 @@ public class RamFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        EditText edTenRam = view.findViewById(R.id.dl_ram_edTenRam);
-        EditText edGiaTien = view.findViewById(R.id.dl_ram_edGiaRam);
+        edTenRam = view.findViewById(R.id.dl_ram_edTenRam);
         Button btnSave = view.findViewById(R.id.dl_ram_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_ram_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_ram_imageView);
 
         tvTitle.setText("Cập Nhật Ram");
         edTenRam.setText(ram.getRAM());
-        edGiaTien.setText(ram.getGiaTien() + "");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Validate()){
+
+
                 String tenram = edTenRam.getText().toString().trim();
-                String giaTien = edGiaTien.getText().toString().trim();
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
-                Call<Ram> call = apiRamService.putRam(ram.get_id(), new Ram(tenram, Integer.parseInt(giaTien)));
+                Call<Ram> call = apiRamService.putRam(ram.get_id(), new Ram(tenram));
                 call.enqueue(new Callback<Ram>() {
                     @Override
                     public void onResponse(Call<Ram> call, Response<Ram> response) {
@@ -263,6 +267,7 @@ public class RamFragment extends Fragment {
                 });
 
             }
+            }
         });
 
 
@@ -273,5 +278,24 @@ public class RamFragment extends Fragment {
             }
         });
 
+    }
+
+    private boolean Validate(){
+        if(edTenRam.getText().toString().isEmpty()){
+            edTenRam.setError("Không được để trống!!");
+            return false;
+        }else if(!Pattern.matches("\\d+", edTenRam.getText().toString())){
+            edTenRam.setError("Phải nhập là số!!");
+            return false;
+        }
+
+//        if( edGiaTien.getText().toString().isEmpty()){
+//            edGiaTien.setError("Không được để trống!!");
+//            return false;
+//        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
+//            edGiaTien.setError("Phải nhập là số!!");
+//            return false;
+//        }
+        return true;
     }
 }

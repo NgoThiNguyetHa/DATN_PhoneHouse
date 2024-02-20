@@ -42,6 +42,7 @@ import com.example.appcuahang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +54,7 @@ public class MauFragment extends Fragment {
     List<Mau> listBackUp;
     MauAdapter adapter;
     GridLayoutManager manager;
+    EditText edTenMau;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -161,8 +163,7 @@ public class MauFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        EditText edTenMau = view.findViewById(R.id.dl_mau_edTenMau);
-        EditText edGiaTien = view.findViewById(R.id.dl_mau_edGiaMau);
+        edTenMau = view.findViewById(R.id.dl_mau_edTenMau);
         Button btnSave = view.findViewById(R.id.dl_mau_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
@@ -171,10 +172,12 @@ public class MauFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Validate()){
+
+
                 String tenMau = edTenMau.getText().toString().trim();
-                Integer giaTien = Integer.parseInt(edGiaTien.getText().toString().trim());
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.postMau(new Mau(tenMau, giaTien));
+                Call<Mau> call = apiMauService.postMau(new Mau(tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -191,6 +194,7 @@ public class MauFragment extends Fragment {
                         Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
             }
         });
 
@@ -225,22 +229,23 @@ public class MauFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        EditText edTenMau = view.findViewById(R.id.dl_mau_edTenMau);
-        EditText edGiaTien = view.findViewById(R.id.dl_mau_edGiaMau);
+        edTenMau = view.findViewById(R.id.dl_mau_edTenMau);
+
         Button btnSave = view.findViewById(R.id.dl_mau_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
 
         tvTitle.setText("Cập Nhật Màu");
         edTenMau.setText(mau.getTenMau());
-        edGiaTien.setText(mau.getGiaTien() + "");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(Validate()){
+
+
                 String tenMau = edTenMau.getText().toString().trim();
-                String giaTien = edGiaTien.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau, Integer.parseInt(giaTien)));
+                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -259,6 +264,7 @@ public class MauFragment extends Fragment {
                 });
 
             }
+            }
         });
 
 
@@ -269,5 +275,12 @@ public class MauFragment extends Fragment {
             }
         });
 
+    }
+    private boolean Validate(){
+        if(edTenMau.getText().toString().isEmpty()){
+            edTenMau.setError("Không được để trống!!");
+            return false;
+        }
+        return true;
     }
 }

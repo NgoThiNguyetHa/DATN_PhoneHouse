@@ -34,14 +34,6 @@
                 android:gravity="center_vertical"
                 android:text="Ram"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/item_tvGiaTien"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="Giá tiền"
-                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -41,7 +41,6 @@ public class MauAdapter  extends RecyclerView.Adapter<MauAdapter.MyViewHolder>{
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Mau mau = list.get(position);
         holder.tvMau.setText(""+mau.getTenMau());
-        holder.tvGiaTien.setText(""+mau.getGiaTien());
         holder.mMau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,12 +54,11 @@ public class MauAdapter  extends RecyclerView.Adapter<MauAdapter.MyViewHolder>{
     }
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvMau;
-        TextView tvGiaTien;
+
         LinearLayout mMau;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMau = itemView.findViewById(R.id.item_tvMau);
-            tvGiaTien = itemView.findViewById(R.id.item_tvGiaTien);
             mMau = itemView.findViewById(R.id.mMau);
         }
     }
