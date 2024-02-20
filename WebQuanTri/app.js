@@ -24,6 +24,9 @@ var chiTietDienThoaiRouter = require('./routes/ChiTietDienThoaiApi')
 var danhGiaRouter = require('./routes/DanhGiaApi')
 var thongKe = require('./routes/ThongKeAPI')
 
+// screen
+var dangNhapScreen = require('./routes/Screen_DangNhap')
+
 const mongoose = require('mongoose');
 const { error } = require('console');
 
@@ -58,6 +61,9 @@ app.use('/khachhangs',khachHangAPI)
 app.use('/chitietdienthoais',chiTietDienThoaiRouter)
 app.use('/danhgias',danhGiaRouter)
 app.use('/thongke',thongKe)
+
+//screen
+app.use('/dangNhapW', dangNhapScreen)
 
 // parse application/json
 app.use(bodyParser.json())

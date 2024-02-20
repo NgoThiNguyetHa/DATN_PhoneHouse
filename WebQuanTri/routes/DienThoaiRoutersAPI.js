@@ -125,4 +125,14 @@ router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
     return res.status(500).json({message: err.message})
   }
 })
+
+router.get("/getDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await DienThoai.findById(req.params.id, req.body, {new: true})
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+})
+
 module.exports = router;

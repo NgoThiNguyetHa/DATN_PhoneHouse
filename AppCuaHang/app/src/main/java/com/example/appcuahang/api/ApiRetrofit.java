@@ -4,12 +4,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
+
+    private static final String BASE_URL = "http://192.168.1.9:8686/";
+
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-     private static final String BASE_URL = "http://192.168.0.110:8686/";
-     //yen
+//     private static final String BASE_URL = "http://192.168.0.110:8686/";
 
-//    private static final String BASE_URL = "http://192.168.1.106:8686/";
+    //    private static final String BASE_URL = "http://192.168.1.106:8686/";
+//     private static final String BASE_URL = "http://192.168.1.143:8686/"; //hantnph28876
 
 
     private static ApiService apiService;
@@ -60,8 +63,6 @@ public class ApiRetrofit {
                 .create(ApiRamService.class);
     }
 
-    //Dung luong
-
     public static ApiDungLuongService getApiDungLuongService() {
         if (apiDungDuongService == null) {
             apiDungDuongService = createApiDungLuongService();
@@ -76,6 +77,4 @@ public class ApiRetrofit {
                 .build()
                 .create(ApiDungLuongService.class);
     }
-
-
 }

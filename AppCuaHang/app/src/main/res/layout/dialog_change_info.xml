@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Đổi mật khẩu"
+            android:text="Thay đổi thông tin"
             android:layout_gravity="center"
             android:textStyle="bold"
             android:layout_marginBottom="15dp"/>
@@ -91,7 +91,7 @@
             android:id="@+id/dl_store_btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE"
+            android:text="Lưu Thay Đổi"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="15dp"/>
