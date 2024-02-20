@@ -18,7 +18,7 @@ public interface User_API {
 
 
     User_API userApi = new Retrofit.Builder()
-            .baseUrl("http://192.168.0.199:8686/khachhangs/")
+            .baseUrl("http://10.0.2.2:8686/khachhangs/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(User_API.class);
 

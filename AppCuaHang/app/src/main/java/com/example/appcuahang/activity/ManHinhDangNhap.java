@@ -65,7 +65,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else{
-                                Toast.makeText(ManHinhDangNhap.this, "Dữ liệu trống", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ManHinhDangNhap.this, ""+loginResponse.getSuccessMessage(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(ManHinhDangNhap.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();

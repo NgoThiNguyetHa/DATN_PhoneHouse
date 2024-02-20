@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="15dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -42,7 +41,29 @@
                 android:layout_height="wrap_content"
                 android:hint="Tên hãng"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            >
 
+            <ImageView
+                android:id="@+id/dl_brand_uploadImageView"
+                android:layout_width="150dp"
+                android:layout_height="107dp"
+                android:layout_gravity="center"
+                android:src="@drawable/img_14" />
+
+            <TextView
+                android:id="@+id/dl_brand_tvUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Upload image"
+                android:textStyle="bold" />
+        </LinearLayout>
         <Button
             android:id="@+id/dl_brand_btnSave"
             android:layout_width="match_parent"
