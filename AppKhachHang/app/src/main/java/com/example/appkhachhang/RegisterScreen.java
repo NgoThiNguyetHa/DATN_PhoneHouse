@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class RegisterScreen extends AppCompatActivity {
 
-    EditText edEmail, edMatkhau, edHoten, edSđt;
+    EditText edEmail, edMatkhau, edHoten, edSdt;
     CheckBox checkBox;
     TextView tvSignin;
     Button btnDangky;
@@ -36,7 +36,7 @@ public class RegisterScreen extends AppCompatActivity {
         edEmail = findViewById(R.id.edEmaildk);
         edMatkhau = findViewById(R.id.edMatkhaudk);
         edHoten = findViewById(R.id.edHotendk);
-        edSđt = findViewById(R.id.edSdtdk);
+        edSdt = findViewById(R.id.edSdtdk);
 
         checkBox = findViewById(R.id.checkboxdk);
 
@@ -64,13 +64,20 @@ public class RegisterScreen extends AppCompatActivity {
         user.setEmail(edEmail.getText().toString().trim());
         user.setUsername(edHoten.getText().toString().trim());
         user.setPassword(edMatkhau.getText().toString().trim());
-        user.setSdt(edSđt.getText().toString().trim());
+        user.setSdt(edSdt.getText().toString().trim());
         User_API.userApi.addUserDK(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (validate() == true && checkBox.isChecked()){
-                    if (response.body() != null){
-                        Toast.makeText(RegisterScreen.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                if (validate() == true ){
+                    if(checkBox.isChecked()) {
+
+                        if (response.body() != null) {
+                            Toast.makeText(RegisterScreen.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                            startActivity(intent);
+                        }
+                    }else {
+                        checkBox.setError("Bạn cần chấp nhận điều khoản");
                     }
                 }
             }
@@ -87,19 +94,19 @@ public class RegisterScreen extends AppCompatActivity {
         if(edEmail.getText().toString().isEmpty()
                 ||edMatkhau.getText().toString().isEmpty()
                 ||edHoten.getText().toString().isEmpty()
-                ||edSđt.getText().toString().isEmpty() ){
+                ||edSdt.getText().toString().isEmpty() ){
             edEmail.setError("Bạn chưa nhập email");
             edMatkhau.setError("Bạn chưa nhập mật khẩu");
             edHoten.setError("Bạn chưa nhập họ tên");
-            edSđt.setError("Bạn chưa nhập số điện thoại");
+            edSdt.setError("Bạn chưa nhập số điện thoại");
             return false;
         }
         else if(!email.matches(emailPattern)){
             edEmail.setError("Email không hợp lệ");
             return false;
         }
-        if (edSđt.getText().toString().length() !=10){
-            edSđt.setError("Số điện thoại chưa đúng");
+        if (edSdt.getText().toString().length() !=10){
+            edSdt.setError("Số điện thoại chưa đúng");
             return false;
         }
         return true;
