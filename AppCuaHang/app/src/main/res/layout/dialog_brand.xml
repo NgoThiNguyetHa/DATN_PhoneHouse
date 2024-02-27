@@ -25,12 +25,14 @@
             android:textSize="20dp"
             android:text="Dialog Thêm/Sửa Hãng Sản Xuất"
             android:layout_gravity="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -39,13 +41,37 @@
                 android:layout_height="wrap_content"
                 android:hint="Tên hãng"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            >
 
+            <ImageView
+                android:id="@+id/dl_brand_uploadImageView"
+                android:layout_width="150dp"
+                android:layout_height="107dp"
+                android:layout_gravity="center"
+                android:src="@drawable/img_14" />
+
+            <TextView
+                android:id="@+id/dl_brand_tvUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Upload image"
+                android:textStyle="bold" />
+        </LinearLayout>
         <Button
             android:id="@+id/dl_brand_btnSave"
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SAVE"
-            android:layout_margin="10dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="15dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

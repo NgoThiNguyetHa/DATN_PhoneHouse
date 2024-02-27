@@ -16,7 +16,6 @@ router.get('/', function(req, res, next) {
 router.post('/addMau', function(req, res, next) {
     const mau = new Mau({
     tenMau: req.body.tenMau,
-    giaTien: req.body.giaTien
   })
   mau.save()
   .then(data => {

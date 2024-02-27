@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:id="@+id/mMau">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/mau" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center_vertical"
+           android:orientation="vertical"
+           android:layout_margin="10dp">
+           <TextView
+               android:id="@+id/item_tvMau"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_marginLeft="10dp"
+               android:gravity="center_vertical"
+               android:text="Màu"
+               android:textStyle="bold" />
+
+       </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

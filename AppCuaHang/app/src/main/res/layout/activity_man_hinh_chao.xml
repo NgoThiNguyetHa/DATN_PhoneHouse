@@ -5,40 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ManHinhChao"
+    android:background="@drawable/chao"
+    android:layout_gravity="center"
     android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/imgVien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/tren"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="-10dp"/>
-
-        <ImageView
-            android:id="@+id/imgLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dthoai"
-            android:layout_centerInParent="true"/>
-
-        <ImageView
-            android:id="@+id/imgVienDuoi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vienduoi"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-10dp"/>
-
-    </RelativeLayout>
-
-
-
-
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/dthoai"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
