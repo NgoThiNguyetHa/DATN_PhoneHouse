@@ -28,14 +28,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.adapter.DungLuongAdapter;
 import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.interface_adapter.interface_adapter.IItemDungLuongListenner;
-import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
