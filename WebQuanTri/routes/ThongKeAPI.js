@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const mongoose = require("mongoose");
-const moment = require('moment');
+const moment = require("moment");
 
 require("../models/HoaDon");
 require("../models/ChiTietHoaDon");
@@ -219,7 +219,8 @@ router.get(
   }
 );
 
-router.get("/soLuongHoaDon/:trangThaiNhanHang/:maCuaHang/:ngayTao",
+router.get(
+  "/soLuongHoaDon/:trangThaiNhanHang/:maCuaHang/:ngayTao",
   async (req, res) => {
     try {
       const maCuaHang = req.params.maCuaHang;
@@ -248,44 +249,44 @@ router.get("/soLuongHoaDon/:trangThaiNhanHang/:maCuaHang/:ngayTao",
   }
 );
 
-router.get('/soLuongKhachHang/:maCuaHang/:ngayTao', async (req, res) => {
-    try {
-      const maCuaHang = req.params.maCuaHang;
-      const ngayTao = req.params.ngayTao;
-      const result = await HoaDon.aggregate([
-        {
-          $match: {
-            maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
-            ngayTao: ngayTao,
-          },
+router.get("/soLuongKhachHang/:maCuaHang/:ngayTao", async (req, res) => {
+  try {
+    const maCuaHang = req.params.maCuaHang;
+    const ngayTao = req.params.ngayTao;
+    const result = await HoaDon.aggregate([
+      {
+        $match: {
+          maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
+          ngayTao: ngayTao,
         },
-        {
-          $group: {
-            _id: null,
-            uniqueMaKhachHang: { $addToSet: "$maKhachHang" },
-            total: { $sum: 1 },
-          },
+      },
+      {
+        $group: {
+          _id: null,
+          uniqueMaKhachHang: { $addToSet: "$maKhachHang" },
+          total: { $sum: 1 },
         },
-        {
-          $project: {
-            _id: 0,
-            uniqueMaKhachHang: { $size: "$uniqueMaKhachHang" },
-            total: 1,
-          },
+      },
+      {
+        $project: {
+          _id: 0,
+          uniqueMaKhachHang: { $size: "$uniqueMaKhachHang" },
+          total: 1,
         },
-      ]);
-      res.json(result[0]);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Lỗi server" });
-    }
+      },
+    ]);
+    res.json(result[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Lỗi server" });
+  }
 });
 
-router.get('/soLuongSanPham/:maCuaHang/:ngayTao', async (req, res) => {
+router.get("/soLuongSanPham/:maCuaHang/:ngayTao", async (req, res) => {
   try {
     const ngayTao = req.params.ngayTao;
     const maCuaHang = req.params.maCuaHang;
-    const conditions = { trangThaiNhanHang: 'Đã giao' };
+    const conditions = { trangThaiNhanHang: "Đã giao" };
     if (ngayTao) {
       conditions.ngayTao = ngayTao;
     }
@@ -296,63 +297,53 @@ router.get('/soLuongSanPham/:maCuaHang/:ngayTao', async (req, res) => {
     let soLuongDaBan = 0;
     for (const hoaDon of hoaDonDaGiao) {
       const chiTietHoaDon = await ChiTietHoaDon.find({ maHoaDon: hoaDon._id });
-      const uniqueSanPham = new Set(chiTietHoaDon.map(item => item.maDienThoai.toString()));
+      const uniqueSanPham = new Set(
+        chiTietHoaDon.map((item) => item.maDienThoai.toString())
+      );
       soLuongDaBan += uniqueSanPham.size;
     }
     res.json({ soLuongDaBan });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-router.get('/thongKeTongTien/:trangThaiNhanHang/:maCuaHang/:ngayTao', async (req, res) => {
+router.get("/thongKeTongTien/:trangThaiNhanHang/:maCuaHang/:ngayTao",
+  async (req, res) => {
     try {
-        const maCuaHang = req.params.maCuaHang;
-        const ngayTao = req.params.ngayTao;
-        const trangThaiNhanHang = req.params.trangThaiNhanHang;
-        const tongTien = await HoaDon.aggregate([
-            {
-                $match: {
-                    maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
-                    ngayTao: ngayTao,
-                    trangThaiNhanHang: trangThaiNhanHang 
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    tongTien: { $sum: { $toInt: '$tongTien' } }
-                }
-            }
-        ]);
+      const maCuaHang = req.params.maCuaHang;
+      const ngayTao = req.params.ngayTao;
+      const trangThaiNhanHang = req.params.trangThaiNhanHang;
+      const tongTien = await HoaDon.aggregate([
+        {
+          $match: {
+            maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
+            ngayTao: ngayTao,
+            trangThaiNhanHang: trangThaiNhanHang,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            tongTien: { $sum: { $toInt: "$tongTien" } },
+          },
+        },
+      ]);
 
-        res.json({ tongTien: tongTien.length > 0 ? tongTien[0].tongTien : 0 });
+      res.json({ tongTien: tongTien.length > 0 ? tongTien[0].tongTien : 0 });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Có lỗi xảy ra' });
+      console.error(error);
+      res.status(500).json({ error: "Có lỗi xảy ra" });
     }
-});
-
-function convertDateFormat(inputDate) {
-  const [day, month, year] = inputDate.split('-');
-  return `${year}-${month}-${day}`;
-}
-
-const fromDate = convertDateFormat('04-04-2024'); // Kết quả: '2024-04-04'
-const toDate = convertDateFormat('24-04-2024');
-//top 10 theo tháng
-router.get('/top10ProductWithDay', async (req, res) => {
+  }
+);
+//top 10 sản phẩm
+router.get("/top10SanPhamBanChay", async (req, res) => {
   try {
-
-
-    const fromDateObj = new Date(fromDate);
-    const toDateObj = new Date(toDate);
-
     // Tìm các hóa đơn đã giao thành công trong khoảng thời gian
     const hoaDons = await HoaDon.find({
-      trangThaiNhanHang: 'Đã giao',
-      ngayTao: { $gte: fromDateObj, $lte: toDateObj },
+      trangThaiNhanHang: "Đã giao",
     });
 
     // Tạo một đối tượng để lưu số lượng bán của mỗi sản phẩm
@@ -393,99 +384,162 @@ router.get('/top10ProductWithDay', async (req, res) => {
     res.json(top10SanPhamInfo);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 
-router.get('/top10SanPhamBanChay', async (req, res) => {
+//top 10 sản phẩm theo ngày
+router.get("/top10sanpham/:startDate/:endDate", async (req, res) => {
+  const { startDate, endDate } = req.params;
+
   try {
-    // Tìm các hóa đơn đã giao thành công trong khoảng thời gian
-    const hoaDons = await HoaDon.find({
-      trangThaiNhanHang: 'Đã giao',
+    const hoaDonData = await HoaDon.find({
+      trangThaiNhanHang: "Đã giao",
+      ngayTao: { $gte: startDate, $lte: endDate },
     });
 
-    // Tạo một đối tượng để lưu số lượng bán của mỗi sản phẩm
-    const sanPhamBanChay = {};
+    const maHoaDonList = hoaDonData.map((hoaDon) => hoaDon._id);
 
-    // Duyệt qua từng hóa đơn và chi tiết hóa đơn để tính số lượng bán của từng sản phẩm
-    for (const hoaDon of hoaDons) {
-      const chiTietHoaDons = await ChiTietHoaDon.find({ maHoaDon: hoaDon._id });
+    const chiTietHoaDonData = await ChiTietHoaDon.find({
+      maHoaDon: { $in: maHoaDonList },
+    }).populate("maDienThoai");
 
-      for (const chiTietHoaDon of chiTietHoaDons) {
-        const maDienThoai = chiTietHoaDon.maDienThoai.toString();
-        if (sanPhamBanChay[maDienThoai]) {
-          sanPhamBanChay[maDienThoai] += chiTietHoaDon.soLuong;
-        } else {
-          sanPhamBanChay[maDienThoai] = chiTietHoaDon.soLuong;
-        }
+    const sanPhamSoLuongMap = {};
+    chiTietHoaDonData.forEach((chiTietHoaDon) => {
+      const maDienThoai = chiTietHoaDon.maDienThoai._id.toString();
+      const soLuong = chiTietHoaDon.soLuong;
+
+      if (sanPhamSoLuongMap[maDienThoai]) {
+        sanPhamSoLuongMap[maDienThoai] += soLuong;
+      } else {
+        sanPhamSoLuongMap[maDienThoai] = soLuong;
       }
-    }
+    });
 
-    // Sắp xếp mảng theo số lượng bán giảm dần và lấy top 10
-    const top10SanPham = Object.entries(sanPhamBanChay)
-      .sort((a, b) => b[1] - a[1])
+    const top10SanPham = Object.keys(sanPhamSoLuongMap)
+      .sort((a, b) => sanPhamSoLuongMap[b] - sanPhamSoLuongMap[a])
       .slice(0, 10);
 
-    // Lấy thông tin chi tiết của từng sản phẩm từ cơ sở dữ liệu
     const top10SanPhamInfo = await Promise.all(
-      top10SanPham.map(async ([maDienThoai, soLuongBan]) => {
-        const dienThoai = await DienThoai.findById(maDienThoai);
+      top10SanPham.map(async (maDienThoai) => {
+        const dienThoaiInfo = await DienThoai.findById(maDienThoai);
         return {
-          idSanPham: dienThoai._id,
-          giaTien: dienThoai.giaTien,
-          soLuotBan: soLuongBan,
+          tenDienThoai: dienThoaiInfo.tenDienThoai,
+          giaTien: dienThoaiInfo.giaTien,
+          soLuong: sanPhamSoLuongMap[maDienThoai],
         };
       })
     );
 
-    // Trả về kết quả
     res.json(top10SanPhamInfo);
   } catch (error) {
+    res.status(500).json({ error: "Đã xảy ra lỗi" });
+  }
+});
+
+//top 10 theo maCuaHang
+router.get("/top10sanpham/:startDate/:endDate/:maCuaHang", async (req, res) => {
+  const { startDate, endDate, maCuaHang } = req.params;
+
+  try {
+    const hoaDonData = await HoaDon.find({
+      trangThaiNhanHang: "Đã giao",
+      ngayTao: { $gte: startDate, $lte: endDate },
+      maCuaHang: new mongoose.Types.ObjectId(maCuaHang), 
+    });
+
+    const maHoaDonList = hoaDonData.map((hoaDon) => hoaDon._id);
+
+    const chiTietHoaDonData = await ChiTietHoaDon.find({
+      maHoaDon: { $in: maHoaDonList },
+    }).populate("maDienThoai");
+
+    const sanPhamSoLuongMap = {};
+    chiTietHoaDonData.forEach((chiTietHoaDon) => {
+      const maDienThoai = chiTietHoaDon.maDienThoai._id.toString();
+      const soLuong = chiTietHoaDon.soLuong;
+
+      if (sanPhamSoLuongMap[maDienThoai]) {
+        sanPhamSoLuongMap[maDienThoai] += soLuong;
+      } else {
+        sanPhamSoLuongMap[maDienThoai] = soLuong;
+      }
+    });
+
+    const top10SanPham = Object.keys(sanPhamSoLuongMap)
+      .sort((a, b) => sanPhamSoLuongMap[b] - sanPhamSoLuongMap[a])
+      .slice(0, 10);
+
+    const top10SanPhamInfo = await Promise.all(
+      top10SanPham.map(async (maDienThoai) => {
+        const dienThoaiInfo = await DienThoai.findById(maDienThoai);
+        return {
+          tenDienThoai: dienThoaiInfo.tenDienThoai,
+          giaTien: dienThoaiInfo.giaTien,
+          soLuong: sanPhamSoLuongMap[maDienThoai],
+        };
+      })
+    );
+
+    res.json(top10SanPhamInfo);
+  } catch (error) {
+    res.status(500).json({ error: "Đã xảy ra lỗi" });
+  }
+});
+
+//tổng doanh thu từ ngày đến ngày
+router.get('/doanhThuTongTien', async (req, res) => {
+  try {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+    const maCuaHang = req.query.maCuaHang;
+    const trangThai = req.query.trangThaiNhanHang;
+
+    const revenueData = await HoaDon.find({
+      ngayTao: { $gte: startDate, $lte: endDate },
+      trangThaiNhanHang: trangThai,
+      maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
+    });
+  
+    const totalRevenue = revenueData.reduce((tongDoanhThu, hoaDon) => {
+      const tongTienNumber = parseFloat(hoaDon.tongTien);
+      return tongDoanhThu + tongTienNumber;
+    }, 0);
+
+    const soLuong = revenueData.length;
+
+    res.json({ tongTien: totalRevenue , soLuongHoaDon : soLuong });
+    // res.json(totalRevenue);
+  } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 
-router.get('/top10products', async (req, res) => {
+router.get('/tongtien', async (req, res) => {
     try {
-        const { fromDate, toDate } = req.query;
+        const { ngayBatDau, ngayKetThuc } = req.query;
 
-        // Sử dụng aggregation framework để thực hiện phép nhóm và sắp xếp
-        const topProducts = await ChiTietHoaDon.aggregate([
-            {
-                $match: {
-                    'maHoaDon.trangThaiNhanHang': 'Đã giao',
-                    'maHoaDon.ngayTao': {
-                        $gte: new Date(fromDate),
-                        $lte: new Date(toDate),
-                    },
-                },
-            },
-            {
-                $group: {
-                    _id: '$maDienThoai',
-                    soLuotBan: { $sum: '$soLuong' },
-                    giaTien: { $first: '$giaTien' },
-                },
-            },
-            {
-                $sort: { soLuotBan: -1 },
-            },
-            {
-                $limit: 10,
-            },
-        ]);
+        // Chuyển đổi ngày từ chuỗi sang đối tượng Date sử dụng moment
+        const startDate = moment(ngayBatDau, 'dd-MM-yyyy').toDate();
+        const endDate = moment(ngayKetThuc, 'dd-MM-yyyy').toDate();
 
-        // Trả về kết quả
-        const result = topProducts.map((product) => ({
-            idSanPham: product._id,
-            giaTien: product.giaTien,
-            soLuotBan: product.soLuotBan,
-        }));
+        // Tìm các hóa đơn trong khoảng thời gian
+        const hoaDons = await HoaDon.find({
+            ngayTao: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
 
-        res.json(result);
+        // Tính tổng tiền của các hóa đơn trong khoảng thời gian
+        const tongTien = hoaDons.reduce((total, hoaDon) => {
+            return total + parseFloat(hoaDon.tongTien);
+        }, 0);
+
+        res.json({ tongTien });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
