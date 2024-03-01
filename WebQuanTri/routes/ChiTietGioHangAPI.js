@@ -33,7 +33,7 @@ router.post('/addChiTietGioHang', function(req, res, next) {
 /* GET loaidichvu listing. */
 router.get('/getChiTietGioHang', async (req,res) => {
   try {
-    const chiTietGioHang = await ChiTietGioHang.find();
+    const chiTietGioHang = await ChiTietGioHang.find().populate("maDienThoai");
     res.json(chiTietGioHang);
   } catch (error) {
     res.status(500).json({ error: error.message });

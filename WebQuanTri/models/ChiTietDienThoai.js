@@ -1,16 +1,11 @@
 const mongoose = require('mongoose');
 
 const ChiTietDienThoaiSchema = mongoose.Schema({
-    dienThoai:{type: String},
-    kichThuoc:{type: String},
-    manHinh:{type: String},
-    camera:{type: String},
-    pin:{type: String},
-    heDieuHanh:{type: String},
-    cpu:{type: String},
-    doPhanGiai:{type: String},
-    namSanXuat:{type: String},
-    thoiGianBaoHanh:{type: String},
-    moTaThem:{type: String},
+    soLuong:{type: Number},
+    giaTien : {type:Number},
+    maDienThoai: {type: mongoose.Schema.Types.ObjectId, ref: 'dienthoai'},
+    maMau: {type: mongoose.Schema.Types.ObjectId, ref: 'mau'},
+    maDungLuong: {type: mongoose.Schema.Types.ObjectId, ref: 'dungluong'},
+    maRam: {type: mongoose.Schema.Types.ObjectId, ref: 'ram'},
 });
 module.exports = mongoose.model('chitietdienthoai', ChiTietDienThoaiSchema);

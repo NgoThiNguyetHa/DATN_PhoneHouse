@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,13 +70,13 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
-        toolbar = view.findViewById(R.id.main_toolBar);
-        activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            activity.getSupportActionBar().setTitle("Home");
-        }
+//        toolbar = view.findViewById(R.id.main_toolBar);
+//        activity = (AppCompatActivity) getActivity();
+//        if (activity != null) {
+//            activity.setSupportActionBar(toolbar);
+//            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            activity.getSupportActionBar().setTitle("Home");
+//        }
         sanPham();
         sanPhamHot();
         hangSanXuat();
@@ -178,7 +180,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-            Toast.makeText(activity, "Gio hang", Toast.LENGTH_SHORT).show();
+            replaceFragment(new CartFragment());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -196,5 +198,12 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     @Override
     public void onItemClickSPHot(int position) {
 
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout,fragment);
+        transaction.commit();
     }
 }

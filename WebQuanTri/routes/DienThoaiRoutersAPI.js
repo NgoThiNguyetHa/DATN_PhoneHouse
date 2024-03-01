@@ -15,15 +15,19 @@ router.get('/', function (req, res, next) {
 router.post('/addDienThoai', function (req, res, next) {
   const dienthoai = new DienThoai({
     tenDienThoai: req.body.tenDienThoai,
-    giaTien: req.body.giaTien,
-    soLuong: req.body.soLuong,
-    anh: req.body.anh,
-    maMau: req.body.maMau,
-    maRam: req.body.maRam,
-    maDungLuong: req.body.maDungLuong,
+    camera: req.body.camera,
+    kichThuoc: req.body.kichThuoc,
+    CPU: req.body.CPU,
+    pin: req.body.pin,
+    heDieuHanh: req.body.heDieuHanh,
+    namSanXuat: req.body.namSanXuat,
+    congNgheManHinh: req.body.congNgheManHinh,
+    doPhanGiai: req.body.doPhanGiai,
+    hinhAnh: req.body.hinhAnh,
+    thoiGianBaoHanh:req.body.thoiGianBaoHanh,
+    moTaThem: req.body.moTaThem,
     maHangSX: req.body.maHangSX,
     maUuDai: req.body.maUuDai,
-    maChiTiet: req.body.maChiTiet,
   })
   dienthoai.save()
       .then(data => {
