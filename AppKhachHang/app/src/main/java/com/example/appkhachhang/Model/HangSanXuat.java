@@ -9,12 +9,10 @@ public class HangSanXuat {
     public HangSanXuat() {
     }
 
-    public String getAnh() {
-        return hinhAnh;
-    }
-
-    public void setAnh(String anh) {
-        this.hinhAnh = anh;
+    public HangSanXuat(String tenHang, Object maCuaHang, String hinhAnh) {
+        this.tenHang = tenHang;
+        this.maCuaHang = maCuaHang;
+        this.hinhAnh = hinhAnh;
     }
 
     public String getTenHang() {
@@ -31,5 +29,13 @@ public class HangSanXuat {
 
     public void setMaCuaHang(Object maCuaHang) {
         this.maCuaHang = maCuaHang;
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 }

@@ -2,17 +2,13 @@ package com.example.appcuahang.model;
 
 public class DungLuong {
     private String boNho;
-    private int giaTien;
+
 
     private String _id;
 
 
-    public DungLuong() {
-    }
-
-    public DungLuong(String boNho, int giaTien) {
+    public DungLuong(String boNho) {
         this.boNho = boNho;
-        this.giaTien = giaTien;
     }
 
     public String getBoNho() {
@@ -21,14 +17,6 @@ public class DungLuong {
 
     public void setBoNho(String boNho) {
         this.boNho = boNho;
-    }
-
-    public int getGiaTien() {
-        return giaTien;
-    }
-
-    public void setGiaTien(int giaTien) {
-        this.giaTien = giaTien;
     }
 
     public String get_id() {
