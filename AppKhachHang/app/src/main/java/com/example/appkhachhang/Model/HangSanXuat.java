@@ -4,17 +4,17 @@ public class HangSanXuat {
     String tenHang;
     Object maCuaHang;
 
-    String anh;
+    String hinhAnh;
 
     public HangSanXuat() {
     }
 
     public String getAnh() {
-        return anh;
+        return hinhAnh;
     }
 
     public void setAnh(String anh) {
-        this.anh = anh;
+        this.hinhAnh = anh;
     }
 
     public String getTenHang() {
