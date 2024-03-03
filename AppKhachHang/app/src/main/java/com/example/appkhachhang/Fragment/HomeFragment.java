@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         listSPHot = new ArrayList<>();
         getSanPhamHot();
         sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot, this);
-        recyclerViewSPHot.setAdapter(sanPhamAdapter);
+        recyclerViewSPHot.setAdapter(sanPhamHotAdapter);
     }
 
     void hangSanXuat(){
@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
             public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
                 listSPHot.clear();
                 listSPHot.addAll(response.body());
-                sanPhamAdapter.notifyDataSetChanged();
+                sanPhamHotAdapter.notifyDataSetChanged();
             }
 
             @Override

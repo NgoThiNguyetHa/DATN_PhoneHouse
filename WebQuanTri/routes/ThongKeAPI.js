@@ -35,10 +35,10 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
     const dienThoaiDetails = await DienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
-      select: "tenDienThoai giaTien",
+      select: "tenDienThoai giaTien anh",
     });
 
-    res.status(200).json({ dienThoaiDuocMuaNhieu: dienThoaiDetails });
+    res.status(200).json( dienThoaiDetails );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

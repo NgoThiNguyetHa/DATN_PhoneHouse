@@ -1,18 +1,18 @@
 package com.example.appkhachhang.Model;
 
 public class SanPhamHot {
-    SanPham sanPham;
+    SanPham _id;
     Number soLuong;
 
     public SanPhamHot() {
     }
 
-    public SanPham getSanPham() {
-        return sanPham;
+    public SanPham get_id() {
+        return _id;
     }
 
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
+    public void set_id(SanPham _id) {
+        this._id = _id;
     }
 
     public Number getSoLuong() {
