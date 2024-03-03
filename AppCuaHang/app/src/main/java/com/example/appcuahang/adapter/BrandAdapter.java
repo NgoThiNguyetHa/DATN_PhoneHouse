@@ -24,17 +24,17 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder
     Context mContext;
     List<Brand> list;
 
-    private IItemBrandListenner listener;
+    private IItemBrandListenner listener; // mới
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
-    public BrandAdapter(Context mContext , IItemBrandListenner listener) {
+    public BrandAdapter(Context mContext , IItemBrandListenner listener) { // thêm listener
         this.mContext = mContext;
         this.listener = listener;
     }
 
-    public void setData(List<Brand> list){
+    public void setData(List<Brand> list){ // thêm mới
         this.list = list;
     }
 
@@ -48,7 +48,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Brand brand = list.get(position);
         holder.tvBrand.setText(""+brand.getTenHang());
-        holder.mParent.setOnClickListener(new View.OnClickListener() {
+        holder.mParent.setOnClickListener(new View.OnClickListener() { // thêm mới
             @Override
             public void onClick(View v) {
                 listener.editBrand(brand);

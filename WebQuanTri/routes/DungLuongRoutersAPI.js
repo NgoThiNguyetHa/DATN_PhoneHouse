@@ -39,7 +39,7 @@ router.get('/getDungLuong', async (req,res) => {
 
 router.delete('/deleteDungLuong/:id', async (req,res) => {
   try{
-    const data =  await Ram.findByIdAndDelete(req.params.id)
+    const data =  await DungLuong.findByIdAndDelete(req.params.id)
     if(!data){
       return res.status(404).json({message: "delete failed"})
     }else{

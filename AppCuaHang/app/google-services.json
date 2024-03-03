@@ -26,6 +26,7 @@
     },
     {
       "client_info": {
+
         "mobilesdk_app_id": "1:137561163485:android:196a89f01aa0a2cd767d34",
         "android_client_info": {
           "package_name": "com.fpoly.myapplication"

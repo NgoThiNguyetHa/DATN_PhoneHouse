@@ -14,7 +14,7 @@ router.post('/addKhachHang', async (req, res, next) =>{
             diaChi: diaChi,
             sdt: sdt
         });
-        if (!username || !password || !email || !diaChi || !sdt) {
+        if (!username || !password || !email  || !sdt) {
             const errorMessage = "Vui lòng nhập đủ thông tin";
             return res.status(201).json({
                 errorMessage: errorMessage,
