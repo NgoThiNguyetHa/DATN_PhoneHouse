@@ -8,17 +8,12 @@ const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 
 router.post('/addChiTiet', function(req, res, next) {
     const chiTiet = new ChiTietDienThoai({
-    dienThoai: req.body.dienThoai,
-    kichThuoc: req.body.kichThuoc,
-    manHinh: req.body.manHinh,
-    camera: req.body.camera,
-    pin: req.body.pin,
-    heDieuHanh: req.body.heDieuHanh,
-    cpu: req.body.cpu,
-    doPhanGiai: req.body.doPhanGiai,
-    namSanXuat: req.body.namSanXuat,
-    thoiGianBaoHanh: req.body.thoiGianBaoHanh,
-    moTaThem: req.body.moTaThem,
+    soLuong: req.body.soLuong,
+    giaTien: req.body.giaTien,
+    maDienThoai: req.body.maDienThoai,
+    maMau: req.body.maMau,
+    maDungLuong: req.body.maDungLuong,
+    maRam: req.body.maRam,
   })
   chiTiet.save()
   .then(data => {

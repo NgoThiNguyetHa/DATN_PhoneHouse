@@ -26,25 +26,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:137561163485:android:d980d7c87da7fd23767d34",
-        "android_client_info": {
-          "package_name": "com.example.appkhachhang"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBTb_pj0uH3Pf8VAecL13DqugevCstNSPQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
+
         "mobilesdk_app_id": "1:137561163485:android:196a89f01aa0a2cd767d34",
         "android_client_info": {
           "package_name": "com.fpoly.myapplication"
