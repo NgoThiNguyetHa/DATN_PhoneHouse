@@ -19,9 +19,6 @@
             android:name=".DetailScreen"
             android:exported="false" />
         <activity
-            android:name=".ChiTietDienThoai"
-            android:exported="false" />
-        <activity
             android:name=".RegisterScreen"
             android:exported="false" />
         <activity
@@ -29,7 +26,9 @@
             android:exported="false" />
         <activity
             android:name=".HelloScreen"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

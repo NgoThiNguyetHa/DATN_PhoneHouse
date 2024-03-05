@@ -85,7 +85,7 @@ public class LoginScreen extends AppCompatActivity {
                 }
 
                 break;
-            } else {
+            } else if (Email.isEmpty()||Password.isEmpty()){
                 edEmail.setError("Email invalid");
                 edPassword.setError("Password invalid");
             }
