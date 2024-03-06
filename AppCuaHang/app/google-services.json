@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "137561163485",
+    "project_id": "datn-phonehouse",
+    "storage_bucket": "datn-phonehouse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137561163485:android:f29f9741a70f1311767d34",
+        "android_client_info": {
+          "package_name": "com.example.appcuahang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTb_pj0uH3Pf8VAecL13DqugevCstNSPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+
+        "mobilesdk_app_id": "1:137561163485:android:196a89f01aa0a2cd767d34",
+        "android_client_info": {
+          "package_name": "com.fpoly.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTb_pj0uH3Pf8VAecL13DqugevCstNSPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

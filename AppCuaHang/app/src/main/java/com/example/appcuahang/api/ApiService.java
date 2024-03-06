@@ -3,11 +3,13 @@ package com.example.appcuahang.api;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.LoginResponse;
+import com.example.appcuahang.model.Phone;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
+import com.example.appcuahang.model.Top10sanPham;
 
 import java.util.List;
 import java.util.Map;
@@ -96,7 +98,32 @@ public interface ApiService {
             @Path("ngayTao") String ngayTao
     );
 
-    //top10
-    @GET("thongke/top10SanPhamBanChay")
-    Call<ThongKeDoanhThu> getTop10Product();
+    //top10 theo ngày
+    @GET("thongke/top10sanpham/{tuNgay}/{denNgay}/{maCuaHang}")
+    Call<List<Top10sanPham>> getTop10Product(
+            @Path("tuNgay") String tuNgay,
+            @Path("denNgay") String denNgay,
+            @Path("maCuaHang") String maCuaHang
+    );
+
+    //doanh thu theo ngày
+
+    @GET("thongke/doanhThuTongTien")
+    Call<ThongKeDoanhThu> getDoanhThuTheoNgay(@Query("startDate") String tuNgay,
+                                              @Query("endDate") String denNgay,
+                                              @Query("maCuaHang") String maCuaHang,
+                                              @Query("trangThaiNhanHang") String trangThai);
+
+    // get điện thoại
+    @GET("dienthoais/getDienthoaiTheoCuaHang/{maCuaHang}")
+    Call<List<Phone>> getDienThoai(@Path("maCuaHang") String idHangSanXuat);
+
+    //post điện thoại
+    @POST("dienthoais/addDienThoai")
+    Call<Phone> addDienThoai(@Body Phone phone);
+
+    //cập nhật điện thoại
+    @PUT("dienthoais/updateDienThoai/{id}")
+    Call<Phone> putDienThoai(@Path("id") String id,
+                               @Body Phone phone);
 }

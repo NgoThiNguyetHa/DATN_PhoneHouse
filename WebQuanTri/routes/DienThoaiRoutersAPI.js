@@ -15,15 +15,19 @@ router.get('/', function (req, res, next) {
 router.post('/addDienThoai', function (req, res, next) {
   const dienthoai = new DienThoai({
     tenDienThoai: req.body.tenDienThoai,
-    giaTien: req.body.giaTien,
-    soLuong: req.body.soLuong,
-    anh: req.body.anh,
-    maMau: req.body.maMau,
-    maRam: req.body.maRam,
-    maDungLuong: req.body.maDungLuong,
-    maHangSX: req.body.maHangSX,
+    kichThuoc: req.body.kichThuoc,
+    congNgheManHinh: req.body.congNgheManHinh,
+    camera: req.body.camera,
+    cpu: req.body.cpu,
+    pin: req.body.pin,
+    heDieuHanh: req.body.heDieuHanh,
+    doPhanGiai: req.body.doPhanGiai,
+    namSanXuat: req.body.namSanXuat,
+    thoiGianBaoHanh: req.body.thoiGianBaoHanh,
+    moTaThem: req.body.moTaThem,
+    maHangSX:req.body.maHangSX,
+    hinhAnh: req.body.hinhAnh,
     maUuDai: req.body.maUuDai,
-    maChiTiet: req.body.maChiTiet,
   })
   dienthoai.save()
       .then(data => {
@@ -101,8 +105,8 @@ router.get("/getDienthoaiTheoCuaHang/:id", async (req, res) => {
     const dienThoais = [];
     for (const hang of hangSX) {
       const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-          .populate('maHangSX', '_id')
-          .populate('maHangSX');
+          // .populate('maHangSX', '_id')
+          // .populate('maHangSX');
       if (dienThoai){
         dienThoais.push(...dienThoai);
       }

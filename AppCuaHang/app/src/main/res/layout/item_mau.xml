@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:id="@+id/mMau">
 
         <ImageView
             android:layout_width="30dp"
@@ -33,14 +34,7 @@
                android:gravity="center_vertical"
                android:text="Màu"
                android:textStyle="bold" />
-           <TextView
-               android:id="@+id/item_tvGiaTien"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_marginLeft="10dp"
-               android:gravity="center_vertical"
-               android:text="Giá tiền"
-               android:textStyle="bold" />
+
        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

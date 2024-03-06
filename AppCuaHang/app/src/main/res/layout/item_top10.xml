@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="11dp"
             android:layout_weight="0.3"
             android:gravity="center"
             android:src="@drawable/img_3" />
@@ -31,30 +31,33 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/itemTop10_tvTen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Tên sản phẩm"
                 android:textStyle="bold"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
 
             <TextView
+                android:id="@+id/itemTop10_tvGiaTien"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Giá: 0đ"
                 android:textStyle="bold"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textColor="#FF0000"/>
 
 
             <TextView
+                android:id="@+id/itemTop10_tvSoLuong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Số đơn hàng: 15"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

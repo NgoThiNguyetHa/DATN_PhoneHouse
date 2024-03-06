@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,7 +41,7 @@ public class DungLuongAdapter extends RecyclerView.Adapter<DungLuongAdapter.MyVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         DungLuong dungLuong = list.get(position);
         holder.tvDungLuong.setText(dungLuong.getBoNho()+ " GB");
-        holder.tvGiaTien.setText(""+dungLuong.getGiaTien());
+
 
         holder.mDL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,12 +58,11 @@ public class DungLuongAdapter extends RecyclerView.Adapter<DungLuongAdapter.MyVi
     }
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvDungLuong;
-        TextView tvGiaTien;
         LinearLayout mDL;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDungLuong = itemView.findViewById(R.id.item_tvBoNho);
-            tvGiaTien = itemView.findViewById(R.id.item_tvGiaTien);
+//            tvGiaTien = itemView.findViewById(R.id.item_tvGiaTien);
             mDL = itemView.findViewById(R.id.mDL);
         }
     }

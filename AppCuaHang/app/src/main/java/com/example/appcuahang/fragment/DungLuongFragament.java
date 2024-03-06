@@ -28,14 +28,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.adapter.DungLuongAdapter;
 import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.interface_adapter.interface_adapter.IItemDungLuongListenner;
-import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
@@ -79,7 +75,6 @@ public class DungLuongFragament extends Fragment {
         adapter = new DungLuongAdapter(getContext(), new IItemDungLuongListenner() {
             @Override
             public void deleteBrand(String idBrand) {
-
             }
 
             @Override
@@ -140,22 +135,19 @@ public class DungLuongFragament extends Fragment {
         window.setAttributes(windowAttributes);
 
         edDungLuong = view.findViewById(R.id.dl_dungLuong_edTenDungLuong);
-        edGiaTien = view.findViewById(R.id.dl_dungLuong_edGiaDungLuong);
         Button btnSave = view.findViewById(R.id.dl_dungLuong_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_dungLuong_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
 
         tvTitle.setText("Cập Nhật Hãng Sản Xuất");
         edDungLuong.setText(dungLuong.getBoNho());
-        edGiaTien.setText(dungLuong.getGiaTien() + "");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Validate()) {
                     String tenDL = edDungLuong.getText().toString().trim();
-                    String giaTienDL = edGiaTien.getText().toString().trim();
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
-                    Call<DungLuong> call = apiDungLuongService.putDungLuong(dungLuong.get_id(), new DungLuong(tenDL, Integer.parseInt(giaTienDL)));
+                    Call<DungLuong> call = apiDungLuongService.putDungLuong(dungLuong.get_id(), new DungLuong(tenDL));
                     call.enqueue(new Callback<DungLuong>() {
                         @Override
                         public void onResponse(Call<DungLuong> call, Response<DungLuong> response) {
@@ -212,7 +204,6 @@ public class DungLuongFragament extends Fragment {
         window.setAttributes(windowAttributes);
 
          edDungLuong = view.findViewById(R.id.dl_dungLuong_edTenDungLuong);
-         edGiaTien = view.findViewById(R.id.dl_dungLuong_edGiaDungLuong);
         Button btnSave = view.findViewById(R.id.dl_dungLuong_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_dungLuong_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
@@ -224,9 +215,8 @@ public class DungLuongFragament extends Fragment {
             public void onClick(View v) {
                 if (Validate()) {
                     String tenDungLuong = edDungLuong.getText().toString().trim();
-                    Integer giaTien = Integer.parseInt(edGiaTien.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
-                    Call<DungLuong> call = apiDungLuongService.postDungLuong(new DungLuong(tenDungLuong, giaTien));
+                    Call<DungLuong> call = apiDungLuongService.postDungLuong(new DungLuong(tenDungLuong));
                     call.enqueue(new Callback<DungLuong>() {
                         @Override
                         public void onResponse(Call<DungLuong> call, Response<DungLuong> response) {
@@ -262,13 +252,13 @@ public class DungLuongFragament extends Fragment {
             return false;
         }
 
-        if( edGiaTien.getText().toString().isEmpty()){
-            edGiaTien.setError("Không được để trống!!");
-            return false;
-        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
-            edGiaTien.setError("Phải nhập là số!!");
-            return false;
-        }
+//        if( edGiaTien.getText().toString().isEmpty()){
+//            edGiaTien.setError("Không được để trống!!");
+//            return false;
+//        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
+//            edGiaTien.setError("Phải nhập là số!!");
+//            return false;
+//        }
         return true;
     }
 }

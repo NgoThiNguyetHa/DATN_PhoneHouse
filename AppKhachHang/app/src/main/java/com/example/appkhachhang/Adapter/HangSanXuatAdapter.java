@@ -41,7 +41,7 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
     @Override
     public void onBindViewHolder(@NonNull HangSanXuatAdapter.ViewHolder holder, int position) {
         HangSanXuat hangSanXuat = list.get(position);
-        String fullCoverImgUrl = hangSanXuat.getAnh();
+        String fullCoverImgUrl = hangSanXuat.getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgHang);
         holder.tvTenHang.setText(hangSanXuat.getTenHang());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
