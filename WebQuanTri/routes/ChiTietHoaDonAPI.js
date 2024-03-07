@@ -17,21 +17,21 @@ router.post('/addChiTietHoaDon', function(req, res, next) {
     soLuong: req.body.soLuong,
     giaTien: req.body.giaTien,
     maHoaDon: req.body.maHoaDon,
-    maDienThoai: req.body.maDienThoai,
+    maChiTietDienThoai: req.body.maChiTietDienThoai,
   })
   chiTietHoaDon.save()
   .then(data => {
     console.log(data)
     res.send(data)
   }).catch(err => {
-    console.log
+    console.log(err)
   })
 });
 
 /* GET loaidichvu listing. */
 router.get('/getChiTietHoaDon', async (req,res) => {
   try {
-    const chiTietHoaDon = await ChiTietHoaDon.find();
+    const chiTietHoaDon = await ChiTietHoaDon.find().populate("maHoaDon").populate("maChiTietDienThoai");
     res.json(chiTietHoaDon);
   } catch (error) {
     res.status(500).json({ error: error.message });

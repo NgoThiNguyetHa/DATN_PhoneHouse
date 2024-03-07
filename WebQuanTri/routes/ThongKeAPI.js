@@ -10,7 +10,7 @@ require("../models/HangSanXuat");
 
 const HoaDon = mongoose.model("hoaDon");
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
-const DienThoai = mongoose.model("dienthoai");
+const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const HangSX = mongoose.model("hangSanXuat");
 
 router.get("/", function (req, res, next) {
@@ -23,7 +23,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     const dienThoaiDuocMuaNhieu = await ChiTietHoaDon.aggregate([
       {
         $group: {
-          _id: "$maDienThoai",
+          _id: "$maChiTietDienThoai",
           soLuong: { $sum: "$soLuong" },
         },
       },
@@ -33,12 +33,18 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     ]).exec();
     console.log("31: ", dienThoaiDuocMuaNhieu);
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
-    const dienThoaiDetails = await DienThoai.populate(dienThoaiDuocMuaNhieu, {
+    const TopDienThoai = await ChiTietDienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
-      select: "tenDienThoai giaTien",
+      select: "maDienThoai maMau maDungLuong maRam giaTien",
+      populate: [
+        { path: "maMau", model: "mau"}, // Lấy thông tin từ bảng Mau
+        { path: "maDungLuong", model: "dungluong"}, // Lấy thông tin từ bảng DungLuong
+        { path: "maRam", model: "ram"}, // Lấy thông tin từ bảng Ram
+        { path: "maDienThoai", model: "dienthoai"}, // Tên của model ĐienThoai trong cơ sở dữ liệu
+      ]
     });
 
-    res.status(200).json({ dienThoaiDuocMuaNhieu: dienThoaiDetails });
+    res.status(200).json(TopDienThoai);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
