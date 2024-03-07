@@ -5,7 +5,7 @@ const moment = require("moment");
 
 require("../models/HoaDon");
 require("../models/ChiTietHoaDon");
-require("../models/DienThoai");
+require("../models/ChiTietDienThoai");
 require("../models/HangSanXuat");
 
 const HoaDon = mongoose.model("hoaDon");
