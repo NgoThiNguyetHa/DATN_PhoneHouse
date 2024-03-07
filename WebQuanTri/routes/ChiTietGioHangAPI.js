@@ -17,7 +17,7 @@ router.post('/addChiTietGioHang', function(req, res, next) {
     const chiTietGioHang = new ChiTietGioHang({
     soLuong: req.body.soLuong,
     giaTien: req.body.giaTien,
-    maDienThoai: req.body.maDienThoai,
+    maChiTietDienThoai: req.body.maChiTietDienThoai,
     maGioHang: req.body.maGioHang,
     
   })
@@ -33,7 +33,7 @@ router.post('/addChiTietGioHang', function(req, res, next) {
 /* GET loaidichvu listing. */
 router.get('/getChiTietGioHang', async (req,res) => {
   try {
-    const chiTietGioHang = await ChiTietGioHang.find().populate("maDienThoai");
+    const chiTietGioHang = await ChiTietGioHang.find().populate("maChiTietDienThoai");
     res.json(chiTietGioHang);
   } catch (error) {
     res.status(500).json({ error: error.message });
