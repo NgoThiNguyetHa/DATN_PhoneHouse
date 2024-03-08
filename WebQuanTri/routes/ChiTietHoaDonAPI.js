@@ -68,4 +68,14 @@ router.put("/updateChiTietHoaDon/:id", async (req, res ) => {
   }
 })
 
+// get chi tiết hóa đơn theo id hóa đơn
+router.get('/getChiTietHoaDonTheoHoaDon/:id', async (req,res) => {
+  try {
+    const chiTietHoaDon = await ChiTietHoaDon.find({maHoaDon: req.params.id}).populate("maChiTietDienThoai");
+    res.json(chiTietHoaDon);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;

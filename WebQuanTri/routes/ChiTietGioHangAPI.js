@@ -2,9 +2,12 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/ChiTietGioHang')
+require('../models/GioHang')
+
 
 const ChiTietGioHang = mongoose.model("chiTietGioHang")
- 
+const GioHang = mongoose.model("gioHang")
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -30,10 +33,22 @@ router.post('/addChiTietGioHang', function(req, res, next) {
   })
 });
 
-/* GET loaidichvu listing. */
-router.get('/getChiTietGioHang', async (req,res) => {
+/* GET chi tiêt giỏ hàng theo idGioHang. */
+router.get('/getChiTietGioHang/:id', async (req,res) => {
   try {
-    const chiTietGioHang = await ChiTietGioHang.find().populate("maChiTietDienThoai");
+    const chiTietGioHang = await ChiTietGioHang.find({maGioHang: req.params.id}).populate("maChiTietDienThoai");
+    res.json(chiTietGioHang);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
+/* GET chi tiêt giỏ hàng theo idKhachHang. */
+router.get('/getChiTietGioHangTheoKhachHang/:idKhachHang', async (req,res) => {
+  try {
+    const gioHangs = await GioHang.find({maKhachHang: req.params.idKhachHang});
+    const maGioHang = gioHangs[0]._id;
+    const chiTietGioHang = await ChiTietGioHang.find({maGioHang}).populate("maChiTietDienThoai");
     res.json(chiTietGioHang);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix API getDienThoaiHotNhat">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="API getKhachHangTheoCuaHang">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/models/ChiTietGioHang.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/models/ChiTietGioHang.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/models/GioHang.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/models/GioHang.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,23 +43,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "hantnph28876",
-    "last_opened_file_path": "/Users/yenyen/Desktop/DATN_PhoneHouse",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/yenyen/Desktop/DATN_PhoneHouse&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,7 +68,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1706494859837</updated>
-      <workItem from="1709819596307" duration="3233000" />
+      <workItem from="1709819596307" duration="5469000" />
+      <workItem from="1709888416130" duration="3328000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -76,7 +79,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709737424946</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="API getKhachHangTheoCuaHang">
+      <option name="closed" value="true" />
+      <created>1709823116388</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709823116388</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -86,6 +97,7 @@
     <MESSAGE value="login in website" />
     <MESSAGE value="navigation web" />
     <MESSAGE value="pull from dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
+    <MESSAGE value="API getKhachHangTheoCuaHang" />
+    <option name="LAST_COMMIT_MESSAGE" value="API getKhachHangTheoCuaHang" />
   </component>
 </project>
