@@ -9,6 +9,9 @@ public class Brand {
     public Brand() {
     }
 
+    public Brand(String _id) {
+        this._id = _id;
+    }
 
     public Brand(String tenHang, String hinhAnh, String maCuaHang) {
         this.tenHang = tenHang;
@@ -46,5 +49,10 @@ public class Brand {
 
     public void setMaCuaHang(String maCuaHang) {
         this.maCuaHang = maCuaHang;
+    }
+
+    @Override
+    public String toString() {
+        return tenHang ;
     }
 }

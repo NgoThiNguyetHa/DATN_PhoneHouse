@@ -2,8 +2,12 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/KhachHang')
+require("../models/ChiTietHoaDon");
+require("../models/ChiTietDienThoai");
 
 const KhachHang = mongoose.model("khachhang");
+const HoaDon = mongoose.model("hoaDon");
+// const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 router.post('/addKhachHang', async (req, res, next) =>{
     try {
         const {username, password, diaChi, email, sdt} = req.body;
@@ -77,5 +81,31 @@ router.post('/dangNhapKhachHang', async (req, res) => {
         res.status(500).json({ errorMessage: 'Lỗi server.' });
     }
 });
+
+router.get("/getKhachHangTheoCuaHang/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const hoaDons = await HoaDon.find({maCuaHang: idCuaHang})
+        .populate('maCuaHang', '_id')
+        .populate('maKhachHang')
+
+    // Tạo một Set để lưu trữ các mã khách hàng duy nhất
+    const maKhachHangs = new Set();
+
+    // Lặp qua các hóa đơn để thêm mã khách hàng vào Set
+    hoaDons.forEach(hoaDon => {
+      maKhachHangs.add(hoaDon.maKhachHang._id.toString());
+    });
+
+    // Chuyển Set thành mảng và lấy thông tin khách hàng tương ứng
+    const khachHangs = Array.from(maKhachHangs).map(maKhachHangId => {
+      return hoaDons.find(hoaDon => hoaDon.maKhachHang._id.toString() === maKhachHangId).maKhachHang;
+    });
+
+    return res.json(khachHangs);
+  } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+})
 
 module.exports = router;

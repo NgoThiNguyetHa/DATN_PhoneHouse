@@ -30,6 +30,7 @@ import com.example.appcuahang.fragment.BrandFragment;
 import com.example.appcuahang.fragment.HomeFragment;
 import com.example.appcuahang.fragment.MoreFragment;
 import com.example.appcuahang.fragment.NotificationFragment;
+import com.example.appcuahang.fragment.PhoneFragment;
 import com.example.appcuahang.fragment.ProductFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         if (R.id.ic_home == item.getItemId()){
           replaceFragment(new HomeFragment());
         }else if (R.id.ic_product == item.getItemId()){
-          replaceFragment(new ProductFragment());
+          replaceFragment(new PhoneFragment());
         }else if (R.id.ic_bill == item.getItemId()){
           replaceFragment(new BillOrderFragment());
         }else if (R.id.ic_notification == item.getItemId()){
