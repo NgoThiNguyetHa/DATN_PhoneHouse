@@ -49,22 +49,22 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
     }
     @Override
     public void onBindViewHolder(@NonNull SanPhamHotAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        SanPhamHot sanPhamHot = list.get(position);
-        SanPham_API.sanPhamApi.getSanPhamByID(sanPhamHot.get_id().get_id()).enqueue(new Callback<SanPham>() {
-            @Override
-            public void onResponse(Call<SanPham> call, Response<SanPham> response) {
-                sanPham = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<SanPham> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
-            }
-        });
-        String fullCoverImgUrl = sanPhamHot.get_id().getAnh();
-        Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
-        holder.tvGiaSanPham.setText(sanPhamHot.get_id().getGiaTien().toString()+"đ");
-        holder.tvTenSanPham.setText(sanPhamHot.get_id().getTenDienThoai());
+//        SanPhamHot sanPhamHot = list.get(position);
+//        SanPham_API.sanPhamApi.getSanPhamByID(sanPhamHot.get_id().get_id()).enqueue(new Callback<SanPham>() {
+//            @Override
+//            public void onResponse(Call<SanPham> call, Response<SanPham> response) {
+//                sanPham = response.body();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SanPham> call, Throwable t) {
+//                Log.e("errorrr", "onFailure: " + t.getMessage() );
+//            }
+//        });
+//        String fullCoverImgUrl = sanPhamHot.get_id().getAnh();
+//        Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
+//        holder.tvGiaSanPham.setText(sanPhamHot.get_id().getGiaTien().toString()+"đ");
+//        holder.tvTenSanPham.setText(sanPhamHot.get_id().getTenDienThoai());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

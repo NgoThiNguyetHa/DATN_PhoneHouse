@@ -27,7 +27,14 @@ router.post('/addChiTiet', function(req, res, next) {
 /* GET loaidichvu listing. */
 router.get('/getChiTiet', async (req,res) => {
   try {
-    const chiTiet = await ChiTietDienThoai.find();
+    const chiTiet = await ChiTietDienThoai.find()
+    .populate("maMau")
+    .populate("maRam")
+    .populate("maDungLuong")
+    .populate({
+      path: 'maDienThoai',
+      populate: { path: 'maUuDai maHangSX' } // Liên kết với bảng 'hangSX'
+    });
     res.json(chiTiet);
   } catch (error) {
     res.status(500).json({ error: error.message });

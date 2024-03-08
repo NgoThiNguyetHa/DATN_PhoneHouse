@@ -1,115 +1,79 @@
 package com.example.appkhachhang.Model;
 
-public class ChiTietDienThoai {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
+
+public class ChiTietDienThoai{
     String _id;
-    String dienThoai;
-    String kichThuoc;
-    String manHinh;
-    String camera;
-    String pin;
-    String heDieuHanh;
-    String cpu;
-    String doPhanGiai;
-    String namSanXuat;
-    String thoiGianBaoHanh;
-    String moTaThem;
+    Number soLuong;
+    Number giaTien;
+    SanPham maDienThoai;
+    Mau maMau;
+    DungLuong maDungLuong;
+    Ram maRam;
 
     public ChiTietDienThoai() {
-    }
-
-    public String get_id() {
-        return _id;
     }
 
     public void set_id(String _id) {
         this._id = _id;
     }
 
-    public String getDienThoai() {
-        return dienThoai;
+    public void setSoLuong(Number soLuong) {
+        this.soLuong = soLuong;
     }
 
-    public void setDienThoai(String dienThoai) {
-        this.dienThoai = dienThoai;
+    public void setGiaTien(Number giaTien) {
+        this.giaTien = giaTien;
     }
 
-    public String getKichThuoc() {
-        return kichThuoc;
+    public void setMaDienThoai(SanPham maDienThoai) {
+        this.maDienThoai = maDienThoai;
     }
 
-    public void setKichThuoc(String kichThuoc) {
-        this.kichThuoc = kichThuoc;
+    public void setMaMau(Mau maMau) {
+        this.maMau = maMau;
     }
 
-    public String getManHinh() {
-        return manHinh;
+    public void setMaDungLuong(DungLuong maDungLuong) {
+        this.maDungLuong = maDungLuong;
     }
 
-    public void setManHinh(String manHinh) {
-        this.manHinh = manHinh;
+    public void setMaRam(Ram maRam) {
+        this.maRam = maRam;
     }
 
-    public String getCamera() {
-        return camera;
+    public String get_id() {
+        return _id;
     }
 
-    public void setCamera(String camera) {
-        this.camera = camera;
+    public Number getSoLuong() {
+        return soLuong;
     }
 
-    public String getPin() {
-        return pin;
+    public Number getGiaTien() {
+        return giaTien;
     }
 
-    public void setPin(String pin) {
-        this.pin = pin;
+    public SanPham getMaDienThoai() {
+        return maDienThoai;
     }
 
-    public String getHeDieuHanh() {
-        return heDieuHanh;
+    public Mau getMaMau() {
+        return maMau;
     }
 
-    public void setHeDieuHanh(String heDieuHanh) {
-        this.heDieuHanh = heDieuHanh;
+    public DungLuong getMaDungLuong() {
+        return maDungLuong;
     }
 
-    public String getCpu() {
-        return cpu;
-    }
-
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
-    }
-
-    public String getDoPhanGiai() {
-        return doPhanGiai;
-    }
-
-    public void setDoPhanGiai(String doPhanGiai) {
-        this.doPhanGiai = doPhanGiai;
-    }
-
-    public String getNamSanXuat() {
-        return namSanXuat;
-    }
-
-    public void setNamSanXuat(String namSanXuat) {
-        this.namSanXuat = namSanXuat;
-    }
-
-    public String getThoiGianBaoHanh() {
-        return thoiGianBaoHanh;
-    }
-
-    public void setThoiGianBaoHanh(String thoiGianBaoHanh) {
-        this.thoiGianBaoHanh = thoiGianBaoHanh;
-    }
-
-    public String getMoTaThem() {
-        return moTaThem;
-    }
-
-    public void setMoTaThem(String moTaThem) {
-        this.moTaThem = moTaThem;
+    public Ram getMaRam() {
+        return maRam;
     }
 }

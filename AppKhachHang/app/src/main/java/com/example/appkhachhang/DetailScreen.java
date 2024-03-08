@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.squareup.picasso.Picasso;
 
 public class DetailScreen extends AppCompatActivity {
@@ -22,15 +24,7 @@ public class DetailScreen extends AppCompatActivity {
         tv_giaChiTiet = findViewById(R.id.tv_giaChiTiet);
         tv_tenDienThoai = findViewById(R.id.tv_tenDienThoaiChiTiet);
         Intent intent = getIntent();
-        String tenDienThoai = intent.getStringExtra("tenDienThoai");
-        String giaChiTiet = intent.getStringExtra("giaTien");
-        String soLuong = intent.getStringExtra("soLuong");
-        String moTa = intent.getStringExtra("moTaThem");
-        String fullCoverImgUrl = intent.getStringExtra("anh");
-        Picasso.get().load(fullCoverImgUrl).into(imgAnhChiTiet);
-        tv_tenDienThoai.setText(tenDienThoai);
-        tv_giaChiTiet.setText(giaChiTiet+"đ");
-        tv_soLuong.setText("Kho: "+soLuong);
-        tv_moTa.setText(moTa);
+        ChiTietDienThoai chiTietDienThoai = intent.getParcelableExtra("ChiTiet");
+        Log.d("chiTiet", "onCreate: " + chiTietDienThoai.getGiaTien());
     }
 }
