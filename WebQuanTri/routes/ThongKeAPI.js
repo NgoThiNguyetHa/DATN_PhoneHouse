@@ -128,16 +128,8 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
     const denNgay = req.params.denNgay;
     const result = await ChiTietHoaDon.aggregate([
       {
-        $lookup: {
-          from: "hoaDon", // Tên bảng HoaDon
-          localField: "maHoaDon", // Trường trong bảng ChiTietHoaDon
-          foreignField: "_id", // Trường trong bảng HoaDon
-          as: "hoaDon", // Tên biến để lưu kết quả kết hợp
-        },
-      },
-      {
         $match: {
-          "hoaDon.ngayTao": {
+          createdAt: {
             $gte: new Date(tuNgay),
             $lt: new Date(denNgay),
           },
@@ -145,7 +137,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
       },
       {
         $group: {
-          _id: "$maChiTietDienThoai",
+          _id: "$maDienThoai",
           soLuongMua: { $sum: "$soLuong" },
         },
       },
@@ -156,17 +148,17 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
         $limit: 10,
       },
     ]);
-    console.log("result: ", result)
+
     // Lấy thông tin chi tiết điện thoại từ bảng dienthoai
     const top10DienThoai = await Promise.all(
-      result.map(async (item) => {
-        const dienThoaiInfo = await DienThoai.findById(item._id);
-        return {
-          maDienThoai: item._id,
-          tenDienThoai: dienThoaiInfo.tenDienThoai,
-          soLuongMua: item.soLuongMua,
-        };
-      })
+        result.map(async (item) => {
+          const dienThoaiInfo = await DienThoai.findById(item._id);
+          return {
+            maDienThoai: item._id,
+            tenDienThoai: dienThoaiInfo.tenDienThoai,
+            soLuongMua: item.soLuongMua,
+          };
+        })
     );
 
     res.json(top10DienThoai);
@@ -175,6 +167,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 router.get(
   "/top-10-dien-thoai-mua-nhieu/:startDate/:endDate",
