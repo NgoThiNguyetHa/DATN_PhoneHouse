@@ -5,8 +5,6 @@ require('../models/DienThoai')
 require('../models/HangSanXuat')
 
 const DienThoai = mongoose.model("dienthoai")
-const HangSX = mongoose.model("hangSanXuat")
-
 
 /* GET DienThoai listing. */
 router.get('/', function (req, res, next) {
@@ -28,6 +26,7 @@ router.post('/addDienThoai', function (req, res, next) {
     maHangSX:req.body.maHangSX,
     hinhAnh: req.body.hinhAnh,
     maUuDai: req.body.maUuDai,
+    maCuaHang: req.body.maCuaHang,
   })
   dienthoai.save()
       .then(data => {
@@ -42,11 +41,8 @@ router.get('/getDienThoai', async (req, res) => {
   try {
     const dienThoai = await DienThoai.find()
         .populate('maUuDai')
-        .populate('maMau')
-        .populate('maRam')
-        .populate('maDungLuong')
         .populate('maHangSX')
-        .populate('maChiTiet')
+        .populate('maCuaHang')
     res.json(dienThoai);
   } catch (error) {
     res.status(500).json({error: error.message});
@@ -84,38 +80,18 @@ router.put("/updateDienThoai/:id", async (req, res) => {
   }
 })
 
-router.get("/getDienthoaiTheoHangSanXuat/:id", async (req, res) => {
-  try {
-    const idHangSanXuat = req.params.id;
-    const dienThoai = await DienThoai.find({maHangSX: idHangSanXuat})
-        .populate('maHangSX', '_id')
-        .populate('maHangSX')
-    res.json(dienThoai)
-  } catch (error) {
-    return res.status(500).json({message: error.message})
-  }
-})
+// router.get("/getDienthoaiTheoHangSanXuat/:id", async (req, res) => {
+//   try {
+//     const idHangSanXuat = req.params.id;
+//     const dienThoai = await DienThoai.find({maHangSX: idHangSanXuat})
+//         .populate('maHangSX', '_id')
+//         .populate('maHangSX')
+//     res.json(dienThoai)
+//   } catch (error) {
+//     return res.status(500).json({message: error.message})
+//   }
+// })
 
-router.get("/getDienthoaiTheoCuaHang/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const hangSX = await HangSX.find({maCuaHang: idCuaHang})
-        .populate('maCuaHang', '_id')
-        .populate('maCuaHang')
-    const dienThoais = [];
-    for (const hang of hangSX) {
-      const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-          // .populate('maHangSX', '_id')
-          // .populate('maHangSX');
-      if (dienThoai){
-        dienThoais.push(...dienThoai);
-      }
-    }
-    res.json(dienThoais)
-  } catch (error) {
-    return res.status(500).json({message: error.message})
-  }
-})
 
 router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
   try {
@@ -133,6 +109,9 @@ router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
 router.get("/getDienThoaiByID/:id", async (req, res) => {
   try {
     const data = await DienThoai.findById(req.params.id, req.body, {new: true})
+        .populate('maUuDai')
+        .populate('maHangSX')
+        .populate('maCuaHang')
     res.json(data)
   } catch (err) {
     return res.status(500).json({message: err.message})

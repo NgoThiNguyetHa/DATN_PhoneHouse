@@ -36,7 +36,28 @@ router.post('/addChiTietGioHang', function(req, res, next) {
 /* GET chi tiêt giỏ hàng theo idGioHang. */
 router.get('/getChiTietGioHang/:id', async (req,res) => {
   try {
-    const chiTietGioHang = await ChiTietGioHang.find({maGioHang: req.params.id}).populate("maChiTietDienThoai");
+    const chiTietGioHang = await ChiTietGioHang.find({maGioHang: req.params.id})
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        })
+        .populate({
+          path: "maGioHang",
+          populate: {path: "maKhachHang", model: "khachhang"}
+        });
     res.json(chiTietGioHang);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,7 +69,28 @@ router.get('/getChiTietGioHangTheoKhachHang/:idKhachHang', async (req,res) => {
   try {
     const gioHangs = await GioHang.find({maKhachHang: req.params.idKhachHang});
     const maGioHang = gioHangs[0]._id;
-    const chiTietGioHang = await ChiTietGioHang.find({maGioHang}).populate("maChiTietDienThoai");
+    const chiTietGioHang = await ChiTietGioHang.find({maGioHang})
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        })
+        .populate({
+          path: "maGioHang",
+          populate: {path: "maKhachHang", model: "khachhang"}
+        });
     res.json(chiTietGioHang);
   } catch (error) {
     res.status(500).json({ error: error.message });

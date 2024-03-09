@@ -11,7 +11,6 @@ require("../models/HangSanXuat");
 const HoaDon = mongoose.model("hoaDon");
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
-const HangSX = mongoose.model("hangSanXuat");
 
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
@@ -50,26 +49,26 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
   }
 });
 
-router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
-      .populate("maCuaHang", "_id")
-      .populate("maCuaHang");
-    const dienThoais = [];
-    for (const hang of hangSX) {
-      const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-        .populate("maHangSX", "_id")
-        .populate("maHangSX");
-      if (dienThoai) {
-        dienThoais.push(...dienThoai);
-      }
-    }
-    res.status(200).json({ soLuong: dienThoais.length });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
+//   try {
+//     const idCuaHang = req.params.id;
+//     const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
+//       .populate("maCuaHang", "_id")
+//       .populate("maCuaHang");
+//     const dienThoais = [];
+//     for (const hang of hangSX) {
+//       const dienThoai = await DienThoai.find({ maHangSX: hang._id })
+//         .populate("maHangSX", "_id")
+//         .populate("maHangSX");
+//       if (dienThoai) {
+//         dienThoais.push(...dienThoai);
+//       }
+//     }
+//     res.status(200).json({ soLuong: dienThoais.length });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 router.get(
   "/getSoLuongDonHangTheoTrangThai/:id/:trangThaiNhanHang",
@@ -129,8 +128,16 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
     const denNgay = req.params.denNgay;
     const result = await ChiTietHoaDon.aggregate([
       {
+        $lookup: {
+          from: "hoaDon", // Tên bảng HoaDon
+          localField: "maHoaDon", // Trường trong bảng ChiTietHoaDon
+          foreignField: "_id", // Trường trong bảng HoaDon
+          as: "hoaDon", // Tên biến để lưu kết quả kết hợp
+        },
+      },
+      {
         $match: {
-          createdAt: {
+          "hoaDon.ngayTao": {
             $gte: new Date(tuNgay),
             $lt: new Date(denNgay),
           },
@@ -138,7 +145,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
       },
       {
         $group: {
-          _id: "$maDienThoai",
+          _id: "$maChiTietDienThoai",
           soLuongMua: { $sum: "$soLuong" },
         },
       },
@@ -149,7 +156,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
         $limit: 10,
       },
     ]);
-
+    console.log("result: ", result)
     // Lấy thông tin chi tiết điện thoại từ bảng dienthoai
     const top10DienThoai = await Promise.all(
       result.map(async (item) => {

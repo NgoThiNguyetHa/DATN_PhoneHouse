@@ -71,7 +71,36 @@ router.put("/updateChiTietHoaDon/:id", async (req, res ) => {
 // get chi tiết hóa đơn theo id hóa đơn
 router.get('/getChiTietHoaDonTheoHoaDon/:id', async (req,res) => {
   try {
-    const chiTietHoaDon = await ChiTietHoaDon.find({maHoaDon: req.params.id}).populate("maChiTietDienThoai");
+    const chiTietHoaDon = await ChiTietHoaDon.find({maHoaDon: req.params.id})
+        .populate({
+          path: "maHoaDon",
+          populate: [
+            {
+              path: "maDiaChiNhanHang",
+              model: "diaChiNhanHang",
+              populate: {path: "maKhachHang", model: "khachhang"}
+            },
+            {path: "maKhachHang", model: "khachhang"},
+            {path: "maCuaHang", model: "cuaHang"},
+          ]
+        })
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
     res.json(chiTietHoaDon);
   } catch (error) {
     res.status(500).json({ error: error.message });
