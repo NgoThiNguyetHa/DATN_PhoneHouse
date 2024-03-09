@@ -30,13 +30,15 @@ router.post('/addDiaChiNhanHang', function(req, res, next) {
   })
 });
 
-/* GET loaidichvu listing. */
+/* GET theo khách hàng listing. */
 router.get('/getDiaChiNhanHang/:id', async (req,res) => {
   try {
     //const diaChiNhanHang = await DiaChiNhanHang.find();
-    const serviceTypeId = req.params.id;
-    const service = await DiaChiNhanHang.find({ maKhachHang: serviceTypeId }).populate('maKhachHang', '_id').populate('maKhachHang');
-    res.json(service);
+    const idKhachHang = req.params.id;
+    const diaChi = await DiaChiNhanHang.find({ maKhachHang: idKhachHang })
+        .populate('maKhachHang', '_id')
+        .populate('maKhachHang');
+    res.json(diaChi);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

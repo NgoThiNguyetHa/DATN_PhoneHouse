@@ -14,6 +14,7 @@ const DienThoaiSchema = mongoose.Schema({
     moTaThem:{type : String},
     maHangSX: {type: mongoose.Schema.Types.ObjectId, ref: 'hangSanXuat'},
     hinhAnh:{type:String},
-    maUuDai: {type: mongoose.Schema.Types.ObjectId, ref: 'uudai'}
+    maUuDai: {type: mongoose.Schema.Types.ObjectId, ref: 'uudai'},
+    maCuaHang: {type: mongoose.Schema.Types.ObjectId, ref: 'cuaHang'}
 });
 module.exports = mongoose.model('dienthoai', DienThoaiSchema);
