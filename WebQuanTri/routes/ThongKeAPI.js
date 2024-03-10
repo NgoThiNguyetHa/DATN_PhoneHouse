@@ -5,13 +5,12 @@ const moment = require("moment");
 
 require("../models/HoaDon");
 require("../models/ChiTietHoaDon");
-require("../models/DienThoai");
+require("../models/ChiTietDienThoai");
 require("../models/HangSanXuat");
 
 const HoaDon = mongoose.model("hoaDon");
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
-const DienThoai = mongoose.model("dienthoai");
-const HangSX = mongoose.model("hangSanXuat");
+const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
@@ -23,7 +22,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     const dienThoaiDuocMuaNhieu = await ChiTietHoaDon.aggregate([
       {
         $group: {
-          _id: "$maDienThoai",
+          _id: "$maChiTietDienThoai",
           soLuong: { $sum: "$soLuong" },
         },
       },
@@ -33,37 +32,43 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     ]).exec();
     console.log("31: ", dienThoaiDuocMuaNhieu);
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
-    const dienThoaiDetails = await DienThoai.populate(dienThoaiDuocMuaNhieu, {
+    const TopDienThoai = await ChiTietDienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
-      select: "tenDienThoai giaTien",
+      select: "maDienThoai maMau maDungLuong maRam giaTien",
+      populate: [
+        { path: "maMau", model: "mau"}, // Lấy thông tin từ bảng Mau
+        { path: "maDungLuong", model: "dungluong"}, // Lấy thông tin từ bảng DungLuong
+        { path: "maRam", model: "ram"}, // Lấy thông tin từ bảng Ram
+        { path: "maDienThoai", model: "dienthoai"}, // Tên của model ĐienThoai trong cơ sở dữ liệu
+      ]
     });
 
-    res.status(200).json({ dienThoaiDuocMuaNhieu: dienThoaiDetails });
+    res.status(200).json(TopDienThoai);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
-      .populate("maCuaHang", "_id")
-      .populate("maCuaHang");
-    const dienThoais = [];
-    for (const hang of hangSX) {
-      const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-        .populate("maHangSX", "_id")
-        .populate("maHangSX");
-      if (dienThoai) {
-        dienThoais.push(...dienThoai);
-      }
-    }
-    res.status(200).json({ soLuong: dienThoais.length });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
+//   try {
+//     const idCuaHang = req.params.id;
+//     const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
+//       .populate("maCuaHang", "_id")
+//       .populate("maCuaHang");
+//     const dienThoais = [];
+//     for (const hang of hangSX) {
+//       const dienThoai = await DienThoai.find({ maHangSX: hang._id })
+//         .populate("maHangSX", "_id")
+//         .populate("maHangSX");
+//       if (dienThoai) {
+//         dienThoais.push(...dienThoai);
+//       }
+//     }
+//     res.status(200).json({ soLuong: dienThoais.length });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 router.get(
   "/getSoLuongDonHangTheoTrangThai/:id/:trangThaiNhanHang",
@@ -146,14 +151,14 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
 
     // Lấy thông tin chi tiết điện thoại từ bảng dienthoai
     const top10DienThoai = await Promise.all(
-      result.map(async (item) => {
-        const dienThoaiInfo = await DienThoai.findById(item._id);
-        return {
-          maDienThoai: item._id,
-          tenDienThoai: dienThoaiInfo.tenDienThoai,
-          soLuongMua: item.soLuongMua,
-        };
-      })
+        result.map(async (item) => {
+          const dienThoaiInfo = await DienThoai.findById(item._id);
+          return {
+            maDienThoai: item._id,
+            tenDienThoai: dienThoaiInfo.tenDienThoai,
+            soLuongMua: item.soLuongMua,
+          };
+        })
     );
 
     res.json(top10DienThoai);
@@ -162,6 +167,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 router.get(
   "/top-10-dien-thoai-mua-nhieu/:startDate/:endDate",

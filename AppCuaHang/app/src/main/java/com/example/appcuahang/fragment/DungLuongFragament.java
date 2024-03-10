@@ -135,6 +135,7 @@ public class DungLuongFragament extends Fragment {
         window.setAttributes(windowAttributes);
 
         edDungLuong = view.findViewById(R.id.dl_dungLuong_edTenDungLuong);
+
         Button btnSave = view.findViewById(R.id.dl_dungLuong_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_dungLuong_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
@@ -174,7 +175,7 @@ public class DungLuongFragament extends Fragment {
             }
         });
 
-    }
+   }
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.dialog,menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -251,7 +252,7 @@ public class DungLuongFragament extends Fragment {
             edDungLuong.setError("Phải nhập là số!!");
             return false;
         }
-
+//
 //        if( edGiaTien.getText().toString().isEmpty()){
 //            edGiaTien.setError("Không được để trống!!");
 //            return false;

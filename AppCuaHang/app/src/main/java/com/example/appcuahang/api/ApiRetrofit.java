@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
 
-    private static final String BASE_URL = "http://192.168.1.10:8686/";
+    //private static final String BASE_URL = "http://192.168.1.10:8686/";
 
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-     //private static final String BASE_URL = "http://192.168.0.189:8686/"; //Yen
+     private static final String BASE_URL = "http://192.168.53.231:8686/"; //Yen
 
 
 //     private static final String BASE_URL = "http://192.168.1.103:8686/";//Long
@@ -25,6 +25,10 @@ public class ApiRetrofit {
     private static ApiMauService apiMauService;
     private static ApiRamService apiRamService;
     private static ApiDungLuongService apiDungDuongService;
+
+    private static  ApiClientService apiClientService;
+
+
     public static ApiService getApiService() {
         if (apiService == null) {
             apiService = createApiService();
@@ -67,6 +71,7 @@ public class ApiRetrofit {
                 .create(ApiRamService.class);
     }
 
+    //Dungluong
     public static ApiDungLuongService getApiDungLuongService() {
         if (apiDungDuongService == null) {
             apiDungDuongService = createApiDungLuongService();
@@ -80,5 +85,21 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiDungLuongService.class);
+    }
+
+    //KhachHang
+    public static ApiClientService getApiClientService(){
+        if(apiClientService == null){
+            apiClientService = createApiClientService();
+        }
+        return apiClientService;
+    }
+
+    private static ApiClientService createApiClientService(){
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiClientService.class);
     }
 }

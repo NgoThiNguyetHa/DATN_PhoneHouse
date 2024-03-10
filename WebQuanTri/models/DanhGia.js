@@ -6,6 +6,6 @@ const DanhGiaSchema = mongoose.Schema({
     diemDanhGia:{type: Number},
     ngayTao:{type: String},
     idKhachHang:{type: mongoose.Schema.Types.ObjectId, ref: 'khachhang'},
-    idDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'dienthoai'}
+    idChiTietDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'chitietdienthoai'}
 });
 module.exports = mongoose.model('danhgia', DanhGiaSchema);
