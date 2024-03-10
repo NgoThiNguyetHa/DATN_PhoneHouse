@@ -11,7 +11,6 @@ require("../models/HangSanXuat");
 const HoaDon = mongoose.model("hoaDon");
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
-const HangSX = mongoose.model("hangSanXuat");
 
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
@@ -57,26 +56,26 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
   }
 });
 
-router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
-      .populate("maCuaHang", "_id")
-      .populate("maCuaHang");
-    const dienThoais = [];
-    for (const hang of hangSX) {
-      const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-        .populate("maHangSX", "_id")
-        .populate("maHangSX");
-      if (dienThoai) {
-        dienThoais.push(...dienThoai);
-      }
-    }
-    res.status(200).json({ soLuong: dienThoais.length });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.get("/getSoLuongSanPham-CuaHang/:id", async (req, res) => {
+//   try {
+//     const idCuaHang = req.params.id;
+//     const hangSX = await HangSX.find({ maCuaHang: idCuaHang })
+//       .populate("maCuaHang", "_id")
+//       .populate("maCuaHang");
+//     const dienThoais = [];
+//     for (const hang of hangSX) {
+//       const dienThoai = await DienThoai.find({ maHangSX: hang._id })
+//         .populate("maHangSX", "_id")
+//         .populate("maHangSX");
+//       if (dienThoai) {
+//         dienThoais.push(...dienThoai);
+//       }
+//     }
+//     res.status(200).json({ soLuong: dienThoais.length });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 router.get(
   "/getSoLuongDonHangTheoTrangThai/:id/:trangThaiNhanHang",
@@ -159,14 +158,14 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
 
     // Lấy thông tin chi tiết điện thoại từ bảng dienthoai
     const top10DienThoai = await Promise.all(
-      result.map(async (item) => {
-        const dienThoaiInfo = await DienThoai.findById(item._id);
-        return {
-          maDienThoai: item._id,
-          tenDienThoai: dienThoaiInfo.tenDienThoai,
-          soLuongMua: item.soLuongMua,
-        };
-      })
+        result.map(async (item) => {
+          const dienThoaiInfo = await DienThoai.findById(item._id);
+          return {
+            maDienThoai: item._id,
+            tenDienThoai: dienThoaiInfo.tenDienThoai,
+            soLuongMua: item.soLuongMua,
+          };
+        })
     );
 
     res.json(top10DienThoai);
@@ -175,6 +174,7 @@ router.get("/top10-dien-thoai-theo-ngay/:tuNgay/:denNgay", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 router.get(
   "/top-10-dien-thoai-mua-nhieu/:startDate/:endDate",
