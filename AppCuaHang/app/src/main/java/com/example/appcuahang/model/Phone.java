@@ -1,6 +1,8 @@
 package com.example.appcuahang.model;
 
-public class Phone {
+import java.io.Serializable;
+
+public class Phone implements Serializable {
     private String tenDienThoai;
     private String kichThuoc;
     private String congNgheManHinh;
@@ -15,6 +17,8 @@ public class Phone {
     private String maHangSX;
     private String hinhAnh;
     private String maUuDai;
+
+    private String _id;
 
     public Phone() {
     }
@@ -34,6 +38,10 @@ public class Phone {
         this.maHangSX = maHangSX;
         this.hinhAnh = hinhAnh;
         this.maUuDai = maUuDai;
+    }
+
+    public Phone(String _id) {
+        this._id = _id;
     }
 
     public String getTenDienThoai() {
@@ -60,11 +68,11 @@ public class Phone {
         this.kichThuoc = kichThuoc;
     }
 
-    public String getCPU() {
+    public String getCpu() {
         return cpu;
     }
 
-    public void setCPU(String cpu) {
+    public void setCpu(String cpu) {
         this.cpu = cpu;
     }
 
@@ -146,5 +154,13 @@ public class Phone {
 
     public void setMaUuDai(String maUuDai) {
         this.maUuDai = maUuDai;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

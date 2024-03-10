@@ -1,9 +1,13 @@
 package com.example.appcuahang.api;
 
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.DetailPhone;
+import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.LoginResponse;
+import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Phone;
+import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
@@ -126,4 +130,23 @@ public interface ApiService {
     @PUT("dienthoais/updateDienThoai/{id}")
     Call<Phone> putDienThoai(@Path("id") String id,
                                @Body Phone phone);
+
+    //spinner
+    @GET("rams/getRam")
+    Call<List<Ram>> getRam();
+
+    @GET("maus/getMau")
+    Call<List<Mau>> getMauSpinner();
+
+    @GET("dungluongs/getDungLuong")
+    Call<List<DungLuong>> getDungLuong();
+
+    //thêm chi tiết
+
+    @POST("chitietdienthoais/addChiTiet")
+    Call<DetailPhone> addChiTietDienThoai(@Body DetailPhone detailPhone);
+
+    //lấy chi tiết
+    @GET("chitietdienthoais/getChiTietTheoDienThoai/{maDienThoai}")
+    Call<List<DetailPhone>> getChiTiet(@Path("maDienThoai") String id);
 }

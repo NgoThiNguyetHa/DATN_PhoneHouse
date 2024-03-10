@@ -43,7 +43,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -206,26 +206,80 @@ public class BrandFragment extends Fragment {
 
         tvTitle.setText("Thêm Mới Hãng Sản Xuất");
         btnSave.setText("Thêm Mới");
+//        btnSave.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String tenHang = edTenHang.getText().toString().trim();
+//                String password = mySharedPreferences.getUserId();
+//                ApiService apiService = ApiRetrofit.getApiService();
+//                //====
+//                //upload ảnh lên firebase
+//                if (imageUri != null){
+//                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+//                    final StorageReference imageReference = storageReference.child(url_src);
+//                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                @Override
+//                                public void onSuccess(Uri uri) {
+////                                    String key = reference.push().getKey();
+////                                    reference.child(key).setValue(uri.toString());
+//                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString(), password));
+//                                    call.enqueue(new Callback<Brand>() {
+//                                        @Override
+//                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
+//                                            if (response.isSuccessful()) {
+//                                                Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+//                                                getData();
+//                                                dialog.dismiss();
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onFailure(Call<Brand> call, Throwable t) {
+//                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
+//                                }
+//                            });
+//                        }
+//                    });
+//                }else{
+//                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenHang = edTenHang.getText().toString().trim();
                 String password = mySharedPreferences.getUserId();
                 ApiService apiService = ApiRetrofit.getApiService();
+
                 //====
                 //upload ảnh lên firebase
-                if (imageUri != null){
-                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+                if (imageUri != null) {
+                    String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
                     final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-//                                    String key = reference.push().getKey();
-//                                    reference.child(key).setValue(uri.toString());
-                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString(), password));
+
+                    // Upload the image
+                    imageReference.putFile(imageUri)
+                            .continueWithTask(task -> {
+                                if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
+
+                                // Return the download URL directly
+                                return imageReference.getDownloadUrl();
+                            })
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+
+                                    // Use the download URL to make your API call
+                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, downloadUri.toString(), password));
                                     call.enqueue(new Callback<Brand>() {
                                         @Override
                                         public void onResponse(Call<Brand> call, Response<Brand> response) {
@@ -241,17 +295,16 @@ public class BrandFragment extends Fragment {
                                             Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
+                                } else {
+                                    // Handle the error
+                                    Toast.makeText(getContext(), "Error uploading image", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }
-                    });
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
         imgViewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -33,6 +33,20 @@ router.get('/getChiTiet', async (req,res) => {
     res.status(500).json({ error: error.message });
   }
 })
+//get chi tiet theo dien thoai
+router.get('/getChiTietTheoDienThoai/:maDienThoai', async (req,res) => {
+  try {
+    const maDienThoai = req.params.maDienThoai;
+    const chitiet = await ChiTietDienThoai.find({ maDienThoai })
+    .populate("maDienThoai")
+    .populate("maMau")
+    .populate("maDungLuong")
+    .populate("maRam");
+    res.json(chitiet);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 
 router.delete('/deleteChiTiet/:id', async (req,res) => {
   try{
