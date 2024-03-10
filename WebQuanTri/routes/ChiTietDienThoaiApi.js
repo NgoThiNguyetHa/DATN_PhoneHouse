@@ -34,7 +34,7 @@ router.get('/getChiTiet', async (req, res) => {
     .populate("maDungLuong")
     .populate({
       path: 'maDienThoai',
-      populate: { path: 'maUuDai maHangSX' } // Liên kết với bảng 'hangSX'
+      populate: { path: 'maUuDai maHangSX maCuaHang' }, // Liên kết với bảng 'hangSX'
     });
     res.json(chiTiet);
   } catch (error) {

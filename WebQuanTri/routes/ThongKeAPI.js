@@ -44,7 +44,8 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
           model: "dienthoai",
           populate: [
             {path: "maHangSX", model: "hangSanXuat"}, // Populate manufacturer (HangSX)
-            {path: "maUuDai", model: "uudai"}, // Populate promotion (UuDai)
+            {path: "maUuDai", model: "uudai"},
+            {path: "maCuaHang", model: "cuaHang"} // Populate promotion (UuDai)
           ],
         }, // Tên của model ĐienThoai trong cơ sở dữ liệu, // Tên của model ĐienThoai trong cơ sở dữ liệu
       ]
