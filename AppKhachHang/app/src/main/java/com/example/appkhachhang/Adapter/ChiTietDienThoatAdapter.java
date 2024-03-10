@@ -56,8 +56,8 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailScreen.class);
-                intent.putExtra("soLuong", chiTietDienThoai.getSoLuong());
-                intent.putExtra("giaTien", chiTietDienThoai.getGiaTien());
+                intent.putExtra("soLuong", chiTietDienThoai.getSoLuong().toString());
+                intent.putExtra("giaTien", chiTietDienThoai.getGiaTien().toString());
                 intent.putExtra("tenDienThoai", chiTietDienThoai.getMaDienThoai().getTenDienThoai());
                 intent.putExtra("kichThuoc", chiTietDienThoai.getMaDienThoai().getKichThuoc());
                 intent.putExtra("congNgheManHinh", chiTietDienThoai.getMaDienThoai().getCongNgheManHinh());
@@ -72,6 +72,9 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
                 intent.putExtra("hinhAnh", chiTietDienThoai.getMaDienThoai().getHinhAnh());
                 intent.putExtra("hangSanXuat", chiTietDienThoai.getMaDienThoai().getMaHangSX().getTenHang());
                 intent.putExtra("uuDai", chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia());
+                intent.putExtra("mau", chiTietDienThoai.getMaMau().getTenMau());
+                intent.putExtra("ram", chiTietDienThoai.getMaRam().getRAM());
+                intent.putExtra("dungLuong", chiTietDienThoai.getMaDungLuong().getBoNho());
                 context.startActivity(intent);
             }
         });

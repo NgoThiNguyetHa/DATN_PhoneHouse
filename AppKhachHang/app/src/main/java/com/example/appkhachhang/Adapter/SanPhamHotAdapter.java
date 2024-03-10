@@ -31,7 +31,6 @@ import retrofit2.Response;
 public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.ViewHolder> {
     private Context context;
     private List<SanPhamHot> list;
-    private SanPham sanPham;
     private final OnItemClickListenerSanPhamHot onItemClickListenerSanPhamHot;
 
     public SanPhamHotAdapter(Context context, List<SanPhamHot> list, OnItemClickListenerSanPhamHot onItemClickListenerSanPhamHot) {
@@ -60,6 +59,26 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailScreen.class);
+                intent.putExtra("soLuongBanRa", sanPhamHot.getSoLuong().toString());
+                intent.putExtra("soLuong", sanPhamHot.get_id().getSoLuong().toString());
+                intent.putExtra("giaTien", sanPhamHot.get_id().getGiaTien().toString());
+                intent.putExtra("tenDienThoai", sanPhamHot.get_id().getMaDienThoai().getTenDienThoai());
+                intent.putExtra("kichThuoc", sanPhamHot.get_id().getMaDienThoai().getKichThuoc());
+                intent.putExtra("congNgheManHinh", sanPhamHot.get_id().getMaDienThoai().getCongNgheManHinh());
+                intent.putExtra("camera", sanPhamHot.get_id().getMaDienThoai().getCamera());
+                intent.putExtra("cpu", sanPhamHot.get_id().getMaDienThoai().getCpu());
+                intent.putExtra("pin", sanPhamHot.get_id().getMaDienThoai().getPin());
+                intent.putExtra("heDieuHanh", sanPhamHot.get_id().getMaDienThoai().getHeDieuHanh());
+                intent.putExtra("doPhanGiai", sanPhamHot.get_id().getMaDienThoai().getDoPhanGiai());
+                intent.putExtra("namSanXuat", sanPhamHot.get_id().getMaDienThoai().getNamSanXuat());
+                intent.putExtra("thoiGianBaoHanh", sanPhamHot.get_id().getMaDienThoai().getThoiGianBaoHanh());
+                intent.putExtra("moTaThem", sanPhamHot.get_id().getMaDienThoai().getMoTaThem());
+                intent.putExtra("hinhAnh", sanPhamHot.get_id().getMaDienThoai().getHinhAnh());
+                intent.putExtra("hangSanXuat", sanPhamHot.get_id().getMaDienThoai().getMaHangSX().getTenHang());
+                intent.putExtra("uuDai", sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia());
+                intent.putExtra("mau", sanPhamHot.get_id().getMaMau().getTenMau());
+                intent.putExtra("ram", sanPhamHot.get_id().getMaRam().getRAM());
+                intent.putExtra("dungLuong", sanPhamHot.get_id().getMaDungLuong().getBoNho());
                 context.startActivity(intent);
             }
         });
