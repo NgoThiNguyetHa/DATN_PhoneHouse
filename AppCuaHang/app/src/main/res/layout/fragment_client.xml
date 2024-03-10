@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.DungLuongFragament">
+    tools:context=".fragment.ClientFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,14 +12,14 @@
         android:layout_margin="10dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_dungLuong"
+            android:id="@+id/cv_client"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             app:cardCornerRadius="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dungLuong_edSearch"
+                android:id="@+id/client_edSearch"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -29,10 +29,10 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_dungLuong"
+            android:id="@+id/rc_client"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/cv_dungLuong"
+            android:layout_below="@id/cv_client"
             android:layout_marginTop="10dp"/>
     </RelativeLayout>
 
