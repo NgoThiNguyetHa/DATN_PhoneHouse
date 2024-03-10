@@ -13,8 +13,7 @@
         <ImageView
             android:id="@+id/img_SanPham"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:scaleType="centerCrop"/>
+            android:layout_height="130dp"/>
         <TextView
             android:id="@+id/tv_tenSanPham"
             android:layout_width="wrap_content"
