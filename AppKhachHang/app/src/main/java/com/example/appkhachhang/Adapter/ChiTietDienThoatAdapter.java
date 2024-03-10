@@ -56,6 +56,22 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailScreen.class);
+                intent.putExtra("soLuong", chiTietDienThoai.getSoLuong());
+                intent.putExtra("giaTien", chiTietDienThoai.getGiaTien());
+                intent.putExtra("tenDienThoai", chiTietDienThoai.getMaDienThoai().getTenDienThoai());
+                intent.putExtra("kichThuoc", chiTietDienThoai.getMaDienThoai().getKichThuoc());
+                intent.putExtra("congNgheManHinh", chiTietDienThoai.getMaDienThoai().getCongNgheManHinh());
+                intent.putExtra("camera", chiTietDienThoai.getMaDienThoai().getCamera());
+                intent.putExtra("cpu", chiTietDienThoai.getMaDienThoai().getCpu());
+                intent.putExtra("pin", chiTietDienThoai.getMaDienThoai().getPin());
+                intent.putExtra("heDieuHanh", chiTietDienThoai.getMaDienThoai().getHeDieuHanh());
+                intent.putExtra("doPhanGiai", chiTietDienThoai.getMaDienThoai().getDoPhanGiai());
+                intent.putExtra("namSanXuat", chiTietDienThoai.getMaDienThoai().getNamSanXuat());
+                intent.putExtra("thoiGianBaoHanh", chiTietDienThoai.getMaDienThoai().getThoiGianBaoHanh());
+                intent.putExtra("moTaThem", chiTietDienThoai.getMaDienThoai().getMoTaThem());
+                intent.putExtra("hinhAnh", chiTietDienThoai.getMaDienThoai().getHinhAnh());
+                intent.putExtra("hangSanXuat", chiTietDienThoai.getMaDienThoai().getMaHangSX().getTenHang());
+                intent.putExtra("uuDai", chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia());
                 context.startActivity(intent);
             }
         });

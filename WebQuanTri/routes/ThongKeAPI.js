@@ -40,7 +40,14 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
         { path: "maMau", model: "mau"}, // Lấy thông tin từ bảng Mau
         { path: "maDungLuong", model: "dungluong"}, // Lấy thông tin từ bảng DungLuong
         { path: "maRam", model: "ram"}, // Lấy thông tin từ bảng Ram
-        { path: "maDienThoai", model: "dienthoai"}, // Tên của model ĐienThoai trong cơ sở dữ liệu
+        {
+          path: "maDienThoai",
+          model: "dienthoai",
+          populate: [
+            {path: "maHangSX", model: "hangSanXuat", populate:[{path: "maCuaHang", model: "cuaHang"}]}, // Populate manufacturer (HangSX)
+            {path: "maUuDai", model: "uudai"}, // Populate promotion (UuDai)
+          ],
+        }, // Tên của model ĐienThoai trong cơ sở dữ liệu, // Tên của model ĐienThoai trong cơ sở dữ liệu
       ]
     });
 

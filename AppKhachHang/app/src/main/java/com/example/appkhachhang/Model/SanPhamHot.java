@@ -1,17 +1,17 @@
 package com.example.appkhachhang.Model;
 
 public class SanPhamHot {
-    SanPham _id;
+    ChiTietDienThoai _id;
     Number soLuong;
 
     public SanPhamHot() {
     }
 
-    public SanPham get_id() {
+    public ChiTietDienThoai get_id() {
         return _id;
     }
 
-    public void set_id(SanPham _id) {
+    public void set_id(ChiTietDienThoai _id) {
         this._id = _id;
     }
 
