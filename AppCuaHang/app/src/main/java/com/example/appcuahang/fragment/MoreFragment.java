@@ -25,7 +25,7 @@ import com.example.appcuahang.R;
 public class MoreFragment extends Fragment {
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai;
+    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai, cv_client;
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
 
@@ -58,6 +58,8 @@ public class MoreFragment extends Fragment {
         cv_loaiRam = view.findViewById(R.id.cv_loaiRam);
         cv_mau = view.findViewById(R.id.cv_mau);
         cv_dienThoai = view.findViewById(R.id.cv_dienThoai);
+        cv_client = view.findViewById(R.id.cv_client);
+
     }
 
     private void action() {
@@ -108,6 +110,12 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                replaceFragment(new PhoneFragment());
+            }
+        });
+        cv_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new ClientFragment());
             }
         });
     }
