@@ -37,6 +37,16 @@ router.post('/addDienThoai', function (req, res, next) {
   })
 });
 
+router.get("/getDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await DienThoai.findById(req.params.id, req.body, {new: true})
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+})
+
+
 router.get('/getDienThoai', async (req, res) => {
   try {
     const dienThoai = await DienThoai.find()
