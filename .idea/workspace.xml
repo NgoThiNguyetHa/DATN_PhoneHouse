@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="API getKhachHangTheoCuaHang">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="sửa API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +67,9 @@
       <updated>1706494859837</updated>
       <workItem from="1709819596307" duration="5469000" />
       <workItem from="1709888416130" duration="3328000" />
+      <workItem from="1710000728171" duration="2525000" />
+      <workItem from="1710048690407" duration="6204000" />
+      <workItem from="1710086286488" duration="953000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -83,7 +87,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709823116388</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="sửa API">
+      <option name="closed" value="true" />
+      <created>1709984346023</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709984346023</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +106,7 @@
     <MESSAGE value="navigation web" />
     <MESSAGE value="pull from dev" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
-    <option name="LAST_COMMIT_MESSAGE" value="API getKhachHangTheoCuaHang" />
+    <MESSAGE value="sửa API" />
+    <option name="LAST_COMMIT_MESSAGE" value="sửa API" />
   </component>
 </project>
