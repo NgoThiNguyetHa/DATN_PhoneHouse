@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="API getKhachHangTheoCuaHang">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="sửa API đăng ký khách hàng" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +12,13 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -48,7 +53,7 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/yenyen/Desktop/DATN_PhoneHouse&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -56,6 +61,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\routes" />
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\views" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,6 +77,11 @@
       <updated>1706494859837</updated>
       <workItem from="1709819596307" duration="5469000" />
       <workItem from="1709888416130" duration="3328000" />
+      <workItem from="1710000728171" duration="2525000" />
+      <workItem from="1710048690407" duration="6204000" />
+      <workItem from="1710086286488" duration="953000" />
+      <workItem from="1710230018509" duration="949000" />
+      <workItem from="1710251162032" duration="6186000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -83,7 +99,23 @@
       <option name="project" value="LOCAL" />
       <updated>1709823116388</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="sửa API">
+      <option name="closed" value="true" />
+      <created>1709984346023</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709984346023</updated>
+    </task>
+    <task id="LOCAL-00004" summary="sửa API đăng ký khách hàng">
+      <option name="closed" value="true" />
+      <created>1710230377296</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710230377296</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +126,8 @@
     <MESSAGE value="navigation web" />
     <MESSAGE value="pull from dev" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
-    <option name="LAST_COMMIT_MESSAGE" value="API getKhachHangTheoCuaHang" />
+    <MESSAGE value="sửa API" />
+    <MESSAGE value="sửa API đăng ký khách hàng" />
+    <option name="LAST_COMMIT_MESSAGE" value="sửa API đăng ký khách hàng" />
   </component>
 </project>
