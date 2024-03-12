@@ -141,25 +141,25 @@
                     Cửa hàng
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyDienThoaiW')">
                         <i class="fa-solid fa-mobile-screen-button"></i>
                         Quản Lý Điện Thoai
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyHangSanXuatW')">
                         <i class="fa-brands fa-bandcamp"></i>
                         Hãng Sản Xuất
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyUuDaiW')">
                         <i class="fa-solid fa-ticket"></i>
                         Quản Lý Ưu Đãi
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyDonHangW')">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                         Quản Lý Đơn Hàng
                     </a>
@@ -170,7 +170,7 @@
                         Thông Số Chi Tiết
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item" onclick="loadPage('thongKeW')">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-chart-line"></i>
                         Thống Kê
@@ -182,7 +182,7 @@
                     Hệ thống
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('cuaHangLienKetW')">
                         <i class="fa-solid fa-store"></i>
                         Cửa Hàng Liên Kết
                     </a>
@@ -216,13 +216,16 @@
                     Tài khoản
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link" onclick="loadPage('doiMatKhauW')">
                         <i class="fa-solid fa-lock"></i>
                         Đổi Mật Khẩu
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a
+                            onclick="handleLogout(event)"
+                            href="#"
+                            class="sidebar-link" >
                         <i class="fa-solid fa-right-to-bracket"></i>
                         Đăng Xuất
                     </a>
@@ -239,17 +242,21 @@
             </button>
         </nav>
         <main class="content px-3 py-2">
-            <div class="container-fluid">
-                <div id="quan-ly-dien-thoai" class="mb-3 main-content">
-                    <h3>Quản Lý Điện Thoại</h3>
-                    <!-- Nội dung của trang Quản Lý Điện Thoại -->
-                </div>
-                <div id="hang-san-xuat" class="mb-3 main-content" style="display: none;">
-                    <h3>Hãng Sản Xuất</h3>
-                    <!-- Nội dung của trang Hãng Sản Xuất -->
-                </div>
-                <!-- Thêm các phần tử khác tương tự cho các trang khác -->
+            <div class="content" id="mainContent">
+                <!-- Phần nội dung chính của trang sẽ được thêm ở đây -->
+
             </div>
+<!--            <div class="container-fluid">-->
+<!--                <div id="quan-ly-dien-thoai" class="mb-3 main-content">-->
+<!--                    <h3>Quản Lý Điện Thoại</h3>-->
+<!--                    &lt;!&ndash; Nội dung của trang Quản Lý Điện Thoại &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div id="hang-san-xuat" class="mb-3 main-content" style="display: none;">-->
+<!--                    <h3>Hãng Sản Xuất</h3>-->
+<!--                    &lt;!&ndash; Nội dung của trang Hãng Sản Xuất &ndash;&gt;-->
+<!--                </div>-->
+                <!-- Thêm các phần tử khác tương tự cho các trang khác -->
+<!--            </div>-->
         </main>
     </div>
 </div>
@@ -260,25 +267,46 @@
   });
 
   // Lấy tất cả các liên kết trong sidebar
-  const sidebarLinks = document.querySelectorAll(".sidebar-link");
-  sidebarLinks.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      // Ngăn chặn hành vi mặc định của liên kết
-      event.preventDefault();
+  // const sidebarLinks = document.querySelectorAll(".sidebar-link");
+  // sidebarLinks.forEach(function (link) {
+  //   link.addEventListener("click", function (event) {
+  //     // Ngăn chặn hành vi mặc định của liên kết
+  //     event.preventDefault();
+  //
+  //     // Lấy href của liên kết được nhấp
+  //     const href = link.getAttribute("href").replace("#", "");
+  //
+  //     // Ẩn tất cả các phần tử trong Main Component
+  //     const mainContents = document.querySelectorAll(".main-content");
+  //     mainContents.forEach(function (content) {
+  //       content.style.display = "none";
+  //     });
+  //
+  //     // Hiển thị phần tử tương ứng với trang được chọn
+  //     document.getElementById(href).style.display = "block";
+  //   });
+  // });
 
-      // Lấy href của liên kết được nhấp
-      const href = link.getAttribute("href").replace("#", "");
+  function loadPage(page) {
+    fetch('http://localhost:8686/' + page)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('mainContent').innerHTML = html;
+        })
+        .catch(error => console.error('Error:', error));
+  }
 
-      // Ẩn tất cả các phần tử trong Main Component
-      const mainContents = document.querySelectorAll(".main-content");
-      mainContents.forEach(function (content) {
-        content.style.display = "none";
-      });
+  function handleLogout(event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a (chuyển đến trang khác)
 
-      // Hiển thị phần tử tương ứng với trang được chọn
-      document.getElementById(href).style.display = "block";
-    });
-  });
+    const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất?");
+
+    // Xử lý khi người dùng xác nhận đăng xuất
+    if (confirmLogout) {
+      // Thực hiện đăng xuất (chuyển hướng hoặc gọi API đăng xuất)
+      window.location.href = "http://localhost:8686/dangNhapW";
+    }
+  }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
