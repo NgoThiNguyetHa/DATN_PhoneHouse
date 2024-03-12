@@ -1,7 +1,7 @@
 package com.example.appkhachhang.Api;
 
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
-import com.example.appkhachhang.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,16 +12,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-public interface HangSanXuat_API {
+public interface ChiTietSanPham_API {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 
-    HangSanXuat_API hangSXApi = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8686/hangsanxuats/")
+    ChiTietSanPham_API chiTietSanPhamApi = new Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:8686/chitietdienthoais/")
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .build().create(HangSanXuat_API.class);
+            .build().create(ChiTietSanPham_API.class);
 
-    @GET("getHangSanXuat")
-    Call<List<HangSanXuat>> getHangSanXuat();
-
+    @GET("getChiTiet")
+    Call<List<ChiTietDienThoai>> getChiTiet();
 }
