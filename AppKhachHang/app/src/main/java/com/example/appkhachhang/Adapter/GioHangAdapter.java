@@ -37,12 +37,11 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull GioHangAdapter.ViewHolder holder, int position) {
-        ChiTietGioHang item = list.get(position);
-        SanPham sanPham = item.getMaDienThoai();
-        holder.tvTenSanPham.setText("Tên sản phẩm: "+sanPham.getTenDienThoai());
-        holder.tvSoLuong.setText("Số lượng: "+item.getSoLuong());
-        holder.tvGiaTien.setText("Giá tiền: "+sanPham.getGiaTien());
-
+//        ChiTietGioHang item = list.get(position);
+//        SanPham sanPham = item.getMaDienThoai();
+//        holder.tvTenSanPham.setText("Tên sản phẩm: "+sanPham.getTenDienThoai());
+//        holder.tvSoLuong.setText("Số lượng: "+item.getSoLuong());
+//        holder.tvGiaTien.setText("Giá tiền: "+sanPham.getGiaTien());
     }
 
     @Override
