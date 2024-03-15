@@ -27,6 +27,7 @@ public class ApiRetrofit {
     private static ApiDungLuongService apiDungDuongService;
 
     private static  ApiClientService apiClientService;
+    private static ApiUuDaiService apiUuDaiService;
 
 
     public static ApiService getApiService() {
@@ -101,5 +102,21 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiClientService.class);
+    }
+    //Uu dai
+    public static ApiUuDaiService getApiUuDaiService(){
+        if(apiUuDaiService == null){
+            apiUuDaiService = createApiUuDaiService();
+        }
+        return apiUuDaiService;
+    }
+
+    public static ApiUuDaiService createApiUuDaiService(){
+        return (ApiUuDaiService) new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiUuDaiService.class);
+
     }
 }

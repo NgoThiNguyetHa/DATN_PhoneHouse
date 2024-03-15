@@ -15,12 +15,13 @@ router.post('/addUuDai', function(req, res, next) {
     thoiGian: req.body.thoiGian,
     trangThai: req.body.trangThai,
   })
+  console.log("uudd",req.body.giamGia)
   uudai.save()
   .then(data => {
     console.log(data)
     res.send(data)
   }).catch(err => {
-    console.log
+    console.log(err)
   })
 });
 
@@ -60,6 +61,7 @@ router.put("/updateUuDai/:id", async (req, res ) => {
 
     }
   }catch(err){
+    console.log(err);
     return res.status(500).json({message: err.message})
   }
 })
