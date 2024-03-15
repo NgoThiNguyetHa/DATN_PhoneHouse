@@ -26,6 +26,14 @@ var thongKe = require('./routes/ThongKeAPI')
 
 // screen
 var dangNhapScreen = require('./routes/Screen_DangNhap')
+var quanLyDienThoaiScreen = require('./routes/Screen_QuanLyDienThoai')
+var cuaHangLienKetScreen = require('./routes/Screen_CuaHangLienKet')
+var doiMatKhauScreen = require('./routes/Screen_DoiMatKhau')
+var quanLyDonHangScreen = require('./routes/Screen_QuanLyDonHang')
+var quanLyHangSXScreen = require('./routes/Screen_QuanLyHangSX')
+var quanLyUuDaiScreen = require('./routes/Screen_QuanLyUuDai')
+var thongKeScreen = require('./routes/Screen_ThongKe')
+
 
 const mongoose = require('mongoose');
 const { error } = require('console');
@@ -64,6 +72,13 @@ app.use('/thongke',thongKe)
 
 //screen
 app.use('/dangNhapW', dangNhapScreen)
+app.use('/quanLyDienThoaiW', quanLyDienThoaiScreen)
+app.use('/quanLyDonHangW', quanLyDonHangScreen)
+app.use('/cuaHangLienKetW', cuaHangLienKetScreen)
+app.use('/doiMatKhauW', doiMatKhauScreen)
+app.use('/quanLyHangSanXuatW', quanLyHangSXScreen)
+app.use('/thongKeW', thongKeScreen)
+app.use('/quanLyUuDaiW', quanLyUuDaiScreen)
 
 // parse application/json
 app.use(bodyParser.json())
