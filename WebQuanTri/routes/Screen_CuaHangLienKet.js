@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // const CuaHang = mongoose.model("cuaHang");
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('cuaHangLienKet', { title: 'Express' });
+  res.render('cuaHangLienKet', { title: 'Cửa hàng liên kết' });
 });
 
 module.exports = router;

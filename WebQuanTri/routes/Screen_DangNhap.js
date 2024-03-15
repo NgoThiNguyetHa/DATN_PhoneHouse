@@ -47,7 +47,8 @@ router.post('/', async (req, res, next) => {
     // return res.status(200).json({ successMessage: 'Đăng nhập thành công.', cuaHang });
     return res.render('index', {
       title: "Đăng nhập",
-      successMessage: 'Đăng nhập thành công.'
+      successMessage: 'Đăng nhập thành công.',
+      account: cuaHang
     })
   } catch (error) {
     console.error(error);

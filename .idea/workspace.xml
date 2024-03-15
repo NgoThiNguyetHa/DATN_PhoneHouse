@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="sửa API đăng ký khách hàng" />
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="sửa API đăng ký khách hàng">
+      <change afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyThongSoChiTiet.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyThongSoChiTiet.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_CuaHangLienKet.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_CuaHangLienKet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_DangNhap.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_DangNhap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/dangNhap.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/dangNhap.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/index.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,18 +69,19 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/views&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.5\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\routes" />
       <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\views" />
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\routes" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -82,6 +99,11 @@
       <workItem from="1710086286488" duration="953000" />
       <workItem from="1710230018509" duration="949000" />
       <workItem from="1710251162032" duration="6186000" />
+      <workItem from="1710274892715" duration="597000" />
+      <workItem from="1710330590812" duration="11482000" />
+      <workItem from="1710396120016" duration="9284000" />
+      <workItem from="1710426312056" duration="3255000" />
+      <workItem from="1710514257872" duration="4041000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />

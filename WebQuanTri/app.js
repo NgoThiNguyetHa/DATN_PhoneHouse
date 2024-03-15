@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
+const cron = require('node-cron');
+const axios = require('axios');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -33,6 +35,7 @@ var quanLyDonHangScreen = require('./routes/Screen_QuanLyDonHang')
 var quanLyHangSXScreen = require('./routes/Screen_QuanLyHangSX')
 var quanLyUuDaiScreen = require('./routes/Screen_QuanLyUuDai')
 var thongKeScreen = require('./routes/Screen_ThongKe')
+var quanLyThongSoScreen = require('./routes/Screen_QuanLyThongSoChiTiet')
 
 
 const mongoose = require('mongoose');
@@ -79,6 +82,7 @@ app.use('/doiMatKhauW', doiMatKhauScreen)
 app.use('/quanLyHangSanXuatW', quanLyHangSXScreen)
 app.use('/thongKeW', thongKeScreen)
 app.use('/quanLyUuDaiW', quanLyUuDaiScreen)
+app.use('/quanLyThongSoW', quanLyThongSoScreen)
 
 // parse application/json
 app.use(bodyParser.json())
@@ -94,6 +98,15 @@ mongoose.connect(mongoURL)
   console.log("Error connecting to database")
 });
 
+// Lập lịch chạy hằng ngày vào lúc 00:01 để cập nhật trạng thái của voucher
+cron.schedule('0 0 * * *', async () => {
+  try {
+    // Gọi API cập nhật trạng thái voucher
+    const response = await axios.put('http://localhost:8686/uudais/updateExpiredStatus');
+
+  } catch (error) {
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
