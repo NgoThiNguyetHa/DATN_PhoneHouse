@@ -13,8 +13,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiUuDaiService {
-    @GET ("uudais/getUuDai")
-    Call<List<UuDai>> getUuDai();
+    @GET ("uudais/getUuDai/{id}")
+    Call<List<UuDai>> getUuDai(@Path("id") String id);
 
     @POST ("uudais/addUuDai")
     Call<UuDai> postUuDai(@Body UuDai uuDai);

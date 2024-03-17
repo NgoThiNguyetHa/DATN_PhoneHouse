@@ -8,10 +8,13 @@ public class UuDai {
     public String thoiGian;
     public String trangThai;
 
-    public UuDai( String giamGia, String thoiGian, String trangThai) {
+    public Store maCuaHang;
+
+    public UuDai(String giamGia, String thoiGian, String trangThai, Store maCuaHang) {
         this.giamGia = giamGia;
         this.thoiGian = thoiGian;
         this.trangThai = trangThai;
+        this.maCuaHang = maCuaHang;
     }
 
     public String get_id() {
@@ -44,5 +47,13 @@ public class UuDai {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    public Store getMaCuaHang() {
+        return maCuaHang;
+    }
+
+    public void setMaCuaHang(Store maCuaHang) {
+        this.maCuaHang = maCuaHang;
     }
 }

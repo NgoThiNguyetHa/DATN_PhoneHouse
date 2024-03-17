@@ -9,21 +9,24 @@ const UuDai = mongoose.model("uudai")
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/addUuDai', function (req, res, next) {
-  const uudai = new UuDai({
-    giamGia: req.body.giamGia,
-    thoiGian: req.body.thoiGian,
-    trangThai: req.body.trangThai,
-    maCuaHang: req.body.maCuaHang,
-  })
+router.post('/addUuDai',async function (req, res, next) {
+  try {
+    const uudai = new UuDai({
+      giamGia: req.body.giamGia,
+      thoiGian: req.body.thoiGian,
+      trangThai: req.body.trangThai,
+      maCuaHang: req.body.maCuaHang,
+    });
 
-  uudai.save()
-      .then(data => {
-        console.log(data)
-        res.send(data)
-      }).catch(err => {
-    console.log(err)
-  })
+    const savedUuDai = await uudai.save(); // Lưu đối tượng
+    const populatedUuDai = await UuDai.findById(savedUuDai._id).populate("maCuaHang");
+
+    console.log(populatedUuDai);
+    res.send(populatedUuDai);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
+  }
 });
 // lay uu dai theo cua hang
 router.get('/getUuDai/:id', async (req, res) => {
