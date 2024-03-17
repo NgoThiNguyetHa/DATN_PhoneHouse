@@ -92,16 +92,25 @@
         android:id="@+id/checkboxdk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accept term and conditions"
-        android:layout_marginLeft="30dp"/>
+        android:text="Chấp nhận điều khoản và điều kiện"
+        android:layout_marginLeft="30dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
 
     <TextView
         android:id="@+id/tvSignindk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account ? Sign in"
+        android:text="Bạn đã có tài khoản ? Đăng nhập"
         android:layout_marginLeft="30dp"/>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
     <Button
         android:id="@+id/btnDangky"
         android:layout_width="wrap_content"

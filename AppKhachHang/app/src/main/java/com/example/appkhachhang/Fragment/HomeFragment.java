@@ -1,6 +1,4 @@
 package com.example.appkhachhang.Fragment;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,14 +23,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
-import com.example.appkhachhang.Adapter.SanPhamAdapter;
+import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
 import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
+import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.SanPham_API;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.Model.ChiTietDienThoai;
+import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.Model.SanPhamHot;
@@ -47,15 +48,14 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnItemClickListenerSanPham, OnItemClickListenerSanPhamHot, OnItemClickListenerHang {
     RecyclerView recyclerViewSP, recyclerViewSPHot, recyclerViewHang;
-    SanPhamAdapter sanPhamAdapter;
+    ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
-    List<SanPham> list;
+    List<ChiTietDienThoai> list;
     List<SanPhamHot> listSPHot;
     List<HangSanXuat> listHang;
     Toolbar toolbar;
     AppCompatActivity activity;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,13 +70,13 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
-        toolbar = view.findViewById(R.id.main_toolBar);
-        activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            activity.getSupportActionBar().setTitle("Home");
-        }
+//        toolbar = view.findViewById(R.id.main_toolBar);
+//        activity = (AppCompatActivity) getActivity();
+//        if (activity != null) {
+//            activity.setSupportActionBar(toolbar);
+//            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            activity.getSupportActionBar().setTitle("Home");
+//        }
         sanPham();
         sanPhamHot();
         hangSanXuat();
@@ -89,8 +89,8 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSP.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         getListSanPham();
-        sanPhamAdapter = new SanPhamAdapter(getContext(), list, this);
-        recyclerViewSP.setAdapter(sanPhamAdapter);
+        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, this);
+        recyclerViewSP.setAdapter(chiTietDienThoatAdapter);
     }
 
     void sanPhamHot(){
@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
         listSPHot = new ArrayList<>();
         sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot, this);
-        recyclerViewSPHot.setAdapter(sanPhamAdapter);
+        recyclerViewSPHot.setAdapter(sanPhamHotAdapter);
         getSanPhamHot();
     }
 
@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
             public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
                 listSPHot.clear();
                 listSPHot.addAll(response.body());
-                sanPhamAdapter.notifyDataSetChanged();
+                sanPhamHotAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -149,15 +149,17 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
 
 
     void getListSanPham(){
-        SanPham_API.sanPhamApi.getAllSanPham().enqueue(new Callback<List<SanPham>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
             @Override
-            public void onResponse(Call<List<SanPham>> call, Response<List<SanPham>> response) {
+            public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
                 list.clear();
                 list.addAll(response.body());
-                sanPhamAdapter.notifyDataSetChanged();
+                chiTietDienThoatAdapter.notifyDataSetChanged();
             }
 
             @Override
+            public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
+                Log.e("errorrr", "onFailure: " + t.getMessage() );
             public void onFailure(Call<List<SanPham>> call, Throwable t) {
 //                Toast.makeText(getActivity(), "Call API error: "  , Toast.LENGTH_SHORT).show();
                 Log.e("error", "err " + t.getMessage());
@@ -182,7 +184,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-            Toast.makeText(activity, "Gio hang", Toast.LENGTH_SHORT).show();
+            replaceFragment(new CartFragment());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -200,5 +202,12 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     @Override
     public void onItemClickSPHot(int position) {
 
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout,fragment);
+        transaction.commit();
     }
 }

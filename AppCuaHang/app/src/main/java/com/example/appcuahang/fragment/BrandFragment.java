@@ -2,23 +2,15 @@ package com.example.appcuahang.fragment;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -44,11 +36,9 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
@@ -56,9 +46,7 @@ import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.untils.MySharedPreferences;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,7 +60,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,7 +107,6 @@ public class BrandFragment extends Fragment {
 
     private void initVariable(){
         list = new ArrayList<>();
-        listBackUp = new ArrayList<>();
         FirebaseApp.initializeApp(getContext());
 
         manager = new GridLayoutManager(getContext(), 2);

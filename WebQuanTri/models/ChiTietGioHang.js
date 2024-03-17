@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const ChiTietGioHangSchema = mongoose.Schema({
-    soLuong:{type: String},
-    giaTien:{type: String},
-    maDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'dienthoai'},
+    soLuong:{type: Number},
+    giaTien:{type: Number},
+    maChiTietDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'chitietdienthoai'},
     maGioHang:{type: mongoose.Schema.Types.ObjectId, ref: 'gioHang'}
     
 });

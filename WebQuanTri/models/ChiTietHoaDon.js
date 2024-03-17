@@ -4,6 +4,6 @@ const ChiTietHoaDonSchema = mongoose.Schema({
     soLuong:{type: Number},
     giaTien:{type: String},
     maHoaDon:{type: mongoose.Schema.Types.ObjectId, ref: 'hoaDon'},
-    maDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'dienthoai'}
+    maChiTietDienThoai:{type: mongoose.Schema.Types.ObjectId, ref: 'chitietdienthoai'}
 });
 module.exports = mongoose.model('chiTietHoaDon', ChiTietHoaDonSchema);
