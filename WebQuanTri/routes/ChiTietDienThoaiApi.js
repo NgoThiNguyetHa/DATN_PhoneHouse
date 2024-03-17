@@ -29,13 +29,16 @@ router.post('/addChiTiet', function (req, res, next) {
 router.get('/getChiTiet', async (req, res) => {
   try {
     const chiTiet = await ChiTietDienThoai.find()
-    .populate("maMau")
-    .populate("maRam")
-    .populate("maDungLuong")
-    .populate({
-      path: 'maDienThoai',
-      populate: { path: 'maUuDai maHangSX maCuaHang' }, // Liên kết với bảng 'hangSX'
-    });
+        .populate("maMau")
+        .populate("maRam")
+        .populate("maDungLuong")
+        .populate({
+          path: 'maDienThoai',
+          populate: [
+            {path: 'maHangSX maCuaHang'},
+            {path: 'maUuDai', populate: 'maCuaHang'}
+          ]// Liên kết với bảng 'hangSX'
+        });
     res.json(chiTiet);
   } catch (error) {
     res.status(500).json({error: error.message});
@@ -74,34 +77,34 @@ router.put("/updateChiTiet/:id", async (req, res) => {
 
 // getChiTietDienThoai Theo cửa hàng
 router.get("/getChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
-    try {
-      const idCuaHang = req.params.id;
-      const dienThoai = await DienThoai.find({maCuaHang: idCuaHang})
-          .populate('maCuaHang', '_id')
-          .populate('maCuaHang')
-      const chiTietDienThoais = [];
-      for (const dt of dienThoai) {
-        const dienThoai = await ChiTietDienThoai.find({maDienThoai: dt._id})
-            .populate('maRam')
-            .populate('maDungLuong')
-            .populate('maMau')
-            .populate({
-              path: 'maDienThoai',
-              populate: [
-                {path: 'maCuaHang', model: 'cuaHang'},
-                {path: 'maUuDai', model: 'uudai'},
-                {path: 'maHangSX', model: 'hangSanXuat'}
-              ]
-            });
-        if (dienThoai) {
-          chiTietDienThoais.push(...dienThoai);
+      try {
+        const idCuaHang = req.params.id;
+        const dienThoai = await DienThoai.find({maCuaHang: idCuaHang})
+            .populate('maCuaHang', '_id')
+            .populate('maCuaHang')
+        const chiTietDienThoais = [];
+        for (const dt of dienThoai) {
+          const dienThoai = await ChiTietDienThoai.find({maDienThoai: dt._id})
+              .populate('maRam')
+              .populate('maDungLuong')
+              .populate('maMau')
+              .populate({
+                path: 'maDienThoai',
+                populate: [
+                  {path: 'maCuaHang', model: 'cuaHang'},
+                  {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                  {path: 'maHangSX', model: 'hangSanXuat'}
+                ]
+              });
+          if (dienThoai) {
+            chiTietDienThoais.push(...dienThoai);
+          }
         }
+        res.json(chiTietDienThoais)
+      } catch (error) {
+        return res.status(500).json({message: error.message})
       }
-      res.json(chiTietDienThoais)
-    } catch (error) {
-      return res.status(500).json({message: error.message})
     }
-  }
 )
 
 //get theo hãng sx
@@ -121,7 +124,7 @@ router.get('/getChiTietTheoHangSanXuat/:id', async (req, res) => {
             path: 'maDienThoai',
             populate: [
               {path: 'maCuaHang', model: 'cuaHang'},
-              {path: 'maUuDai', model: 'uudai'},
+              {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
               {path: 'maHangSX', model: 'hangSanXuat'}
             ]
           });

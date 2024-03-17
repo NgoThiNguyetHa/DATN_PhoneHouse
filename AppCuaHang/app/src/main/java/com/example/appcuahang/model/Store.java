@@ -19,8 +19,8 @@ public class Store {
         this.email = email;
     }
 
-    public Store(String password) {
-        this.password = password;
+    public Store(String id) {
+        this._id = id;
     }
 
     public Store(String diaChi, String username, String sdt, String email) {

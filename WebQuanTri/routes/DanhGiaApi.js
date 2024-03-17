@@ -36,7 +36,7 @@ router.get('/getDanhGia', async (req,res) => {
               model:"dienthoai",
               populate: [
                 {path: 'maCuaHang', model: 'cuaHang'},
-                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
                 {path: 'maHangSX', model: 'hangSanXuat'}
               ]
             },
@@ -81,7 +81,7 @@ router.put("/updateDanhGia/:id", async (req, res ) => {
   }
 })
 
-//get đánh giá theo điện thoai
+//get đánh giá theo chi tiet điện thoai
 router.get('/getDanhGia/:id', async (req,res) => {
   try {
     const idChiTietDienThoai = req.params.id;
@@ -95,7 +95,7 @@ router.get('/getDanhGia/:id', async (req,res) => {
               model:"dienthoai",
               populate: [
                 {path: 'maCuaHang', model: 'cuaHang'},
-                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
                 {path: 'maHangSX', model: 'hangSanXuat'}
               ]
             },
