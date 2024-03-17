@@ -2,18 +2,16 @@ package com.example.appkhachhang;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.appkhachhang.Fragment.BillFragment;
+import com.example.appkhachhang.Fragment.BillOrderFragment;
 import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.NotificationFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         if (itemID == R.id.navHome){
           loadFragment(new HomeFragment(), false);
         } else if (itemID == R.id.navBill) {
-          loadFragment(new BillFragment(), false);
+          loadFragment(new BillOrderFragment(), false);
         } else if (itemID == R.id.navNotify) {
           loadFragment(new NotificationFragment(), false);
         } else {

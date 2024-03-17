@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     Toolbar toolbar;
     AppCompatActivity activity;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,9 +98,9 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
         listSPHot = new ArrayList<>();
-        getSanPhamHot();
         sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot, this);
         recyclerViewSPHot.setAdapter(sanPhamAdapter);
+        getSanPhamHot();
     }
 
     void hangSanXuat(){
@@ -157,7 +159,9 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
 
             @Override
             public void onFailure(Call<List<SanPham>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Call API error: "  + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Call API error: "  , Toast.LENGTH_SHORT).show();
+                Log.e("error", "err " + t.getMessage());
+
 
             }
         });
