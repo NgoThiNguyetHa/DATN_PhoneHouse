@@ -25,7 +25,7 @@
                 android:layout_height="50dp"
                 android:drawableLeft="@drawable/baseline_search_24"
                 android:drawablePadding="10dp"
-                android:hint="Search here..." />
+                android:hint="Tìm kiếm..." />
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView

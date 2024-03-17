@@ -2,17 +2,13 @@ package com.example.appkhachhang.Model;
 
 public class ChiTietDienThoai {
     String _id;
-    String dienThoai;
-    String kichThuoc;
-    String manHinh;
-    String camera;
-    String pin;
-    String heDieuHanh;
-    String cpu;
-    String doPhanGiai;
-    String namSanXuat;
-    String thoiGianBaoHanh;
-    String moTaThem;
+    Number soLuong;
+    Number giaTien;
+    SanPham maDienThoai;
+    Mau maMau;
+    DungLuong maDungLuong;
+    Ram maRam;
+
 
     public ChiTietDienThoai() {
     }
@@ -25,91 +21,52 @@ public class ChiTietDienThoai {
         this._id = _id;
     }
 
-    public String getDienThoai() {
-        return dienThoai;
+    public Number getSoLuong() {
+        return soLuong;
     }
 
-    public void setDienThoai(String dienThoai) {
-        this.dienThoai = dienThoai;
+    public void setSoLuong(Number soLuong) {
+        this.soLuong = soLuong;
     }
 
-    public String getKichThuoc() {
-        return kichThuoc;
+    public Number getGiaTien() {
+        return giaTien;
     }
 
-    public void setKichThuoc(String kichThuoc) {
-        this.kichThuoc = kichThuoc;
+    public void setGiaTien(Number giaTien) {
+        this.giaTien = giaTien;
     }
 
-    public String getManHinh() {
-        return manHinh;
+    public SanPham getMaDienThoai() {
+        return maDienThoai;
     }
 
-    public void setManHinh(String manHinh) {
-        this.manHinh = manHinh;
+    public void setMaDienThoai(SanPham maDienThoai) {
+        this.maDienThoai = maDienThoai;
     }
 
-    public String getCamera() {
-        return camera;
+    public Mau getMaMau() {
+        return maMau;
     }
 
-    public void setCamera(String camera) {
-        this.camera = camera;
+    public void setMaMau(Mau maMau) {
+        this.maMau = maMau;
     }
 
-    public String getPin() {
-        return pin;
+    public DungLuong getMaDungLuong() {
+        return maDungLuong;
     }
 
-    public void setPin(String pin) {
-        this.pin = pin;
+    public void setMaDungLuong(DungLuong maDungLuong) {
+        this.maDungLuong = maDungLuong;
     }
 
-    public String getHeDieuHanh() {
-        return heDieuHanh;
+    public Ram getMaRam() {
+        return maRam;
     }
 
-    public void setHeDieuHanh(String heDieuHanh) {
-        this.heDieuHanh = heDieuHanh;
-    }
-
-    public String getCpu() {
-        return cpu;
-    }
-
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
-    }
-
-    public String getDoPhanGiai() {
-        return doPhanGiai;
-    }
-
-    public void setDoPhanGiai(String doPhanGiai) {
-        this.doPhanGiai = doPhanGiai;
-    }
-
-    public String getNamSanXuat() {
-        return namSanXuat;
-    }
-
-    public void setNamSanXuat(String namSanXuat) {
-        this.namSanXuat = namSanXuat;
-    }
-
-    public String getThoiGianBaoHanh() {
-        return thoiGianBaoHanh;
-    }
-
-    public void setThoiGianBaoHanh(String thoiGianBaoHanh) {
-        this.thoiGianBaoHanh = thoiGianBaoHanh;
-    }
-
-    public String getMoTaThem() {
-        return moTaThem;
-    }
-
-    public void setMoTaThem(String moTaThem) {
-        this.moTaThem = moTaThem;
+    public void setMaRam(Ram maRam) {
+        this.maRam = maRam;
     }
 }
+
