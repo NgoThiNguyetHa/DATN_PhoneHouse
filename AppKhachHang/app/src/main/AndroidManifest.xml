@@ -22,7 +22,7 @@
             android:name=".ChiTietDienThoai"
             android:exported="false" />
         <activity
-            android:name=".RegisterScreen"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".LoginScreen"
@@ -31,7 +31,7 @@
             android:name=".HelloScreen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,6 @@
 package com.example.appkhachhang;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,14 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,11 +37,18 @@ public class RegisterScreen extends AppCompatActivity {
     CheckBox checkBox;
     TextView tvSignin;
     Button btnDangky;
+
+    List<User> list;
+    FirebaseAuth mAuth;
+
+    String error = "";
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
-
+        mAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressbar);
         edEmail = findViewById(R.id.edEmaildk);
         edMatkhau = findViewById(R.id.edMatkhaudk);
         edHoten = findViewById(R.id.edHotendk);
@@ -42,6 +58,8 @@ public class RegisterScreen extends AppCompatActivity {
 
         tvSignin = findViewById(R.id.tvSignindk);
         btnDangky = findViewById(R.id.btnDangky);
+        list = new ArrayList<>();
+        getListUser();
 
         btnDangky.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +83,42 @@ public class RegisterScreen extends AppCompatActivity {
         user.setUsername(edHoten.getText().toString().trim());
         user.setPassword(edMatkhau.getText().toString().trim());
         user.setSdt(edSdt.getText().toString().trim());
+
+        progressBar.setVisibility(View.VISIBLE);
+        String email, matKhau;
+        email = String.valueOf(edEmail.getText());
+        matKhau = String.valueOf(edMatkhau.getText());
+        mAuth.createUserWithEmailAndPassword(email, matKhau)
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        Log.d("zzz", matKhau);
+
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+
+                            Toast.makeText(RegisterScreen.this, "Authentication thanhcong.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(RegisterScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            String errorMessage = task.getException().getMessage();
+                            error = errorMessage;
+                            Log.d("zzz", error);
+                        }
+                    }
+
+                });
+
+        if (validate() == true ){
         User_API.userApi.addUserDK(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (validate() == true ){
+                Log.d("sss", "onResponse: "+validate());
+
                     if(checkBox.isChecked()) {
 
                         if (response.body() != null) {
@@ -80,7 +130,6 @@ public class RegisterScreen extends AppCompatActivity {
                         checkBox.setError("Bạn cần chấp nhận điều khoản");
                     }
                 }
-            }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
@@ -88,10 +137,12 @@ public class RegisterScreen extends AppCompatActivity {
             }
         });
     }
+    }
+
     boolean validate(){
-        String email = edEmail.getText().toString();
+        String email = edEmail.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if(edEmail.getText().toString().isEmpty()
+        if(email.isEmpty()
                 ||edMatkhau.getText().toString().isEmpty()
                 ||edHoten.getText().toString().isEmpty()
                 ||edSdt.getText().toString().isEmpty() ){
@@ -103,6 +154,27 @@ public class RegisterScreen extends AppCompatActivity {
         }
         else if(!email.matches(emailPattern)){
             edEmail.setError("Email không hợp lệ");
+            return false;
+        }
+//        for (User user: list) {
+//            if (email.equals(user.getEmail()) ){
+//                for (int i = 0; i < list.size(); i++) {
+//                    if (!email.equals(list.get(i).getEmail())){
+//                        edEmail.setError("Email đã tồn tại");
+//                        return false;
+//                    }
+//                }
+//
+//            }
+//        }
+
+         if (!error.isEmpty()) {
+            edEmail.setError(error);
+             Log.d("zzzz1234", error);
+            return false;
+        }
+        if(edMatkhau.getText().toString().length()<6){
+            edMatkhau.setError("Mật khẩu tối thiểu 6 kí tự");
             return false;
         }
         if (edSdt.getText().toString().length() !=10){
@@ -121,5 +193,19 @@ public class RegisterScreen extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void getListUser(){
+        User_API.userApi.getAllUser().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                list = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+//                Toast.makeText(LoginScreen.this, "Call API error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
