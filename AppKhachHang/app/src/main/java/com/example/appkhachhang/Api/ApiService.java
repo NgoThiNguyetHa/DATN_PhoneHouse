@@ -34,6 +34,6 @@ public interface ApiService {
 
     //thống kê khách hàng theo ngày
     @GET("thongke/thongKeSoLuongKhachHang/{id}/{ngayTao}")
-    Call<String> getSoLuongKhachHangTheoNgay(@Path("id") String id,
+    Call<String> getSoLuongKhachHangTheoNgay(@Path("id") String id);
 
 }
