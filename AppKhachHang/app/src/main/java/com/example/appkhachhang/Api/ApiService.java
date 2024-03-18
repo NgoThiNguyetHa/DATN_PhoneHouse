@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Api;
 
-
+import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
 
 import java.util.List;
@@ -15,8 +16,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    //lấy list danh sách hãng sản xuất
-
+    //get list gio hang
+    @GET("/chitietgiohangs/getChiTietGioHang")
+    Call<List<ChiTietGioHang>> getListGioHang();
 
     //lấy list danh sách hóa đơn theo trạng thái
     @GET("hoadons/getHoaDonTheoTrangThai/{trangThaiNhanHang}")
@@ -33,7 +35,5 @@ public interface ApiService {
     //thống kê khách hàng theo ngày
     @GET("thongke/thongKeSoLuongKhachHang/{id}/{ngayTao}")
     Call<String> getSoLuongKhachHangTheoNgay(@Path("id") String id,
-                                             @Path("ngayTao") String ngayTao);
+
 }
-
-

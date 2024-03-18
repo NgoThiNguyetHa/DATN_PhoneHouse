@@ -3,7 +3,6 @@ package com.example.appkhachhang.Model;
 public class DungLuong {
     String _id;
     String boNho;
-    Number giaTien;
 
     public DungLuong() {
     }
@@ -22,13 +21,5 @@ public class DungLuong {
 
     public void setBoNho(String boNho) {
         this.boNho = boNho;
-    }
-
-    public Number getGiaTien() {
-        return giaTien;
-    }
-
-    public void setGiaTien(Number giaTien) {
-        this.giaTien = giaTien;
     }
 }

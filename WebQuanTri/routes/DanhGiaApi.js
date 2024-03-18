@@ -12,7 +12,7 @@ router.post('/addDanhGia', function(req, res, next) {
     diemDanhGia: req.body.diemDanhGia,
     ngayTao: req.body.ngayTao,
     idKhachHang: req.body.idKhachHang,
-    idDienThoai: req.body.idDienThoai,
+    idChiTietDienThoai: req.body.idChiTietDienThoai,
   })
   danhGia.save()
   .then(data => {
@@ -26,7 +26,25 @@ router.post('/addDanhGia', function(req, res, next) {
 /* GET loaidichvu listing. */
 router.get('/getDanhGia', async (req,res) => {
   try {
-    const danhGia = await DanhGia.find();
+    const danhGia = await DanhGia.find()
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
     res.json(danhGia);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -63,5 +81,32 @@ router.put("/updateDanhGia/:id", async (req, res ) => {
   }
 })
 
-
+//get đánh giá theo chi tiet điện thoai
+router.get('/getDanhGia/:id', async (req,res) => {
+  try {
+    const idChiTietDienThoai = req.params.id;
+    const danhGia = await DanhGia.find({idChiTietDienThoai: idChiTietDienThoai})
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json(danhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 module.exports = router;

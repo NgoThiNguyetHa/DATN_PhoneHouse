@@ -11,6 +11,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface SanPham_API {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -23,5 +25,8 @@ public interface SanPham_API {
 
     @GET("getDienThoai")
     Call<List<SanPham>> getAllSanPham();
+
+    @GET("getDienThoaiByID/{id}")
+    Call<SanPham> getSanPhamByID(@Path("id") String id);
 
 }

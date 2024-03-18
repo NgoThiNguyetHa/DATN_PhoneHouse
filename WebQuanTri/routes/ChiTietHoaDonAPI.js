@@ -17,21 +17,21 @@ router.post('/addChiTietHoaDon', function(req, res, next) {
     soLuong: req.body.soLuong,
     giaTien: req.body.giaTien,
     maHoaDon: req.body.maHoaDon,
-    maDienThoai: req.body.maDienThoai,
+    maChiTietDienThoai: req.body.maChiTietDienThoai,
   })
   chiTietHoaDon.save()
   .then(data => {
     console.log(data)
     res.send(data)
   }).catch(err => {
-    console.log
+    console.log(err)
   })
 });
 
 /* GET loaidichvu listing. */
 router.get('/getChiTietHoaDon', async (req,res) => {
   try {
-    const chiTietHoaDon = await ChiTietHoaDon.find();
+    const chiTietHoaDon = await ChiTietHoaDon.find().populate("maHoaDon").populate("maChiTietDienThoai");
     res.json(chiTietHoaDon);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -65,6 +65,45 @@ router.put("/updateChiTietHoaDon/:id", async (req, res ) => {
     }
   }catch(err){
     return res.status(500).json({message: err.message})
+  }
+})
+
+// get chi tiết hóa đơn theo id hóa đơn
+router.get('/getChiTietHoaDonTheoHoaDon/:id', async (req,res) => {
+  try {
+    const chiTietHoaDon = await ChiTietHoaDon.find({maHoaDon: req.params.id})
+        .populate({
+          path: "maHoaDon",
+          populate: [
+            {
+              path: "maDiaChiNhanHang",
+              model: "diaChiNhanHang",
+              populate: {path: "maKhachHang", model: "khachhang"}
+            },
+            {path: "maKhachHang", model: "khachhang"},
+            {path: "maCuaHang", model: "cuaHang"},
+          ]
+        })
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json(chiTietHoaDon);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 })
 
