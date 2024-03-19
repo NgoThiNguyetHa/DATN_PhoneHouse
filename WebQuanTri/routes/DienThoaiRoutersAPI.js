@@ -37,20 +37,20 @@ router.post('/addDienThoai', function (req, res, next) {
   })
 });
 
-router.get("/getDienThoaiByID/:id", async (req, res) => {
-  try {
-    const data = await DienThoai.findById(req.params.id, req.body, {new: true})
-    res.json(data)
-  } catch (err) {
-    return res.status(500).json({message: err.message})
-  }
-})
+// router.get("/getDienThoaiByID/:id", async (req, res) => {
+//   try {
+//     const data = await DienThoai.findById(req.params.id, req.body, {new: true})
+//     res.json(data)
+//   } catch (err) {
+//     return res.status(500).json({message: err.message})
+//   }
+// })
 
 
 router.get('/getDienThoai', async (req, res) => {
   try {
     const dienThoai = await DienThoai.find()
-        .populate('maUuDai')
+        .populate({path: 'maUuDai', populate: 'maCuaHang'})
         .populate('maHangSX')
         .populate('maCuaHang')
     res.json(dienThoai);
@@ -129,8 +129,8 @@ router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
 
 router.get("/getDienThoaiByID/:id", async (req, res) => {
   try {
-    const data = await DienThoai.findById(req.params.id, req.body, {new: true})
-        .populate('maUuDai')
+    const data = await DienThoai.find({_id: req.params.id})
+        .populate({path: 'maUuDai', populate: 'maCuaHang'})
         .populate('maHangSX')
         .populate('maCuaHang')
     res.json(data)

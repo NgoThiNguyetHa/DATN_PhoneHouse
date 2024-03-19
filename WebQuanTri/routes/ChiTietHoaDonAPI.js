@@ -92,7 +92,7 @@ router.get('/getChiTietHoaDonTheoHoaDon/:id', async (req,res) => {
               model:"dienthoai",
               populate: [
                 {path: 'maCuaHang', model: 'cuaHang'},
-                {path: 'maUuDai', model: 'uudai'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
                 {path: 'maHangSX', model: 'hangSanXuat'}
               ]
             },

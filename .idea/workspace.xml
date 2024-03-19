@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="API getKhachHangTheoCuaHang">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="sửa API ưu đãi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +20,13 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -47,8 +60,8 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "hantnph28876",
-    "last_opened_file_path": "D:/PhoneHouse_DoAnTotNghiep/DATN_PhoneHouse/AppCuaHang",
+    "git-widget-placeholder": "QuanLyUuDai",
+    "last_opened_file_path": "D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -56,6 +69,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\routes" />
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\views" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,6 +85,11 @@
       <updated>1706494859837</updated>
       <workItem from="1709819596307" duration="5469000" />
       <workItem from="1709888416130" duration="3328000" />
+      <workItem from="1710000728171" duration="2525000" />
+      <workItem from="1710048690407" duration="6204000" />
+      <workItem from="1710086286488" duration="953000" />
+      <workItem from="1710230018509" duration="949000" />
+      <workItem from="1710251162032" duration="6186000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -83,7 +107,31 @@
       <option name="project" value="LOCAL" />
       <updated>1709823116388</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="sửa API">
+      <option name="closed" value="true" />
+      <created>1709984346023</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709984346023</updated>
+    </task>
+    <task id="LOCAL-00004" summary="sửa API đăng ký khách hàng">
+      <option name="closed" value="true" />
+      <created>1710230377296</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710230377296</updated>
+    </task>
+    <task id="LOCAL-00005" summary="sửa API ưu đãi">
+      <option name="closed" value="true" />
+      <created>1710520944841</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710520944841</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,6 +153,9 @@
     <MESSAGE value="navigation web" />
     <MESSAGE value="pull from dev" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
-    <option name="LAST_COMMIT_MESSAGE" value="API getKhachHangTheoCuaHang" />
+    <MESSAGE value="sửa API" />
+    <MESSAGE value="sửa API đăng ký khách hàng" />
+    <MESSAGE value="sửa API ưu đãi" />
+    <option name="LAST_COMMIT_MESSAGE" value="sửa API ưu đãi" />
   </component>
 </project>
