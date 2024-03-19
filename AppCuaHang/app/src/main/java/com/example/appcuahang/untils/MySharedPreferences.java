@@ -42,7 +42,6 @@ public class MySharedPreferences {
         return sharedPreferences.getString(KEY_USER_NAME, null);
     }
 
-
     public String getPassword() {
         return sharedPreferences.getString(KEY_USER_PASSWORD, null);
     }

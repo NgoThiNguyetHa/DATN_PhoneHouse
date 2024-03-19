@@ -4,17 +4,17 @@ const mongoose = require('mongoose');
 require('../models/HoaDon')
 
 const HoaDon = mongoose.model("hoaDon")
-
+ 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
 /* POST Mau. */
 
-router.post('/addHoaDon', function (req, res, next) {
-  const hoaDon = new HoaDon({
+router.post('/addHoaDon', function(req, res, next) {
+    const hoaDon = new HoaDon({
     tongTien: req.body.tongTien,
     ngayTao: req.body.ngayTao,
     trangThaiNhanHang: req.body.trangThaiNhanHang,
@@ -52,7 +52,7 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang', async (req, res) => {
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -67,11 +67,11 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, 
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 });
 // lấy hóa đơn theo mã khách hàng
-router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
+router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
   try {
     const trangThaiNhanHang = req.params.trangThaiNhanHang;
     const maKhachHang = req.params.maKhachHang;
@@ -81,7 +81,7 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maKhachHang', async (req
         .populate("maKhachHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 });
 router.get('/getHoaDonTheoChiTiet', async (req, res) => {
@@ -92,36 +92,36 @@ router.get('/getHoaDonTheoChiTiet', async (req, res) => {
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 });
 
-router.delete('/deleteHoaDon/:id', async (req, res) => {
-  try {
-    const data = await HoaDon.findByIdAndDelete(req.params.id)
-    if (!data) {
+router.delete('/deleteHoaDon/:id', async (req,res) => {
+  try{
+    const data =  await HoaDon.findByIdAndDelete(req.params.id)
+    if(!data){
       return res.status(404).json({message: "delete failed"})
-    } else {
+    }else{
       return res.status(200).json({message: "delete successful"})
     }
-  } catch (err) {
+  }catch(err){
     return res.status(500).json({message: err.message})
 
   }
 })
 
 
-router.put("/updateHoaDon/:id", async (req, res) => {
-  try {
+router.put("/updateHoaDon/:id", async (req, res ) => {
+  try{
     const data = await HoaDon.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    if (!data) {
+    if(!data){
       return res.status(404).json({message: "update failed"})
 
-    } else {
+    }else{
       return res.status(200).json({message: "update successful"})
 
     }
-  } catch (err) {
+  }catch(err){
     return res.status(500).json({message: err.message})
   }
 })

@@ -7,60 +7,67 @@ require('../models/UuDai')
 const UuDai = mongoose.model("uudai")
 
 /* GET DienThoai listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/addUuDai', function(req, res, next) {
-    const uudai = new UuDai({
-    giamGia: req.body.giamGia,
-    thoiGian: req.body.thoiGian,
-    trangThai: req.body.trangThai,
-  })
-  uudai.save()
-  .then(data => {
-    console.log(data)
-    res.send(data)
-  }).catch(err => {
-    console.log
-  })
-});
-
-router.get('/getUuDai', async (req,res) => {
+router.post('/addUuDai',async function (req, res, next) {
   try {
-    const uudai = await UuDai.find();
+    const uudai = new UuDai({
+      giamGia: req.body.giamGia,
+      thoiGian: req.body.thoiGian,
+      trangThai: req.body.trangThai,
+      maCuaHang: req.body.maCuaHang,
+    });
+
+    const savedUuDai = await uudai.save(); // Lưu đối tượng
+    const populatedUuDai = await UuDai.findById(savedUuDai._id).populate("maCuaHang");
+
+    console.log(populatedUuDai);
+    res.send(populatedUuDai);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
+  }
+});
+// lay uu dai theo cua hang
+router.get('/getUuDai/:id', async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const uudai = await UuDai.find({maCuaHang: idCuaHang}).populate("maCuaHang");
     res.json(uudai);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 })
 
 
-router.delete('/deleteUuDai/:id', async (req,res) => {
-  try{
-    const data =  await UuDai.findByIdAndDelete(req.params.id)
-    if(!data){
+router.delete('/deleteUuDai/:id', async (req, res) => {
+  try {
+    const data = await UuDai.findByIdAndDelete(req.params.id)
+    if (!data) {
       return res.status(404).json({message: "delete failed"})
-    }else{
+    } else {
       return res.status(200).json({message: "delete successful"})
     }
-  }catch(err){
+  } catch (err) {
     return res.status(500).json({message: err.message})
 
   }
 })
 
 
-router.put("/updateUuDai/:id", async (req, res ) => {
-  try{
+router.put("/updateUuDai/:id", async (req, res) => {
+  try {
     const data = await UuDai.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    if(!data){
+    if (!data) {
       return res.status(404).json({message: "update failed"})
 
-    }else{
+    } else {
       return res.status(200).json({message: "update successful"})
 
     }
-  }catch(err){
+  } catch (err) {
+    console.log(err);
     return res.status(500).json({message: err.message})
   }
 })
