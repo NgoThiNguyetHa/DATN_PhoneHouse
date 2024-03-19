@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +72,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvTenDT;
         ImageView item_imgPhone;
-        LinearLayout mParent;
+        RelativeLayout mParent;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenDT = itemView.findViewById(R.id.itemPhone_tvTenDienThoai);
@@ -117,7 +118,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
         tvThemChiTiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.addDetail(phone.get_id(), phone.getTenDienThoai());
+                listener.addDetail(mContext,phone.get_id(), phone.getTenDienThoai());
                 dialog.dismiss();
             }
         });

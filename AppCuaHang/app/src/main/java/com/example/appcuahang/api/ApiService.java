@@ -8,6 +8,7 @@ import com.example.appcuahang.model.LoginResponse;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Phone;
 import com.example.appcuahang.model.Ram;
+import com.example.appcuahang.model.Rating;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
@@ -120,7 +121,7 @@ public interface ApiService {
 
     // get điện thoại
     @GET("dienthoais/getDienthoaiTheoCuaHang/{maCuaHang}")
-    Call<List<Phone>> getDienThoai(@Path("maCuaHang") String idHangSanXuat);
+    Call<List<Phone>> getDienThoaiTheoCuaHang(@Path("maCuaHang") String idCuaHang);
 
     //post điện thoại
     @POST("dienthoais/addDienThoai")
@@ -133,20 +134,27 @@ public interface ApiService {
 
     //spinner
     @GET("rams/getRam")
-    Call<List<Ram>> getRam();
+    Call<List<Ram>> getRamSpinner();
 
     @GET("maus/getMau")
     Call<List<Mau>> getMauSpinner();
 
     @GET("dungluongs/getDungLuong")
-    Call<List<DungLuong>> getDungLuong();
+    Call<List<DungLuong>> getDungLuongSpinner();
 
     //thêm chi tiết
 
     @POST("chitietdienthoais/addChiTiet")
     Call<DetailPhone> addChiTietDienThoai(@Body DetailPhone detailPhone);
+    @PUT("chitietdienthoais/updateChiTiet/{id}")
+    Call<DetailPhone> putChiTietDienThoai(@Path("id") String id,
+                             @Body DetailPhone detailPhone);
 
     //lấy chi tiết
     @GET("chitietdienthoais/getChiTietTheoDienThoai/{maDienThoai}")
     Call<List<DetailPhone>> getChiTiet(@Path("maDienThoai") String id);
+
+    //get danh gia
+    @GET("danhgias/getDanhGia")
+    Call<List<Rating>> getDanhGia();
 }

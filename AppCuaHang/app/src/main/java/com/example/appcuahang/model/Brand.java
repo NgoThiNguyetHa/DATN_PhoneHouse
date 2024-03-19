@@ -4,7 +4,6 @@ public class Brand {
     private String _id;
     private String tenHang;
     private String hinhAnh;
-    private String maCuaHang;
 
     public Brand() {
     }
@@ -13,10 +12,9 @@ public class Brand {
         this._id = _id;
     }
 
-    public Brand(String tenHang, String hinhAnh, String maCuaHang) {
+    public Brand(String tenHang, String hinhAnh ) {
         this.tenHang = tenHang;
         this.hinhAnh = hinhAnh;
-        this.maCuaHang = maCuaHang;
     }
 
     public String get_id() {
@@ -41,14 +39,6 @@ public class Brand {
 
     public void setHinhAnh(String hinhAnh) {
         this.hinhAnh = hinhAnh;
-    }
-
-    public String getMaCuaHang() {
-        return maCuaHang;
-    }
-
-    public void setMaCuaHang(String maCuaHang) {
-        this.maCuaHang = maCuaHang;
     }
 
     @Override

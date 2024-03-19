@@ -17,13 +17,13 @@ public class Phone implements Serializable {
     private String maHangSX;
     private String hinhAnh;
     private String maUuDai;
-
+    private Store maCuaHang;
     private String _id;
 
     public Phone() {
     }
 
-    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, String maHangSX, String hinhAnh, String maUuDai) {
+    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, String maHangSX, String hinhAnh, String maUuDai , Store maCuaHang) {
         this.tenDienThoai = tenDienThoai;
         this.kichThuoc = kichThuoc;
         this.congNgheManHinh = congNgheManHinh;
@@ -38,6 +38,7 @@ public class Phone implements Serializable {
         this.maHangSX = maHangSX;
         this.hinhAnh = hinhAnh;
         this.maUuDai = maUuDai;
+        this.maCuaHang = maCuaHang;
     }
 
     public Phone(String _id) {
@@ -154,6 +155,14 @@ public class Phone implements Serializable {
 
     public void setMaUuDai(String maUuDai) {
         this.maUuDai = maUuDai;
+    }
+
+    public Store getMaCuaHang() {
+        return maCuaHang;
+    }
+
+    public void setMaCuaHang(Store maCuaHang) {
+        this.maCuaHang = maCuaHang;
     }
 
     public String get_id() {

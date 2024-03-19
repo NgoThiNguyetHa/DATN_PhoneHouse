@@ -101,6 +101,17 @@ router.put("/updateDienThoai/:id", async (req, res) => {
 //     return res.status(500).json({message: error.message})
 //   }
 // })
+//get theo maCuaHang
+router.get("/getDienthoaiTheoCuaHang/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const dienThoai = await DienThoai.find({maCuaHang: idCuaHang})
+    .populate("maCuaHang")
+    res.json(dienThoai)
+  } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+})
 
 
 router.put("/updateUuDaiDienThoai/:id", async (req, res) => {

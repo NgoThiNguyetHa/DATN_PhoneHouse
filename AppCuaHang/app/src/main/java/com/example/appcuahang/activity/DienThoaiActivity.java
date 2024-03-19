@@ -37,31 +37,31 @@ public class DienThoaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DialogDienThoaiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        addData();
+//        addData();
     }
 
 
-    private void addData(){
-        ApiService apiService = ApiRetrofit.getApiService();
-        binding.addDienThoai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Call<Phone> call = apiService.addDienThoai(new Phone("strTenDT","strKichThuoc","strCNMH","strCamera","strCPu","strPin","strHeDieuHanh","strDoPhanGiai","strNamSX","strBaoHanh","strMoTa","idHang", "uri.toString()",""));
-                call.enqueue(new Callback<Phone>() {
-                    @Override
-                    public void onResponse(Call<Phone> call, Response<Phone> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Phone> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
+//    private void addData(){
+//        ApiService apiService = ApiRetrofit.getApiService();
+//        binding.addDienThoai.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Call<Phone> call = apiService.addDienThoai(new Phone("strTenDT","strKichThuoc","strCNMH","strCamera","strCPu","strPin","strHeDieuHanh","strDoPhanGiai","strNamSX","strBaoHanh","strMoTa","idHang", "uri.toString()","",""));
+//                call.enqueue(new Callback<Phone>() {
+//                    @Override
+//                    public void onResponse(Call<Phone> call, Response<Phone> response) {
+//                        if (response.isSuccessful()) {
+//                            Toast.makeText(getApplicationContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<Phone> call, Throwable t) {
+//                        Toast.makeText(getApplicationContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+//    }
 
 
     private void editPhone(Phone phone){

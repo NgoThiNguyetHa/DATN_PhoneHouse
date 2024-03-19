@@ -10,6 +10,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/itemChiTiet_mParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -54,6 +55,14 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="Màu"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/itemChiTiet_tvSoLuong"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Số lượng"
             android:textSize="14dp"
             android:textStyle="bold" />
         <LinearLayout

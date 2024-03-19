@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 
@@ -73,7 +74,6 @@ public class BrandFragment extends Fragment {
     GridLayoutManager manager;
     MySharedPreferences mySharedPreferences;
 
-    TextView tvUpload;
 
     //upload image
 
@@ -82,6 +82,7 @@ public class BrandFragment extends Fragment {
     Uri imageUri;
     ImageView uploadImage;
     FirebaseDatabase database;
+    ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -149,7 +150,7 @@ public class BrandFragment extends Fragment {
             }
         });
 
-        Call<List<Brand>> call = apiService.getHangSanXuatByCuaHang(mySharedPreferences.getUserId());
+        Call<List<Brand>> call = apiService.getHangSanXuat();
 
         call.enqueue(new Callback<List<Brand>>() {
             @Override
@@ -193,7 +194,6 @@ public class BrandFragment extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_brand_tvTitle);
         ImageView imgViewClose = view.findViewById(R.id.dl_brand_imageView);
         uploadImage = view.findViewById(R.id.dl_brand_uploadImageView);
-        tvUpload = view.findViewById(R.id.dl_brand_tvUpload);
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,80 +206,29 @@ public class BrandFragment extends Fragment {
 
         tvTitle.setText("Thêm Mới Hãng Sản Xuất");
         btnSave.setText("Thêm Mới");
-//        btnSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String tenHang = edTenHang.getText().toString().trim();
-//                String password = mySharedPreferences.getUserId();
-//                ApiService apiService = ApiRetrofit.getApiService();
-//                //====
-//                //upload ảnh lên firebase
-//                if (imageUri != null){
-//                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
-//                    final StorageReference imageReference = storageReference.child(url_src);
-//                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                @Override
-//                                public void onSuccess(Uri uri) {
-////                                    String key = reference.push().getKey();
-////                                    reference.child(key).setValue(uri.toString());
-//                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString(), password));
-//                                    call.enqueue(new Callback<Brand>() {
-//                                        @Override
-//                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
-//                                            if (response.isSuccessful()) {
-//                                                Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-//                                                getData();
-//                                                dialog.dismiss();
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onFailure(Call<Brand> call, Throwable t) {
-//                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        }
-//                    });
-//                }else{
-//                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 String tenHang = edTenHang.getText().toString().trim();
-                String password = mySharedPreferences.getUserId();
                 ApiService apiService = ApiRetrofit.getApiService();
-
                 //====
                 //upload ảnh lên firebase
-                if (imageUri != null) {
-                    String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                if (imageUri != null){
+                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
                     final StorageReference imageReference = storageReference.child(url_src);
-
-                    // Upload the image
-                    imageReference.putFile(imageUri)
-                            .continueWithTask(task -> {
-                                if (!task.isSuccessful()) {
-                                    throw task.getException();
-                                }
-
-                                // Return the download URL directly
-                                return imageReference.getDownloadUrl();
-                            })
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Uri downloadUri = task.getResult();
-
-                                    // Use the download URL to make your API call
-                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, downloadUri.toString(), password));
+                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+//                                    String key = reference.push().getKey();
+//                                    reference.child(key).setValue(uri.toString());
+                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
                                     call.enqueue(new Callback<Brand>() {
                                         @Override
                                         public void onResponse(Call<Brand> call, Response<Brand> response) {
@@ -287,6 +236,7 @@ public class BrandFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
                                                 getData();
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                             }
                                         }
 
@@ -295,14 +245,14 @@ public class BrandFragment extends Fragment {
                                             Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                                } else {
-                                    // Handle the error
-                                    Toast.makeText(getContext(), "Error uploading image", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                } else {
+                        }
+                    });
+                }else{
                     Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
         imgViewClose.setOnClickListener(new View.OnClickListener() {
@@ -336,7 +286,6 @@ public class BrandFragment extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_brand_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_brand_imageView);
         uploadImage = view.findViewById(R.id.dl_brand_uploadImageView);
-        tvUpload = view.findViewById(R.id.dl_brand_tvUpload);
         tvTitle.setText("Cập Nhật Hãng Sản Xuất");
         edTenHang.setText(brand.getTenHang());
         if (brand.getHinhAnh() == null) {
@@ -358,6 +307,10 @@ public class BrandFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //====
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 //upload ảnh lên firebase
                 if (imageUri != null){
                     String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
@@ -369,9 +322,8 @@ public class BrandFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String tenHang = edTenHang.getText().toString().trim();
-                                    String password = mySharedPreferences.getUserId();
                                     ApiService apiService = ApiRetrofit.getApiService();
-                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString(), password));
+                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
                                     call.enqueue(new Callback<Brand>() {
                                         @Override
                                         public void onResponse(Call<Brand> call, Response<Brand> response) {
@@ -379,6 +331,7 @@ public class BrandFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                                 getData();
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                             }
                                         }
 
@@ -433,7 +386,6 @@ public class BrandFragment extends Fragment {
                 Intent data = result.getData();
                 imageUri = data.getData();
                 uploadImage.setImageURI(imageUri);
-                tvUpload.setText("");
             }else{
                 Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
             }

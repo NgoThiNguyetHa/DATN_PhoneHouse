@@ -5,4 +5,6 @@
     <color name="xanhla">#31B95F</color>
     <color name="xanhduong">#5FB1C1</color>
     <color name="maudo">#FF0000</color>
+    <color name="custom_textview">#67726B</color>
+
 </resources>

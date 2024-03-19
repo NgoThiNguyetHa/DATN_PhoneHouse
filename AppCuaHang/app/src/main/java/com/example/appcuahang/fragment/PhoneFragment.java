@@ -1,26 +1,16 @@
 package com.example.appcuahang.fragment;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,13 +31,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.appcuahang.MainActivity;
 import com.example.appcuahang.R;
 import com.example.appcuahang.activity.ChiTietDienThoaiActivity;
-import com.example.appcuahang.activity.DienThoaiActivity;
 import com.example.appcuahang.adapter.PhoneAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.interface_adapter.IItemPhoneListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.DetailPhone;
@@ -55,6 +55,7 @@ import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Phone;
 import com.example.appcuahang.model.Ram;
+import com.example.appcuahang.model.Store;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -103,7 +104,7 @@ public class PhoneFragment extends Fragment {
     Button chitiet_button;
     String idSpMau, idSpRam, idSpDungLuong;
     int position;
-
+    ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -137,24 +138,21 @@ public class PhoneFragment extends Fragment {
             public void detailPhone(Phone idPhone) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("detailPhone", idPhone);
-                Intent mIntent = new Intent(getContext(), ChiTietDienThoaiActivity.class);
-                mIntent.putExtras(bundle);
-                startActivity(mIntent);
+                ChiTietDienThoaiFragment fragmentB = new ChiTietDienThoaiFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), ChiTietDienThoaiActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             @Override
             public void editPhone(Phone idPhone) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("editPhone",idPhone);
-//                Intent mIntent = new Intent(getContext(), DienThoaiActivity.class);
-//                mIntent.putExtras(bundle);
-//                startActivity(mIntent);
                 dialogUpdate(idPhone);
             }
 
             @Override
-            public void addDetail(String idPhone, String tenDienThoai) {
-                dialogAddDetail(idPhone, tenDienThoai);
+            public void addDetail(Context mContext ,String idPhone, String tenDienThoai) {
+                dialogAddDetail(mContext,idPhone, tenDienThoai);
             }
 
 
@@ -182,7 +180,7 @@ public class PhoneFragment extends Fragment {
             }
         });
 
-        Call<List<Phone>> call = apiService.getDienThoai(mySharedPreferences.getUserId());
+        Call<List<Phone>> call = apiService.getDienThoaiTheoCuaHang(mySharedPreferences.getUserId());
 
         call.enqueue(new Callback<List<Phone>>() {
             @Override
@@ -217,7 +215,6 @@ public class PhoneFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.btn_add) {
             dialogAdd();
-//            startActivity(new Intent(getContext(), DienThoaiActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -257,6 +254,7 @@ public class PhoneFragment extends Fragment {
         tvTitle = view.findViewById(R.id.dienthoai_tvTitle);
         btnSave = view.findViewById(R.id.dienthoai_btnSave);
         //init variable
+        mySharedPreferences = new MySharedPreferences(getContext());
         //set text
         tvTitle.setText("Thêm Mới Điện Thoại");
         btnSave.setText("Thêm Mới");
@@ -272,9 +270,17 @@ public class PhoneFragment extends Fragment {
                 activityResultLauncher.launch(photoPicker);
             }
         });
+
+        //init progress dialog
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                //
                 String strTenDT = edTenDienThoai.getText().toString().trim();
                 String strKichThuoc = edKichThuoc.getText().toString().trim();
                 String strCNMH = edCongNgheManHinh.getText().toString().trim();
@@ -287,6 +293,7 @@ public class PhoneFragment extends Fragment {
                 String strBaoHanh = edBaoHanh.getText().toString().trim();
                 String strMoTa = edMoTa.getText().toString().trim();
                 ApiService apiService = ApiRetrofit.getApiService();
+
                 //upload ảnh lên firebase
                 if (imageUri != null) {
                     String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
@@ -294,11 +301,10 @@ public class PhoneFragment extends Fragment {
                     imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getContext(), "Upload success", Toast.LENGTH_SHORT).show();
                             imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), "65be0182e8a816eb518977d2"));
+                                    Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), null,new Store(mySharedPreferences.getUserId())));
                                     call.enqueue(new Callback<Phone>() {
                                         @Override
                                         public void onResponse(Call<Phone> call, Response<Phone> response) {
@@ -306,12 +312,14 @@ public class PhoneFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
                                                 getData();
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                             }
                                         }
 
                                         @Override
                                         public void onFailure(Call<Phone> call, Throwable t) {
                                             Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Log.e("",t.getLocalizedMessage());
                                         }
                                     });
                                 }
@@ -389,7 +397,7 @@ public class PhoneFragment extends Fragment {
             Picasso.get().load(phone.getHinhAnh()).into(uploadImage);
         }
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Brand>> call = apiService.getHangSanXuatByCuaHang(mySharedPreferences.getUserId());
+        Call<List<Brand>> call = apiService.getHangSanXuat();
         call.enqueue(new Callback<List<Brand>>() {
             @Override
             public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
@@ -457,7 +465,7 @@ public class PhoneFragment extends Fragment {
                             imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.putDienThoai(phone.get_id(), new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), "65be0182e8a816eb518977d2"));
+                                    Call<Phone> call = apiService.putDienThoai(phone.get_id(), new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), "65be0182e8a816eb518977d2",new Store(mySharedPreferences.getUserId())));
                                     call.enqueue(new Callback<Phone>() {
                                         @Override
                                         public void onResponse(Call<Phone> call, Response<Phone> response) {
@@ -494,8 +502,8 @@ public class PhoneFragment extends Fragment {
     }
 
     //thêm chi tiết điện thoại
-    private void dialogAddDetail(String id, String ten) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+    private void dialogAddDetail(Context mContext, String id, String ten) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_them_chi_tiet, null);
         builder.setView(view);
         Dialog dialogDetail = builder.create();
@@ -516,7 +524,7 @@ public class PhoneFragment extends Fragment {
         edTen = view.findViewById(R.id.dl_chitiet_edTenDienThoai);
         edSoLuong = view.findViewById(R.id.dl_chitiet_edSoLuong);
         edGiaTien = view.findViewById(R.id.dl_chitiet_edGiaTien);
-        chitiet_button = view.findViewById(R.id.dl_chitiet_button);
+        Button chitiet_button = view.findViewById(R.id.dl_chitiet_button);
         ImageView imgClose = view.findViewById(R.id.dl_chitiet_imageView);
         TextView tvTitle = view.findViewById(R.id.dl_chitiet_tvTitle);
         tvTitle.setText("Thêm Chi Tiết");
@@ -535,10 +543,7 @@ public class PhoneFragment extends Fragment {
                     public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                            getData();
                             dialogDetail.dismiss();
-                        } else {
-                            Toast.makeText(getContext(), "Thêm mới thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -584,7 +589,7 @@ public class PhoneFragment extends Fragment {
 
     private void getDataSpinner() {
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Brand>> call = apiService.getHangSanXuatByCuaHang(mySharedPreferences.getUserId());
+        Call<List<Brand>> call = apiService.getHangSanXuat();
         call.enqueue(new Callback<List<Brand>>() {
             @Override
             public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
@@ -648,7 +653,7 @@ public class PhoneFragment extends Fragment {
             }
         });
 
-        Call<List<Ram>> callRam = apiService.getRam();
+        Call<List<Ram>> callRam = apiService.getRamSpinner();
         callRam.enqueue(new Callback<List<Ram>>() {
             @Override
             public void onResponse(Call<List<Ram>> call, Response<List<Ram>> response) {
@@ -678,7 +683,7 @@ public class PhoneFragment extends Fragment {
             }
         });
 
-        Call<List<DungLuong>> callDungLuong = apiService.getDungLuong();
+        Call<List<DungLuong>> callDungLuong = apiService.getDungLuongSpinner();
         callDungLuong.enqueue(new Callback<List<DungLuong>>() {
             @Override
             public void onResponse(Call<List<DungLuong>> call, Response<List<DungLuong>> response) {
