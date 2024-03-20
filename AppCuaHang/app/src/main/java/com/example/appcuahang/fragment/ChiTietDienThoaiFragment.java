@@ -222,7 +222,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Rating>> call, Throwable t) {
-                Log.e("detail", t.getMessage());
+                Log.e("Rating", t.getMessage());
             }
         });
     }
@@ -286,6 +286,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                         if (response.isSuccessful()) {
                             Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
                             getData(detailPhone.get_id());
+                            action();
                             dialogDetail.dismiss();
                         }
                     }

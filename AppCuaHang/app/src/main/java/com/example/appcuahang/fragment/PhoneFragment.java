@@ -197,7 +197,7 @@ public class PhoneFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Phone>> call, Throwable t) {
-                Log.e("brand", t.getMessage());
+                Log.e("Get Phone", t.getMessage());
             }
         });
 
@@ -304,7 +304,7 @@ public class PhoneFragment extends Fragment {
                             imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), null,new Store(mySharedPreferences.getUserId())));
+                                    Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
                                     call.enqueue(new Callback<Phone>() {
                                         @Override
                                         public void onResponse(Call<Phone> call, Response<Phone> response) {
@@ -319,7 +319,7 @@ public class PhoneFragment extends Fragment {
                                         @Override
                                         public void onFailure(Call<Phone> call, Throwable t) {
                                             Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.e("",t.getLocalizedMessage());
+                                            Log.e("Add dien thoai",t.getLocalizedMessage());
                                         }
                                     });
                                 }
@@ -465,7 +465,7 @@ public class PhoneFragment extends Fragment {
                             imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.putDienThoai(phone.get_id(), new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, idHang, uri.toString(), "65be0182e8a816eb518977d2",new Store(mySharedPreferences.getUserId())));
+                                    Call<Phone> call = apiService.putDienThoai(phone.get_id(),new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
                                     call.enqueue(new Callback<Phone>() {
                                         @Override
                                         public void onResponse(Call<Phone> call, Response<Phone> response) {
@@ -549,7 +549,7 @@ public class PhoneFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DetailPhone> call, Throwable t) {
-
+                        Log.e("ChiTiet",t.getLocalizedMessage());
                     }
                 });
             }

@@ -14,16 +14,16 @@ public class Phone implements Serializable {
     private String namSanXuat;
     private String thoiGianBaoHanh;
     private String moTaThem;
-    private String maHangSX;
+    private Brand maHangSX;
     private String hinhAnh;
-    private String maUuDai;
+    private UuDai maUuDai;
     private Store maCuaHang;
     private String _id;
 
     public Phone() {
     }
 
-    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, String maHangSX, String hinhAnh, String maUuDai , Store maCuaHang) {
+    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, Brand maHangSX, String hinhAnh, UuDai maUuDai , Store maCuaHang) {
         this.tenDienThoai = tenDienThoai;
         this.kichThuoc = kichThuoc;
         this.congNgheManHinh = congNgheManHinh;
@@ -141,19 +141,19 @@ public class Phone implements Serializable {
         this.moTaThem = moTaThem;
     }
 
-    public String getMaHangSX() {
+    public Brand getMaHangSX() {
         return maHangSX;
     }
 
-    public void setMaHangSX(String maHangSX) {
+    public void setMaHangSX(Brand maHangSX) {
         this.maHangSX = maHangSX;
     }
 
-    public String getMaUuDai() {
+    public UuDai getMaUuDai() {
         return maUuDai;
     }
 
-    public void setMaUuDai(String maUuDai) {
+    public void setMaUuDai(UuDai maUuDai) {
         this.maUuDai = maUuDai;
     }
 

@@ -5,170 +5,167 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ChiTietDienThoaiFragment">
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         >
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#FFF"
+            android:layout_height="match_parent"
             >
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:layout_marginLeft="5dp"
-
-                >
-                <TextView
-                    android:id="@+id/chitiet_tvTenDienThoai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ten dien thoai"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:gravity="center"
-                    android:layout_margin="10dp"
-                    />
-                <ImageView
-                    android:id="@+id/chitiet_imgDienThoai"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/image_242__3_"
-                    android:scaleType="fitStart"
-                    />
-            </LinearLayout>
-            <ScrollView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scrollbars="none"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#FFF"
                     >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="Thông số kỹ thuật*"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvKichThuoc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Kích thước"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvCongNgheManHinh"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Công nghệ màn hình"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvCamera"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Camera"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvCPU"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="5dp"
 
-                        android:layout_width="match_parent"
+                        >
+                        <TextView
+                            android:id="@+id/chitiet_tvTenDienThoai"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ten dien thoai"
+                            android:textStyle="bold"
+                            android:textSize="18dp"
+                            android:gravity="center"
+                            android:layout_margin="10dp"
+                            />
+                        <ImageView
+                            android:id="@+id/chitiet_imgDienThoai"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/image_242__3_"
+                            android:scaleType="fitStart"
+                            />
+                    </LinearLayout>
+                    <ScrollView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="CPU"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvPin"
+                        android:layout_weight="1"
+                        android:scrollbars="none"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:text="Thông số kỹ thuật*"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvKichThuoc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Kích thước"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvCongNgheManHinh"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Công nghệ màn hình"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvCamera"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Camera"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvCPU"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Pin"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvHeDieuHanh"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="CPU"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvPin"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Hệ điều hành"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvDoPhanGiai"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Pin"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvHeDieuHanh"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Độ phân giải"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvNamSanXuat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Năm sản xuất"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvBaoHanh"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Hệ điều hành"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvDoPhanGiai"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Thời gian bảo hành"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:id="@+id/chitiet_tvMoTa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="Mô tả"
-                        android:textSize="14dp"
-                        android:textStyle="bold"/>
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Độ phân giải"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvNamSanXuat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Năm sản xuất"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvBaoHanh"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Thời gian bảo hành"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/chitiet_tvMoTa"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:text="Mô tả"
+                                android:textSize="14dp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </ScrollView>
                 </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/linear_bottom"
-                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -182,6 +179,7 @@
                         tools:listitem="@layout/item_chi_tiet"
                         app:spanCount="2"
                         android:background="#FFF"
+                        android:scrollbars="none"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -214,29 +212,30 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_danh_gia"
                         android:background="#FFF"
+                        android:scrollbars="none"
+                        android:keepScreenOn="false"
                         />
                 </LinearLayout>
-            </ScrollView>
-
-            <LinearLayout
-                android:id="@+id/linear_bottom"
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/linear_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:layout_alignParentBottom="true"
+            >
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFF"
-                android:layout_alignParentBottom="true"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_margin="20dp"
-                    android:padding="15dp"
-                    android:text="Áp dụng ưu đãi"
-                    android:textStyle="bold"
-                    android:textColor="#FFF"
-                    android:background="@drawable/shape_custom_text_view"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:padding="15dp"
+                android:text="Áp dụng ưu đãi"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:background="@drawable/shape_custom_text_view"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
