@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 require('../models/CuaHang')
 
 const CuaHang = mongoose.model("cuaHang");
@@ -43,6 +44,18 @@ router.post('/', async (req, res, next) => {
         errorMessage: "Bạn chưa được cấp quyền.",
       })
     }
+
+    // Tạo JWT chứa thông tin tài khoản
+    const token = jwt.sign({
+      _id: cuaHang._id,
+      diaChi: cuaHang.diaChi,
+      username: cuaHang.username,
+      email: cuaHang.email,
+      sdt: cuaHang.sdt,
+    }, 'jwt_secret_key');
+
+    // Gửi JWT về client trong cookie hoặc trong response body
+    res.cookie('jwt', token);
 
     // return res.status(200).json({ successMessage: 'Đăng nhập thành công.', cuaHang });
     return res.render('index', {
