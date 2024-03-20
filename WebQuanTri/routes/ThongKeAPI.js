@@ -459,7 +459,7 @@ router.get("/top10sanpham/:startDate/:endDate/:maCuaHang", async (req, res) => {
   try {
     const hoaDonData = await HoaDon.find({
       trangThaiNhanHang: "Đã giao",
-      ngayTao: { $gte: startDate, $lte: endDate },
+      ngayTao: { $gte: new Date(startDate), $lte: new Date(endDate) },
       maCuaHang: new mongoose.Types.ObjectId(maCuaHang), 
     });
 

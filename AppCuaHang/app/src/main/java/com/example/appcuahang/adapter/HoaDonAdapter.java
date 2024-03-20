@@ -16,6 +16,7 @@ import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.Client;
 import com.example.appcuahang.model.Store;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,7 +63,15 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
 
         holder.tvPhuongThuc.setText("Thanh toán: "+hoaDon.getPhuongThucThanhToan());
         holder.tvNgayDat.setText("Ngày đặt: "+hoaDon.getNgayTao());
-        holder.tvTongTien.setText(""+hoaDon.getTongTien() +" đ");
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        String tongTien = hoaDon.getTongTien(); // Giả sử tổng tiền là một chuỗi số
+        try {
+            double tongTienNumber = Double.parseDouble(tongTien);
+            String formattedNumber = decimalFormat.format(tongTienNumber);
+            holder.tvTongTien.setText(""+formattedNumber +" đ");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
         SimpleDateFormat sdfInput = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat sdfOutput = new SimpleDateFormat("dd\n'thg' MM", Locale.getDefault());
