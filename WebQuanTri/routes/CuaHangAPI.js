@@ -25,17 +25,18 @@ router.post('/addCuaHang', function(req, res, next) {
   })
   cuaHang.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log
   })
 });
 
-/* GET loaidichvu listing. */
-router.get('/getCuaHang', async (req,res) => {
+/* lấy danh sách cửa hàng trừ tài khoản đăng nhập */
+router.get('/getCuaHang/:id', async (req,res) => {
   try {
-    const cuaHang = await CuaHang.find();
+    const idToExclude = req.params.id;
+    const cuaHang = await CuaHang.find({ _id: { $ne: idToExclude } });
     res.json(cuaHang);
   } catch (error) {
     res.status(500).json({ error: error.message });

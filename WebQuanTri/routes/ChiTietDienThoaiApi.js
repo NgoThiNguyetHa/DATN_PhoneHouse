@@ -34,7 +34,7 @@ router.post("/addChiTiet", async function (req, res, next) {
       .populate("maDungLuong")
       .populate("maRam");
 
-    console.log(populatedDienThoaiChiTiet);
+    // console.log(populatedDienThoaiChiTiet);
     res.send(populatedDienThoaiChiTiet);
   } catch (err) {
     console.log(err);

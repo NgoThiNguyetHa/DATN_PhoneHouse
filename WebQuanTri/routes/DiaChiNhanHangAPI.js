@@ -23,7 +23,7 @@ router.post('/addDiaChiNhanHang', function(req, res, next) {
   })
   diaChiNhanHang.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log

@@ -10,20 +10,26 @@
 
     <style>
         body {
-            background: #EEEEEE;
+            background: #f5f5f5;
         }
 
         th, td {
             text-align: center;
         }
-        .borderColor{
+
+        .borderColor {
             border: 1px solid #EEEEEE;
+        }
+
+        td {
+            border: 1px solid #dcdada;
         }
 
     </style>
 </head>
 <body>
 <div class="container">
+    <h4>Quản lý điện thoại</h4>
     <div class="tab-content d-flex row justify-content-center">
         <!--        <form method="GET" action="" class="d-flex justify-content-between m-3">-->
         <!--            <input type="text" name="tenNV" class="m-1 form-control" placeholder="Tìm tên nhiệm vụ"/> <br>-->
@@ -33,40 +39,48 @@
         <!--            <input type="number" name="page" min="1" max="1000" class="m-1 form-control" placeholder="Trang"/> <br>-->
         <!--            <button class="btn btn-primary m-1" type="submit" value="submit">Tìm</button>-->
         <!--        </form>-->
-        <div class="tab-content d-flex col align-content-center m-1">
-            <span class="fw-bold">Tổng số đơn: &nbsp; </span>
-            <span><%= data.length %></span>
-        </div>
+
         <div class="tab-content d-flex row justify-content-center">
             <table class="table text-break table-bordered">
                 <thead>
                 <tr class="bg-secondary bg-opacity-50 text-bg-info">
-                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">STT</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Tên khách hàng</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Ngày đặt</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Tổng tiền</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Trạng thái</th>
+                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Điện thoại</th>
+                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">Hãng</th>
+                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Màu</th>
+                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">Dung lượng</th>
+                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">RAM</th>
+                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Giá tiền</th>
+                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">Số lượng</th>
                     <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <% for(var i = 0; i < data.length; i++){ %>
                     <tr>
-                        <td scope="row"><%= i + 1 %></td>
-                        <td><%= data[i].maKhachHang.username %></td>
-                        <td><%= data[i].ngayTao %></td>
-                        <td><%= data[i].tongTien %></td>
-                        <td
-                                class="<%= data[i].trangThaiNhanHang === 'Đã giao' ? 'status-delivered' :
-                                        (data[i].trangThaiNhanHang === 'Đã hủy' ? 'status-cancelled' :
-                                                'status-in-progress') %>"
-                        ><%= data[i].trangThaiNhanHang %></td>
-                        <td>
-                            <a
-                                    class="text-decoration-none deleteBtn "
-                            >Xem chi tiết</a>
-                        </td>
+                        <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>"><%= data[i].tenDienThoai %></td>
+                        <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>"><%= data[i].maHangSX.tenHang %></td>
+                        <% if(data[i].chiTiet.length === 0) { %>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        <% } %>
                     </tr>
+                    <% for(var j = 0; j < data[i].chiTiet.length; j++){ %>
+                        <tr>
+                            <td><%= data[i].chiTiet[j].maMau.tenMau %></td>
+                            <td><%= data[i].chiTiet[j].maDungLuong.boNho %> GB</td>
+                            <td><%= data[i].chiTiet[j].maRam.RAM %> GB</td>
+                            <td><%= data[i].chiTiet[j].giaTien %></td>
+                            <td><%= data[i].chiTiet[j].soLuong %></td>
+                            <td>
+                                <a class="text-decoration-none deleteBtn">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                    <% } %>
+
                 <% } %>
                 </tbody>
             </table>

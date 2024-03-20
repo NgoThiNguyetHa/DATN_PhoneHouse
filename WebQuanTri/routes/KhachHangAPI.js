@@ -78,8 +78,6 @@ router.post('/dangNhapKhachHang', async (req, res) => {
     if (!khachHang) {
       return res.status(401).json({errorMessage: 'Email không tồn tại.'});
     }
-    console.log(khachHang.password)
-    const isPasswordValid = await bcrypt.compare(password, khachHang.password)
 
     if (password !== khachHang.password) {
       return res.status(401).json({errorMessage: 'Mật khẩu không đúng.'});

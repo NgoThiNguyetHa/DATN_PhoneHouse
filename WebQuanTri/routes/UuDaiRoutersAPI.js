@@ -22,7 +22,7 @@ router.post('/addUuDai',async function (req, res, next) {
     const savedUuDai = await uudai.save(); // Lưu đối tượng
     const populatedUuDai = await UuDai.findById(savedUuDai._id).populate("maCuaHang");
 
-    console.log(populatedUuDai);
+    // console.log(populatedUuDai);
     res.send(populatedUuDai);
   } catch (err) {
     console.log(err);

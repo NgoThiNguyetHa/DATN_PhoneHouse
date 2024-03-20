@@ -10,17 +10,14 @@ router.get('/', authenticateToken, async function(req, res, next) {
   try {
     // Nhận mã cửa hàng từ yêu cầu của client
     const userId = req.userId;
-    console.log(baseUrl)
-    console.log(userId)
+
     // Gọi API để lấy danh sách hóa đơn dựa trên mã cửa hàng
-    // const response = await axios.get(`${baseUrl}dienthoais/getHoaDonTheoCuaHang/${userId}`);
-    //
-    // // Dữ liệu hóa đơn từ API
-    // const hoaDonList = response.data;
-    // console.log("hoadon: ", hoaDonList)
-    //
-    // res.render('quanLyDienThoai', { title: 'Express', data: hoaDonList });
-    res.render('quanLyDienThoai', { title: 'Express' });
+    const response = await axios.get(`${baseUrl}dienthoais/getDienThoaiVaChiTiet/${userId}`);
+
+    // Dữ liệu hóa đơn từ API
+    const dienThoais = response.data;
+
+    res.render('quanLyDienThoai', { title: 'Express', data: dienThoais });
 
   } catch (error) {
     console.error('Error fetching data:', error);
