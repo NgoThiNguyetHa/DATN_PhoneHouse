@@ -4,13 +4,12 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="#FFF">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
-            android:id="@+id/item_frame"
             app:cardCornerRadius="20dp"
             android:layout_width="330dp"
             android:layout_height="100dp"
@@ -20,16 +19,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:id="@+id/mUD"
+                android:gravity="center"
+                android:layout_marginLeft="70dp"
                 >
 
                 <TextView
                     android:id="@+id/item_tvGiamGia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="25dp"
+                    android:gravity="left"
+                    android:textSize="30dp"
                     android:text="Giảm giá"
                     android:textStyle="bold" />
 
@@ -37,7 +36,7 @@
                     android:id="@+id/item_tvThoiGian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Thời gian"
                     android:textStyle="bold" />
 
@@ -45,7 +44,7 @@
                     android:id="@+id/item_tvTrangThai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Trạng thái"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -56,7 +55,7 @@
             android:src="@drawable/voucher"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:elevation="2dp"
             android:layout_gravity="center_vertical" />
     </FrameLayout>

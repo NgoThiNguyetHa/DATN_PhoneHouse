@@ -31,7 +31,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.DungLuongAdapter;
 import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemDungLuongListenner;
+import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
