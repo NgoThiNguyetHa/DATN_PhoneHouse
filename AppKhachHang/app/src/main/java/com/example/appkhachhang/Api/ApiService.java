@@ -24,9 +24,9 @@ public interface ApiService {
     Call<List<HoaDon>> getHoaDonByTrangThai(@Path("trangThaiNhanHang") String trangThaiNhanHang);
 
     //lấy list danh sách hóa đơn theo trạng thái của cửa hàng
-    @GET("hoadons/getHoaDonTheoTrangThai/{trangThaiNhanHang}/{maKhachHang}")
+    @GET("hoadons/getHoaDonTheoTrangThai-KH/{trangThaiNhanHang}/{maKhachHang}")
     Call<List<HoaDon>> getHoaDonTrangThai(@Path("trangThaiNhanHang") String trangThaiNhanHang,
-                                          @Path("maKhachHang") String maCuaHang);
+                                          @Path("maKhachHang") String maKhachHang);
 
     @GET("hoadons/getHoaDonTheoChiTiet")
     Call<List<HoaDon>> getAllHoaDon();

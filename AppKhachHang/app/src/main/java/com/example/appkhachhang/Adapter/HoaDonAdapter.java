@@ -65,7 +65,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
         holder.tvNgayDat.setText("Ngày đặt: "+hoaDon.getNgayTao());
         holder.tvTongTien.setText(""+hoaDon.getTongTien() +" đ");
 
-        SimpleDateFormat sdfInput = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         SimpleDateFormat sdfOutput = new SimpleDateFormat("dd\n'thg' MM", Locale.getDefault());
         try {
             Date ngayTaoDate = sdfInput.parse(hoaDon.getNgayTao());

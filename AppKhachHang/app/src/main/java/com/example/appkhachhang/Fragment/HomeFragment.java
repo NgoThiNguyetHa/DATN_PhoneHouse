@@ -160,15 +160,9 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
             @Override
             public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
                 Log.e("errorrr", "onFailure: " + t.getMessage() );
-            public void onFailure(Call<List<SanPham>> call, Throwable t) {
-//                Toast.makeText(getActivity(), "Call API error: "  , Toast.LENGTH_SHORT).show();
-                Log.e("error", "err " + t.getMessage());
-
-
             }
         });
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

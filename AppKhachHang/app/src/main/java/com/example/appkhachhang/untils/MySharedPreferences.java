@@ -21,7 +21,7 @@ public class MySharedPreferences {
     }
 
     // Save user data
-    public void saveUserData(String userId, String userName, String email ,String passWord , String phone , String address) {
+    public void saveUserData(String userId , String userName , String email , String passWord , String phone , String address ) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_USER_ID, userId);
         editor.putString(KEY_USER_NAME, userName);

@@ -72,6 +72,7 @@ public class DonXuLyFragment extends Fragment {
                     List<HoaDon> hoaDonList = response.body();
                     adapter = new HoaDonAdapter(getContext(),hoaDonList);
                     rc_donXuLy.setAdapter(adapter);
+                    Log.e("tag", hoaDonList.toString());
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }

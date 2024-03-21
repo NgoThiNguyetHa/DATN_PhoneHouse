@@ -71,14 +71,14 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, 
   }
 });
 // lấy hóa đơn theo mã khách hàng
-router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
+router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
   try {
     const trangThaiNhanHang = req.params.trangThaiNhanHang;
     const maKhachHang = req.params.maKhachHang;
     const hoaDon = await HoaDon.find({ trangThaiNhanHang , maKhachHang })
             .populate("maKhachHang")
             .populate("maDiaChiNhanHang") 
-            .populate("maKhachHang")
+            .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
     res.status(500).json({ error: error.message });

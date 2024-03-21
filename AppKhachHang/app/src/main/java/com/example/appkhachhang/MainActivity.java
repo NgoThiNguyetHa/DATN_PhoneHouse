@@ -19,7 +19,6 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.example.appkhachhang.Fragment.BillFragment;
 import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.CartFragment;
 import com.example.appkhachhang.Fragment.BillOrderFragment;
