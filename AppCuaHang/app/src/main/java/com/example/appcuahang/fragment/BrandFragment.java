@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 
@@ -43,20 +44,10 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.untils.MySharedPreferences;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +64,6 @@ public class BrandFragment extends Fragment {
     GridLayoutManager manager;
     MySharedPreferences mySharedPreferences;
 
-    TextView tvUpload;
 
     //upload image
 
@@ -82,6 +72,7 @@ public class BrandFragment extends Fragment {
     Uri imageUri;
     ImageView uploadImage;
     FirebaseDatabase database;
+    ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -149,7 +140,7 @@ public class BrandFragment extends Fragment {
             }
         });
 
-        Call<List<Brand>> call = apiService.getHangSanXuatByCuaHang(mySharedPreferences.getUserId());
+        Call<List<Brand>> call = apiService.getHangSanXuat();
 
         call.enqueue(new Callback<List<Brand>>() {
             @Override
@@ -193,7 +184,6 @@ public class BrandFragment extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_brand_tvTitle);
         ImageView imgViewClose = view.findViewById(R.id.dl_brand_imageView);
         uploadImage = view.findViewById(R.id.dl_brand_uploadImageView);
-        tvUpload = view.findViewById(R.id.dl_brand_tvUpload);
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,8 +199,11 @@ public class BrandFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 String tenHang = edTenHang.getText().toString().trim();
-                String password = mySharedPreferences.getUserId();
                 ApiService apiService = ApiRetrofit.getApiService();
                 //====
                 //upload ảnh lên firebase
@@ -225,7 +218,7 @@ public class BrandFragment extends Fragment {
                                 public void onSuccess(Uri uri) {
 //                                    String key = reference.push().getKey();
 //                                    reference.child(key).setValue(uri.toString());
-                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString(), password));
+                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
                                     call.enqueue(new Callback<Brand>() {
                                         @Override
                                         public void onResponse(Call<Brand> call, Response<Brand> response) {
@@ -233,6 +226,7 @@ public class BrandFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
                                                 getData();
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                             }
                                         }
 
@@ -251,7 +245,6 @@ public class BrandFragment extends Fragment {
 
             }
         });
-
         imgViewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,7 +276,6 @@ public class BrandFragment extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_brand_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_brand_imageView);
         uploadImage = view.findViewById(R.id.dl_brand_uploadImageView);
-        tvUpload = view.findViewById(R.id.dl_brand_tvUpload);
         tvTitle.setText("Cập Nhật Hãng Sản Xuất");
         edTenHang.setText(brand.getTenHang());
         if (brand.getHinhAnh() == null) {
@@ -305,6 +297,10 @@ public class BrandFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //====
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 //upload ảnh lên firebase
                 if (imageUri != null){
                     String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
@@ -316,9 +312,8 @@ public class BrandFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String tenHang = edTenHang.getText().toString().trim();
-                                    String password = mySharedPreferences.getUserId();
                                     ApiService apiService = ApiRetrofit.getApiService();
-                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString(), password));
+                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
                                     call.enqueue(new Callback<Brand>() {
                                         @Override
                                         public void onResponse(Call<Brand> call, Response<Brand> response) {
@@ -326,6 +321,7 @@ public class BrandFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                                 getData();
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                             }
                                         }
 
@@ -380,7 +376,6 @@ public class BrandFragment extends Fragment {
                 Intent data = result.getData();
                 imageUri = data.getData();
                 uploadImage.setImageURI(imageUri);
-                tvUpload.setText("");
             }else{
                 Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
             }

@@ -189,7 +189,7 @@ public class InfoStoreFragment extends Fragment {
                     return;
                 } else {
                     ApiService apiService = ApiRetrofit.getApiService();
-                    Call<Store> call = apiService.putCuaHang(mySharedPreferences.getUserId(), new Store(newPass));
+                    Call<Store> call = apiService.putCuaHang(mySharedPreferences.getUserId(), new Store(newPass,mySharedPreferences.getEmail()));
                     call.enqueue(new Callback<Store>() {
                         @Override
                         public void onResponse(Call<Store> call, Response<Store> response) {

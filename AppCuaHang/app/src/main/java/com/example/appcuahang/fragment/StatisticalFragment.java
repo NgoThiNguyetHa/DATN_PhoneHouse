@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.adapter.Top10Adapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
-import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.Top10sanPham;
 import com.example.appcuahang.untils.MySharedPreferences;
@@ -38,7 +34,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.FirebaseApp;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

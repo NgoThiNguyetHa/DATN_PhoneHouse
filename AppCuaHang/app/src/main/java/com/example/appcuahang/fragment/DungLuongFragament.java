@@ -31,7 +31,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.DungLuongAdapter;
 import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemDungLuongListenner;
+import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
@@ -91,7 +91,6 @@ public class DungLuongFragament extends Fragment {
         rc_dungLuong.setAdapter(adapter);
     }
     private void getData(){
-
 //        ApiDuService apiRamService = ApiRetrofit.getApiRamService();
         ApiDungLuongService apiDungDuongService = ApiRetrofit.getApiDungLuongService();
 
@@ -140,7 +139,7 @@ public class DungLuongFragament extends Fragment {
         TextView tvTitle = view.findViewById(R.id.dl_dungLuong_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
 
-        tvTitle.setText("Cập Nhật Hãng Sản Xuất");
+        tvTitle.setText("Cập Nhật Dung Lượng");
         edDungLuong.setText(dungLuong.getBoNho());
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

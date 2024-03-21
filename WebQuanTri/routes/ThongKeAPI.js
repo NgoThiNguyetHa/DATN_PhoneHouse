@@ -44,7 +44,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
           model: "dienthoai",
           populate: [
             {path: "maHangSX", model: "hangSanXuat"}, // Populate manufacturer (HangSX)
-            {path: "maUuDai", model: "uudai"},
+            {path: "maUuDai", model: "uudai", populate: 'maCuaHang'},
             {path: "maCuaHang", model: "cuaHang"} // Populate promotion (UuDai)
           ],
         }, // Tên của model ĐienThoai trong cơ sở dữ liệu, // Tên của model ĐienThoai trong cơ sở dữ liệu
@@ -459,7 +459,7 @@ router.get("/top10sanpham/:startDate/:endDate/:maCuaHang", async (req, res) => {
   try {
     const hoaDonData = await HoaDon.find({
       trangThaiNhanHang: "Đã giao",
-      ngayTao: { $gte: startDate, $lte: endDate },
+      ngayTao: { $gte: new Date(startDate), $lte: new Date(endDate) },
       maCuaHang: new mongoose.Types.ObjectId(maCuaHang), 
     });
 

@@ -1,5 +1,6 @@
 package com.example.appkhachhang.Fragment;
-
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     List<HangSanXuat> listHang;
     Toolbar toolbar;
     AppCompatActivity activity;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
