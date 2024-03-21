@@ -1,6 +1,8 @@
 package com.example.appcuahang.model;
 
-public class Phone {
+import java.io.Serializable;
+
+public class Phone implements Serializable {
     private String tenDienThoai;
     private String kichThuoc;
     private String congNgheManHinh;
@@ -12,14 +14,16 @@ public class Phone {
     private String namSanXuat;
     private String thoiGianBaoHanh;
     private String moTaThem;
-    private String maHangSX;
+    private Brand maHangSX;
     private String hinhAnh;
-    private String maUuDai;
+    private UuDai maUuDai;
+    private Store maCuaHang;
+    private String _id;
 
     public Phone() {
     }
 
-    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, String maHangSX, String hinhAnh, String maUuDai) {
+    public Phone(String tenDienThoai, String kichThuoc, String congNgheManHinh, String camera, String cpu, String pin, String heDieuHanh, String doPhanGiai, String namSanXuat, String thoiGianBaoHanh, String moTaThem, Brand maHangSX, String hinhAnh, UuDai maUuDai , Store maCuaHang) {
         this.tenDienThoai = tenDienThoai;
         this.kichThuoc = kichThuoc;
         this.congNgheManHinh = congNgheManHinh;
@@ -34,6 +38,11 @@ public class Phone {
         this.maHangSX = maHangSX;
         this.hinhAnh = hinhAnh;
         this.maUuDai = maUuDai;
+        this.maCuaHang = maCuaHang;
+    }
+
+    public Phone(String _id) {
+        this._id = _id;
     }
 
     public String getTenDienThoai() {
@@ -60,11 +69,11 @@ public class Phone {
         this.kichThuoc = kichThuoc;
     }
 
-    public String getCPU() {
+    public String getCpu() {
         return cpu;
     }
 
-    public void setCPU(String cpu) {
+    public void setCpu(String cpu) {
         this.cpu = cpu;
     }
 
@@ -132,19 +141,35 @@ public class Phone {
         this.moTaThem = moTaThem;
     }
 
-    public String getMaHangSX() {
+    public Brand getMaHangSX() {
         return maHangSX;
     }
 
-    public void setMaHangSX(String maHangSX) {
+    public void setMaHangSX(Brand maHangSX) {
         this.maHangSX = maHangSX;
     }
 
-    public String getMaUuDai() {
+    public UuDai getMaUuDai() {
         return maUuDai;
     }
 
-    public void setMaUuDai(String maUuDai) {
+    public void setMaUuDai(UuDai maUuDai) {
         this.maUuDai = maUuDai;
+    }
+
+    public Store getMaCuaHang() {
+        return maCuaHang;
+    }
+
+    public void setMaCuaHang(Store maCuaHang) {
+        this.maCuaHang = maCuaHang;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

@@ -7,8 +7,8 @@ public class Ram {
     public Ram() {
     }
 
-    public Ram(String RAM) {
-        this.RAM = RAM;
+    public Ram(String _id) {
+        this._id = _id;
     }
 
     public String getRAM() {
@@ -25,5 +25,10 @@ public class Ram {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    @Override
+    public String toString() {
+        return RAM ;
     }
 }

@@ -1,8 +1,9 @@
 package com.example.appcuahang.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UuDai {
+public class UuDai implements Serializable {
     public String _id;
     public String giamGia;
     public String thoiGian;
