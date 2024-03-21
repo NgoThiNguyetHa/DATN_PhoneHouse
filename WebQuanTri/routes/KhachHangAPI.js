@@ -9,7 +9,7 @@ require('../models/GioHang')
 const KhachHang = mongoose.model("khachhang");
 const HoaDon = mongoose.model("hoaDon");
 const GioHang = mongoose.model("gioHang")
-
+const bcrypt = require('bcryptjs');
 // const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 router.post('/addKhachHang', async (req, res, next) => {
   try {
@@ -117,5 +117,31 @@ router.get("/getKhachHangTheoCuaHang/:id", async (req, res) => {
     return res.status(500).json({message: error.message})
   }
 })
+router.put('/doiMatKhau', async (req, res) => {
+  try {
+    const { email, oldPassword, newPassword } = req.body;
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({ errorMessage: 'Vui lòng nhập đủ thông tin.' });
+    }
+
+    const khachHang = await KhachHang.findOne({ email });
+    if (!khachHang) {
+      return res.status(404).json({ errorMessage: 'Không tìm thấy khách hàng.' });
+    }
+
+    if (oldPassword !== khachHang.password) {
+      return res.status(401).json({ errorMessage: 'Mật khẩu cũ không đúng.' });
+    }
+
+    // Cập nhật mật khẩu mới vào database
+    khachHang.password = newPassword;
+    await khachHang.save();
+
+    return res.status(200).json(khachHang);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ errorMessage: 'Lỗi server.' });
+  }
+});
 
 module.exports = router;
