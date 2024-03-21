@@ -19,9 +19,9 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.example.appkhachhang.Fragment.HomeFragment;
-import com.example.appkhachhang.Fragment.CartFragment;
 import com.example.appkhachhang.Fragment.BillOrderFragment;
+import com.example.appkhachhang.Fragment.CartFragment;
+import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.NotificationFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

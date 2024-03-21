@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     Toolbar toolbar;
     AppCompatActivity activity;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,9 +99,9 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
         listSPHot = new ArrayList<>();
+        getSanPhamHot();
         sanPhamHotAdapter = new SanPhamHotAdapter(getContext(), listSPHot, this);
         recyclerViewSPHot.setAdapter(sanPhamHotAdapter);
-        getSanPhamHot();
     }
 
     void hangSanXuat(){
@@ -163,6 +164,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
             }
         });
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
