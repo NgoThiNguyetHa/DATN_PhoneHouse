@@ -1,0 +1,41 @@
+<!-- res/layout/item_address.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:text="Họ tên: "
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:text="Địa chỉ: "
+        android:id="@+id/addressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:text="SĐT: "
+        android:id="@+id/phoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"/>
+    <Button
+        android:id="@+id/btnAddress"
+        android:textColor="@color/black"
+        android:text="Thêm địa chỉ nhận hàng"
+        android:backgroundTint="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

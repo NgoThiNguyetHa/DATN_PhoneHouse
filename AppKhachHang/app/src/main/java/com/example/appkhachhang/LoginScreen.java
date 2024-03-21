@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
+import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,13 +78,18 @@ public class LoginScreen extends AppCompatActivity {
         }
         for (User user: list) {
             if (Email.equals(user.getEmail()) && Password.equals(user.getPassword())){
-                for (int i = 0; i < list.size(); i++) {
-                    if (Email.equals(list.get(i).getEmail())){
+//                for (int i = 0; i < list.size(); i++) {
+//                    if (Email.equals(list.get(i).getEmail())){
+//                        MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
+//                        sharedPreferences.saveUserData("65ad9d443f4a6d12f59fb381" , "nguyet ha", "ha@gmail.com", "123457" , "0123456789" , "HaNoi");
+//                        Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+//                        startActivity(intent);
+//                    }
+//                }
+                MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
+                        sharedPreferences.saveUserData(user.get_id() , user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
                         Intent intent = new Intent(LoginScreen.this, MainActivity.class);
                         startActivity(intent);
-                    }
-                }
-
                 break;
             } else if (Email.isEmpty()||Password.isEmpty()){
                 edEmail.setError("Email invalid");
