@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.appkhachhang.AddressDelivery;
+import com.example.appkhachhang.ChangePassword;
 import com.example.appkhachhang.R;
 public class UserFragment extends Fragment {
     Button btnMap;
+
+    Button btnChangePass;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -25,10 +28,19 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnMap = view.findViewById(R.id.btnMap);
+        btnChangePass = view.findViewById(R.id.btnChangePass);
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddressDelivery.class);
+                startActivity(intent);
+            }
+        });
+
+        btnChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChangePassword.class);
                 startActivity(intent);
             }
         });

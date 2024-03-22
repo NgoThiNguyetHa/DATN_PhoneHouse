@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
+import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +32,8 @@ public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
     Button btnSave, btnCancle;
     FirebaseAuth mAuth;
+
+    MySharedPreferences mySharedPreferences;
     ProgressBar progressBar;
 
     @Override
@@ -42,41 +46,68 @@ public class ChangePassword extends AppCompatActivity {
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.e("TAG", "onCreate: " + user.getEmail() );
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String oldPassStr  = edPassOld.getText().toString();
-                String newPassStr  = edPassNew.getText().toString();
-                String againPassStr  = edPassAgain.getText().toString();
-                if(oldPassStr.isEmpty()){
+                String oldPassStr = edPassOld.getText().toString();
+                String newPassStr = edPassNew.getText().toString();
+                String againPassStr = edPassAgain.getText().toString();
+                if (oldPassStr.isEmpty()) {
                     edPassOld.setError("Nhập đủ thông tin");
-                }
-                else if(newPassStr.isEmpty()){
+                } else if (newPassStr.isEmpty()) {
                     edPassNew.setError("Nhập đủ thông tin");
-                }
-                else if(againPassStr.isEmpty()){
+                } else if (againPassStr.isEmpty()) {
                     edPassAgain.setError("Nhập đủ thông tin");
-                }
-                else if(newPassStr.length()<6 ){
+                } else if (newPassStr.length() < 6) {
                     edPassNew.setError("Nhập đủ 6 kí tự");
-                }
-                else if(againPassStr.length()<6){
+                } else if (againPassStr.length() < 6) {
                     edPassAgain.setError("Nhập đủ 6 kí tự");
-                }
-                else{
-                    updatePassword(oldPassStr,newPassStr);
+                } else {
+                    updatePassword(oldPassStr, newPassStr);
 
                 }
-
 
 
             }
 
             private void updatePassword(String oldPassStr, String newPassStr) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                AuthCredential authCredential = EmailAuthProvider.getCredential(user.getEmail(),oldPassStr);
-                User_API.userApi.updateMatKhau(new com.example.appkhachhang.Model.ChangePassword(user.getEmail(), oldPassStr, newPassStr)).enqueue(new Callback<User>() {
+                mySharedPreferences = new MySharedPreferences(getApplicationContext());
+                FirebaseAuth.getInstance().fetchSignInMethodsForEmail(mySharedPreferences.getEmail())
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // Kiểm tra xem email có tồn tại hay không
+                                if (task.getResult().getSignInMethods().size() > 0) {
+                                    // Email tồn tại, tiến hành lấy thông tin người dùng
+                                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(mySharedPreferences.getEmail(), "temporaryPassword")
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    FirebaseUser user = task1.getResult().getUser();
+                                                    Log.e("1", "updatePassword: " + user);
+
+                                                    // Thực hiện các thao tác cần thiết với thông tin người dùng
+                                                }
+                                            });
+                                } else {
+                                    Log.e("TAG", "Email không tồn tại trong hệ thống: " );
+                                    // Email không tồn tại trong hệ thống
+                                }
+                            } else {
+                                Log.e("TAG", "Đã xảy ra lỗi khi kiểm tra email: " );
+                                // Đã xảy ra lỗi khi kiểm tra email
+                            }
+                        });
+
+
+
+
+//                Log.e("zzzzz", "updatePassword: " + mySharedPreferences.getEmail());
+//
+//                Log.e("zzzzz", "updatePassword: " + user.getEmail());
+//                Log.e("zzzzz", "updatePassword: " + user);
+//                AuthCredential authCredential = EmailAuthProvider.getCredential(mySharedPreferences.getEmail(), oldPassStr);
+                User_API.userApi.updateMatKhau(new com.example.appkhachhang.Model.ChangePassword(mySharedPreferences.getEmail(), oldPassStr, newPassStr)).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response != null){
@@ -90,30 +121,32 @@ public class ChangePassword extends AppCompatActivity {
 
                     }
                 });
-
-
-                user.reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        user.updatePassword(newPassStr).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(ChangePassword.this, "password succes", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+//
+//
+//                user.reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        user.updatePassword(newPassStr).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                Toast.makeText(ChangePassword.this, "password succes", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                Log.e("zzzzz", "onFailure: " + e.getMessage());
+//                            }
+//                        });
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Log.e("zzzzz", "onFailure: " + e.getMessage());
+//
+//                    }
+//                });
             }
         });
 

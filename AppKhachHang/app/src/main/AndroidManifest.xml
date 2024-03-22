@@ -22,16 +22,16 @@
             android:name=".DetailScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterScreen"
+            android:name=".LoginScreen"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen"
+            android:name=".ChangePassword"
             android:exported="false" />
         <activity
             android:name=".HelloScreen"
             android:exported="false"></activity>
         <activity
-            android:name=".ChangePassword"
+            android:name=".RegisterScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
