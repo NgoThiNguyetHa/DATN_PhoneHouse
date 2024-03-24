@@ -97,6 +97,27 @@ router.put("/updateDienThoai/:id", async (req, res) => {
     return res.status(500).json({message: err.message})
   }
 })
+router.put("/updateMaUuDaiDienThoai/:id", async (req, res) => {
+  try {
+    const dienThoaiId = req.params.id;
+    const newMaUuDai = req.body.maUuDai;
+
+    const existingDienThoai = await DienThoai.findById(dienThoaiId);
+    if (!existingDienThoai) {
+      return res.status(404).json({ message: "Điện thoại không tồn tại" });
+    }
+
+    existingDienThoai.maUuDai = newMaUuDai;
+    const updatedDienThoai = await existingDienThoai.save();
+    const dienThoai = await DienThoai.findById(updatedDienThoai._id)
+        .populate("maCuaHang")
+        .populate("maHangSX")
+        .populate({ path: 'maUuDai', populate: 'maCuaHang' });
+    res.status(200).json(dienThoai);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // router.get("/getDienthoaiTheoHangSanXuat/:id", async (req, res) => {
 //   try {

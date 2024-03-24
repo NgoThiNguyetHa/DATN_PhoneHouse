@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
 
-    private static final String BASE_URL = "http://192.168.1.6:8686/";
+   // private static final String BASE_URL = "http://192.168.1.6:8686/";
 
 //    private static final String BASE_URL = "http://192.168.1.8:8686/";
 
-//     private static final String BASE_URL = "http://192.168.53.231:8686/"; //Yen
+  private static final String BASE_URL = "http://192.168.53.231:8686/"; //Yen
 
 
 //     private static final String BASE_URL = "http://192.168.1.103:8686/";//Long
