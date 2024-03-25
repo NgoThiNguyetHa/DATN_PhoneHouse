@@ -25,6 +25,7 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
     Context mContext;
     List<UuDai> list;
     private IItemUuDaiListenner listenner;
+    private int selectedItemPosition = -1;
 
     public UuDaiAdapter(Context mContext, IItemUuDaiListenner listenner) {
         this.mContext = mContext;
@@ -60,17 +61,10 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
             @Override
             public void onClick(View view) {
                 listenner.editUuDai(uuDai);
-                Toast.makeText(mContext, "on Click item", Toast.LENGTH_SHORT).show();
+                listenner.selectUuDai(uuDai._id);
             }
         });
-        holder.tvGiamGia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listenner.editUuDai(uuDai);
-                Toast.makeText(mContext, "on Click tv", Toast.LENGTH_SHORT).show();
 
-            }
-        });
     }
 
     @Override

@@ -37,7 +37,6 @@ public class ClientFragment extends Fragment {
     ClientAdapter adapter;
     GridLayoutManager manager;
     EditText edClient;
-
     MySharedPreferences mySharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
