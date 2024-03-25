@@ -3,6 +3,8 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 require('../models/CuaHang')
+const axios = require("axios");
+const {baseUrl} = require("../middleware");
 
 const CuaHang = mongoose.model("cuaHang");
 /* GET home page. */
@@ -54,14 +56,18 @@ router.post('/', async (req, res, next) => {
       sdt: cuaHang.sdt,
     }, 'jwt_secret_key');
 
+    const response = await axios.get(`${baseUrl}dienthoais/getDienThoaiVaChiTiet/${cuaHang._id}`);
+    const dienThoais = response.data;
+
     // Gửi JWT về client trong cookie hoặc trong response body
     res.cookie('jwt', token);
 
     // return res.status(200).json({ successMessage: 'Đăng nhập thành công.', cuaHang });
-    return res.render('index', {
+    return res.render('quanLyDienThoai', {
       title: "Đăng nhập",
       successMessage: 'Đăng nhập thành công.',
-      account: cuaHang
+      account: cuaHang,
+      data: dienThoais
     })
   } catch (error) {
     console.error(error);

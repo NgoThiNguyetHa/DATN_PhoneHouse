@@ -2,12 +2,20 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const axios = require("axios");
-const {baseUrl} = require("../middleware");
+const {baseUrl, authenticateToken} = require("../middleware");
+
 // require('../models/CuaHang')
 // const CuaHang = mongoose.model("cuaHang");
 
-router.get('/', async function (req, res, next) {
+router.get('/', authenticateToken, async function (req, res, next) {
   try {
+    const account = {
+      id: req.userId,
+      diaChi:req.diaChi,
+      username:req.username,
+      email:req.email,
+      sdt:req.sdt
+    }
     // Gọi API để lấy danh sách hóa đơn dựa trên mã cửa hàng
     const hangSX = await axios.get(`${baseUrl}hangsanxuats/getHangSanXuat`);
     const mau = await axios.get(`${baseUrl}maus/getMau`);
@@ -20,7 +28,8 @@ router.get('/', async function (req, res, next) {
           hangsanxuats: hangSX.data,
           maus: mau.data,
           dungluongs: dungLuong.data,
-          rams: ram.data
+          rams: ram.data,
+          account: account
         });
   } catch (error) {
     console.error('Error fetching data:', error);

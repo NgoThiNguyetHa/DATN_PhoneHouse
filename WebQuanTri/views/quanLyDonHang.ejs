@@ -13,7 +13,7 @@
             background: #f5f5f5;
         }
 
-        th, td {
+        td {
             text-align: center;
         }
 
@@ -24,123 +24,163 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h4>Quản lý đơn hàng</h4>
-    <div class="tab-content d-flex row justify-content-center">
-        <!--        <form method="GET" action="" class="d-flex justify-content-between m-3">-->
-        <!--            <input type="text" name="tenNV" class="m-1 form-control" placeholder="Tìm tên nhiệm vụ"/> <br>-->
-        <!--            <input type="text" name="level" class="m-1 form-control" placeholder="Tìm mức độ"/> <br>-->
-        <!--            <input type="number" name="year" min="1" max="2999" class="m-1 form-control" placeholder="Năm xuất bản"/> <br>-->
-        <!--            <input type="number" name="limit" min="1" max="1000" class="m-1 form-control" placeholder="Số bản ghi"/> <br>-->
-        <!--            <input type="number" name="page" min="1" max="1000" class="m-1 form-control" placeholder="Trang"/> <br>-->
-        <!--            <button class="btn btn-primary m-1" type="submit" value="submit">Tìm</button>-->
-        <!--        </form>-->
-        <div class="tab-content d-flex col align-content-center m-1">
-            <span class="fw-bold">Tổng số đơn: &nbsp; </span>
-            <span><%= data.length %></span>
-        </div>
-        <div class="tab-content d-flex row justify-content-center">
-            <table class="table text-break table-bordered">
-                <thead>
-                <tr class="bg-secondary bg-opacity-50 text-bg-info">
-                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;">STT</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Tên khách hàng</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Ngày đặt</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Tổng tiền</th>
-                    <th scope="col" class="col-2 borderColor" style="background-color: #dcdada;">Trạng thái</th>
-                    <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for(var i = 0; i < data.length; i++){ %>
-                    <tr>
-                        <td scope="row"><%= i + 1 %></td>
-                        <td><%= data[i].maKhachHang.username %></td>
-                        <td><%= data[i].ngayTao %></td>
-                        <td><%= data[i].tongTien %></td>
-                        <td
-                                style="color: <%= data[i].trangThaiNhanHang === 'Đã giao' ? 'green' :
-                                        (data[i].trangThaiNhanHang === 'Đã hủy' ? 'red' : 'blue') %>"
-                        >
-                            <%= data[i].trangThaiNhanHang %>
-                        </td>
-                        <td>
-                            <a
-                                    class="text-decoration-none deleteBtn "
-                            >Xem chi tiết</a>
-                        </td>
-                    </tr>
+<div class="wrapper">
+    <div id="sidebar">
+        <% include menu.ejs %>
+    </div>
+    <div class="main">
+        <nav class="navbar navbar-expand px-3 border-bottom" id="navigation">
+            <div style="display: flex;">
+                <button class="btn" type="button" data-bs-theme="dark">
+                    <span><i class="fa-solid fa-bars" style="color: #000000;"></i></span>
+                </button>
+                <div class="btn"><span style="font-weight: bold; font-size: 20px">Quản lý đơn hàng</span></div>
+
+            </div>
+            <div id="account">
+                <% if (typeof account !== 'undefined' ) { %>
+                    <span style="display: none" id="accountInfo"><%= JSON.stringify(account) %></span>
+                    <p style="color: black; font-weight: bold">
+                        Welcome, <%= account.username %>!
+                    </p>
                 <% } %>
-                </tbody>
-            </table>
-            <!-- Model -->
-            <!--            <div class="modal" id="myModal">-->
-            <!--                <div class="modal-dialog">-->
-            <!--                    <div class="modal-content">-->
+                <span><i class="fa-solid fa-circle-user" style="font-size: 25px"></i></span>
+            </div>
+        </nav>
+        <main class="content px-3 py-2">
+            <div class="content" id="mainContent">
+                <div class="tab-content d-flex row justify-content-center">
+<!--                    <div class="flex-row d-flex flex-row align-items-center">-->
+<!--                        <form method="GET" action="" class="d-flex justify-content-between m-3 flex-fill">-->
+<!--                            <input type="text" name="tenNV" class="m-1 form-control " placeholder="Nhập giảm giá"/>-->
 
-            <!--                        &lt;!&ndash; Modal Header &ndash;&gt;-->
-            <!--                        <div class="modal-header">-->
-            <!--                            <h4 class="modal-title" id="modal-title-test">Sửa thông tin truyện</h4>-->
-            <!--                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-            <!--                        </div>-->
+<!--                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
+<!--                                <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>-->
+<!--                                <span class="d-inline">Tìm Kiếm</span>-->
+<!--                            </button>-->
+<!--                        </form>-->
 
-            <!--                        &lt;!&ndash; Modal body &ndash;&gt;-->
-            <!--                        <div class="modal-body">-->
-            <!--                            <div class="tab-content d-flex row justify-content-center">-->
-            <!--                                <form action="/sua-truyen" id="editform" method="Post" class="m-3">-->
-            <!--                                    <div class="mb-3">-->
-            <!--                                        <label for="" class="form-label">Tên truyện:</label>-->
-            <!--                                        <input type="text"-->
-            <!--                                               class="form-control" name="tenNV" id="tenNV" aria-describedby="helpId"-->
-            <!--                                               placeholder="Tên truyện" autocomplete="off">-->
-            <!--                                    </div>-->
-            <!--                                    <div class="mb-3">-->
-            <!--                                        <label for="" class="form-label">Tác giả</label>-->
-            <!--                                        <input type="text" class="form-control" name="level" id="level"-->
-            <!--                                               placeholder="Tác giả">-->
-            <!--                                    </div>-->
-            <!--                                    <div class="mb-3">-->
-            <!--                                        <label for="" class="form-label">Mô tả</label>-->
-            <!--                                        <input type="text" class="form-control" name="moTa" id="moTa"-->
-            <!--                                               placeholder="Mô tả">-->
-            <!--                                    </div>-->
-            <!--                                    <div class="mb-3">-->
-            <!--                                        <label for="" class="form-label">Ngày xuất bản</label>-->
-            <!--                                        <input type="date" class="form-control" name="ngayXuatBan" id="ngayXuatBan"-->
-            <!--                                               placeholder="Ngày xuất bản">-->
-            <!--                                    </div>-->
-            <!--                                    <div class="mb-3">-->
-            <!--                                        <label for="" class="form-label">point</label>-->
-            <!--                                        <input type="number" class="form-control" name="point" id="point"-->
-            <!--                                               placeholder="point">-->
-            <!--                                    </div>-->
+<!--                        <form>-->
+<!--                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
+<!--                                <span class=""><i class="fa-solid fa-plus"></i></span>-->
+<!--                                <span class="d-inline">Thêm Mới</span>-->
+<!--                            </button>-->
+<!--                        </form>-->
+<!--                    </div>-->
 
-            <!--                                    &lt;!&ndash; <% if(typeof msg === "string" && !(msg.trim().length === 0)){ %>-->
-            <!--                    <span class="text-danger"><%= msg %></span>-->
-            <!--                    <% } %> &ndash;&gt;-->
-            <!--                                </form>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
 
-            <!--                        &lt;!&ndash; Modal footer &ndash;&gt;-->
-            <!--                        <div class="modal-footer">-->
-            <!--                            <input type="submit" form="editform" value="Lưu thông tin" class="btn btn-primary">-->
-            <!--                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>-->
-            <!--                        </div>-->
+                    <div class="tab-content d-flex col align-content-center m-1">
+                        <span class="fw-bold">Tổng số đơn: &nbsp; </span>
+                        <span><%= data.length %></span>
+                    </div>
+                    <div class="tab-content d-flex row justify-content-center">
+                        <table class="table text-break table-bordered">
+                            <thead>
+                            <tr class="bg-secondary bg-opacity-50 text-bg-info">
+                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada; text-align: center">STT</th>
+                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Tên khách hàng</th>
+                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Ngày đặt</th>
+                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Tổng tiền</th>
+                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Trạng thái</th>
+                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i = 0; i < data.length; i++){ %>
+                                <tr>
+                                    <td scope="row"><%= i + 1 %></td>
+                                    <td><%= data[i].maKhachHang.username %></td>
+                                    <td><%= data[i].ngayTao %></td>
+                                    <td><%= data[i].tongTien %></td>
+                                    <td
+                                            style="color: <%= data[i].trangThaiNhanHang === 'Đã giao' ? 'green' :
+                                                    (data[i].trangThaiNhanHang === 'Đã hủy' ? 'red' : 'blue') %>"
+                                    >
+                                        <%= data[i].trangThaiNhanHang %>
+                                    </td>
+                                    <td>
+                                        <a
+                                                class="text-decoration-none deleteBtn "
+                                        >Xem chi tiết</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                        <!-- Model -->
+                        <!--            <div class="modal" id="myModal">-->
+                        <!--                <div class="modal-dialog">-->
+                        <!--                    <div class="modal-content">-->
 
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!-- Model -->
-        </div>
+                        <!--                        &lt;!&ndash; Modal Header &ndash;&gt;-->
+                        <!--                        <div class="modal-header">-->
+                        <!--                            <h4 class="modal-title" id="modal-title-test">Sửa thông tin truyện</h4>-->
+                        <!--                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                        <!--                        </div>-->
+
+                        <!--                        &lt;!&ndash; Modal body &ndash;&gt;-->
+                        <!--                        <div class="modal-body">-->
+                        <!--                            <div class="tab-content d-flex row justify-content-center">-->
+                        <!--                                <form action="/sua-truyen" id="editform" method="Post" class="m-3">-->
+                        <!--                                    <div class="mb-3">-->
+                        <!--                                        <label for="" class="form-label">Tên truyện:</label>-->
+                        <!--                                        <input type="text"-->
+                        <!--                                               class="form-control" name="tenNV" id="tenNV" aria-describedby="helpId"-->
+                        <!--                                               placeholder="Tên truyện" autocomplete="off">-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="mb-3">-->
+                        <!--                                        <label for="" class="form-label">Tác giả</label>-->
+                        <!--                                        <input type="text" class="form-control" name="level" id="level"-->
+                        <!--                                               placeholder="Tác giả">-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="mb-3">-->
+                        <!--                                        <label for="" class="form-label">Mô tả</label>-->
+                        <!--                                        <input type="text" class="form-control" name="moTa" id="moTa"-->
+                        <!--                                               placeholder="Mô tả">-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="mb-3">-->
+                        <!--                                        <label for="" class="form-label">Ngày xuất bản</label>-->
+                        <!--                                        <input type="date" class="form-control" name="ngayXuatBan" id="ngayXuatBan"-->
+                        <!--                                               placeholder="Ngày xuất bản">-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="mb-3">-->
+                        <!--                                        <label for="" class="form-label">point</label>-->
+                        <!--                                        <input type="number" class="form-control" name="point" id="point"-->
+                        <!--                                               placeholder="point">-->
+                        <!--                                    </div>-->
+
+                        <!--                                    &lt;!&ndash; <% if(typeof msg === "string" && !(msg.trim().length === 0)){ %>-->
+                        <!--                    <span class="text-danger"><%= msg %></span>-->
+                        <!--                    <% } %> &ndash;&gt;-->
+                        <!--                                </form>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+                        <!--                        &lt;!&ndash; Modal footer &ndash;&gt;-->
+                        <!--                        <div class="modal-footer">-->
+                        <!--                            <input type="submit" form="editform" value="Lưu thông tin" class="btn btn-primary">-->
+                        <!--                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>-->
+                        <!--                        </div>-->
+
+                        <!--                    </div>-->
+                        <!--                </div>-->
+                        <!--            </div>-->
+                        <!-- Model -->
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
 </div>
-<script>
-  const baseUrl = 'http://localhost:8686/'
-  // Lấy thông tin tài khoản từ Local Storage
-  // const loggedInAccount = JSON.parse(localStorage.getItem("loggedInAccount"));
 
+<script>
+  const toggler = document.querySelector(".btn");
+  toggler.addEventListener("click", function () {
+    document.querySelector("#sidebar").classList.toggle("collapsed");
+  });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>

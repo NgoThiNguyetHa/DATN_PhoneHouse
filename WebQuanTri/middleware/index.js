@@ -15,6 +15,11 @@ const authenticateToken = (req, res, next) => {
     }
     // Lưu thông tin từ token vào request để sử dụng trong các middleware hoặc controller sau này
     req.userId = decodedToken._id;
+    req.username = decodedToken.username;
+    req.diaChi = decodedToken.diaChi;
+    req.email = decodedToken.email;
+    req.sdt = decodedToken.sdt;
+
     next();
   });
 };
