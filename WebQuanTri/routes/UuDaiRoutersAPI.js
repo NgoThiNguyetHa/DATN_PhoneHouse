@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+const moment = require('moment');
 require('../models/UuDai')
 
 const UuDai = mongoose.model("uudai")
@@ -21,7 +22,7 @@ router.post('/addUuDai',async function (req, res, next) {
     const savedUuDai = await uudai.save(); // Lưu đối tượng
     const populatedUuDai = await UuDai.findById(savedUuDai._id).populate("maCuaHang");
 
-    console.log(populatedUuDai);
+    // console.log(populatedUuDai);
     res.send(populatedUuDai);
   } catch (err) {
     console.log(err);
@@ -70,6 +71,22 @@ router.put("/updateUuDai/:id", async (req, res) => {
     return res.status(500).json({message: err.message})
   }
 })
+
+router.put('/updateExpiredStatus', async (req, res) => {
+  try {
+    const currentDate = moment().startOf('day').format('DD-MM-YYYY'); // Lấy ngày hiện tại
+    const expiredVouchers = await UuDai.find({ thoiGian: { $lte: currentDate }, trangThai: 'Hoạt động' });
+
+    for (const voucher of expiredVouchers) {
+      await UuDai.findByIdAndUpdate(voucher._id, { trangThai: 'Không hoạt động' });
+    }
+
+    res.status(200).json({ message: 'Cập nhật trạng thái voucher thành công' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/getUuDai-Active/:id', async (req, res) => {
   try {
     const idCuaHang = req.params.id;

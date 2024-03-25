@@ -107,9 +107,9 @@ public class RamFragment extends Fragment {
     }
 
     private void getData() {
-        list = new ArrayList<>();
-        manager = new GridLayoutManager(getContext(), 2);
-        rc_ram.setLayoutManager(manager);
+//        list = new ArrayList<>();
+//        manager = new GridLayoutManager(getContext(), 2);
+//        rc_ram.setLayoutManager(manager);
         ApiRamService apiRamService = ApiRetrofit.getApiRamService();
 
         Call<List<Ram>> call = apiRamService.getRam();
@@ -179,7 +179,7 @@ public class RamFragment extends Fragment {
                 if(Validate()){
 
 
-                String tenRam = edTenRam.getText().toString().trim();
+                Number tenRam = Integer.parseInt(edTenRam.getText().toString().trim());
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
                 Call<Ram> call = apiRamService.postRam(new Ram(tenRam));
                 call.enqueue(new Callback<Ram>() {
@@ -189,7 +189,7 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
+//                            fillDataRecyclerView();
                         }
                     }
 
@@ -239,14 +239,14 @@ public class RamFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_ram_imageView);
 
         tvTitle.setText("Cập Nhật Ram");
-        edTenRam.setText(ram.getRAM());
+        edTenRam.setText(ram.getRAM()+"");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Validate()){
 
 
-                String tenram = edTenRam.getText().toString().trim();
+                Number tenram = Integer.parseInt(edTenRam.getText().toString().trim());
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
                 Call<Ram> call = apiRamService.putRam(ram.get_id(), new Ram(tenram));
                 call.enqueue(new Callback<Ram>() {
@@ -256,7 +256,7 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
+//                            fillDataRecyclerView();
                         }
                     }
 

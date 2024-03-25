@@ -1,7 +1,7 @@
 package com.example.appcuahang.model;
 
 public class Ram {
-    private String RAM;
+    private Number RAM;
     private String _id;
 
     public Ram() {
@@ -11,11 +11,15 @@ public class Ram {
         this._id = _id;
     }
 
-    public String getRAM() {
+    public Ram(Number RAM) {
+        this.RAM = RAM;
+    }
+
+    public Number getRAM() {
         return RAM;
     }
 
-    public void setRAM(String RAM) {
+    public void setRAM(Number RAM) {
         this.RAM = RAM;
     }
 
@@ -29,6 +33,6 @@ public class Ram {
 
     @Override
     public String toString() {
-        return RAM ;
+        return RAM.toString() ;
     }
 }

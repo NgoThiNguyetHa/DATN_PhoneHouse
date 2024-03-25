@@ -115,9 +115,26 @@
         i{
             width: 25px;
         }
-
+        #navigation{
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #account{
+            display: flex;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        #account p{
+            margin: 0;
+        }
+        .selected {
+            background-color: #d2d2d2;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 15px;
+        }
         /* Responsive */
-
         @media (min-width: 768px) {
             .content {
                 width: auto;
@@ -131,7 +148,7 @@
     <aside id="sidebar">
         <div class="h-100">
             <div class="sidebar-logo">
-                <a href="#">PhoneHouse</a>
+                <a href="#" onclick="loadPage(event, 'quanLyDienThoaiW')">PhoneHouse</a>
             </div>
             <!-- Sidebar Navigation -->
             <ul class="sidebar-nav">
@@ -140,37 +157,32 @@
                 <li class="sidebar-header">
                     Cửa hàng
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyDienThoaiW')">
+                <li class="sidebar-item selected">
+                    <a  class="sidebar-link" onclick="loadPage(event, 'quanLyDienThoaiW')">
                         <i class="fa-solid fa-mobile-screen-button"></i>
-                        Quản Lý Điện Thoai
+                        Quản Lý Điện Thoại
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyHangSanXuatW')">
+                    <a href="#" class="sidebar-link" onclick="loadPage(event, 'quanLyHangSanXuatW')">
                         <i class="fa-brands fa-bandcamp"></i>
                         Hãng Sản Xuất
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyUuDaiW')">
+                    <a href="#" class="sidebar-link" onclick="loadPage(event, 'quanLyUuDaiW')">
                         <i class="fa-solid fa-ticket"></i>
                         Quản Lý Ưu Đãi
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('quanLyDonHangW')">
+                    <a href="#" class="sidebar-link" onclick="loadPage(event, 'quanLyDonHangW')">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                         Quản Lý Đơn Hàng
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-receipt"></i>
-                        Thông Số Chi Tiết
-                    </a>
-                </li>
-                <li class="sidebar-item" onclick="loadPage('thongKeW')">
+
+                <li class="sidebar-item" onclick="loadPage(event, 'thongKeW')">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-chart-line"></i>
                         Thống Kê
@@ -182,43 +194,20 @@
                     Hệ thống
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('cuaHangLienKetW')">
+                    <a href="#" class="sidebar-link" onclick="loadPage(event, 'cuaHangLienKetW')">
                         <i class="fa-solid fa-store"></i>
                         Cửa Hàng Liên Kết
                     </a>
                 </li>
-<!--                <li class="sidebar-item">-->
-<!--                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#multi"-->
-<!--                       aria-expanded="false" aria-controls="multi">-->
-<!--                        <i class="fa-solid fa-share-nodes pe-2"></i>-->
-<!--                        Multi Level-->
-<!--                    </a>-->
-<!--                    <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">-->
-<!--                        <li class="sidebar-item">-->
-<!--                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"-->
-<!--                               data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">-->
-<!--                                Two Links-->
-<!--                            </a>-->
-<!--                            <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">-->
-<!--                                <li class="sidebar-item">-->
-<!--                                    <a href="#" class="sidebar-link">Link 1</a>-->
-<!--                                </li>-->
-<!--                                <li class="sidebar-item">-->
-<!--                                    <a href="#" class="sidebar-link">Link 2</a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
 
                 <!-- Tài khoản  -->
                 <li class="sidebar-header">
                     Tài khoản
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" onclick="loadPage('doiMatKhauW')">
+                    <a href="#" class="sidebar-link" onclick="loadPage(event, 'doiMatKhauW')">
                         <i class="fa-solid fa-lock"></i>
-                        Đổi Mật Khẩu
+                        Thông tin cá nhân
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -235,28 +224,26 @@
     </aside>
     <!-- Main Component -->
     <div class="main">
-        <nav class="navbar navbar-expand px-3 border-bottom">
+        <nav class="navbar navbar-expand px-3 border-bottom" id="navigation">
             <!-- Button for sidebar toggle -->
             <button class="btn" type="button" data-bs-theme="dark">
                 <span><i class="fa-solid fa-bars" style="color: #000000;"></i></span>
             </button>
+            <div id="account">
+                <% if (typeof account !== 'undefined' ) { %>
+                <span style="display: none" id="accountInfo"><%= JSON.stringify(account) %></span>
+                    <p style="color: black; font-weight: bold">
+                        Welcome, <%= account.username %>!
+                    </p>
+                <% } %>
+                    <span><i class="fa-solid fa-circle-user" style="font-size: 25px"></i></span>
+            </div>
         </nav>
         <main class="content px-3 py-2">
             <div class="content" id="mainContent">
                 <!-- Phần nội dung chính của trang sẽ được thêm ở đây -->
 
             </div>
-<!--            <div class="container-fluid">-->
-<!--                <div id="quan-ly-dien-thoai" class="mb-3 main-content">-->
-<!--                    <h3>Quản Lý Điện Thoại</h3>-->
-<!--                    &lt;!&ndash; Nội dung của trang Quản Lý Điện Thoại &ndash;&gt;-->
-<!--                </div>-->
-<!--                <div id="hang-san-xuat" class="mb-3 main-content" style="display: none;">-->
-<!--                    <h3>Hãng Sản Xuất</h3>-->
-<!--                    &lt;!&ndash; Nội dung của trang Hãng Sản Xuất &ndash;&gt;-->
-<!--                </div>-->
-                <!-- Thêm các phần tử khác tương tự cho các trang khác -->
-<!--            </div>-->
         </main>
     </div>
 </div>
@@ -265,29 +252,17 @@
   toggler.addEventListener("click", function () {
     document.querySelector("#sidebar").classList.toggle("collapsed");
   });
-
-  // Lấy tất cả các liên kết trong sidebar
-  // const sidebarLinks = document.querySelectorAll(".sidebar-link");
-  // sidebarLinks.forEach(function (link) {
-  //   link.addEventListener("click", function (event) {
-  //     // Ngăn chặn hành vi mặc định của liên kết
-  //     event.preventDefault();
-  //
-  //     // Lấy href của liên kết được nhấp
-  //     const href = link.getAttribute("href").replace("#", "");
-  //
-  //     // Ẩn tất cả các phần tử trong Main Component
-  //     const mainContents = document.querySelectorAll(".main-content");
-  //     mainContents.forEach(function (content) {
-  //       content.style.display = "none";
-  //     });
-  //
-  //     // Hiển thị phần tử tương ứng với trang được chọn
-  //     document.getElementById(href).style.display = "block";
-  //   });
-  // });
-
-  function loadPage(page) {
+  const pageResponse = '<%= page%>';
+  if (pageResponse){
+    fetch('http://localhost:8686/' + pageResponse)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('mainContent').innerHTML = html;
+        })
+        .catch(error => console.error('Error:', error));
+  }
+  function loadPage(event, page) {
+    event.preventDefault();
     fetch('http://localhost:8686/' + page)
         .then(response => response.text())
         .then(html => {
@@ -297,7 +272,7 @@
   }
 
   function handleLogout(event) {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a (chuyển đến trang khác)
+    event.preventDefault();
 
     const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất?");
 
@@ -307,6 +282,29 @@
       window.location.href = "http://localhost:8686/dangNhapW";
     }
   }
+  if ('<%= message%>'){
+    alert('<%= message%>')
+
+  }
+  const sidebarItems = document.querySelectorAll('.sidebar-item');
+  //set màu cho item menu khi được chọn
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Loại bỏ tất cả các lớp đã chọn trước đó
+      sidebarItems.forEach(item => {
+        item.classList.remove('selected');
+      });
+
+      // Thêm lớp đã chọn cho mục được nhấp
+      this.classList.add('selected');
+    });
+  });
+
+  // const account = document.getElementById("accountInfo");
+  // if (account) {
+  //   const accountValue = JSON.parse(account.textContent || "{}");
+  //   localStorage.setItem("loggedInAccount", JSON.stringify(accountValue));
+  // }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

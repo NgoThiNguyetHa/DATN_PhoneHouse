@@ -21,7 +21,7 @@ router.post('/addHangSanXuat', function(req, res, next) {
   })
   hangSanXuat.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log
