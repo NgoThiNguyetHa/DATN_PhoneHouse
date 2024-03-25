@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    app:cardElevation="10dp"
+    android:background="#FFFFFF">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -19,35 +20,51 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:gravity="center_vertical"
                 android:id="@+id/mUD"
-                >
+                android:layout_marginLeft="0dp">
 
-                <TextView
-                    android:id="@+id/item_tvGiamGia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="25dp"
-                    android:text="Giảm giá"
-                    android:textStyle="bold" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/item_tvThoiGian"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                </View>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
                     android:gravity="center"
-                    android:text="Thời gian"
-                    android:textStyle="bold" />
+                    >
 
-                <TextView
-                    android:id="@+id/item_tvTrangThai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Trạng thái"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/item_tvGiamGia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="Giảm giá"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/item_tvThoiGian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="Thời gian"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/item_tvTrangThai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="Trạng thái"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

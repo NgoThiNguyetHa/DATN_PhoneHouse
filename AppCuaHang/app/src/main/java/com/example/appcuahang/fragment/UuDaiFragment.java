@@ -101,6 +101,11 @@ public class UuDaiFragment extends Fragment {
                 Log.d("zzz", "uudai");
 
             }
+
+            @Override
+            public void selectUuDai(String idUuDai) {
+
+            }
         });
         adapter.setData(list);
         rc_uuDai.setAdapter(adapter);
