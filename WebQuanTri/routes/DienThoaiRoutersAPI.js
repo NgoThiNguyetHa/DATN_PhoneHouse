@@ -100,7 +100,8 @@ router.put("/updateDienThoai/:id", async (req, res) => {
 router.put("/updateMaUuDaiDienThoai/:id", async (req, res) => {
   try {
     const dienThoaiId = req.params.id;
-    const newMaUuDai = req.body.maUuDai;
+    const newMaUuDai = req.body._id;
+   
 
     const existingDienThoai = await DienThoai.findById(dienThoaiId);
     if (!existingDienThoai) {
@@ -113,6 +114,7 @@ router.put("/updateMaUuDaiDienThoai/:id", async (req, res) => {
         .populate("maCuaHang")
         .populate("maHangSX")
         .populate({ path: 'maUuDai', populate: 'maCuaHang' });
+ 
     res.status(200).json(dienThoai);
   } catch (err) {
     res.status(500).json({ message: err.message });

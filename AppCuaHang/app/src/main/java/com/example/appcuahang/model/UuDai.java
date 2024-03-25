@@ -11,6 +11,10 @@ public class UuDai implements Serializable {
 
     public Store maCuaHang;
 
+    public UuDai(String _id) {
+        this._id = _id;
+    }
+
     public UuDai(String giamGia, String thoiGian, String trangThai, Store maCuaHang) {
         this.giamGia = giamGia;
         this.thoiGian = thoiGian;

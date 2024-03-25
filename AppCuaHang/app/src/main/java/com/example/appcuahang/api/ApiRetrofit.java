@@ -117,6 +117,5 @@ public class ApiRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiUuDaiService.class);
-
     }
 }
