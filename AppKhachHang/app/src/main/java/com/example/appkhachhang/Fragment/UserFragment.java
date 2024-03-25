@@ -14,9 +14,10 @@ import android.widget.FrameLayout;
 
 import com.example.appkhachhang.AddressDelivery;
 import com.example.appkhachhang.ChangePassword;
+import com.example.appkhachhang.InformationScreen;
 import com.example.appkhachhang.R;
 public class UserFragment extends Fragment {
-    Button btnMap;
+    Button btnMap, btnInformation;
 
     Button btnChangePass;
     @Override
@@ -29,6 +30,8 @@ public class UserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnMap = view.findViewById(R.id.btnMap);
         btnChangePass = view.findViewById(R.id.btnChangePass);
+        btnInformation = view.findViewById(R.id.btnInformation);
+
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +44,14 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+
+        btnInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), InformationScreen.class);
                 startActivity(intent);
             }
         });

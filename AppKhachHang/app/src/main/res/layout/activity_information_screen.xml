@@ -4,85 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChangePassword"
-    android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".InformationScreen"
+    android:orientation="vertical">
+
     <com.google.android.material.textfield.TextInputLayout
         app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        app:startIconDrawable="@drawable/baseline_key"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edPassOld"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Mật khẩu cũ"
-
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mật khẩu Mới"
+        android:hint="Họ tên"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edPassNew"
+            android:id="@+id/edHotenHS"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
+            android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         app:errorEnabled="true"
-        app:passwordToggleEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nhập Lại Mật Khẩu"
+        android:hint="Số điện thoại"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edPassAgain"
+            android:id="@+id/edSdtHS"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
+            android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-    <LinearLayout
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edDiaChiHS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btnSaveHS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#5FB1C1"
-            android:text="Xác Nhận"
-            android:layout_gravity="center"
-            />
-
-
-    </LinearLayout>
+        android:backgroundTint="#5FB1C1"
+        android:text="Xác Nhận"
+        android:layout_gravity="center"
+        />
 </LinearLayout>

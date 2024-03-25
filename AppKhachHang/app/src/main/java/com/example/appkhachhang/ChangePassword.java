@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
-    Button btnSave, btnCancle;
+    Button btnSave;
     FirebaseAuth mAuth;
 
     MySharedPreferences mySharedPreferences;
@@ -45,7 +45,7 @@ public class ChangePassword extends AppCompatActivity {
         edPassNew = findViewById(R.id.edPassNew);
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
-        btnCancle = findViewById(R.id.btnCancle);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.e("TAG", "onCreate: " + user.getEmail() );
         btnSave.setOnClickListener(new View.OnClickListener() {
