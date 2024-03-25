@@ -87,4 +87,14 @@ router.put('/updateExpiredStatus', async (req, res) => {
   }
 });
 
+router.get('/getUuDai-Active/:id', async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const uudai = await UuDai.find({maCuaHang: idCuaHang, trangThai: "Hoạt động"}).populate("maCuaHang");
+    res.json(uudai);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+})
+
 module.exports = router;

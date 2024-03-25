@@ -16,25 +16,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".YesNo"
-            android:exported="false" />
-        <activity
-            android:name=".AddressDelivery"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".DetailScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterScreen"
+            android:name=".LoginScreen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ChangePassword"
             android:exported="false" />
         <activity
             android:name=".HelloScreen"
-            android:exported="false" />
+            android:exported="false"></activity>
         <activity
-            android:name=".LoginScreen"
+            android:name=".RegisterScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
