@@ -16,7 +16,8 @@ router.get('/', function(req, res, next) {
 router.post('/addHangSanXuat', function(req, res, next) {
     const hangSanXuat = new HangSanXuat({
     tenHang: req.body.tenHang,
-    maCuaHang: req.body.maCuaHang,
+    hinhAnh: req.body.hinhAnh,
+    // maCuaHang: req.body.maCuaHang,
   })
   hangSanXuat.save()
   .then(data => {

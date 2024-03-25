@@ -5,44 +5,62 @@ require('../models/DienThoai')
 require('../models/HangSanXuat')
 
 const DienThoai = mongoose.model("dienthoai")
-const HangSX = mongoose.model("hangSanXuat")
-
 
 /* GET DienThoai listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/addDienThoai', function (req, res, next) {
-  const dienthoai = new DienThoai({
+router.post('/addDienThoai', async function (req, res, next) {
+
+  try {
+    const dienthoai = new DienThoai({
     tenDienThoai: req.body.tenDienThoai,
-    giaTien: req.body.giaTien,
-    soLuong: req.body.soLuong,
-    anh: req.body.anh,
-    maMau: req.body.maMau,
-    maRam: req.body.maRam,
-    maDungLuong: req.body.maDungLuong,
-    maHangSX: req.body.maHangSX,
+    kichThuoc: req.body.kichThuoc,
+    congNgheManHinh: req.body.congNgheManHinh,
+    camera: req.body.camera,
+    cpu: req.body.cpu,
+    pin: req.body.pin,
+    heDieuHanh: req.body.heDieuHanh,
+    doPhanGiai: req.body.doPhanGiai,
+    namSanXuat: req.body.namSanXuat,
+    thoiGianBaoHanh: req.body.thoiGianBaoHanh,
+    moTaThem: req.body.moTaThem,
+    maHangSX:req.body.maHangSX,
+    hinhAnh: req.body.hinhAnh,
     maUuDai: req.body.maUuDai,
-    maChiTiet: req.body.maChiTiet,
+    maCuaHang: req.body.maCuaHang,
   })
-  dienthoai.save()
-      .then(data => {
-        console.log(data)
-        res.send(data)
-      }).catch(err => {
-    console.log
-  })
+
+    const savedDienThoai = await dienthoai.save(); // Lưu đối tượng
+    const populatedDienThoai = await DienThoai.findById(savedDienThoai._id)
+    .populate("maCuaHang")
+    .populate("maHangSX")
+    .populate({path: 'maUuDai', populate: 'maCuaHang'});
+
+    console.log(populatedDienThoai);
+    res.send(populatedDienThoai);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
+  }
 });
+
+// router.get("/getDienThoaiByID/:id", async (req, res) => {
+//   try {
+//     const data = await DienThoai.findById(req.params.id, req.body, {new: true})
+//     res.json(data)
+//   } catch (err) {
+//     return res.status(500).json({message: err.message})
+//   }
+// })
+
 
 router.get('/getDienThoai', async (req, res) => {
   try {
     const dienThoai = await DienThoai.find()
-        .populate('maUuDai')
-        .populate('maMau')
-        .populate('maRam')
-        .populate('maDungLuong')
+        .populate({path: 'maUuDai', populate: 'maCuaHang'})
         .populate('maHangSX')
-        .populate('maChiTiet')
+        .populate('maCuaHang')
     res.json(dienThoai);
   } catch (error) {
     res.status(500).json({error: error.message});
@@ -79,39 +97,55 @@ router.put("/updateDienThoai/:id", async (req, res) => {
     return res.status(500).json({message: err.message})
   }
 })
-
-router.get("/getDienthoaiTheoHangSanXuat/:id", async (req, res) => {
+router.put("/updateMaUuDaiDienThoai/:id", async (req, res) => {
   try {
-    const idHangSanXuat = req.params.id;
-    const dienThoai = await DienThoai.find({maHangSX: idHangSanXuat})
-        .populate('maHangSX', '_id')
-        .populate('maHangSX')
+    const dienThoaiId = req.params.id;
+    const newMaUuDai = req.body._id;
+   
+
+    const existingDienThoai = await DienThoai.findById(dienThoaiId);
+    if (!existingDienThoai) {
+      return res.status(404).json({ message: "Điện thoại không tồn tại" });
+    }
+
+    existingDienThoai.maUuDai = newMaUuDai;
+    const updatedDienThoai = await existingDienThoai.save();
+    const dienThoai = await DienThoai.findById(updatedDienThoai._id)
+        .populate("maCuaHang")
+        .populate("maHangSX")
+        .populate({ path: 'maUuDai', populate: 'maCuaHang' });
+ 
+    res.status(200).json(dienThoai);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// router.get("/getDienthoaiTheoHangSanXuat/:id", async (req, res) => {
+//   try {
+//     const idHangSanXuat = req.params.id;
+//     const dienThoai = await DienThoai.find({maHangSX: idHangSanXuat})
+//         .populate('maHangSX', '_id')
+//         .populate('maHangSX')
+//     res.json(dienThoai)
+//   } catch (error) {
+//     return res.status(500).json({message: error.message})
+//   }
+// })
+//get theo maCuaHang
+router.get("/getDienthoaiTheoCuaHang/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const dienThoai = await DienThoai.find({maCuaHang: idCuaHang})
+    .populate("maCuaHang")
+    .populate("maHangSX")
+    .populate({path: 'maUuDai', populate: 'maCuaHang'})
     res.json(dienThoai)
   } catch (error) {
     return res.status(500).json({message: error.message})
   }
 })
 
-router.get("/getDienthoaiTheoCuaHang/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const hangSX = await HangSX.find({maCuaHang: idCuaHang})
-        .populate('maCuaHang', '_id')
-        .populate('maCuaHang')
-    const dienThoais = [];
-    for (const hang of hangSX) {
-      const dienThoai = await DienThoai.find({ maHangSX: hang._id })
-          .populate('maHangSX', '_id')
-          .populate('maHangSX');
-      if (dienThoai){
-        dienThoais.push(...dienThoai);
-      }
-    }
-    res.json(dienThoais)
-  } catch (error) {
-    return res.status(500).json({message: error.message})
-  }
-})
 
 router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
   try {
@@ -125,4 +159,17 @@ router.put("/updateUuDaiDienThoai/:id", async (req, res) => {
     return res.status(500).json({message: err.message})
   }
 })
+
+router.get("/getDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await DienThoai.find({_id: req.params.id})
+        .populate({path: 'maUuDai', populate: 'maCuaHang'})
+        .populate('maHangSX')
+        .populate('maCuaHang')
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+})
+
 module.exports = router;

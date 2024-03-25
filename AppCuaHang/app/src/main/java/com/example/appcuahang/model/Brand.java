@@ -1,16 +1,22 @@
 package com.example.appcuahang.model;
 
-public class Brand {
+import java.io.Serializable;
+
+public class Brand implements Serializable {
     private String _id;
     private String tenHang;
-    private String maCuaHang;
+    private String hinhAnh;
 
     public Brand() {
     }
 
-    public Brand(String tenHang, String maCuaHang) {
+    public Brand(String _id) {
+        this._id = _id;
+    }
+
+    public Brand(String tenHang, String hinhAnh ) {
         this.tenHang = tenHang;
-        this.maCuaHang = maCuaHang;
+        this.hinhAnh = hinhAnh;
     }
 
     public String get_id() {
@@ -29,11 +35,16 @@ public class Brand {
         this.tenHang = tenHang;
     }
 
-    public String getMaCuaHang() {
-        return maCuaHang;
+    public String getHinhAnh() {
+        return hinhAnh;
     }
 
-    public void setMaCuaHang(String maCuaHang) {
-        this.maCuaHang = maCuaHang;
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
+    @Override
+    public String toString() {
+        return tenHang ;
     }
 }

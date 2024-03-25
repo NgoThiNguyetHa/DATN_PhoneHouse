@@ -24,10 +24,10 @@ router.post('/addHoaDon', function(req, res, next) {
     maCuaHang: req.body.maCuaHang,
   })
   hoaDon.save()
-  .then(data => {
-    console.log(data)
-    res.send(data)
-  }).catch(err => {
+      .then(data => {
+        console.log(data)
+        res.send(data)
+      }).catch(err => {
     console.log
   })
 });
@@ -46,39 +46,54 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang', async (req, res) => {
   try {
     const trangThaiNhanHang = req.params.trangThaiNhanHang;
     // const hoaDon = await HoaDon.find({ trangThaiNhanHang });
-    const hoaDon = await HoaDon.find({ trangThaiNhanHang })
-            .populate("maKhachHang")
-            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
-            .populate("maCuaHang")
+    const hoaDon = await HoaDon.find({trangThaiNhanHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"}) // Nếu cần thông tin địa chỉ nhận hàng cũng
+        .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
+//lấy hóa đơn theo mã cửa hàng
 router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, res) => {
   try {
     const trangThaiNhanHang = req.params.trangThaiNhanHang;
     const maCuaHang = req.params.maCuaHang;
-    const hoaDon = await HoaDon.find({ trangThaiNhanHang , maCuaHang })
-            .populate("maKhachHang")
-            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
-            .populate("maCuaHang")
+    const hoaDon = await HoaDon.find({trangThaiNhanHang, maCuaHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"})
+        .populate("maCuaHang")
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+});
+// lấy hóa đơn theo mã khách hàng
+router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
+  try {
+    const trangThaiNhanHang = req.params.trangThaiNhanHang;
+    const maKhachHang = req.params.maKhachHang;
+//    console.log(trangThaiNhanHang, " / ", maKhachHang)
+    const hoaDon = await HoaDon.find({trangThaiNhanHang, maKhachHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"})
+        .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 router.get('/getHoaDonTheoChiTiet', async (req, res) => {
   try {
     const hoaDon = await HoaDon.find()
-            .populate("maKhachHang")
-            .populate("maDiaChiNhanHang") // Nếu cần thông tin địa chỉ nhận hàng cũng
-            .populate("maCuaHang")
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"}) // Nếu cần thông tin địa chỉ nhận hàng cũng
+        .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 

@@ -17,6 +17,11 @@ public class User {
         this.sdt = sdt;
     }
 
+    public User(String _id, String email) {
+        this._id = _id;
+        this.email = email;
+    }
+
     public User() {
     }
 
