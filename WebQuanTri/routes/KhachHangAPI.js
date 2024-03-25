@@ -144,4 +144,47 @@ router.put('/doiMatKhau', async (req, res) => {
   }
 });
 
+router.post('/editKhachHang/:id', async (req, res, next) => {
+  try {
+    const { username, password, diaChi, email, sdt } = req.body;
+    const khachHangId = req.params.id; 
+
+    if (!username || !password || !email || !sdt) {
+      const errorMessage = "Vui lòng nhập đủ thông tin";
+      return res.status(400).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      const errorMessage = "Email không hợp lệ";
+      return res.status(400).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const updatedKhachHang = await KhachHang.findByIdAndUpdate(khachHangId, {
+      username: username,
+      password: password,
+      email: email,
+      diaChi: diaChi,
+      sdt: sdt
+    }, { new: true });
+
+    if (!updatedKhachHang) {
+      const errorMessage = "Không tìm thấy thông tin khách hàng";
+      return res.status(404).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const successMessage = "Cập nhật thông tin khách hàng thành công";
+    return res.status(200).json(updatedKhachHang);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errorMessage: "Lỗi server" });
+  }
+});
+
 module.exports = router;
