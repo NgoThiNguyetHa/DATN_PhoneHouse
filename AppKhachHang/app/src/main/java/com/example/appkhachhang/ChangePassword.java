@@ -48,6 +48,15 @@ public class ChangePassword extends AppCompatActivity {
         btnCancle = findViewById(R.id.btnCancle);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        Log.e("TAG", "onCreate: " + user.getEmail() );
+
+        btnCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPassAgain.setText("");
+                edPassNew.setText("");
+                edPassOld.setText("");
+            }
+        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

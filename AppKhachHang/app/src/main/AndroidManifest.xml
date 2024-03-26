@@ -30,9 +30,6 @@
             android:name=".ChangePassword"
             android:exported="false" />
         <activity
-            android:name=".AddressDelivery"
-            android:exported="false" />
-        <activity
             android:name=".RegisterScreen"
             android:exported="false"></activity>
         <activity
