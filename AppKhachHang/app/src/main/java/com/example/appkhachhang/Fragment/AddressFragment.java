@@ -255,7 +255,6 @@ public class AddressFragment extends Fragment {
                                 fillDataRecyclerView();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<AddressDelivery> call, Throwable t) {
                             Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
