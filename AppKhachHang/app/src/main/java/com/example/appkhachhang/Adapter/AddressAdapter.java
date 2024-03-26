@@ -1,5 +1,4 @@
 package com.example.appkhachhang.Adapter;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,31 +13,29 @@ import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.R;
 
 import java.util.List;
-
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHolder> {
     Context mContext;
     List<AddressDelivery> list;
     private IItemAddressListenner listenner;
-
     public AddressAdapter(Context mContext, IItemAddressListenner listenner) {
         this.mContext = mContext;
         this.listenner = listenner;
     }
-
+    public void setData(List<AddressDelivery> list){ // thêm mới
+        this.list = list;
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.activity_address_delivery, parent, false));
+        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_address, parent, false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         AddressDelivery addressDelivery = list.get(position);
         holder.nameTextView.setText("" + addressDelivery.getTenNguoiNhan());
-        holder.addressTextView.setText("" + addressDelivery.getDiaChi());
+        holder.addressTextView.setText("Địa chỉ: " + addressDelivery.getDiaChi());
         holder.phoneTextView.setText("" + addressDelivery.getSdt());
     }
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -48,8 +45,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         TextView nameTextView;
         TextView addressTextView;
         TextView phoneTextView;
-
-
         public MyViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);

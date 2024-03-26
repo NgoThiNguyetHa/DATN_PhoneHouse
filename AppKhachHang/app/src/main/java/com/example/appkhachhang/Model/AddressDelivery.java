@@ -1,13 +1,18 @@
 package com.example.appkhachhang.Model;
-
 public class AddressDelivery {
-
     private String _id;
     private String sdt;
     private String tenNguoiNhan;
     private String diaChi;
-    private User khachHang;
-
+    private User maKhachHang;
+    public AddressDelivery(String tenNguoiNhan) {
+    }
+    public AddressDelivery(String sdt, String tenNguoiNhan, String diaChi, User khachHang) {
+        this.sdt = sdt;
+        this.tenNguoiNhan = tenNguoiNhan;
+        this.diaChi = diaChi;
+        this.maKhachHang = khachHang;
+    }
 
     public String get_id() {
         return _id;
@@ -42,10 +47,10 @@ public class AddressDelivery {
     }
 
     public User getKhachHang() {
-        return khachHang;
+        return maKhachHang;
     }
 
     public void setKhachHang(User khachHang) {
-        this.khachHang = khachHang;
+        this.maKhachHang = khachHang;
     }
 }
