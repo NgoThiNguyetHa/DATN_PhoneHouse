@@ -4,67 +4,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix UI web">
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/drawable/background_gray.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_uudaicuahang.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ChangePassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/ChangePassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_change_password.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/.npmignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/.vscode/settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/bin/bcrypt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/bower.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/dist/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/dist/bcrypt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/dist/bcrypt.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/dist/bcrypt.min.js.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/dist/bcrypt.min.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/externs/bcrypt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/externs/minimal-env.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/scripts/build.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/impl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/prng/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/prng/accum.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/prng/isaac.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/util.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bcrypt/util/base64.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/bower.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/src/wrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/tests/quickbrown.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/bcryptjs/tests/suite.js" afterDir="false" />
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/avatar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/baseline_arrow_right.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/UuDaiAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/UuDaiAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/BrandFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/BrandFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ClientFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ClientFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/interface_adapter/IItemUuDaiListenner.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/interface_adapter/IItemUuDaiListenner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/UuDai.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/UuDai.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_uudai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_uudai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_dien_thoai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_dien_thoai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_uudai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_uudai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/User_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/User_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ChangePassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ChangePassword.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/KhachHangAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_san_pham.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_san_pham.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="hantnph28876" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,7 +63,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Merging hantnph28876",
+    "git-widget-placeholder": "dev",
     "last_opened_file_path": "D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
