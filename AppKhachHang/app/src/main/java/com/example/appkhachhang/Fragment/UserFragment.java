@@ -1,7 +1,5 @@
 package com.example.appkhachhang.Fragment;
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.appkhachhang.AddressDelivery;
@@ -31,10 +28,10 @@ import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.InformationScreen;
 
 public class UserFragment extends Fragment {
-    CardView btnChangePass, btnMap;
+    CardView btnChangePass, btnMap, btnInformation;
     TextView tvUsername, tvEmail;
     MySharedPreferences mySharedPreferences;
-    Button btnDangXuat, btnInformation;
+    Button btnDangXuat;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

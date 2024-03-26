@@ -1,11 +1,8 @@
 package com.example.appkhachhang;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,12 +12,6 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,7 +21,7 @@ import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
-    Button btnSave;
+    Button btnSave, btnCancle;
     FirebaseAuth mAuth;
 
     MySharedPreferences mySharedPreferences;
@@ -45,6 +36,7 @@ public class ChangePassword extends AppCompatActivity {
         edPassNew = findViewById(R.id.edPassNew);
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
+        btnCancle = findViewById(R.id.btnCancle);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        Log.e("TAG", "onCreate: " + user.getEmail() );
@@ -83,30 +75,30 @@ public class ChangePassword extends AppCompatActivity {
 
             private void updatePassword(String oldPassStr, String newPassStr) {
                 mySharedPreferences = new MySharedPreferences(getApplicationContext());
-                FirebaseAuth.getInstance().fetchSignInMethodsForEmail(mySharedPreferences.getEmail())
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                // Kiểm tra xem email có tồn tại hay không
-                                if (task.getResult().getSignInMethods().size() > 0) {
-                                    // Email tồn tại, tiến hành lấy thông tin người dùng
-                                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(mySharedPreferences.getEmail(), "temporaryPassword")
-                                            .addOnCompleteListener(task1 -> {
-                                                if (task1.isSuccessful()) {
-                                                    FirebaseUser user = task1.getResult().getUser();
-                                                    Log.e("1", "updatePassword: " + user);
-
-                                                    // Thực hiện các thao tác cần thiết với thông tin người dùng
-                                                }
-                                            });
-                                } else {
-                                    Log.e("TAG", "Email không tồn tại trong hệ thống: " );
-                                    // Email không tồn tại trong hệ thống
-                                }
-                            } else {
-                                Log.e("TAG", "Đã xảy ra lỗi khi kiểm tra email: " );
-                                // Đã xảy ra lỗi khi kiểm tra email
-                            }
-                        });
+//                FirebaseAuth.getInstance().fetchSignInMethodsForEmail(mySharedPreferences.getEmail())
+//                        .addOnCompleteListener(task -> {
+//                            if (task.isSuccessful()) {
+//                                // Kiểm tra xem email có tồn tại hay không
+//                                if (task.getResult().getSignInMethods().size() > 0) {
+//                                    // Email tồn tại, tiến hành lấy thông tin người dùng
+//                                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(mySharedPreferences.getEmail(), "temporaryPassword")
+//                                            .addOnCompleteListener(task1 -> {
+//                                                if (task1.isSuccessful()) {
+//                                                    FirebaseUser user = task1.getResult().getUser();
+//                                                    Log.e("1", "updatePassword: " + user);
+//
+//                                                    // Thực hiện các thao tác cần thiết với thông tin người dùng
+//                                                }
+//                                            });
+//                                } else {
+//                                    Log.e("TAG", "Email không tồn tại trong hệ thống: " );
+//                                    // Email không tồn tại trong hệ thống
+//                                }
+//                            } else {
+//                                Log.e("TAG", "Đã xảy ra lỗi khi kiểm tra email: " );
+//                                // Đã xảy ra lỗi khi kiểm tra email
+//                            }
+//                        });
 
 
 
@@ -120,8 +112,9 @@ public class ChangePassword extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response != null){
-                            Intent intent = new Intent(ChangePassword.this, LoginScreen.class);
-                            startActivity(intent);
+                            Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(ChangePassword.this, LoginScreen.class);
+//                            startActivity(intent);
                         }
                     }
 
