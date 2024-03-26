@@ -25,17 +25,18 @@ router.post('/addCuaHang', function(req, res, next) {
   })
   cuaHang.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log
   })
 });
 
-/* GET loaidichvu listing. */
-router.get('/getCuaHang', async (req,res) => {
+/* lấy danh sách cửa hàng trừ tài khoản đăng nhập */
+router.get('/getCuaHang/:id', async (req,res) => {
   try {
-    const cuaHang = await CuaHang.find();
+    const idToExclude = req.params.id;
+    const cuaHang = await CuaHang.find({ _id: { $ne: idToExclude } });
     res.json(cuaHang);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -58,17 +59,36 @@ router.delete('/deleteCuaHang/:id', async (req,res) => {
 
 
 router.put("/updateCuaHang/:id", async (req, res ) => {
-  try{
-    const data = await CuaHang.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    if(!data){
-      return res.status(404).json({message: "update failed"})
+  // try{
+  //   const data = await CuaHang.findByIdAndUpdate(req.params.id, req.body, {new: true})
+  //   if(!data){
+  //     return res.status(404).json({message: "update failed"})
+  //
+  //   }else{
+  //     return res.status(200).json({message: "update successful"})
+  //
+  //   }
+  // }catch(err){
+  //   return res.status(500).json({message: err.message})
+  // }
+  const allowedUpdates = ['diaChi', 'username', 'password', 'email', 'sdt', 'phanQuyen', 'trangThai'];
+  const updates = Object.keys(req.body);
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
-    }else{
-      return res.status(200).json({message: "update successful"})
+  if (!isValidOperation) {
+    return res.status(400).send({ error: 'Invalid updates!' });
+  }
 
+  try {
+    const cuaHang = await CuaHang.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+    if (!cuaHang) {
+      return res.status(404).send({ message: "Cua hang not found" });
     }
-  }catch(err){
-    return res.status(500).json({message: err.message})
+
+    res.status(200).send({ message: "Update successful", cuaHang });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
   }
 })
 
@@ -98,5 +118,36 @@ router.post('/dangNhapCuaHang', async (req, res) => {
     }
 });
 
+router.post("/doiMatKhauCuaHang/:id", async (req, res ) => {
+  try {
+    const userId = req.params.id;
+    const { oldPassword, newPassword, rePassword } = req.body;
+
+    if (!oldPassword || !newPassword || !rePassword) {
+      return res.status(400).json({ message: "Nhập đủ thông tin" });
+    }
+
+    if (newPassword !== rePassword) {
+      return res.status(400).json({ message: "Mật khẩu nhập lại không khớp" });
+    }
+
+    const user = await CuaHang.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+
+    if (oldPassword !== user.password) {
+      return res.status(400).json({ message: "Mật khẩu cũ không đúng" });
+    }
+
+    // Mã hóa mật khẩu mới và cập nhật vào người dùng
+    user.password = newPassword;
+    const updatedUser = await user.save();
+
+    res.status(200).json({ message: "Đổi mật khẩu thành công"});
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+})
 
 module.exports = router;

@@ -18,7 +18,7 @@ router.post('/addRam', function(req, res, next) {
   })
   ram.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log

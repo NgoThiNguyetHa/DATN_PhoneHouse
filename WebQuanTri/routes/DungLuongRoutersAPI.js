@@ -17,10 +17,10 @@ router.post('/addDungLuong', function(req, res, next) {
     const dungluong = new DungLuong({
     boNho: req.body.boNho,
   })
-  console.log(dungluong);
+  // console.log(dungluong);
   dungluong.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log

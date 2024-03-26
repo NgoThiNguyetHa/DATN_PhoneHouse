@@ -19,7 +19,7 @@ router.post('/addMau', function(req, res, next) {
   })
   mau.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log

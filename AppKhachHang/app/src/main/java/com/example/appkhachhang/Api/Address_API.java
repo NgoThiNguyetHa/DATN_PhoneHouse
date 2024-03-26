@@ -17,10 +17,10 @@ public interface Address_API {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 
-//    Address_API addRess = new Retrofit.Builder()
-//            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build().create(Address_API.class);
+    Address_API addRess = new Retrofit.Builder()
+            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build().create(Address_API.class);
 
     @GET("diachinhanhangs/getDiaChiNhanHang/{id}")
     Call<List<AddressDelivery>> getDiaChi(@Path("id") String id);

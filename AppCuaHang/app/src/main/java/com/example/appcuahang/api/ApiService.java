@@ -15,6 +15,7 @@ import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
 import com.example.appcuahang.model.Top10sanPham;
+import com.example.appcuahang.model.UuDai;
 
 import java.util.List;
 import java.util.Map;
@@ -157,4 +158,12 @@ public interface ApiService {
     //get danh gia
     @GET("danhgias/getDanhGia")
     Call<List<Rating>> getDanhGia();
+
+    //lay danh sach uu dai cua hang
+    @GET("uudais/getUuDai-Active/{id}")
+    Call<List<UuDai>> getUuDaiCuaHang(@Path("id") String id);
+
+    @PUT("dienthoais/updateMaUuDaiDienThoai/{id}")
+    Call<Phone> putUuDaiDienThoai(@Path("id") String id,
+                                 @Body UuDai maUuDai);
 }
