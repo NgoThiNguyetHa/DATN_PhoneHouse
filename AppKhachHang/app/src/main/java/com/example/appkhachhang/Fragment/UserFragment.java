@@ -28,12 +28,13 @@ import com.example.appkhachhang.ChangePassword;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.example.appkhachhang.InformationScreen;
 
 public class UserFragment extends Fragment {
     CardView btnChangePass, btnMap;
     TextView tvUsername, tvEmail;
     MySharedPreferences mySharedPreferences;
-    Button btnDangXuat;
+    Button btnDangXuat, btnInformation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class UserFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         tvUsername = view.findViewById(R.id.tvUsername);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
+        btnInformation = view.findViewById(R.id.btnInformation);
 
         mySharedPreferences = new MySharedPreferences(getContext());
         tvUsername.setText(mySharedPreferences.getUserName());
@@ -70,6 +72,13 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+        btnInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), InformationScreen.class);
                 startActivity(intent);
             }
         });
