@@ -52,23 +52,48 @@
 
 
                 <div class="tab-content d-flex row justify-content-center">
-<!--                    <div class="flex-row d-flex flex-row align-items-center">-->
-<!--                        <form method="GET" action="" class="d-flex justify-content-between m-3 flex-fill">-->
-<!--                            <input type="text" name="tenNV" class="m-1 form-control " placeholder="Nhập giảm giá"/>-->
 
-<!--                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
-<!--                                <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>-->
-<!--                                <span class="d-inline">Tìm Kiếm</span>-->
-<!--                            </button>-->
-<!--                        </form>-->
+                    <div class="flex-row d-flex flex-row my-2">
+                        <form method="GET" action="/cuaHangLienKetW/searchCuaHang"
+                              class="d-flex justify-content-between flex-fill">
+                            <div>
+                                <div class="d-flex flex-row">
+                                    <input type="text" name="username" class="m-1 form-control "
+                                           placeholder="Nhập tên người dùng"/>
+                                    <input type="text" name="sdt" class="m-1 form-control "
+                                           placeholder="Nhập số điện thoại"/>
+                                    <select  name="trangThai"
+                                            class="form-select"
+                                            aria-label="Default select example"
+                                            style="padding: 0.375rem 0.75rem; margin: 0.25rem; height: 37.6px">
+                                        <option value="">Trạng thái</option>
+                                        <option value="Hoạt động">Hoạt động</option>
+                                        <option value="Không hoạt động">Không hoạt động</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <input type="text" name="email" class="m-1 form-control "
+                                           placeholder="Nhập email"/>
+                                    <input type="text" name="diaChi" class="m-1 form-control "
+                                           placeholder="Nhập địa chỉ"/>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                                    <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <span class="d-inline">Tìm Kiếm</span>
+                                </button>
+                            </div>
+                        </form>
 
-<!--                        <form>-->
-<!--                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
-<!--                                <span class=""><i class="fa-solid fa-plus"></i></span>-->
-<!--                                <span class="d-inline">Thêm Mới</span>-->
-<!--                            </button>-->
-<!--                        </form>-->
-<!--                    </div>-->
+                        <form>
+                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                                <span class=""><i class="fa-solid fa-plus"></i></span>
+                                <span class="d-inline">Thêm Mới</span>
+                            </button>
+                        </form>
+                    </div>
+
                     <div class="tab-content d-flex col align-content-center m-1">
                         <span class="fw-bold">Tổng số cửa hàng: &nbsp; </span>
                         <span><%= data.length %></span>
@@ -77,15 +102,24 @@
                         <table class="table text-break table-bordered">
                             <thead>
                             <tr class="bg-secondary bg-opacity-50 text-bg-info">
-                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada; text-align: center">STT</th>
-                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Tên người
+                                <th scope="col" class="col-1 borderColor"
+                                    style="background-color: #dcdada; text-align: center">STT
+                                </th>
+                                <th scope="col" class="col-2 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Tên người
                                     dùng
                                 </th>
-                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada; text-align: center">SĐT</th>
-                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Email</th>
-                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Địa chỉ
+                                <th scope="col" class="col-1 borderColor"
+                                    style="background-color: #dcdada; text-align: center">SĐT
                                 </th>
-                                <th scope="col" class="col-2 borderColor" style="background-color: #dcdada; text-align: center">Trạng
+                                <th scope="col" class="col-2 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Email
+                                </th>
+                                <th scope="col" class="col-2 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Địa chỉ
+                                </th>
+                                <th scope="col" class="col-2 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Trạng
                                     thái
                                 </th>
                                 <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>

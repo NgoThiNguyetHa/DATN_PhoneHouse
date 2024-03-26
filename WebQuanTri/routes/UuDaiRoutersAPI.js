@@ -97,4 +97,25 @@ router.get('/getUuDai-Active/:id', async (req, res) => {
   }
 })
 
+router.get('/searchUuDaiByDiscount/:id', async (req, res) => {
+  try {
+    const idCuaHang = req.params.id
+    const { minDiscount, maxDiscount } = req.query;
+
+    // Kiểm tra xem người dùng đã nhập đúng thông tin chưa
+    if (!minDiscount || !maxDiscount) {
+      return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin minDiscount và maxDiscount' });
+    }
+
+    const uudai = await UuDai.find({
+      giamGia: { $gte: parseFloat(minDiscount), $lte: parseFloat(maxDiscount) },
+      maCuaHang: idCuaHang
+    }).populate("maCuaHang");
+
+    res.json(uudai);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
