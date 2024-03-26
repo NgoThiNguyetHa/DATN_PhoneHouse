@@ -175,4 +175,17 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
   }
 });
 
+router.get("/getChiTietDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await ChiTietDienThoai.find({_id: req.params.id})
+        .populate({path: 'maDienThoai', populate: 'maHangSX', populate: "maUuDai", populate:"maCuaHang" })
+        .populate('maMau')
+        .populate('maDungLuong')
+        .populate('maRam')
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+})
+
 module.exports = router;

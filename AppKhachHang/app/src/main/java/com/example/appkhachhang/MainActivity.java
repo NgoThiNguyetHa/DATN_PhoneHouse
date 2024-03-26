@@ -23,6 +23,7 @@ import com.example.appkhachhang.Fragment.BillFragment;
 import com.example.appkhachhang.Fragment.CartFragment;
 import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.NotificationFragment;
+import com.example.appkhachhang.Fragment.PaymentMethodFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemID == R.id.navNotify) {
           loadFragment(new NotificationFragment(), false);
         } else {
-          loadFragment(new UserFragment(), false);
+          loadFragment(new PaymentMethodFragment(), false);
         }
         return true;
       }

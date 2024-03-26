@@ -17,7 +17,7 @@ public interface ChiTietSanPham_API {
 
 
     ChiTietSanPham_API chiTietSanPhamApi = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8686/chitietdienthoais/")
+            .baseUrl("http://192.168.1.19:8686/chitietdienthoais/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(ChiTietSanPham_API.class);
 
