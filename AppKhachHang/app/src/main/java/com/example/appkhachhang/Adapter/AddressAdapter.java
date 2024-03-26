@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface_Adapter.IItemAddressListenner;
@@ -35,7 +36,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         holder.nameTextView.setText("" + addressDelivery.getTenNguoiNhan());
         holder.addressTextView.setText("Địa chỉ: " + addressDelivery.getDiaChi());
         holder.phoneTextView.setText("" + addressDelivery.getSdt());
+        holder.itemDiaChi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listenner.editAddress(addressDelivery);
+            }
+        });
     }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -45,11 +53,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         TextView nameTextView;
         TextView addressTextView;
         TextView phoneTextView;
+        CardView itemDiaChi;
         public MyViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             addressTextView = itemView.findViewById(R.id.addressTextView);
             phoneTextView = itemView.findViewById(R.id.phoneTextView);
+            itemDiaChi = itemView.findViewById(R.id.itemDiaChi);
         }
     }
 }
