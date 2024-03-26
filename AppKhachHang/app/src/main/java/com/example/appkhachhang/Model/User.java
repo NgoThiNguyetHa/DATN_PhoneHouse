@@ -17,9 +17,8 @@ public class User {
         this.sdt = sdt;
     }
 
-    public User(String _id, String email) {
+    public User(String _id) {
         this._id = _id;
-        this.email = email;
     }
 
     public User() {

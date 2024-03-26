@@ -1,7 +1,6 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.AddressDelivery;
-import com.example.appkhachhang.Model.HangSanXuat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,17 +20,17 @@ public interface Address_API {
 
 
     Address_API addRess = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8686/diachinhanhangs/")
+            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(Address_API.class);
 
-    @GET("getDiaChiNhanHang/{id}")
+    @GET("diachinhanhangs/getDiaChiNhanHang/{id}")
     Call<List<AddressDelivery>> getDiaChi(@Path("id") String id);
 
-    @POST("addDiaChiNhanHang")
-    Call<List<AddressDelivery>> postDiaChi(@Body AddressDelivery addressDelivery);
+    @POST("diachinhanhangs/addDiaChiNhanHang")
+    Call<AddressDelivery> postDiaChi(@Body AddressDelivery addressDelivery);
 
-    @PUT("updateDiaChiNhanHang")
+    @PUT("diachinhanhangs/updateDiaChiNhanHang")
     Call<List<AddressDelivery>> putDiaChi(@Body AddressDelivery addressDelivery);
 
 
