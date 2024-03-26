@@ -20,7 +20,7 @@ public interface Address_API {
 
 
     Address_API addRess = new Retrofit.Builder()
-            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
+            .baseUrl("http://192.168.3.183:8686/diachinhanhangs/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(Address_API.class);
 
@@ -30,8 +30,8 @@ public interface Address_API {
     @POST("diachinhanhangs/addDiaChiNhanHang")
     Call<AddressDelivery> postDiaChi(@Body AddressDelivery addressDelivery);
 
-    @PUT("diachinhanhangs/updateDiaChiNhanHang")
-    Call<List<AddressDelivery>> putDiaChi(@Body AddressDelivery addressDelivery);
+    @PUT("diachinhanhangs/updateDiaChiNhanHang/{id}")
+    Call<AddressDelivery> putDiaChi(@Body AddressDelivery addressDelivery , @Path("id") String id);
 
 
 

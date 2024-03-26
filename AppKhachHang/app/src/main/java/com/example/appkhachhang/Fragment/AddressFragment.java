@@ -93,14 +93,8 @@ public class AddressFragment extends Fragment {
         rc_address.setLayoutManager(manager);
         adapter = new AddressAdapter(getContext(), new IItemAddressListenner() {
             @Override
-            public void deleteAddress(String idAddress) {
-            }
-            @Override
-            public void editAddress(AddressDelivery editAddress) { //
-//                updateData(isAddress);
-            }
-            @Override
-            public void showAddress(String idAddress) {
+            public void editAddress(AddressDelivery isAddress) {
+                updateData(isAddress);
             }
         });
         adapter.setData(list);
@@ -211,6 +205,75 @@ public class AddressFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    //Update
+    private void updateData(AddressDelivery addressDelivery) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_address, null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        edTenNguoiNhan = view.findViewById(R.id.dl_edTenNguoiNhan);
+        edSDT = view.findViewById(R.id.dl_edSDT);
+        edDiaChi = view.findViewById(R.id.dl_edDiaChi);
+
+        Button btnSave = view.findViewById(R.id.yesButton);
+        TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
+        ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
+
+        tvTitle.setText("Cập Nhật Địa Chỉ");
+        edTenNguoiNhan.setText(addressDelivery.getTenNguoiNhan());
+        edDiaChi.setText(addressDelivery.getDiaChi());
+        edSDT.setText(addressDelivery.getSdt());
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Validate()){
+                    String tenNguoiNhan = edTenNguoiNhan.getText().toString().trim();
+                    String soDienThoai = edSDT.getText().toString().trim();
+                    String diaChi = edDiaChi.getText().toString().trim();
+                    Address_API address_api = ApiRetrofit.getApiAddress();
+                    Call<AddressDelivery> call = address_api.putDiaChi(new AddressDelivery(soDienThoai , tenNguoiNhan , diaChi , new User(mySharedPreferences.getUserId())) , addressDelivery.get_id());
+                    call.enqueue(new Callback<AddressDelivery>() {
+                        @Override
+                        public void onResponse(Call<AddressDelivery> call, Response<AddressDelivery> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                getData();
+                                dialog.dismiss();
+                                fillDataRecyclerView();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddressDelivery> call, Throwable t) {
+                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
 
