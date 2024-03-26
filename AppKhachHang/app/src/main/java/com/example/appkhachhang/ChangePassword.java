@@ -47,7 +47,7 @@ public class ChangePassword extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.e("TAG", "onCreate: " + user.getEmail() );
+//        Log.e("TAG", "onCreate: " + user.getEmail() );
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

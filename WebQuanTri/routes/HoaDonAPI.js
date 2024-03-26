@@ -79,7 +79,7 @@ router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (
     const hoaDon = await HoaDon.find({trangThaiNhanHang, maKhachHang})
         .populate("maKhachHang")
         .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
-        .populate("maKhachHang")
+        .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
     res.status(500).json({error: error.message});
