@@ -17,6 +17,10 @@ public class User {
         this.sdt = sdt;
     }
 
+    public User(String _id) {
+        this._id = _id;
+    }
+
     public User() {
     }
 

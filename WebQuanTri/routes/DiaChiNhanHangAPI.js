@@ -12,22 +12,23 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* POST Mau. */
-
-router.post('/addDiaChiNhanHang', function(req, res, next) {
-    
-    const diaChiNhanHang = new DiaChiNhanHang({
-    maKhachHang: req.body.maKhachHang,
-    sdt: req.body.sdt,
-    tenNguoiNhan: req.body.tenNguoiNhan,
-    diaChi: req.body.diaChi
-  })
-  diaChiNhanHang.save()
-  .then(data => {
-    console.log(data)
-    res.send(data)
-  }).catch(err => {
-    console.log
-  })
+router.post('/addDiaChiNhanHang',async function(req, res, next) {
+    try {
+      const diaChiNhanHang = new DiaChiNhanHang({
+        maKhachHang: req.body.maKhachHang,
+        sdt: req.body.sdt,
+        tenNguoiNhan: req.body.tenNguoiNhan,
+        diaChi: req.body.diaChi
+      });
+      const savedDiaChiNhanHang = await diaChiNhanHang.save(); // Lưu đối tượng
+      const populatedDiaChiNhanHang= await DiaChiNhanHang.findById(savedDiaChiNhanHang._id)
+      .populate('maKhachHang', '_id')
+      .populate('maKhachHang');
+      res.send(populatedDiaChiNhanHang);
+    } catch (error) {
+      console.log(err);
+    res.status(500).send(err);
+    }
 });
 
 /* GET theo khách hàng listing. */
