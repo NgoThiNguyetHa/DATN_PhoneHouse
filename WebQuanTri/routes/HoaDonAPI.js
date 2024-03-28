@@ -140,4 +140,28 @@ router.get('/getHoaDonTheoCuaHang/:maCuaHang', async (req, res) => {
   }
 });
 
+router.get('/searchHoaDon/:maCuaHang', async (req, res) => {
+  try {
+    const maCuaHang = req.params.maCuaHang;
+    const { tenNguoiNhan, tongTien, trangThaiNhanHang, ngayTao, username } = req.query;
+
+    let hoaDon = await HoaDon.find({maCuaHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate("maCuaHang")
+
+    hoaDon = hoaDon.filter(hd => {
+      return (!tenNguoiNhan || hd.maDiaChiNhanHang.tenNguoiNhan.toLowerCase().includes(tenNguoiNhan.toLowerCase())) &&
+          (!tongTien || hd.tongTien.toString() === tongTien) &&
+          (!trangThaiNhanHang || hd.trangThaiNhanHang === trangThaiNhanHang) &&
+          (!ngayTao || hd.ngayTao === ngayTao) &&
+          (!username || hd.maKhachHang.username.toLowerCase().includes(username.toLowerCase()));
+    });
+
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+});
+
 module.exports = router;

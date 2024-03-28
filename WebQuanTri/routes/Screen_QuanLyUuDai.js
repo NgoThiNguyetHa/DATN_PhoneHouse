@@ -39,7 +39,8 @@ router.get('/searchUuDaiByDiscount', authenticateToken, async function(req, res,
       sdt:req.sdt
     }
     const maxDiscount = req.query.maxDiscount;
-    const response = await axios.get(`${baseUrl}uudais/searchUuDaiByDiscount/${account.id}?minDiscount=0&maxDiscount=${maxDiscount}`);
+    const trangThai = req.query.trangThai;
+    const response = await axios.get(`${baseUrl}uudais/searchUuDaiByDiscount/${account.id}?minDiscount=0&maxDiscount=${maxDiscount}&trangThai=${trangThai}`);
     const uuDaiList = response.data;
 
     res.render('quanLyUuDai', { title: 'Express', data: uuDaiList, account: account });

@@ -66,4 +66,17 @@ router.put("/updateRam/:id", async (req, res ) => {
   }
 })
 
+router.get('/searchRAM', async (req,res) => {
+  try {
+    const { RAM } = req.query;
+    let ram = await Ram.find();
+    if (RAM){
+      ram = await Ram.find({ RAM: Number(RAM) });
+    }
+    res.json(ram);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
+  }
+})
 module.exports = router;

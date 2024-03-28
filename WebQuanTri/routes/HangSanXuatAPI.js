@@ -78,4 +78,16 @@ router.put("/updateHangSanXuat/:id", async (req, res ) => {
   }
 })
 
+router.get('/searchHangSanXuat', async (req,res) => {
+  try {
+    const { tenHang } = req.query;
+    const hangSanXuat = await HangSanXuat.find({ tenHang: { $regex: tenHang, $options: 'i' } });
+
+    res.json(hangSanXuat);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
