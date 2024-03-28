@@ -109,23 +109,41 @@
                 <span><i class="fa-solid fa-circle-user" style="font-size: 25px"></i></span>
             </div>
         </nav>
-<!--        <div class="flex-row d-flex flex-row align-items-center">-->
-<!--            <form method="GET" action="" class="d-flex justify-content-between m-3 flex-fill">-->
-<!--                <input type="text" name="tenNV" class="m-1 form-control " placeholder="Nhập giảm giá"/>-->
 
-<!--                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
-<!--                    <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>-->
-<!--                    <span class="d-inline">Tìm Kiếm</span>-->
-<!--                </button>-->
-<!--            </form>-->
+        <div class="flex-row d-flex flex-row px-3 py-2">
+            <form method="GET" action="/quanLyHangSanXuatW/searchThongSo"
+                  class="d-flex justify-content-between flex-fill">
+                <div>
+                    <div class="d-flex flex-row">
+                        <input type="text" name="tenHang" class="m-1 form-control "
+                               placeholder="Nhập hãng sản xuất"/>
+                        <input type="text" name="tenMau" class="m-1 form-control "
+                               placeholder="Nhập màu"/>
+<!--                    </div>-->
+<!--                    <div class="d-flex flex-row">-->
+                        <input type="text" name="boNho" class="m-1 form-control "
+                               placeholder="Nhập dung lượng"/>
+                        <input type="text" name="RAM" class="m-1 form-control "
+                               placeholder="Nhập RAM"/>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                        <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <span class="d-inline">Tìm Kiếm</span>
+                    </button>
+                </div>
+            </form>
 
-<!--            <form>-->
-<!--                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">-->
-<!--                    <span class=""><i class="fa-solid fa-plus"></i></span>-->
-<!--                    <span class="d-inline">Thêm Mới</span>-->
-<!--                </button>-->
-<!--            </form>-->
-<!--        </div>-->
+            <form>
+                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                    <span class=""><i class="fa-solid fa-plus"></i></span>
+                    <span class="d-inline">Thêm Mới</span>
+                </button>
+            </form>
+        </div>
+
+
         <main class="content px-3 py-2">
             <div class="content" id="mainContent">
                 <div class="content">

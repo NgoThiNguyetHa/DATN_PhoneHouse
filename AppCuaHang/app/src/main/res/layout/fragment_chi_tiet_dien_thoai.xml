@@ -209,7 +209,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_danhGia"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="800dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_danh_gia"
                         android:background="#FFF"

@@ -4,10 +4,34 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix UI">
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ChangePassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ChangePassword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" afterDir="false" />
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="tìm kiếm ưu đãi, cửa hàng liên kết">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_dien_thoai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_dien_thoai.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_phone.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_phone.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/HangSanXuat_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/HangSanXuat_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/SanPham_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/SanPham_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ThongKe_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ThongKe_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/User_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/User_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DungLuongRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DungLuongRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HangSanXuatAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HangSanXuatAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/RamRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/RamRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDienThoai.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDienThoai.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyHangSX.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyHangSX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyUuDai.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyUuDai.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +80,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -91,6 +115,8 @@
       <workItem from="1711266919699" duration="18242000" />
       <workItem from="1711372869388" duration="10542000" />
       <workItem from="1711424280910" duration="1610000" />
+      <workItem from="1711549199783" duration="1295000" />
+      <workItem from="1711595457816" duration="20551000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -148,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711424382423</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="tìm kiếm ưu đãi, cửa hàng liên kết">
+      <option name="closed" value="true" />
+      <created>1711451263239</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1711451263239</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +210,7 @@
     <MESSAGE value="lấy danh sách điện thoại, các thông số của điện thoại" />
     <MESSAGE value="fix UI web" />
     <MESSAGE value="fix UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix UI" />
+    <MESSAGE value="tìm kiếm ưu đãi, cửa hàng liên kết" />
+    <option name="LAST_COMMIT_MESSAGE" value="tìm kiếm ưu đãi, cửa hàng liên kết" />
   </component>
 </project>

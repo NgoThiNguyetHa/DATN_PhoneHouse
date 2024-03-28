@@ -50,14 +50,23 @@
         <main class="content px-3 py-2">
             <div class="content" id="mainContent">
                 <div class="tab-content d-flex row justify-content-center">
-                    <div class="flex-row d-flex flex-row align-items-center">
-                        <form method="GET" action="" class="d-flex justify-content-between m-3 flex-fill">
-                            <input type="text" name="tenNV" class="m-1 form-control " placeholder="Nhập giảm giá"/>
-
-                                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
-                                    <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
-                                    <span class="d-inline">Tìm Kiếm</span>
-                                </button>
+                    <div class="flex-row d-flex flex-row align-items-center my-2">
+                        <form method="GET" action="/quanLyUuDaiW/searchUuDaiByDiscount"
+                              class="d-flex justify-content-between flex-fill">
+                            <input type="text" name="maxDiscount" class="m-1 form-control "
+                                   placeholder="Nhập giảm giá"/>
+                            <select  name="trangThai"
+                                     class="form-select"
+                                     aria-label="Default select example"
+                                     style="padding: 0.375rem 0.75rem; margin: 0.25rem; height: 37.6px">
+                                <option value="">Trạng thái</option>
+                                <option value="Hoạt động">Hoạt động</option>
+                                <option value="Không hoạt động">Không hoạt động</option>
+                            </select>
+                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                                <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
+                                <span class="d-inline">Tìm Kiếm</span>
+                            </button>
                         </form>
 
                         <form>

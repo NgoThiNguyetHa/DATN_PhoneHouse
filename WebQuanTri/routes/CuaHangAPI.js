@@ -150,4 +150,24 @@ router.post("/doiMatKhauCuaHang/:id", async (req, res ) => {
   }
 })
 
+router.get('/searchCuaHang/:id', async (req, res) => {
+  try {
+    const { diaChi, username, email, sdt, trangThai } = req.query;
+
+    // Tạo object chứa các điều kiện tìm kiếm
+    const searchConditions = {};
+    if (diaChi) searchConditions.diaChi = { $regex: new RegExp(diaChi, 'i') }; // Tìm kiếm không phân biệt chữ hoa chữ thường
+    if (username) searchConditions.username = { $regex: new RegExp(username, 'i') };
+    if (email) searchConditions.email = { $regex: new RegExp(email, 'i') };
+    if (sdt) searchConditions.sdt = { $regex: new RegExp(sdt, 'i') };
+    if (trangThai) searchConditions.trangThai = trangThai;
+    searchConditions._id = { $ne: req.params.id }
+    // Tìm kiếm cửa hàng dựa trên các điều kiện
+    const foundStores = await CuaHang.find(searchConditions);
+    res.json(foundStores);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
