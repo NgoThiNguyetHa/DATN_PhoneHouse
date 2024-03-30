@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="tìm kiếm">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="quản lý ưu đãi web">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/index.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="hantnph28876" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -96,6 +94,9 @@
       <workItem from="1711549199783" duration="1295000" />
       <workItem from="1711595457816" duration="20551000" />
       <workItem from="1711636584537" duration="10758000" />
+      <workItem from="1711678560673" duration="5713000" />
+      <workItem from="1711688811094" duration="4204000" />
+      <workItem from="1711809178403" duration="9330000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -190,6 +191,7 @@
     <MESSAGE value="fix UI web" />
     <MESSAGE value="fix UI" />
     <MESSAGE value="tìm kiếm ưu đãi, cửa hàng liên kết" />
-    <option name="LAST_COMMIT_MESSAGE" value="tìm kiếm ưu đãi, cửa hàng liên kết" />
+    <MESSAGE value="web: quản lý ưu đãi, hóa đơn, cửa hàng liên kết" />
+    <option name="LAST_COMMIT_MESSAGE" value="web: quản lý ưu đãi, hóa đơn, cửa hàng liên kết" />
   </component>
 </project>
