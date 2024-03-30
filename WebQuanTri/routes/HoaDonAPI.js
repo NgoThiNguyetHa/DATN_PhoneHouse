@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/HoaDon')
+require('../models/ChiTietHoaDon')
 
+const ChiTietHoaDon = mongoose.model("chiTietHoaDon")
 const HoaDon = mongoose.model("hoaDon")
 
 
@@ -33,10 +35,43 @@ router.post('/addHoaDon', function (req, res, next) {
 });
 
 /* GET loaidichvu listing. */
-router.get('/getHoaDon', async (req, res) => {
+router.get('/getHoaDon/:id', async (req, res) => {
   try {
-    const hoaDon = await HoaDon.find();
-    res.json(hoaDon);
+    const hoaDon = await HoaDon.findById(req.params.id)
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate("maCuaHang")
+    const chiTiet = await ChiTietHoaDon.find({maHoaDon: req.params.id})
+        .populate({
+          path: "maHoaDon",
+          populate: [
+            {
+              path: "maDiaChiNhanHang",
+              model: "diaChiNhanHang",
+              populate: {path: "maKhachHang", model: "khachhang"}
+            },
+            {path: "maKhachHang", model: "khachhang"},
+            {path: "maCuaHang", model: "cuaHang"},
+          ]
+        })
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json({hoaDon, chiTiet});
   } catch (error) {
     res.status(500).json({error: error.message});
   }
@@ -114,8 +149,13 @@ router.delete('/deleteHoaDon/:id', async (req, res) => {
 
 router.put("/updateHoaDon/:id", async (req, res) => {
   try {
-    const data = await HoaDon.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    if (!data) {
+    const { trangThaiNhanHang } = req.body;
+    const updatedHoaDon = await HoaDon.findByIdAndUpdate(
+        req.params.id,
+        { trangThaiNhanHang },
+        { new: true }
+    );
+    if (!updatedHoaDon) {
       return res.status(404).json({message: "update failed"})
 
     } else {
@@ -123,6 +163,7 @@ router.put("/updateHoaDon/:id", async (req, res) => {
 
     }
   } catch (err) {
+    console.log("errr: ", err)
     return res.status(500).json({message: err.message})
   }
 })
