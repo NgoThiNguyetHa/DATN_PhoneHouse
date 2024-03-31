@@ -1,11 +1,11 @@
 package com.example.appkhachhang.Model;
 
-public class ChiTietGioHang {
-    private String _id;
-    private String soLuong;
-    private String giaTien;
-    private ChiTietDienThoai maChiTietDienThoai;
-    private GioHang maGioHang;
+public class ChiTietHoaDon {
+    String _id;
+    String soLuong;
+    String giaTien;
+    HoaDon maHoaDon;
+    ChiTietDienThoai maChiTietDienThoai;
 
     public String get_id() {
         return _id;
@@ -31,6 +31,13 @@ public class ChiTietGioHang {
         this.giaTien = giaTien;
     }
 
+    public HoaDon getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public void setMaHoaDon(HoaDon maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
 
     public ChiTietDienThoai getMaChiTietDienThoai() {
         return maChiTietDienThoai;
@@ -38,13 +45,5 @@ public class ChiTietGioHang {
 
     public void setMaChiTietDienThoai(ChiTietDienThoai maChiTietDienThoai) {
         this.maChiTietDienThoai = maChiTietDienThoai;
-    }
-
-    public GioHang getMaGioHang() {
-        return maGioHang;
-    }
-
-    public void setMaGioHang(GioHang maGioHang) {
-        this.maGioHang = maGioHang;
     }
 }

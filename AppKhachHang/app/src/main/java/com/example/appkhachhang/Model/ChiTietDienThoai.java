@@ -1,6 +1,6 @@
 package com.example.appkhachhang.Model;
 
-public class ChiTietDienThoai {
+public class ChiTietDienThoai{
     String _id;
     Number soLuong;
     Number giaTien;

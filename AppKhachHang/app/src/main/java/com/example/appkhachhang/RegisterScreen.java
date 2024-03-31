@@ -129,7 +129,7 @@ public class RegisterScreen extends AppCompatActivity {
                     }else {
                         checkBox.setError("Bạn cần chấp nhận điều khoản");
                     }
-                }
+            }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {

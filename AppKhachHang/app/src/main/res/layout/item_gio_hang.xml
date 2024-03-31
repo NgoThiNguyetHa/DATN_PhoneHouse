@@ -11,8 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/chk_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
 
         <ImageView
+            android:id="@+id/img_ChiTietGioHang"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="11dp"
@@ -50,16 +56,33 @@
                 android:textSize="14dp"
                 android:textColor="#FF0000"/>
 
-
-            <TextView
-                android:id="@+id/itemGioHang_tvSoLuong"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Số đơn hàng: 15"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_subtract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="-"/>
+                <TextView
+                    android:id="@+id/itemGioHang_tvSoLuong"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="1"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="+"/>
+            </LinearLayout>
         </LinearLayout>
+
         <ImageView
             android:id="@+id/itemGioHang_imgDelete"
             android:layout_width="wrap_content"

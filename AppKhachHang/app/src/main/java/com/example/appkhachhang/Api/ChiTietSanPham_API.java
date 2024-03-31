@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.ChiTietDienThoai;
+import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface ChiTietSanPham_API {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -23,4 +25,7 @@ public interface ChiTietSanPham_API {
 
     @GET("getChiTiet")
     Call<List<ChiTietDienThoai>> getChiTiet();
+
+    @GET("getChiTietDienThoaiById/{id}")
+    Call<ChiTietDienThoai> getChiTietTheoID(@Path("id") String id);
 }

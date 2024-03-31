@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,13 +78,11 @@ public class LoginScreen extends AppCompatActivity {
         }
         for (User user: list) {
             if (Email.equals(user.getEmail()) && Password.equals(user.getPassword())){
-                for (int i = 0; i < list.size(); i++) {
-                    if (Email.equals(list.get(i).getEmail())){
                         Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+                        SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
+                        editor.putString("idKhachHang", user.get_id());
+                        editor.apply();
                         startActivity(intent);
-                    }
-                }
-
                 break;
             } else if (Email.isEmpty()||Password.isEmpty()){
                 edEmail.setError("Email invalid");

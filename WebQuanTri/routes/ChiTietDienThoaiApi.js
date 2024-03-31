@@ -7,22 +7,52 @@ require('../models/DienThoai')
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const DienThoai = mongoose.model("dienthoai")
 
-router.post('/addChiTiet', function (req, res, next) {
-  const chiTiet = new ChiTietDienThoai({
-    soLuong: req.body.soLuong,
-    giaTien: req.body.giaTien,
-    maDienThoai: req.body.maDienThoai,
-    maMau: req.body.maMau,
-    maDungLuong: req.body.maDungLuong,
-    maRam: req.body.maRam,
-  })
-  chiTiet.save()
-      .then(data => {
-        console.log(data)
-        res.send(data)
-      }).catch(err => {
-    console.log
-  })
+router.post("/addChiTiet", async function (req, res, next) {
+  try {
+    const chiTiet = new ChiTietDienThoai({
+      soLuong: req.body.soLuong,
+      giaTien: req.body.giaTien,
+      maDienThoai: req.body.maDienThoai,
+      maMau: req.body.maMau,
+      maDungLuong: req.body.maDungLuong,
+      maRam: req.body.maRam,
+    });
+
+    const savedDienThoaiChiTiet = await chiTiet.save(); // Lưu đối tượng
+    const populatedDienThoaiChiTiet = await ChiTietDienThoai.findById(
+      savedDienThoaiChiTiet._id
+    )
+      .populate({
+        path: "maDienThoai",
+        populate: [
+          { path: "maCuaHang", model: "cuaHang" },
+          { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+          { path: "maHangSX", model: "hangSanXuat" },
+        ],
+      })
+      .populate("maMau")
+      .populate("maDungLuong")
+      .populate("maRam");
+
+    console.log(populatedDienThoaiChiTiet);
+    res.send(populatedDienThoaiChiTiet);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
+  }
+});
+
+router.get("/getChiTietDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await ChiTietDienThoai.find({_id: req.params.id})
+        .populate({path: 'maDienThoai', populate: 'maHangSX', populate: "maUuDai", populate:"maCuaHang" })
+        .populate('maMau')
+        .populate('maDungLuong')
+        .populate('maRam')
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
 });
 
 /* GET loaidichvu listing. */

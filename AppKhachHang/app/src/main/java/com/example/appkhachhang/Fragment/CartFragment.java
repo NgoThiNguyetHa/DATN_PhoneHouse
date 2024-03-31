@@ -1,9 +1,17 @@
 package com.example.appkhachhang.Fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -19,6 +27,7 @@ import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.ThanhToanActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +44,7 @@ public class CartFragment extends Fragment {
 
     List<ChiTietGioHang> list;
     GioHangAdapter adapter;
-
-
-
+    LinearLayoutManager linearLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,42 +57,49 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        ((Activity)getContext()).setTitle("Giỏ Hàng");
-        initView(view);
-        initVariable();
-        getDataGioHang();
         return view;
     }
 
-    private void initView(View view){
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         rc_gioHang = view.findViewById(R.id.rc_gioHang);
         tvEmpty = view.findViewById(R.id.gioHang_tvEmpty);
         tvTongTien = view.findViewById(R.id.gioHang_tvTongTien);
         btnThanhToan = view.findViewById(R.id.gioHang_btnThanhToan);
-    }
-
-    private void initVariable(){
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rc_gioHang.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
+        getDataGioHang();
         adapter = new GioHangAdapter(getContext(),list);
+        rc_gioHang.setAdapter(adapter);
+        btnThanhToan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ThanhToanActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getDataGioHang(){
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
+        String idKhachHang = prefs.getString("idKhachHang", "abc");
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<ChiTietGioHang>> call = apiService.getListGioHang();
+        Call<List<ChiTietGioHang>> call = apiService.getListGioHang(idKhachHang);
         call.enqueue(new Callback<List<ChiTietGioHang>>() {
             @Override
             public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
-                if (response.isSuccessful()) {
-                    List<ChiTietGioHang> data = response.body();
-                    list.clear();
-                    list.addAll(data);
-                    adapter.notifyDataSetChanged();
-                    tvEmpty.setVisibility(View.GONE);
-
-                } else {
-                    // Handle error
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
-                }
+                    if (response.body()!= null){
+                        List<ChiTietGioHang> data = response.body();
+                        list.clear();
+                        list.addAll(data);
+                        adapter.notifyDataSetChanged();
+                        tvEmpty.setVisibility(View.GONE);
+                    } else {
+                        tvEmpty.setText("Không có dữ liệu");
+                    }
             }
 
             @Override

@@ -3,6 +3,8 @@ package com.example.appkhachhang.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.R;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -56,25 +59,12 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailScreen.class);
-                intent.putExtra("soLuong", chiTietDienThoai.getSoLuong().toString());
-                intent.putExtra("giaTien", chiTietDienThoai.getGiaTien().toString());
-                intent.putExtra("tenDienThoai", chiTietDienThoai.getMaDienThoai().getTenDienThoai());
-                intent.putExtra("kichThuoc", chiTietDienThoai.getMaDienThoai().getKichThuoc());
-                intent.putExtra("congNgheManHinh", chiTietDienThoai.getMaDienThoai().getCongNgheManHinh());
-                intent.putExtra("camera", chiTietDienThoai.getMaDienThoai().getCamera());
-                intent.putExtra("cpu", chiTietDienThoai.getMaDienThoai().getCpu());
-                intent.putExtra("pin", chiTietDienThoai.getMaDienThoai().getPin());
-                intent.putExtra("heDieuHanh", chiTietDienThoai.getMaDienThoai().getHeDieuHanh());
-                intent.putExtra("doPhanGiai", chiTietDienThoai.getMaDienThoai().getDoPhanGiai());
-                intent.putExtra("namSanXuat", chiTietDienThoai.getMaDienThoai().getNamSanXuat());
-                intent.putExtra("thoiGianBaoHanh", chiTietDienThoai.getMaDienThoai().getThoiGianBaoHanh());
-                intent.putExtra("moTaThem", chiTietDienThoai.getMaDienThoai().getMoTaThem());
-                intent.putExtra("hinhAnh", chiTietDienThoai.getMaDienThoai().getHinhAnh());
-                intent.putExtra("hangSanXuat", chiTietDienThoai.getMaDienThoai().getMaHangSX().getTenHang());
-                intent.putExtra("uuDai", chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia());
-                intent.putExtra("mau", chiTietDienThoai.getMaMau().getTenMau());
-                intent.putExtra("ram", chiTietDienThoai.getMaRam().getRAM());
-                intent.putExtra("dungLuong", chiTietDienThoai.getMaDungLuong().getBoNho());
+                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(chiTietDienThoai);
+                editor.putString("chiTietDienThoai", json);
+                editor.apply();
                 context.startActivity(intent);
             }
         });
