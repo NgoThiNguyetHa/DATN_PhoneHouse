@@ -21,7 +21,7 @@ router.post('/addGioHang', function(req, res, next) {
   })
   gioHang.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log

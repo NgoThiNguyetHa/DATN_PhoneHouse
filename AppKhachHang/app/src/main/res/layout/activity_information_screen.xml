@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InformationScreen"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ tên"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edHotenHS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số điện thoại"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edSdtHS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:errorEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Địa chỉ"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edDiaChiHS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btnSaveHS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#5FB1C1"
+        android:text="Xác Nhận"
+        android:layout_gravity="center"
+        />
+</LinearLayout>

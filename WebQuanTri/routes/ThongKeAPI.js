@@ -30,7 +30,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
         $sort: { soLuong: -1 }, // Sắp xếp theo số lượng mua giảm dần
       },
     ]).exec();
-    console.log("31: ", dienThoaiDuocMuaNhieu);
+    // console.log("31: ", dienThoaiDuocMuaNhieu);
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
     const TopDienThoai = await ChiTietDienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
@@ -100,7 +100,7 @@ router.get("/thongKeSoLuongKhachHang/:id/:ngay", async (req, res) => {
   try {
     const idCuaHang = req.params.id;
     const ngay = new Date(req.params.ngay);
-    console.log(ngay);
+    // console.log(ngay);
     const thongKe = await HoaDon.aggregate([
       {
         $match: {
@@ -459,7 +459,7 @@ router.get("/top10sanpham/:startDate/:endDate/:maCuaHang", async (req, res) => {
   try {
     const hoaDonData = await HoaDon.find({
       trangThaiNhanHang: "Đã giao",
-      ngayTao: { $gte: startDate, $lte: endDate },
+      ngayTao: { $gte: new Date(startDate), $lte: new Date(endDate) },
       maCuaHang: new mongoose.Types.ObjectId(maCuaHang), 
     });
 

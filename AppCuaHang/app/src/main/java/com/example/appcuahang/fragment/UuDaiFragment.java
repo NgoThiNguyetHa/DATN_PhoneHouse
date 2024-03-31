@@ -101,6 +101,11 @@ public class UuDaiFragment extends Fragment {
                 Log.d("zzz", "uudai");
 
             }
+
+            @Override
+            public void selectUuDai(String idUuDai) {
+
+            }
         });
         adapter.setData(list);
         rc_uuDai.setAdapter(adapter);
@@ -327,8 +332,11 @@ public class UuDaiFragment extends Fragment {
         // Hiển thị DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                    String selectedDate = selectedDayOfMonth + "-" + (selectedMonth + 1) + "-" + selectedYear;
-                    edThoiGian.setText(selectedDate);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth);
+                    String formattedDate = sdf.format(selectedDate.getTime());
+                    edThoiGian.setText(formattedDate);
                 },
                 year,
                 month,

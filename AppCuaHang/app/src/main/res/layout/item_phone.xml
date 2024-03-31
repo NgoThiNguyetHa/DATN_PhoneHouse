@@ -8,7 +8,7 @@
     app:cardElevation="10dp"
     android:id="@+id/cardView">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,17 +19,19 @@
         <ImageView
             android:id="@+id/itemPhone_imgPhone"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/baseline_phone_iphone_24" />
+            android:layout_height="150dp"
+            android:scaleType="center"
+            android:src="@drawable/img_3"
+            android:layout_centerHorizontal="true"/>
         <TextView
             android:id="@+id/itemPhone_tvTenDienThoai"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
+            android:gravity="center"
             android:text="Tên điện thoại"
-            android:textSize="12dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/itemPhone_imgPhone"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -21,7 +21,7 @@ router.post('/addHangSanXuat', function(req, res, next) {
   })
   hangSanXuat.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log
@@ -75,6 +75,18 @@ router.put("/updateHangSanXuat/:id", async (req, res ) => {
     }
   }catch(err){
     return res.status(500).json({message: err.message})
+  }
+})
+
+router.get('/searchHangSanXuat', async (req,res) => {
+  try {
+    const { tenHang } = req.query;
+    const hangSanXuat = await HangSanXuat.find({ tenHang: { $regex: tenHang, $options: 'i' } });
+
+    res.json(hangSanXuat);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
   }
 })
 

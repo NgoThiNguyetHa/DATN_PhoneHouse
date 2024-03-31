@@ -52,7 +52,7 @@
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sphot"
                android:layout_width="match_parent"
-               android:layout_height="200dp"
+               android:layout_height="wrap_content"
                android:layout_marginStart="10dp"
                tools:listitem="@layout/item_san_pham">
            </androidx.recyclerview.widget.RecyclerView>
@@ -73,7 +73,7 @@
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sp"
                android:layout_width="match_parent"
-               android:layout_height="200dp"
+               android:layout_height="wrap_content"
                android:layout_marginStart="10dp"
                tools:listitem="@layout/item_san_pham">
            </androidx.recyclerview.widget.RecyclerView>

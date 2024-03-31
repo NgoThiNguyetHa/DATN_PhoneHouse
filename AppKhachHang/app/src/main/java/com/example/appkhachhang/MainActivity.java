@@ -19,7 +19,7 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.example.appkhachhang.Fragment.BillFragment;
+import com.example.appkhachhang.Fragment.BillOrderFragment;
 import com.example.appkhachhang.Fragment.CartFragment;
 import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.NotificationFragment;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         if (itemID == R.id.navHome){
           loadFragment(new HomeFragment(), false);
         } else if (itemID == R.id.navBill) {
-          loadFragment(new BillFragment(), false);
+          loadFragment(new BillOrderFragment(), false);
         } else if (itemID == R.id.navNotify) {
           loadFragment(new NotificationFragment(), false);
         } else {

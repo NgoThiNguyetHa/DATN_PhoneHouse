@@ -1,14 +1,19 @@
 package com.example.appcuahang.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UuDai {
+public class UuDai implements Serializable {
     public String _id;
     public String giamGia;
     public String thoiGian;
     public String trangThai;
 
     public Store maCuaHang;
+
+    public UuDai(String _id) {
+        this._id = _id;
+    }
 
     public UuDai(String giamGia, String thoiGian, String trangThai, Store maCuaHang) {
         this.giamGia = giamGia;

@@ -1,15 +1,14 @@
 package com.example.appkhachhang.Model;
 
 public class HoaDon {
-    String _id;
-
-    String tongTien;
-    String ngayTao;
-    String trangThaiNhanHang;
-    String phuongThucThanhToan;
-    DiaChiNhanHang maDiaChiNhanHang;
-    User maKhachHang;
-    CuaHang maCuaHang;
+    private String _id;
+    private String tongTien;
+    private String ngayTao;
+    private String trangThaiNhanHang;
+    private String phuongThucThanhToan;
+    private AddressDelivery maDiaChiNhanHang;
+    private User maKhachHang;
+    private Store maCuaHang;
 
     public String get_id() {
         return _id;
@@ -51,11 +50,11 @@ public class HoaDon {
         this.phuongThucThanhToan = phuongThucThanhToan;
     }
 
-    public DiaChiNhanHang getMaDiaChiNhanHang() {
+    public AddressDelivery getMaDiaChiNhanHang() {
         return maDiaChiNhanHang;
     }
 
-    public void setMaDiaChiNhanHang(DiaChiNhanHang maDiaChiNhanHang) {
+    public void setMaDiaChiNhanHang(AddressDelivery maDiaChiNhanHang) {
         this.maDiaChiNhanHang = maDiaChiNhanHang;
     }
 
@@ -67,11 +66,11 @@ public class HoaDon {
         this.maKhachHang = maKhachHang;
     }
 
-    public CuaHang getMaCuaHang() {
+    public Store getMaCuaHang() {
         return maCuaHang;
     }
 
-    public void setMaCuaHang(CuaHang maCuaHang) {
+    public void setMaCuaHang(Store maCuaHang) {
         this.maCuaHang = maCuaHang;
     }
 }

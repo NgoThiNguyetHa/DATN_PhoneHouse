@@ -34,24 +34,11 @@ router.post("/addChiTiet", async function (req, res, next) {
       .populate("maDungLuong")
       .populate("maRam");
 
-    console.log(populatedDienThoaiChiTiet);
+    // console.log(populatedDienThoaiChiTiet);
     res.send(populatedDienThoaiChiTiet);
   } catch (err) {
     console.log(err);
     res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
-  }
-});
-
-router.get("/getChiTietDienThoaiByID/:id", async (req, res) => {
-  try {
-    const data = await ChiTietDienThoai.find({_id: req.params.id})
-        .populate({path: 'maDienThoai', populate: 'maHangSX', populate: "maUuDai", populate:"maCuaHang" })
-        .populate('maMau')
-        .populate('maDungLuong')
-        .populate('maRam')
-    res.json(data)
-  } catch (err) {
-    return res.status(500).json({message: err.message})
   }
 });
 
@@ -74,7 +61,26 @@ router.get('/getChiTiet', async (req, res) => {
     res.status(500).json({error: error.message});
   }
 })
-
+router.get("/getChiTietTheoDienThoai/:maDienThoai", async (req, res) => {
+  try {
+    const maDienThoai = req.params.maDienThoai;
+    const chitiet = await ChiTietDienThoai.find({ maDienThoai })
+      .populate({
+        path: "maDienThoai",
+        populate: [
+          { path: "maCuaHang", model: "cuaHang" },
+          { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+          { path: "maHangSX", model: "hangSanXuat" },
+        ],
+      })
+      .populate("maMau")
+      .populate("maDungLuong")
+      .populate("maRam");
+    res.json(chitiet);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 router.delete('/deleteChiTiet/:id', async (req, res) => {
   try {
     const data = await ChiTietDienThoai.findByIdAndDelete(req.params.id)

@@ -31,7 +31,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.DungLuongAdapter;
 import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemDungLuongListenner;
+import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
@@ -140,12 +140,12 @@ public class DungLuongFragament extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
 
         tvTitle.setText("Cập Nhật Dung Lượng");
-        edDungLuong.setText(dungLuong.getBoNho());
+        edDungLuong.setText(dungLuong.getBoNho()+"");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Validate()) {
-                    String tenDL = edDungLuong.getText().toString().trim();
+                    Number tenDL = Integer.parseInt(edDungLuong.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
                     Call<DungLuong> call = apiDungLuongService.putDungLuong(dungLuong.get_id(), new DungLuong(tenDL));
                     call.enqueue(new Callback<DungLuong>() {
@@ -214,7 +214,7 @@ public class DungLuongFragament extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Validate()) {
-                    String tenDungLuong = edDungLuong.getText().toString().trim();
+                    Number tenDungLuong = Integer.parseInt(edDungLuong.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
                     Call<DungLuong> call = apiDungLuongService.postDungLuong(new DungLuong(tenDungLuong));
                     call.enqueue(new Callback<DungLuong>() {

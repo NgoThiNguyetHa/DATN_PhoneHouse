@@ -5,7 +5,7 @@ require('../models/UuDai')
 
 const UuDai = mongoose.model("uudai")
 
-/* GET DienThoai listing. */
+
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
@@ -18,17 +18,17 @@ router.post('/addUuDai',async function (req, res, next) {
       maCuaHang: req.body.maCuaHang,
     });
 
-    const savedUuDai = await uudai.save(); // Lưu đối tượng
+    const savedUuDai = await uudai.save();
     const populatedUuDai = await UuDai.findById(savedUuDai._id).populate("maCuaHang");
 
-    console.log(populatedUuDai);
+    // console.log(populatedUuDai);
     res.send(populatedUuDai);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err); // Trả về lỗi nếu có lỗi xảy ra
+    res.status(500).send(err);
   }
 });
-// lay uu dai theo cua hang
+
 router.get('/getUuDai/:id', async (req, res) => {
   try {
     const idCuaHang = req.params.id;
@@ -71,5 +71,64 @@ router.put("/updateUuDai/:id", async (req, res) => {
   }
 })
 
+router.put('/updateExpiredStatus', async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const expiredVouchers = await UuDai.aggregate([
+      {
+        $addFields: {
+          ngayHetHanDate: {
+            $dateFromString: {
+              dateString: "$thoiGian",
+              format: "%d-%m-%Y"
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          $and: [
+            { trangThai: "Hoạt động" },
+            { ngayHetHanDate: { $lt: currentDate } }
+          ]
+        }
+      }
+    ])
+    for (const voucher of expiredVouchers) {
+      await UuDai.findByIdAndUpdate(voucher._id, { trangThai: 'Không hoạt động' }, {new: true});
+    }
+
+    res.status(200).json({ message: 'Cập nhật trạng thái voucher thành công' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/getUuDai-Active/:id', async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const uudai = await UuDai.find({maCuaHang: idCuaHang, trangThai: "Hoạt động"}).populate("maCuaHang");
+    res.json(uudai);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+})
+
+router.get('/searchUuDaiByDiscount/:id', async (req, res) => {
+  try {
+    const idCuaHang = req.params.id
+    const { minDiscount, maxDiscount, trangThai } = req.query;
+
+    const uudai = await UuDai.find({
+      giamGia: { $gte: parseFloat(minDiscount), $lte: parseFloat(maxDiscount) },
+      maCuaHang: idCuaHang,
+      trangThai: trangThai
+    }).populate("maCuaHang");
+
+    res.json(uudai);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 
 module.exports = router;

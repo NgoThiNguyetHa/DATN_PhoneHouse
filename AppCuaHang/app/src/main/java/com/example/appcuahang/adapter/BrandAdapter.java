@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemBrandListenner;
+import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
