@@ -95,7 +95,7 @@
       <workItem from="1711809178403" duration="9330000" />
       <workItem from="1711874714519" duration="19278000" />
       <workItem from="1711969385487" duration="3915000" />
-      <workItem from="1712050036769" duration="19479000" />
+      <workItem from="1712050036769" duration="20154000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -217,7 +217,31 @@
       <option name="project" value="LOCAL" />
       <updated>1712104669633</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105226866</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105226866</updated>
+    </task>
+    <task id="LOCAL-00017" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105551036</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105551036</updated>
+    </task>
+    <task id="LOCAL-00018" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105619606</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105619606</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
