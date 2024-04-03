@@ -6,74 +6,23 @@
     <title>Welcome to Firebase Hosting</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/10.8.1/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/10.8.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/10.8.1/firebase-performance-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/10.10.0/firebase-performance-compat.js"></script>
     <!-- 
       initialize the SDK after all desired features are loaded, set useEmulator to false
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-      <style>
-          body {
-              background: #EEEEEE;
-          }
-
-          .container {
-              width: 450px;
-              padding: 50px 30px;
-              margin-top: 80px;
-              background-color: #fff;
-              border-radius: 50px;
-          }
-
-          h3 {
-              text-align: center;
-              color: #000000;
-              margin-bottom: 50px;
-          }
-          .input-text{
-              border: none;
-              flex: 1;
-          }
-          .input-app{
-              border: 1px solid #B9B9B9;
-              flex-direction: row;
-              border-radius: 10px;
-              align-items: center;
-              padding: 8px 10px;
-              column-gap: 8px;
-          }
-          .btnLogin {
-              background-color: #000000;
-              margin-top: 20px;
-
-          }
-
-          button {
-              margin-left: 150px;
-          }
-
-          label {
-              color: #000000;
-          }
-
-          div {
-              margin-top: 20px;
-          }
-      </style>
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
       #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
@@ -90,55 +39,51 @@
     </style>
   </head>
   <body>
-<!--  <div class="container">-->
-<!--      <h3>ĐĂNG NHẬP TÀI KHOẢN</h3>-->
-
-<!--      <form action="/dangNhapW" method="post" class="login">-->
-
-<!--          <div class="form-group">-->
-<!--              &lt;!&ndash;            <label for="email">Email</label>&ndash;&gt;-->
-<!--              <div class="input-group input-app">-->
-<!--                  <i class="fas fa-envelope fa-lg"></i>-->
-<!--                  <input name="email" type="text" class="input-text form-control-plaintext" placeholder="Email">-->
-<!--              </div>-->
-<!--          </div>-->
-<!--          <div class="form-group">-->
-<!--              &lt;!&ndash;            <label for="email">Email</label>&ndash;&gt;-->
-<!--              <div class="input-group input-app">-->
-<!--                  <i class="fas fa-lock fa-lg"></i>-->
-<!--                  <input name="password" type="password" class="input-text form-control-plaintext" placeholder="Password">-->
-<!--              </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;        <div class="form-check">&ndash;&gt;-->
-<!--          &lt;!&ndash;            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">&ndash;&gt;-->
-<!--          &lt;!&ndash;            <label class="form-check-label" for="flexCheckDefault">&ndash;&gt;-->
-<!--          &lt;!&ndash;                Nhớ mật khẩu&ndash;&gt;-->
-<!--          &lt;!&ndash;            </label>&ndash;&gt;-->
-<!--          &lt;!&ndash;        </div>&ndash;&gt;-->
-
-<!--          <div id="error-message">-->
-<!--              <% if (typeof errorMessage !== 'undefined' ) { %>-->
-<!--              <p style="color: red;">-->
-<!--                  <%= errorMessage %>-->
-<!--              </p>-->
-<!--              <% } %>-->
-<!--          </div>-->
-
-<!--          <button type="submit" class="btn btn-primary btnLogin">Đăng nhập</button>-->
-<!--      </form>-->
-<!--  </div>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"-->
-<!--          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"-->
-<!--          crossorigin="anonymous"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"-->
-<!--          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"-->
-<!--          crossorigin="anonymous"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"-->
-<!--          integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"-->
-<!--          crossorigin="anonymous"></script>-->
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
+        try {
+          let app = firebase.app();
+          let features = [
+            'auth', 
+            'database', 
+            'firestore',
+            'functions',
+            'messaging', 
+            'storage', 
+            'analytics', 
+            'remoteConfig',
+            'performance',
+          ].filter(feature => typeof app[feature] === 'function');
+          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
     </script>
   </body>
 </html>
