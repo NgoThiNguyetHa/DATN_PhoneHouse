@@ -28,7 +28,7 @@ import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.InformationScreen;
 
 public class UserFragment extends Fragment {
-    CardView btnChangePass, btnMap, btnInformation;
+    CardView btnChangePass, btnMap, btnInformation, btnViewFeedback;
     TextView tvUsername, tvEmail;
     MySharedPreferences mySharedPreferences;
     Button btnDangXuat;
@@ -46,7 +46,7 @@ public class UserFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvUsername);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
         btnInformation = view.findViewById(R.id.btnInformation);
-
+        btnViewFeedback = view.findViewById(R.id.btnViewFeedback);
         mySharedPreferences = new MySharedPreferences(getContext());
         tvUsername.setText(mySharedPreferences.getUserName());
         tvEmail.setText(mySharedPreferences.getEmail());
@@ -77,6 +77,12 @@ public class UserFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), InformationScreen.class);
                 startActivity(intent);
+            }
+        });
+        btnViewFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
