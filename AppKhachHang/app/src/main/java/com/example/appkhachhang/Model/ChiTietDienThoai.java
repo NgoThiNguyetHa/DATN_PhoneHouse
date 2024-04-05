@@ -15,6 +15,10 @@ public class ChiTietDienThoai implements Serializable {
     public ChiTietDienThoai() {
     }
 
+    public ChiTietDienThoai(String _id) {
+        this._id = _id;
+    }
+
     public String get_id() {
         return _id;
     }

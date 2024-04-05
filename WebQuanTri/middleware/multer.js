@@ -36,7 +36,7 @@ const upload = multer({
   fileFilter: async function(req, file, cb){
     checkFileType(file, cb)
   }
-}).single("image")
+}).single("hinhAnh")
 
 const checkFileType = (file, cb) => {
   const fileTypes = /jpeg|jpg|png/;
