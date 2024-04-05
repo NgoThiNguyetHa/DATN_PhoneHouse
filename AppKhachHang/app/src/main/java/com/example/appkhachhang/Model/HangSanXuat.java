@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class HangSanXuat {
+import java.io.Serializable;
+
+public class HangSanXuat implements Serializable {
     String tenHang;
     Object maCuaHang;
 

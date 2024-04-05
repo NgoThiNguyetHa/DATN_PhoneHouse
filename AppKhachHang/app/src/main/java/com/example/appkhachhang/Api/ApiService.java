@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
 
@@ -36,5 +37,8 @@ public interface ApiService {
     //thống kê khách hàng theo ngày
     @GET("thongke/thongKeSoLuongKhachHang/{id}/{ngayTao}")
     Call<String> getSoLuongKhachHangTheoNgay(@Path("id") String id);
+
+    @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
+    Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
 }
 
