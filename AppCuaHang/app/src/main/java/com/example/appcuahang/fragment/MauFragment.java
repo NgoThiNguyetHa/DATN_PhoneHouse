@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +54,12 @@ import retrofit2.Response;
 public class MauFragment extends Fragment {
     RecyclerView rc_mau;
     List<Mau> list = new ArrayList<>();
-    List<Mau> listBackUp;
+    List<Mau> listFilter;
     MauAdapter adapter;
     GridLayoutManager manager;
     EditText edTenMau;
+    TextView tv_entry;
+    TextInputEditText mau_edSearch;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -70,16 +75,74 @@ public class MauFragment extends Fragment {
         getData();
         initVariable();
         fillDataRecyclerView();
+
+        //Khoi tao
+        listFilter = new ArrayList<>();
+        mau_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getTenMau().toString().toLowerCase().contains(mau_edSearch.getText().toString().toLowerCase()) && mau_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new MauAdapter(getContext(), new IItemMauListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+
+                    }
+
+                    @Override
+                    public void editMau(Mau isMau) { //
+                        updateData(isMau);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+
+                if (mau_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_mau.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_mau.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_mau = view.findViewById(R.id.rc_mau);
+        mau_edSearch = view.findViewById(R.id.mau_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable() {
         list = new ArrayList<>();
-        listBackUp = new ArrayList<>();
+        listFilter = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
         rc_mau.setLayoutManager(manager);
         adapter = new MauAdapter(getContext(), new IItemMauListenner() {
@@ -209,7 +272,7 @@ public class MauFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void fillDataRecyclerView() {
         list.clear();
-        list.addAll(listBackUp);
+        list.addAll(listFilter);
         adapter.notifyDataSetChanged();
     }
 
