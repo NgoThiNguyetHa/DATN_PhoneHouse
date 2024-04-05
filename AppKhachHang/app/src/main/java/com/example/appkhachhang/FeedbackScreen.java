@@ -177,24 +177,24 @@ public class FeedbackScreen extends AppCompatActivity {
 
                         // Gọi API để gửi dữ liệu đánh giá lên server
                         FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
-                        Call<DanhGia> call = feedbackAPI.postDanhGia(
-                                new DanhGia(noiDung, fileData, diemDanhGia, currentDate, new User(mySharedPreferences.getUserId()), new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id()))
-                        );
-                        call.enqueue(new Callback<DanhGia>() {
-                            @Override
-                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
-                                if(response.isSuccessful()){
-                                    Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(FeedbackScreen.this, "Thất bại", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<DanhGia> call, Throwable t) {
-                                Log.d("zzz", "onFailure: "+ t.getMessage());
-                            }
-                        });
+//                        Call<DanhGia> call = feedbackAPI.postDanhGia(
+//                                new DanhGia(noiDung, fileData, diemDanhGia, currentDate, new User(mySharedPreferences.getUserId()), new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id()))
+//                        );
+//                        call.enqueue(new Callback<DanhGia>() {
+//                            @Override
+//                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+//                                if(response.isSuccessful()){
+//                                    Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    Toast.makeText(FeedbackScreen.this, "Thất bại", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<DanhGia> call, Throwable t) {
+//                                Log.d("zzz", "onFailure: "+ t.getMessage());
+//                            }
+//                        });
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
