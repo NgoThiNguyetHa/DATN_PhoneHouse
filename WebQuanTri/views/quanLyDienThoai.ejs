@@ -21,6 +21,10 @@
             border: 1px solid #dcdada;
         }
 
+        .btnEdit {
+            background: none;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -126,7 +130,18 @@
                             <tbody>
                             <% for(var i = 0; i < data.length; i++){ %>
                                 <tr>
-                                    <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>"><%= data[i].tenDienThoai %></td>
+                                    <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>">
+                                        <p><%= data[i].tenDienThoai %></p>
+                                        <div>
+                                            <button
+                                                    onclick="editDienThoaiModal(event, '<%= JSON.stringify(data[i]) %>')"
+                                                    class="btnEdit"
+                                            >
+                                                <span class="" id="editIcon"><i
+                                                            class="fa-solid fa-pen-to-square"></i></span>
+                                            </button>
+                                        </div>
+                                    </td>
                                     <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>"><%= data[i].maHangSX.tenHang %></td>
                                     <% if(data[i].chiTiet.length === 0) { %>
                                         <td></td>
@@ -339,6 +354,185 @@
       formData.append('image', fileInput.files[0]);
       const response = await fetch('/dienthoais/addDienThoaiFirebase', {
         method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      reloadPage()
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  function editDienThoaiModal(event, dataJSON) {
+    try {
+      const data = JSON.parse(dataJSON);
+      let contentModal = "";
+
+      contentModal += `
+        <form id="addForm" enctype="multipart/form-data">
+          <div class="mb-3" >
+                <input type="file" class="form-control" id="editHinhAnh" name="editHinhAnh" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                <img src="${data.hinhAnh}" width="auto" height="150px" class="rounded mx-auto d-block" onclick="document.getElementById('editHinhAnh').click();" id="imgPreview">
+          </div>
+          <label for="editDiscount" class="form-label">Hãng sản xuất:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="editHangSanXuatSelect" required>`;
+
+      contentModal += `
+          </select>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Tên điện thoại:</label>
+              <input type="text" class="form-control" id="editTenDienThoai" name="editTenDienThoai"
+                     placeholder="Nhập tên điện thoại" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Kích thước:</label>
+              <input type="text" class="form-control" id="editKichThuoc" name="editKichThuoc"
+                     placeholder="Nhập kích thước" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Công nghệ màn hình:</label>
+              <input type="text" class="form-control" id="editCongNgheManHinh" name="editCongNgheManHinh"
+                     placeholder="Nhập công nghệ màn hình" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Camera:</label>
+              <input type="text" class="form-control" id="editCamera" name="editCamera"
+                     placeholder="Nhập camera" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">CPU:</label>
+              <input type="text" class="form-control" id="editCPU" name="editCPU"
+                     placeholder="Nhập CPU" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Pin:</label>
+              <input type="text" class="form-control" id="editPin" name="editPin"
+                     placeholder="Nhập pin" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Hệ điều hành:</label>
+              <input type="text" class="form-control" id="editHeDieuHanh" name="editHeDieuHanh"
+                     placeholder="Nhập hệ điều hành" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Độ phân giải:</label>
+              <input type="text" class="form-control" id="editDoPhanGiai" name="editDoPhanGiai"
+                     placeholder="Nhập độ phân giải" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Năm sản xuất:</label>
+              <input type="text" class="form-control" id="editNamSanXuat" name="editNamSanXuat"
+                     placeholder="Nhập năm sản xuất" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Thời gian bảo hành:</label>
+              <input type="text" class="form-control" id="editThoiGianBaoHanh" name="editThoiGianBaoHanh"
+                     placeholder="Nhập thời gian bảo hành:" required>
+          </div>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Mô tả thêm:</label>
+              <input type="text" class="form-control" id="editMoTaThem" name="editMoTaThem"
+                     placeholder="Nhập mô tả thêm" required>
+          </div>
+          <label for="editDiscount" class="form-label">Ưu đãi:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="editUuDaiSelect">
+          </select>
+        </form>`;
+
+      document.getElementById('detailContent').innerHTML = contentModal;
+
+      let headerModal = "";
+      headerModal += `<h5 class="modal-title" id="detailModalLabel">Sửa điện thoại</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+      document.getElementById('modal-header').innerHTML = headerModal;
+
+      let footerModal = "";
+      footerModal += `<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-dark" onclick="updateDienThoai('${data._id}')">Lưu thay đổi</button>`
+      document.getElementById('modal-footer').innerHTML = footerModal;
+
+      document.getElementById('editTenDienThoai').value = data.tenDienThoai;
+      document.getElementById('editKichThuoc').value = data.kichThuoc;
+      document.getElementById('editCongNgheManHinh').value = data.congNgheManHinh;
+      document.getElementById('editCamera').value = data.camera;
+      document.getElementById('editCPU').value = data.cpu;
+      document.getElementById('editPin').value = data.pin;
+      document.getElementById('editHeDieuHanh').value = data.heDieuHanh;
+      document.getElementById('editDoPhanGiai').value = data.doPhanGiai;
+      document.getElementById('editNamSanXuat').value = data.namSanXuat;
+      document.getElementById('editThoiGianBaoHanh').value = data.thoiGianBaoHanh;
+      document.getElementById('editMoTaThem').value = data.moTaThem;
+
+      setSelectValues(data.maHangSX, data.maUuDai);
+      const modal = new bootstrap.Modal(document.getElementById('modal'), {
+        keyboard: false
+      });
+      modal.show();
+
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function setSelectValues(hangSXValue, uuDaiValue) {
+    const hangSXSelect = document.getElementById('editHangSanXuatSelect');
+    const uuDaiSelect = document.getElementById('editUuDaiSelect');
+
+    hangSXSelect.innerHTML = '';
+    uuDaiSelect.innerHTML = '';
+    const nullOption = document.createElement('option');
+    nullOption.value = '';
+    nullOption.text = 'Chọn ưu đãi';
+    uuDaiSelect.appendChild(nullOption);
+
+    hangSanXuatData.forEach(hangSanXuat => {
+      const option = document.createElement('option');
+      option.value = hangSanXuat._id;
+      option.text = hangSanXuat.tenHang;
+      if (hangSanXuat._id === hangSXValue) {
+        option.selected = true;
+      }
+      hangSXSelect.appendChild(option);
+    });
+
+    uuDaiData.forEach(uuDai => {
+      const option = document.createElement('option');
+      option.value = uuDai._id;
+      option.text = `${uuDai.giamGia}%`;
+      if (uuDaiValue !== null) {
+        if (uuDai._id === uuDaiValue._id) {
+          option.selected = true;
+        }
+      } else {
+        nullOption.selected = true;
+      }
+      uuDaiSelect.appendChild(option);
+    });
+  }
+
+  async function updateDienThoai(idDienThoai) {
+    try {
+      const fileInput = document.getElementById('editHinhAnh');
+      const formData = new FormData();
+      formData.append('tenDienThoai', document.getElementById('editTenDienThoai').value);
+      formData.append('kichThuoc', document.getElementById('editKichThuoc').value);
+      formData.append('congNgheManHinh', document.getElementById('editCongNgheManHinh').value);
+      formData.append('camera', document.getElementById('editCamera').value);
+      formData.append('cpu', document.getElementById('editCPU').value);
+      formData.append('pin', document.getElementById('editPin').value);
+      formData.append('heDieuHanh', document.getElementById('editHeDieuHanh').value);
+      formData.append('doPhanGiai', document.getElementById('editDoPhanGiai').value);
+      formData.append('namSanXuat', document.getElementById('editNamSanXuat').value);
+      formData.append('thoiGianBaoHanh', document.getElementById('editThoiGianBaoHanh').value);
+      formData.append('moTaThem', document.getElementById('editMoTaThem').value);
+      formData.append('maHangSX', document.getElementById('editHangSanXuatSelect').value);
+      formData.append('maUuDai', document.getElementById('editUuDaiSelect').value);
+      formData.append('maCuaHang', id);
+      formData.append('image', fileInput.files[0]);
+      const response = await fetch(`/dienthoais/updateDienThoaiFirebase/${idDienThoai}`, {
+        method: 'PUT',
         body: formData
       });
 
