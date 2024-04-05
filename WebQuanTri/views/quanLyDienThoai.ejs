@@ -132,13 +132,27 @@
                                 <tr>
                                     <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>">
                                         <p><%= data[i].tenDienThoai %></p>
-                                        <div>
+                                        <div class="d-flex flex-row">
+                                            <button
+                                                    onclick="addChiTietDienThoaiModal(event, '<%= JSON.stringify(data[i]) %>')"
+                                                    class="btnEdit"
+                                            >
+                                                <span class="" id="editIcon"><i
+                                                            class="fa-solid fa-plus"></i></span>
+                                            </button>
                                             <button
                                                     onclick="editDienThoaiModal(event, '<%= JSON.stringify(data[i]) %>')"
                                                     class="btnEdit"
                                             >
                                                 <span class="" id="editIcon"><i
                                                             class="fa-solid fa-pen-to-square"></i></span>
+                                            </button>
+                                            <button
+                                                    onclick="detailDienThoai(event, '<%= JSON.stringify(data[i]) %>')"
+                                                    class="btnEdit"
+                                            >
+                                            <span class="" id="editIcon"><i
+                                                        class="fa-solid fa-clipboard-list"></i></span>
                                             </button>
                                         </div>
                                     </td>
@@ -211,8 +225,7 @@
     imgPreview.src = URL.createObjectURL(event.target.files[0]);
   }
 
-  let hangSanXuatData;
-  let uuDaiData;
+  let hangSanXuatData, uuDaiData, mauData, dungLuongData, ramData;
 
   fetch('/hangsanxuats/getHangSanXuat')
       .then(response => response.json())
@@ -225,7 +238,23 @@
       .then(data => {
         uuDaiData = data;
       });
+  fetch(`/maus/getMau`)
+      .then(response => response.json())
+      .then(data => {
+        mauData = data;
+      });
+  fetch(`/dungluongs/getDungLuong`)
+      .then(response => response.json())
+      .then(data => {
+        dungLuongData = data;
+      });
+  fetch(`/rams/getRam`)
+      .then(response => response.json())
+      .then(data => {
+        ramData = data;
+      });
 
+  // thêm điện thoại
   function addDienThoaiModal() {
     try {
       let contentModal = "";
@@ -364,6 +393,7 @@
     }
   }
 
+  // sửa điện thoại
   function editDienThoaiModal(event, dataJSON) {
     try {
       const data = JSON.parse(dataJSON);
@@ -543,6 +573,111 @@
     }
   }
 
+//   thêm chi tiết điện thoai
+  function addChiTietDienThoaiModal(event, dataJSON) {
+    const data = JSON.parse(dataJSON);
+    let contentModal = "";
+    contentModal += `
+        <form id="addForm" enctype="multipart/form-data">
+          <label for="editDiscount" class="form-label">Màu:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="addMauSelect" required>`;
+    mauData.forEach(mau => {
+      contentModal += `<option value="${mau._id}">${mau.tenMau}</option>`;
+    });
+
+    contentModal += `</select>
+        <label for="editDiscount" class="form-label">Dung lượng:</label>
+        <select class="form-select mb-3" aria-label="Default select example" id="addDungLuongSelect" required>`
+    dungLuongData.forEach(dungLuong => {
+      contentModal += `<option value="${dungLuong._id}">${dungLuong.boNho} GB</option>`;
+    });
+
+    contentModal += `</select>
+        <label for="editDiscount" class="form-label">RAM:</label>
+        <select class="form-select mb-3" aria-label="Default select example" id="addRamSelect" required>`
+    ramData.forEach(ram => {
+      contentModal += `<option value="${ram._id}">${ram.RAM} GB</option>`;
+    });
+    contentModal += `</select>
+        <div class="mb-3">
+          <label for="editDiscount" class="form-label">Giá tiền:</label>
+          <input type="text" class="form-control" id="addGiaTien" name="addGiaTien"
+                 placeholder="Nhập giá tiền" required>
+        </div>
+        <div class="mb-3">
+          <label for="editDiscount" class="form-label">Số lượng:</label>
+          <input type="text" class="form-control" id="addSoLuong" name="addSoLuong"
+                 placeholder="Nhập số lượng" required>
+        </div>
+        <div class="mb-3">
+          <label for="formFileDisabled" class="form-label">Hình ảnh:</label>
+          <input class="form-control" type="file" id="addHinhAnh" name="addHinhAnh" >
+        </div>
+        </form>`
+    document.getElementById('detailContent').innerHTML = contentModal;
+
+    let headerModal = "";
+    headerModal += `<h5 class="modal-title" id="detailModalLabel">${data.tenDienThoai}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+    document.getElementById('modal-header').innerHTML = headerModal;
+
+    let footerModal = "";
+    footerModal += `<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-dark" onclick="saveChiTietDienThoai('${data._id}')">Thêm Mới</button>`
+    document.getElementById('modal-footer').innerHTML = footerModal;
+
+    const modal = new bootstrap.Modal(document.getElementById('modal'), {
+      keyboard: false
+    });
+    modal.show();
+  }
+
+  async function saveChiTietDienThoai(idDienThoai) {
+    try {
+      const fileInput = document.getElementById('addHinhAnh');
+      const formData = new FormData();
+      formData.append('soLuong', document.getElementById('addSoLuong').value);
+      formData.append('giaTien', document.getElementById('addGiaTien').value);
+      formData.append('maDienThoai', idDienThoai);
+      formData.append('maMau', document.getElementById('addMauSelect').value);
+      formData.append('maDungLuong', document.getElementById('addDungLuongSelect').value);
+      formData.append('maRam', document.getElementById('addRamSelect').value);
+      formData.append('image', fileInput.files[0]);
+      const response = await fetch('/chitietdienthoais/addChiTietDienThoaiFirebase', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      reloadPage()
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+//  thông tin chi tiêts
+  function detailDienThoai(event, dataJSON) {
+    const data = JSON.parse(dataJSON);
+    let contentModal = "";
+    contentModal += `
+
+    `
+    document.getElementById('detailContent').innerHTML = contentModal;
+
+    let headerModal = "";
+    headerModal += `<h5 class="modal-title" id="detailModalLabel">Chi tiết điện thoại</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+    document.getElementById('modal-header').innerHTML = headerModal;
+
+    let footerModal = "";
+    footerModal += `<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>`
+    document.getElementById('modal-footer').innerHTML = footerModal;
+
+    const modal = new bootstrap.Modal(document.getElementById('modal'), {
+      keyboard: false
+    });
+    modal.show();
+  }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

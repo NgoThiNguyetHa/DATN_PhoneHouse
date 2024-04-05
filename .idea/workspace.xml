@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="thêm điện thoại">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="update điện thoại">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/models/ChiTietDienThoai.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/models/ChiTietDienThoai.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +103,7 @@
       <workItem from="1711969385487" duration="3915000" />
       <workItem from="1712050036769" duration="20154000" />
       <workItem from="1712254910298" duration="11508000" />
-      <workItem from="1712299702504" duration="10303000" />
+      <workItem from="1712299702504" duration="16256000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -254,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712271663030</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="update điện thoại">
+      <option name="closed" value="true" />
+      <created>1712311549094</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1712311549095</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +298,7 @@
     <MESSAGE value="fix cập nhật trạng thái ưu đãi khi quá hạn" />
     <MESSAGE value="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng" />
     <MESSAGE value="thêm điện thoại" />
-    <option name="LAST_COMMIT_MESSAGE" value="thêm điện thoại" />
+    <MESSAGE value="update điện thoại" />
+    <option name="LAST_COMMIT_MESSAGE" value="update điện thoại" />
   </component>
 </project>
