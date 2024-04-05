@@ -173,8 +173,14 @@
                                         <td><%= data[i].chiTiet[j].maRam.RAM %> GB</td>
                                         <td><%= data[i].chiTiet[j].giaTien %></td>
                                         <td><%= data[i].chiTiet[j].soLuong %></td>
-                                        <td>
-                                            <a class="text-decoration-none deleteBtn">Xem chi tiết</a>
+                                        <td style="text-align: center">
+                                            <button
+                                                    onclick="editChiTietDienThoaiModal(event, '<%= JSON.stringify(data[i].chiTiet[j]) %>', '<%= data[i].tenDienThoai%>')"
+                                                    class="btnEdit"
+                                            >
+                                                <span class="" id="editIcon"><i
+                                                            class="fa-solid fa-pen-to-square"></i></span>
+                                            </button>
                                         </td>
                                     </tr>
                                 <% } %>
@@ -380,7 +386,7 @@
       formData.append('maHangSX', document.getElementById('addHangSanXuatSelect').value);
       formData.append('maUuDai', document.getElementById('addUuDaiSelect').value);
       formData.append('maCuaHang', id);
-      formData.append('image', fileInput.files[0]);
+      formData.append('hinhAnh', fileInput.files[0]);
       const response = await fetch('/dienthoais/addDienThoaiFirebase', {
         method: 'POST',
         body: formData
@@ -560,7 +566,7 @@
       formData.append('maHangSX', document.getElementById('editHangSanXuatSelect').value);
       formData.append('maUuDai', document.getElementById('editUuDaiSelect').value);
       formData.append('maCuaHang', id);
-      formData.append('image', fileInput.files[0]);
+      formData.append('hinhAnh', fileInput.files[0]);
       const response = await fetch(`/dienthoais/updateDienThoaiFirebase/${idDienThoai}`, {
         method: 'PUT',
         body: formData
@@ -642,7 +648,7 @@
       formData.append('maMau', document.getElementById('addMauSelect').value);
       formData.append('maDungLuong', document.getElementById('addDungLuongSelect').value);
       formData.append('maRam', document.getElementById('addRamSelect').value);
-      formData.append('image', fileInput.files[0]);
+      formData.append('hinhAnh', fileInput.files[0]);
       const response = await fetch('/chitietdienthoais/addChiTietDienThoaiFirebase', {
         method: 'POST',
         body: formData
@@ -655,7 +661,130 @@
     }
   }
 
-//  thông tin chi tiêts
+//   sửa chi tiết đện thoại
+  function editChiTietDienThoaiModal(event, dataJSON, tenDienThoai) {
+    try {
+      const data = JSON.parse(dataJSON);
+      let contentModal = "";
+
+      contentModal += `
+        <form id="addForm" enctype="multipart/form-data">
+          <div class="mb-3" >
+                <input type="file" class="form-control" id="editHinhAnh" name="editHinhAnh" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                <img src="${data.hinhAnh}" width="auto" height="150px" class="rounded mx-auto d-block" onclick="document.getElementById('editHinhAnh').click();" id="imgPreview">
+          </div>
+          <label for="editDiscount" class="form-label">Màu:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="editMauSelect" required>
+          </select>
+          <label for="editDiscount" class="form-label">Dung lượng:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="editDungLuongSelect" required>
+          </select>
+          <label for="editDiscount" class="form-label">RAM:</label>
+          <select class="form-select mb-3" aria-label="Default select example" id="editRamSelect" required>
+          </select>
+          <div class="mb-3">
+              <label for="editDiscount" class="form-label">Giá tiền:</label>
+              <input type="text" class="form-control" id="editGiaTien" name="editGiaTien"
+                     placeholder="Nhập giá tiền" required>
+          </div>
+            <div class="mb-3">
+              <label for="editDiscount" class="form-label">Số lượng:</label>
+              <input type="text" class="form-control" id="editSoLuong" name="editSoLuong"
+                     placeholder="Nhập số lượng" required>
+          </div>
+        </form>`;
+
+
+      document.getElementById('detailContent').innerHTML = contentModal;
+
+      let headerModal = "";
+      headerModal += `<h5 class="modal-title" id="detailModalLabel">${tenDienThoai}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
+      document.getElementById('modal-header').innerHTML = headerModal;
+
+      let footerModal = "";
+      footerModal += `<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-dark" onclick="updateChiTietDienThoai('${data._id}')">Lưu thay đổi</button>`
+      document.getElementById('modal-footer').innerHTML = footerModal;
+
+      document.getElementById('editGiaTien').value = data.giaTien;
+      document.getElementById('editSoLuong').value = data.soLuong;
+
+      setSelectValuesCTDT(data.maMau, data.maDungLuong, data.maRam);
+      const modal = new bootstrap.Modal(document.getElementById('modal'), {
+        keyboard: false
+      });
+      modal.show();
+
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function setSelectValuesCTDT(mau, dungLuong, ram) {
+    const mauSelect = document.getElementById('editMauSelect');
+    const dungLuongSelect = document.getElementById('editDungLuongSelect');
+    const ramSelect = document.getElementById('editRamSelect');
+
+    mauSelect.innerHTML = '';
+    dungLuongSelect.innerHTML = '';
+    ramSelect.innerHTML = '';
+
+    mauData.forEach(data => {
+      const option = document.createElement('option');
+      option.value = data._id;
+      option.text = data.tenMau;
+      if (data._id === mau._id) {
+        option.selected = true;
+      }
+      mauSelect.appendChild(option);
+    });
+
+    dungLuongData.forEach(data => {
+      const option = document.createElement('option');
+      option.value = data._id;
+      option.text = data.boNho;
+      if (data._id === dungLuong._id) {
+        option.selected = true;
+      }
+      dungLuongSelect.appendChild(option);
+    });
+
+    ramData.forEach(data => {
+      const option = document.createElement('option');
+      option.value = data._id;
+      option.text = data.RAM;
+      if (data._id === ram._id) {
+        option.selected = true;
+      }
+      ramSelect.appendChild(option);
+    });
+  }
+
+  async function updateChiTietDienThoai(idCTDT){
+    try {
+      const fileInput = document.getElementById('editHinhAnh');
+      const formData = new FormData();
+      formData.append('maMau', document.getElementById('editMauSelect').value);
+      formData.append('maDungLuong', document.getElementById('editDungLuongSelect').value);
+      formData.append('maRam', document.getElementById('editRamSelect').value);
+      formData.append('giaTien', document.getElementById('editGiaTien').value);
+      formData.append('soLuong', document.getElementById('editSoLuong').value);
+      formData.append('hinhAnh', fileInput.files[0]);
+      const response = await fetch(`/chitietdienthoais/updateChiTietDienThoaiFirebase/${idCTDT}`, {
+        method: 'PUT',
+        body: formData
+      });
+
+      const data = await response.json();
+      reloadPage()
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  //  thông tin chi tiêts
   function detailDienThoai(event, dataJSON) {
     const data = JSON.parse(dataJSON);
     let contentModal = "";
