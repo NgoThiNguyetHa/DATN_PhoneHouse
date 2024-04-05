@@ -132,7 +132,7 @@
                                 <tr>
                                     <td rowspan="<%= data[i].chiTiet.length > 0 ? (data[i].chiTiet.length + 1) : 1 %>">
                                         <p><%= data[i].tenDienThoai %></p>
-                                        <div class="d-flex flex-row">
+                                        <div class="d-flex flex-row ">
                                             <button
                                                     onclick="addChiTietDienThoaiModal(event, '<%= JSON.stringify(data[i]) %>')"
                                                     class="btnEdit"
@@ -787,10 +787,67 @@
   //  thông tin chi tiêts
   function detailDienThoai(event, dataJSON) {
     const data = JSON.parse(dataJSON);
+    console.log(dataJSON)
     let contentModal = "";
     contentModal += `
+        <div class="mb-2">
 
+              <div class="d-flex flex-row col-auto gap-2">
+                <div class="col-8">
+                    <p><strong style="font-size: larger"> ${data.tenDienThoai}</strong></p>
+                    <strong>Màn hình:</strong> <br>
+                    <span>Công nghệ màn hình: ${data.congNgheManHinh}</span><br>
+                    <span>Độ phân giải: ${data.doPhanGiai}</span><br>
+                    <span><strong>Camera:</strong> ${data.camera}</span><br>
+                    <strong>Hệ điều hành & CPU:</strong><br>
+                    <span>Hệ điều hành: ${data.heDieuHanh}</span><br>
+                    <span>Chip xử lý (CPU): ${data.cpu}</span><br>
+                    <span><strong>Pin:</strong> ${data.pin}</span><br>
+                    <span><strong>Tiện ích:</strong> ${data.moTaThem}</span><br>
+                    <strong>Thông tin chung:</strong><br>
+                    <span>Hãng: ${data.maHangSX.tenHang}</span><br>
+                    <span>Năm sản xuất: ${data.namSanXuat}</span><br>
+                    <span>Thời gian bảo hành: ${data.thoiGianBaoHanh}</span><br>
+                </div>
+                <div class="col-4" style="display: flex; flex-direction: column; align-items: center;">
+                    <img src="${data.hinhAnh}" width="100%" height="auto" class="img-fluid" alt="Product Image">
+                    ${data.maUuDai ? `<div style="margin-top: 10px;"><strong style="color: white; background-color: red; padding: 4px 8px; border-radius: 14px;">Giảm giá ${data.maUuDai.giamGia}%</strong></div>` : ''}
+                </div>
+              </div>
     `
+    let listHTML = '';
+    data.chiTiet.forEach((item, index) => {
+      if (index % 2 === 0) {
+        listHTML += `</div><div class="row my-2">`;
+      }
+      listHTML += `
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <img src="${item.hinhAnh}" class="img-fluid mx-auto d-block" alt="Product Image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body py-2">
+                            <strong class="card-title">${item.giaTien}</strong><br>
+                            <span class="card-text">${item.maMau.tenMau}</span><br>
+                            <span class="card-text">${item.maRam.RAM}GB / ${item.maDungLuong.boNho}GB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
+
+
+    contentModal += `
+            <div class="">
+                <div class="row">
+                    ${listHTML}
+                </div>
+            </div>
+        </div>
+    `;
     document.getElementById('detailContent').innerHTML = contentModal;
 
     let headerModal = "";
