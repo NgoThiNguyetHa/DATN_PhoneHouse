@@ -3,6 +3,10 @@ var router = express.Router();
 const mongoose = require("mongoose");
 require("../models/ChiTietDienThoai");
 require("../models/DienThoai");
+const {getStorage, ref, uploadBytesResumable, getDownloadURL} = require("firebase/storage");
+const {firebaseApp} = require("../middleware/firebaseConfig");
+const {v4: uuidv4} = require("uuid");
+const {upload} = require("../middleware/multer");
 
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const DienThoai = mongoose.model("dienthoai");
@@ -16,6 +20,7 @@ router.post("/addChiTiet", async function (req, res, next) {
       maMau: req.body.maMau,
       maDungLuong: req.body.maDungLuong,
       maRam: req.body.maRam,
+      hinhAnh: req.body.hinhAnh
     });
 
     const savedDienThoaiChiTiet = await chiTiet.save(); // Lưu đối tượng
@@ -174,5 +179,77 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+async function uploadImage(file, quantity) {
+  const storageFB = getStorage(firebaseApp);
+  const randomString = uuidv4();
+  if (quantity === 'single') {
+    const dateTime = Date.now();
+    const fileName = `${dateTime}${randomString}`;
+    const storageRef = ref(storageFB, fileName);
+    const metadata = { contentType: file.type };
+    await uploadBytesResumable(storageRef, file.buffer, metadata);
+    const downloadURL = await getDownloadURL(ref(storageFB, fileName));
+    return downloadURL
+  }
+}
+router.post('/addChiTietDienThoaiFirebase', upload, async (req, res, next) => {
+  try {
+    const file = {
+      type: req.file.mimetype,
+      buffer: req.file.buffer
+    }
+    const buildImage = await uploadImage(file,'single');
+
+    const chiTietDienThoai = new ChiTietDienThoai({
+      soLuong: req.body.soLuong,
+      giaTien: req.body.giaTien,
+      maDienThoai: req.body.maDienThoai,
+      maMau: req.body.maMau,
+      maDungLuong: req.body.maDungLuong,
+      maRam: req.body.maRam,
+      hinhAnh: buildImage,
+    });
+
+    const saved = await chiTietDienThoai.save();
+    res.status(201).json(saved);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.put("/updateChiTietDienThoaiFirebase/:id", upload, async (req, res ) => {
+  try{
+    const id = req.params.id;
+    let hinhAnhURL = '';
+    if (req.file) {
+      const file = {
+        type: req.file.mimetype,
+        buffer: req.file.buffer
+      }
+      hinhAnhURL = await uploadImage(file,'single');
+    }
+
+    const updated = {};
+    if (req.body.maRam) updatedHangSanXuat.maRam = req.body.maRam;
+    if (req.body.maDungLuong) updatedHangSanXuat.maDungLuong = req.body.maDungLuong;
+    if (req.body.maMau) updatedHangSanXuat.maMau = req.body.maMau;
+    if (req.body.maDienThoai) updatedHangSanXuat.maDienThoai = req.body.maDienThoai;
+    if (req.body.giaTien) updatedHangSanXuat.giaTien = req.body.giaTien;
+    if (req.body.soLuong) updatedHangSanXuat.soLuong = req.body.soLuong;
+    if (hinhAnhURL) updatedHangSanXuat.hinhAnh = hinhAnhURL;
+
+    const data = await ChiTietDienThoai.findByIdAndUpdate(id, updated, { new: true });
+
+    if (!data) {
+      return res.status(404).json({ message: "update failed" });
+    } else {
+      return res.status(200).json({ message: "update successful", data });
+    }
+  }catch(err){
+    return res.status(500).json({message: err.message})
+  }
+})
 
 module.exports = router;

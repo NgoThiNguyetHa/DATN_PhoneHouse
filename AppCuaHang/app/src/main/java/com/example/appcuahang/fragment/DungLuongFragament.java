@@ -1,13 +1,17 @@
 package com.example.appcuahang.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +37,7 @@ import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
 import com.example.appcuahang.model.DungLuong;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,33 +50,99 @@ import retrofit2.Response;
 public class DungLuongFragament extends Fragment {
     RecyclerView rc_dungLuong;
     List<DungLuong> list;
-    List<DungLuong> listBackUp;
+    List<DungLuong> listFilter;
     DungLuongAdapter adapter;
     GridLayoutManager manager;
-    EditText edDungLuong, edGiaTien;
+    EditText edDungLuong;
+    TextView tv_entry;
+    TextInputEditText dungLuong_edSearch;
+
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_dungluong, container, false);
-        ((Activity)getContext()).setTitle("Dung lượng");
-        getData();
+        ((Activity) getContext()).setTitle("Dung lượng");
         initView(view);
         initVariable();
+        getData();
+        // khoi tao bien
+        listFilter = new ArrayList<>();
+        dungLuong_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getBoNho().toString().contains(dungLuong_edSearch.getText().toString()) && dungLuong_edSearch.getText().length() != 0) {
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if (listFilter.size() == 0) {
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new DungLuongAdapter(getContext(), new IItemDungLuongListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+                    }
+
+                    @Override
+                    public void editDungLuong(DungLuong idDungLuong) {
+                        updateData(idDungLuong);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+
+                if (dungLuong_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_dungLuong.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_dungLuong.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
-    }
-    private void initView(View view){
-        rc_dungLuong = view.findViewById(R.id.rc_dungLuong);
+
+
     }
 
-    private void initVariable(){
+    @SuppressLint("WrongViewCast")
+    private void initView(View view) {
+
+        rc_dungLuong = view.findViewById(R.id.rc_dungLuong);
+        dungLuong_edSearch = view.findViewById(R.id.dungLuong_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
+    }
+
+
+    private void initVariable() {
         list = new ArrayList<>();
-        listBackUp = new ArrayList<>();
+        listFilter = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
         rc_dungLuong.setLayoutManager(manager);
+
         adapter = new DungLuongAdapter(getContext(), new IItemDungLuongListenner() {
             @Override
             public void deleteBrand(String idBrand) {
@@ -90,7 +161,8 @@ public class DungLuongFragament extends Fragment {
         adapter.setData(list);
         rc_dungLuong.setAdapter(adapter);
     }
-    private void getData(){
+
+    private void getData() {
 //        ApiDuService apiRamService = ApiRetrofit.getApiRamService();
         ApiDungLuongService apiDungDuongService = ApiRetrofit.getApiDungLuongService();
 
@@ -112,7 +184,7 @@ public class DungLuongFragament extends Fragment {
             @Override
             public void onFailure(Call<List<DungLuong>> call, Throwable t) {
                 // Handle failure
-                Log.e("dungluong",t.getMessage());
+                Log.e("dungluong", t.getMessage());
             }
         });
     }
@@ -140,7 +212,7 @@ public class DungLuongFragament extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
 
         tvTitle.setText("Cập Nhật Dung Lượng");
-        edDungLuong.setText(dungLuong.getBoNho()+"");
+        edDungLuong.setText(dungLuong.getBoNho() + "");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,19 +246,22 @@ public class DungLuongFragament extends Fragment {
             }
         });
 
-   }
+    }
+
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.dialog,menu);
+        inflater.inflate(R.menu.dialog, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.btn_add){
+        if (id == R.id.btn_add) {
             dialog();
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_dungluong, null);
@@ -203,7 +278,7 @@ public class DungLuongFragament extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-         edDungLuong = view.findViewById(R.id.dl_dungLuong_edTenDungLuong);
+        edDungLuong = view.findViewById(R.id.dl_dungLuong_edTenDungLuong);
         Button btnSave = view.findViewById(R.id.dl_dungLuong_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_dungLuong_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_dungLuong_imageView);
@@ -243,11 +318,12 @@ public class DungLuongFragament extends Fragment {
             }
         });
     }
-    private boolean Validate(){
-        if(edDungLuong.getText().toString().isEmpty()){
+
+    private boolean Validate() {
+        if (edDungLuong.getText().toString().isEmpty()) {
             edDungLuong.setError("Không được để trống!!");
             return false;
-        }else if(!Pattern.matches("\\d+", edDungLuong.getText().toString())){
+        } else if (!Pattern.matches("\\d+", edDungLuong.getText().toString())) {
             edDungLuong.setError("Phải nhập là số!!");
             return false;
         }
