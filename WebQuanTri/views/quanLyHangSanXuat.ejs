@@ -594,7 +594,7 @@
       const tenHang = document.getElementById('addHangSX').value;
       const formData = new FormData();
       formData.append('tenHang', tenHang);
-      formData.append('image', fileInput.files[0]);
+      formData.append('hinhAnh', fileInput.files[0]);
       const response = await fetch('/hangsanxuats/addHangSanXuatFirebase', {
         method: 'POST',
         body: formData
@@ -657,7 +657,7 @@
     const tenHang = document.getElementById('editTenHang').value;
     const formData = new FormData();
     formData.append('tenHang', tenHang);
-    formData.append('image', fileInput.files[0]);
+    formData.append('hinhAnh', fileInput.files[0]);
     const response = await fetch(`/hangsanxuats/updateHangSanXuatFirebase/${id}`, {
       method: 'PUT',
       body: formData
