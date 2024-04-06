@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -17,10 +19,10 @@ public interface Address_API {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 
-//    Address_API addRess = new Retrofit.Builder()
-//            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build().create(Address_API.class);
+    Address_API addRess = new Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:8686/diachinhanhangs/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build().create(Address_API.class);
 
     @GET("diachinhanhangs/getDiaChiNhanHang/{id}")
     Call<List<AddressDelivery>> getDiaChi(@Path("id") String id);
@@ -28,8 +30,8 @@ public interface Address_API {
     @POST("diachinhanhangs/addDiaChiNhanHang")
     Call<AddressDelivery> postDiaChi(@Body AddressDelivery addressDelivery);
 
-    @PUT("diachinhanhangs/updateDiaChiNhanHang")
-    Call<List<AddressDelivery>> putDiaChi(@Body AddressDelivery addressDelivery);
+    @PUT("diachinhanhangs/updateDiaChiNhanHang/{id}")
+    Call<AddressDelivery> putDiaChi(@Body AddressDelivery addressDelivery , @Path("id") String id);
 
 
 

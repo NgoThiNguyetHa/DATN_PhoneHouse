@@ -7,4 +7,6 @@ public interface IItemUuDaiListenner {
     public void showDetail(String idUuDai);
 
     public void editUuDai(UuDai idUuDai);
+
+    public void selectUuDai(String idUuDai);
 }

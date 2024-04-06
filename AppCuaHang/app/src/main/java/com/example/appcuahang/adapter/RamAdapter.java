@@ -38,7 +38,7 @@ public class RamAdapter extends RecyclerView.Adapter<RamAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Ram ram = list.get(position);
-        holder.tvRam.setText(""+ram.getRAM() +" GB");
+        holder.tvRam.setText(ram.getRAM() +" GB");
         holder.mRam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

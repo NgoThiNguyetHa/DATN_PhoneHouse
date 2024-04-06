@@ -2,19 +2,21 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/HoaDon')
+require('../models/ChiTietHoaDon')
 
+const ChiTietHoaDon = mongoose.model("chiTietHoaDon")
 const HoaDon = mongoose.model("hoaDon")
- 
+
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
 /* POST Mau. */
 
-router.post('/addHoaDon', function(req, res, next) {
-    const hoaDon = new HoaDon({
+router.post('/addHoaDon', function (req, res, next) {
+  const hoaDon = new HoaDon({
     tongTien: req.body.tongTien,
     ngayTao: req.body.ngayTao,
     trangThaiNhanHang: req.body.trangThaiNhanHang,
@@ -25,7 +27,7 @@ router.post('/addHoaDon', function(req, res, next) {
   })
   hoaDon.save()
       .then(data => {
-        console.log(data)
+        // console.log(data)
         res.send(data)
       }).catch(err => {
     console.log
@@ -33,12 +35,45 @@ router.post('/addHoaDon', function(req, res, next) {
 });
 
 /* GET loaidichvu listing. */
-router.get('/getHoaDon', async (req,res) => {
+router.get('/getHoaDon/:id', async (req, res) => {
   try {
-    const hoaDon = await HoaDon.find();
-    res.json(hoaDon);
+    const hoaDon = await HoaDon.findById(req.params.id)
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate("maCuaHang")
+    const chiTiet = await ChiTietHoaDon.find({maHoaDon: req.params.id})
+        .populate({
+          path: "maHoaDon",
+          populate: [
+            {
+              path: "maDiaChiNhanHang",
+              model: "diaChiNhanHang",
+              populate: {path: "maKhachHang", model: "khachhang"}
+            },
+            {path: "maKhachHang", model: "khachhang"},
+            {path: "maCuaHang", model: "cuaHang"},
+          ]
+        })
+        .populate({
+          path: "maChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json({hoaDon, chiTiet});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 })
 
@@ -48,7 +83,7 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang', async (req, res) => {
     // const hoaDon = await HoaDon.find({ trangThaiNhanHang });
     const hoaDon = await HoaDon.find({trangThaiNhanHang})
         .populate("maKhachHang")
-        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"}) // Nếu cần thông tin địa chỉ nhận hàng cũng
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
@@ -63,7 +98,7 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, 
     const maCuaHang = req.params.maCuaHang;
     const hoaDon = await HoaDon.find({trangThaiNhanHang, maCuaHang})
         .populate("maKhachHang")
-        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"})
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
@@ -78,18 +113,18 @@ router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (
 //    console.log(trangThaiNhanHang, " / ", maKhachHang)
     const hoaDon = await HoaDon.find({trangThaiNhanHang, maKhachHang})
         .populate("maKhachHang")
-        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"})
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 router.get('/getHoaDonTheoChiTiet', async (req, res) => {
   try {
     const hoaDon = await HoaDon.find()
         .populate("maKhachHang")
-        .populate({path: "maDiaChiNhanHang", populate: "maKhachHang"}) // Nếu cần thông tin địa chỉ nhận hàng cũng
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
         .populate("maCuaHang")
     res.json(hoaDon);
   } catch (error) {
@@ -97,34 +132,77 @@ router.get('/getHoaDonTheoChiTiet', async (req, res) => {
   }
 });
 
-router.delete('/deleteHoaDon/:id', async (req,res) => {
-  try{
-    const data =  await HoaDon.findByIdAndDelete(req.params.id)
-    if(!data){
+router.delete('/deleteHoaDon/:id', async (req, res) => {
+  try {
+    const data = await HoaDon.findByIdAndDelete(req.params.id)
+    if (!data) {
       return res.status(404).json({message: "delete failed"})
-    }else{
+    } else {
       return res.status(200).json({message: "delete successful"})
     }
-  }catch(err){
+  } catch (err) {
     return res.status(500).json({message: err.message})
 
   }
 })
 
 
-router.put("/updateHoaDon/:id", async (req, res ) => {
-  try{
-    const data = await HoaDon.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    if(!data){
+router.put("/updateHoaDon/:id", async (req, res) => {
+  try {
+    const { trangThaiNhanHang } = req.body;
+    const updatedHoaDon = await HoaDon.findByIdAndUpdate(
+        req.params.id,
+        { trangThaiNhanHang },
+        { new: true }
+    );
+    if (!updatedHoaDon) {
       return res.status(404).json({message: "update failed"})
 
-    }else{
+    } else {
       return res.status(200).json({message: "update successful"})
 
     }
-  }catch(err){
+  } catch (err) {
+    console.log("errr: ", err)
     return res.status(500).json({message: err.message})
   }
 })
+
+router.get('/getHoaDonTheoCuaHang/:maCuaHang', async (req, res) => {
+  try {
+    const maCuaHang = req.params.maCuaHang;
+    const hoaDon = await HoaDon.find({maCuaHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate("maCuaHang")
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+});
+
+router.get('/searchHoaDon/:maCuaHang', async (req, res) => {
+  try {
+    const maCuaHang = req.params.maCuaHang;
+    const { tenNguoiNhan, tongTien, trangThaiNhanHang, ngayTao, username } = req.query;
+
+    let hoaDon = await HoaDon.find({maCuaHang})
+        .populate("maKhachHang")
+        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate("maCuaHang")
+
+    hoaDon = hoaDon.filter(hd => {
+      return (!tenNguoiNhan || hd.maDiaChiNhanHang.tenNguoiNhan.toLowerCase().includes(tenNguoiNhan.toLowerCase())) &&
+          (!tongTien || hd.tongTien.toString() === tongTien) &&
+          (!trangThaiNhanHang || hd.trangThaiNhanHang === trangThaiNhanHang) &&
+          (!ngayTao || hd.ngayTao === ngayTao) &&
+          (!username || hd.maKhachHang.username.toLowerCase().includes(username.toLowerCase()));
+    });
+
+    res.json(hoaDon);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+});
 
 module.exports = router;

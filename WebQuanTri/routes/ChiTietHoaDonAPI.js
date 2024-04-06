@@ -21,7 +21,7 @@ router.post('/addChiTietHoaDon', function(req, res, next) {
   })
   chiTietHoaDon.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log(err)

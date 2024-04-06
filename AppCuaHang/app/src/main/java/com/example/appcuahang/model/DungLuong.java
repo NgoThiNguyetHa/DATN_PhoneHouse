@@ -1,7 +1,7 @@
 package com.example.appcuahang.model;
 
 public class DungLuong {
-    private String boNho;
+    private Number boNho;
 
 
     private String _id;
@@ -11,11 +11,15 @@ public class DungLuong {
         this._id = _id;
     }
 
-    public String getBoNho() {
+    public DungLuong(Number boNho) {
+        this.boNho = boNho;
+    }
+
+    public Number getBoNho() {
         return boNho;
     }
 
-    public void setBoNho(String boNho) {
+    public void setBoNho(Number boNho) {
         this.boNho = boNho;
     }
 
@@ -29,6 +33,6 @@ public class DungLuong {
 
     @Override
     public String toString() {
-        return boNho ;
+        return boNho.toString() ;
     }
 }

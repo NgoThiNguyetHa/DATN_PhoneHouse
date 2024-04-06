@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,13 +7,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_above="@id/btnAddress"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false"
+        android:layout_height="match_parent">
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnAddress"
+        android:layout_margin="8dp"
+        android:layout_alignParentBottom="true"
         android:text="Thêm địa chỉ nhận hàng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</LinearLayout>
+</RelativeLayout>

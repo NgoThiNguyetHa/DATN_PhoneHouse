@@ -25,7 +25,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,16 +35,22 @@ import android.widget.Toast;
 import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.ChiTietAdapter;
 import com.example.appcuahang.adapter.DanhGiaAdapter;
+import com.example.appcuahang.adapter.UuDaiAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
+import com.example.appcuahang.api.ApiUuDaiService;
 import com.example.appcuahang.interface_adapter.IItemDetailPhoneListenner;
+import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.Client;
 import com.example.appcuahang.model.DetailPhone;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Phone;
 import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.model.Rating;
+import com.example.appcuahang.model.UuDai;
+import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,13 +73,16 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
     TextView tvTenDienThoai;
     ImageView imgChiTiet;
-    RecyclerView rc_chiTiet , rc_DanhGia;
+    RecyclerView rc_chiTiet , rc_DanhGia, rc__udch_uuDai;
     List<DetailPhone> list;
+    List<UuDai> listUuDai;
     List<Rating> ratingList;
     ChiTietAdapter adapter;
+    UuDaiAdapter adapterUuDai;
     DanhGiaAdapter danhGiaAdapter;
     GridLayoutManager manager;
-    LinearLayoutManager linearLayoutManager;
+    LinearLayoutManager linearLayoutManager, linearLayoutManagerUuDai;
+    MySharedPreferences mySharedPreferences;
     final private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
     final private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     TextView tvKichThuoc, tvCongNgheManHinh, tvCamera, tvCPU, tvPin, tvHeDieuHanh, tvDoPhanGiai, tvNamSanXuat, tvBaoHanh, tvMoTa , tvSoLuongComment;
@@ -80,6 +91,11 @@ public class ChiTietDienThoaiFragment extends Fragment {
     EditText edTen, edSoLuong, edGiaTien;
 
     String idSpMau, idSpRam, idSpDungLuong;
+    Button dl_udch_btnHuy, dl_udch_btnCapNhat;
+    LinearLayout linear_bottom;
+
+    String maUuDai = "";
+    Phone phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +130,9 @@ public class ChiTietDienThoaiFragment extends Fragment {
         tvBaoHanh = view.findViewById(R.id.chitiet_tvBaoHanh);
         tvMoTa = view.findViewById(R.id.chitiet_tvMoTa);
         tvSoLuongComment = view.findViewById(R.id.chitiet_tvSoLuongComment);
+        linear_bottom = view.findViewById(R.id.linear_bottom);
+
+
     }
 
     private void initVariable() {
@@ -133,6 +152,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                 dialogUpdateDetail(idDetailPhone);
             }
         });
+
         adapter.setData(list);
         rc_chiTiet.setAdapter(adapter);
         //danh gia list
@@ -142,16 +162,19 @@ public class ChiTietDienThoaiFragment extends Fragment {
         danhGiaAdapter = new DanhGiaAdapter(getContext());
         danhGiaAdapter.setData(ratingList);
         rc_DanhGia.setAdapter(danhGiaAdapter);
+
+        listUuDai = new ArrayList<>();
     }
 
     private void action() {
+
 //        Intent intent = getActivity().getIntent();
 //        Bundle bundle = intent.getExtras();
 //        Bundle bundle = this.getArguments();
 //        Phone phone = (Phone) bundle.getSerializable("detailPhone");
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
-            Phone phone = (Phone) bundle.getSerializable("detailPhone"); // Lấy dữ liệu từ Bundle bằng key
+            phone = (Phone) bundle.getSerializable("detailPhone"); // Lấy dữ liệu từ Bundle bằng key
             // Sử dụng dữ liệu ở đây
             tvTenDienThoai.setText("" + phone.getTenDienThoai());
             if (phone.getHinhAnh() == null) {
@@ -161,7 +184,16 @@ public class ChiTietDienThoaiFragment extends Fragment {
             }
             getData(phone.get_id());
             getThongSoKyThuat(phone);
+
         }
+
+        linear_bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogUuDai();
+            }
+        });
+
     }
 
     private void getData(String id) {
@@ -226,6 +258,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
             }
         });
     }
+
 
     private void getThongSoKyThuat(Phone phone) {
         tvKichThuoc.setText("Kích thước: " + phone.getKichThuoc());
@@ -409,4 +442,136 @@ public class ChiTietDienThoaiFragment extends Fragment {
             }
         });
     }
+    private void getDataUuDai(String id){
+
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<UuDai>> call = apiService.getUuDaiCuaHang(id);
+
+        call.enqueue(new Callback<List<UuDai>>() {
+            @Override
+            public void onResponse(Call<List<UuDai>> call, Response<List<UuDai>> response) {
+                if(response.isSuccessful()){
+                    List<UuDai> data = response.body();
+                    listUuDai.clear();
+                    listUuDai.addAll(data);
+
+                    adapterUuDai.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(getContext(),"Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<UuDai>> call, Throwable t) {
+                Log.e("Uu dai theo cua hang", t.getMessage());
+            }
+        });
+    }
+
+    private void dialogUuDai(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_uudaicuahang,null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        if(window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+
+        dl_udch_btnHuy = view.findViewById(R.id.dl_udch_btnHuy);
+        dl_udch_btnCapNhat = view.findViewById(R.id.dl_udch_btnXacNhan);
+        rc__udch_uuDai = view.findViewById(R.id.rc__udch_uuDai);
+
+        Button btnXacNhan = view.findViewById(R.id.dl_udch_btnXacNhan);
+        Button btnHuy = view.findViewById(R.id.dl_udch_btnHuy);
+
+        listUuDai = new ArrayList<>();
+        linearLayoutManagerUuDai = new LinearLayoutManager(getContext());
+        rc__udch_uuDai.setLayoutManager(linearLayoutManagerUuDai);
+        adapterUuDai = new UuDaiAdapter(getContext(), new IItemUuDaiListenner() {
+            @Override
+            public void showDetail(String idUuDai) {
+
+            }
+
+            @Override
+            public void editUuDai(UuDai idUuDai) {
+
+            }
+
+            @Override
+            public void selectUuDai(String idUuDai) {
+                maUuDai = idUuDai;
+                Log.d("ZZZ", "selectUuDai: "+maUuDai);
+
+            }
+        });
+        mySharedPreferences = new MySharedPreferences(getContext());
+        getDataUuDai(mySharedPreferences.getUserId());
+
+        adapterUuDai.setData(listUuDai);
+        rc__udch_uuDai.setAdapter(adapterUuDai);
+
+
+//        // Tìm và ánh xạ FrameLayout từ layout
+//        FrameLayout frameLayout = view.findViewById(R.id.frameLayout);
+//
+//        // Xử lý sự kiện khi FrameLayout được nhấp vào
+//        frameLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Thay đổi màu nền của FrameLayout khi được nhấp vào
+//                frameLayout.setBackgroundColor(Color.parseColor("#FF0000")); // Màu xám với độ trong suốt 50%
+//            }
+//        });
+
+        btnXacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpdateUuDai(phone.get_id());
+                dialog.dismiss();
+            }
+        });
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+    }
+    private void UpdateUuDai(String id){
+        ApiService apiService = ApiRetrofit.getApiService();
+        Log.d("ZZZ", "UpdateUuDai: " + maUuDai);
+        Call<Phone> call = apiService.putUuDaiDienThoai(id,new UuDai(maUuDai));
+        call.enqueue(new Callback<Phone>() {
+            @Override
+            public void onResponse(Call<Phone> call, Response<Phone> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Phone> call, Throwable t) {
+                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+
+
 }

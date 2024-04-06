@@ -17,10 +17,10 @@ router.post('/addDungLuong', function(req, res, next) {
     const dungluong = new DungLuong({
     boNho: req.body.boNho,
   })
-  console.log(dungluong);
+  // console.log(dungluong);
   dungluong.save()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     res.send(data)
   }).catch(err => {
     console.log
@@ -67,4 +67,17 @@ router.put("/updateDungLuong/:id", async (req, res ) => {
   }
 })
 
+router.get('/searchDungLuong', async (req,res) => {
+  try {
+    const { boNho } = req.query;
+    let dungLuong = await DungLuong.find();
+    if (boNho){
+      dungLuong = await DungLuong.find({ boNho: Number(boNho) });
+    }
+    res.json(dungLuong);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
+  }
+})
 module.exports = router;

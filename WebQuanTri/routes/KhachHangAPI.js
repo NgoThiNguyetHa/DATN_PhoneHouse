@@ -9,7 +9,7 @@ require('../models/GioHang')
 const KhachHang = mongoose.model("khachhang");
 const HoaDon = mongoose.model("hoaDon");
 const GioHang = mongoose.model("gioHang")
-
+const bcrypt = require('bcryptjs');
 // const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 router.post('/addKhachHang', async (req, res, next) => {
   try {
@@ -78,8 +78,6 @@ router.post('/dangNhapKhachHang', async (req, res) => {
     if (!khachHang) {
       return res.status(401).json({errorMessage: 'Email không tồn tại.'});
     }
-    console.log(khachHang.password)
-    const isPasswordValid = await bcrypt.compare(password, khachHang.password)
 
     if (password !== khachHang.password) {
       return res.status(401).json({errorMessage: 'Mật khẩu không đúng.'});
@@ -117,5 +115,74 @@ router.get("/getKhachHangTheoCuaHang/:id", async (req, res) => {
     return res.status(500).json({message: error.message})
   }
 })
+router.put('/doiMatKhau', async (req, res) => {
+  try {
+    const { email, oldPassword, newPassword } = req.body;
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({ errorMessage: 'Vui lòng nhập đủ thông tin.' });
+    }
+
+    const khachHang = await KhachHang.findOne({ email });
+    if (!khachHang) {
+      return res.status(404).json({ errorMessage: 'Không tìm thấy khách hàng.' });
+    }
+
+    if (oldPassword !== khachHang.password) {
+      return res.status(401).json({ errorMessage: 'Mật khẩu cũ không đúng.' });
+    }
+
+    // Cập nhật mật khẩu mới vào database
+    khachHang.password = newPassword;
+    await khachHang.save();
+
+    return res.status(200).json(khachHang);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ errorMessage: 'Lỗi server.' });
+  }
+});
+
+router.post('/editKhachHang/:id', async (req, res, next) => {
+  try {
+    const { username, password, diaChi, email, sdt } = req.body;
+    const khachHangId = req.params.id;
+
+    if (!username || !password || !email || !sdt) {
+      const errorMessage = "Vui lòng nhập đủ thông tin";
+      return res.status(400).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      const errorMessage = "Email không hợp lệ";
+      return res.status(400).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const updatedKhachHang = await KhachHang.findByIdAndUpdate(khachHangId, {
+      username: username,
+      password: password,
+      email: email,
+      diaChi: diaChi,
+      sdt: sdt
+    }, { new: true });
+
+    if (!updatedKhachHang) {
+      const errorMessage = "Không tìm thấy thông tin khách hàng";
+      return res.status(404).json({
+        errorMessage: errorMessage,
+      });
+    }
+
+    const successMessage = "Cập nhật thông tin khách hàng thành công";
+    return res.status(200).json(updatedKhachHang);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errorMessage: "Lỗi server" });
+  }
+});
 
 module.exports = router;
