@@ -37,12 +37,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appcuahang.MainActivity;
 import com.example.appcuahang.R;
 import com.example.appcuahang.activity.ChiTietDienThoaiActivity;
 import com.example.appcuahang.adapter.PhoneAdapter;

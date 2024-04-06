@@ -14,6 +14,7 @@ import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
+import com.example.appcuahang.model.ThongKeTheoTungThang;
 import com.example.appcuahang.model.Top10sanPham;
 
 import java.util.List;
@@ -157,4 +158,9 @@ public interface ApiService {
     //get danh gia
     @GET("danhgias/getDanhGia")
     Call<List<Rating>> getDanhGia();
+
+    //thong ke theo từng tháng
+    @GET("/thongke/thongke1/{nam}/{maCuaHang}")
+    Call<List<ThongKeTheoTungThang>> getThongKeTheoNam(@Path("nam") int nam,
+                                                       @Path("maCuaHang") String maCuaHang);
 }

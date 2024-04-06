@@ -68,7 +68,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                 Toast.makeText(ManHinhDangNhap.this, ""+loginResponse.getSuccessMessage(), Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(ManHinhDangNhap.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManHinhDangNhap.this, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                         }
                     }
 

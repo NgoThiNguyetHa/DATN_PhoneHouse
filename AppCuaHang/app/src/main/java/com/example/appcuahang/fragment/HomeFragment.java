@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         SoLuongHoaDon(mySharedPreferences.getUserId() , dateString);
         SoLuongKhachHang(mySharedPreferences.getUserId(),dateString);
         SoLuongSanPham(mySharedPreferences.getUserId(),dateString);
-        TongDoanhThu(mySharedPreferences.getUserId(),dateString);
+        TongDoanhThu(mySharedPreferences.getUserId(),date);
     }
     private void SoLuongHoaDon(String idCuaHang , String ngayTao){
         ApiService apiService = ApiRetrofit.getApiService();
