@@ -11,6 +11,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +60,7 @@ import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -80,6 +83,7 @@ import retrofit2.Response;
 public class PhoneFragment extends Fragment {
 
     List<Phone> list;
+    List<Phone> listFilter;
     List<Brand> brandList;
     List<Ram> ramList;
     List<DungLuong> dungLuongList;
@@ -88,6 +92,9 @@ public class PhoneFragment extends Fragment {
     GridLayoutManager manager;
     RecyclerView rc_phone;
     MySharedPreferences mySharedPreferences;
+
+    TextView tv_entry;
+    TextInputEditText phone_edSearch;
     final private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
     final private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
@@ -120,11 +127,72 @@ public class PhoneFragment extends Fragment {
         initView(view);
         initVariable();
         getData();
+
+        listFilter = new ArrayList<>();
+        phone_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getTenDienThoai().toString().toLowerCase().contains(phone_edSearch.getText().toString().toLowerCase()) && phone_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new PhoneAdapter(getContext(), new IItemPhoneListenner() {
+                    @Override
+                    public void detailPhone(Phone idPhone) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("detailPhone", idPhone);
+                        ChiTietDienThoaiFragment fragmentB = new ChiTietDienThoaiFragment();
+                        fragmentB.setArguments(bundle);
+                        Intent intent = new Intent(getActivity(), ChiTietDienThoaiActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void editPhone(Phone idPhone) {
+                        dialogUpdate(idPhone);
+                    }
+
+                    @Override
+                    public void addDetail(Context mContext ,String idPhone, String tenDienThoai) {
+                        dialogAddDetail(mContext,idPhone, tenDienThoai);
+                    }
+                });
+                if (phone_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_phone.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_phone.setAdapter(adapter);
+                }
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_phone = view.findViewById(R.id.rc_phone);
+        phone_edSearch = view.findViewById(R.id.phone_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable() {
