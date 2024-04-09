@@ -210,12 +210,13 @@
                         android:id="@+id/rc_danhGia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="800dp"
+                        android:minHeight="500dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_danh_gia"
                         android:background="#FFF"
                         android:scrollbars="none"
                         android:keepScreenOn="false"
+                        android:layout_marginBottom="80dp"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -231,7 +232,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:padding="15dp"
                 android:text="Áp dụng ưu đãi"
                 android:textStyle="bold"

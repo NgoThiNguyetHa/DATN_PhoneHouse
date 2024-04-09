@@ -199,14 +199,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_dropdown"
                 >
                 <Spinner
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:id="@+id/dienthoai_spHangSX"
                     android:spinnerMode="dropdown"
-                    android:background="@drawable/bg_dropdown"
+                    style="@style/Widget.AppCompat.Spinner.DropDown"
                     />
             </RelativeLayout>
             <RelativeLayout

@@ -65,6 +65,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -273,48 +274,50 @@ public class BrandFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                String tenHang = edTenHang.getText().toString().trim();
-                ApiService apiService = ApiRetrofit.getApiService();
                 //====
                 //upload ảnh lên firebase
-                if (imageUri != null){
-                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
+                if (Validate(edTenHang)){
+                    String tenHang = edTenHang.getText().toString().trim();
+                    ApiService apiService = ApiRetrofit.getApiService();
+                    if (imageUri != null){
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
 //                                    String key = reference.push().getKey();
 //                                    reference.child(key).setValue(uri.toString());
-                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
-                                    call.enqueue(new Callback<Brand>() {
-                                        @Override
-                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                                progressDialog.dismiss();
+                                        Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
+                                        call.enqueue(new Callback<Brand>() {
+                                            @Override
+                                            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Brand> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }else{
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Brand> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -370,48 +373,51 @@ public class BrandFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //====
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
                 //upload ảnh lên firebase
-                if (imageUri != null){
-                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String tenHang = edTenHang.getText().toString().trim();
-                                    ApiService apiService = ApiRetrofit.getApiService();
-                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
-                                    call.enqueue(new Callback<Brand>() {
-                                        @Override
-                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                                progressDialog.dismiss();
+                if (Validate(edTenHang)){
+                    if (imageUri != null){
+                        //====
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String tenHang = edTenHang.getText().toString().trim();
+                                        ApiService apiService = ApiRetrofit.getApiService();
+                                        Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
+                                        call.enqueue(new Callback<Brand>() {
+                                            @Override
+                                            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Brand> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.e("loi update",t.getMessage());
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }else{
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Brand> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.e("loi update",t.getMessage());
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
 
@@ -460,6 +466,14 @@ public class BrandFragment extends Fragment {
         ContentResolver contentResolver = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
+    }
+
+    private boolean Validate(EditText edTenHang) {
+        if (edTenHang.getText().toString().isEmpty()) {
+            edTenHang.setError("Yêu cầu không được để trống!!");
+            return false;
+        }
+        return true;
     }
 
 }

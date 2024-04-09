@@ -15,7 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
+import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.UuDai;
 

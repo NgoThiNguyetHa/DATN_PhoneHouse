@@ -7,14 +7,16 @@ public class Rating {
     private int diemDanhGia;
     private String ngayTao;
     private Client idKhachHang;
+    private DetailPhone idChiTietDienThoai;
 
-    public Rating(String _id, String noiDung, String hinhAnh, int diemDanhGia, String ngayTao, Client idKhachHang) {
+    public Rating(String _id, String noiDung, String hinhAnh, int diemDanhGia, String ngayTao, Client idKhachHang, DetailPhone idChiTietDienThoai) {
         this._id = _id;
         this.noiDung = noiDung;
         this.hinhAnh = hinhAnh;
         this.diemDanhGia = diemDanhGia;
         this.ngayTao = ngayTao;
         this.idKhachHang = idKhachHang;
+        this.idChiTietDienThoai = idChiTietDienThoai;
     }
 
     public String get_id() {

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
 import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
+import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.DungLuong;
 
 import java.util.ArrayList;
