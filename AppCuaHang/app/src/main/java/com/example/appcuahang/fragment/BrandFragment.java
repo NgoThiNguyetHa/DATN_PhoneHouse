@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +50,7 @@ import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,10 +74,14 @@ import retrofit2.Response;
 public class BrandFragment extends Fragment {
     RecyclerView rc_brand;
     List<Brand> list;
-    List<Brand> listBackUp;
+    List<Brand> listFilter;
     BrandAdapter adapter;
     GridLayoutManager manager;
     MySharedPreferences mySharedPreferences;
+
+    TextView tv_entry;
+    TextInputEditText brand_edSearch;
+
 
 
     //upload image
@@ -101,11 +108,67 @@ public class BrandFragment extends Fragment {
         initView(view);
         initVariable();
         getData();
+
+        listFilter = new ArrayList<>();
+        brand_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getTenHang().toString().toLowerCase().contains(brand_edSearch.getText().toString().toLowerCase()) && brand_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new BrandAdapter(getContext(), new IItemBrandListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+
+                    }
+
+                    @Override
+                    public void editBrand(Brand idBrand) {
+                        updateData(idBrand);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+                if (brand_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_brand.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_brand.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_brand = view.findViewById(R.id.rc_brand);
+        brand_edSearch = view.findViewById(R.id.brand_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable(){
