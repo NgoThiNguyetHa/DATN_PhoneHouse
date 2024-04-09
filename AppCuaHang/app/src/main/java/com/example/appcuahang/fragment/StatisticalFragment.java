@@ -175,7 +175,7 @@ public class StatisticalFragment extends Fragment {
                     return;
                 }
 //                TongDoanhThu(mySharedPreferences.getUserId(),tuNgay,denNgay);
-//                getDataTop10(mySharedPreferences.getUserId(),tuNgay,denNgay);
+                getDataTop10(mySharedPreferences.getUserId(),tuNgay,denNgay);
             }
         });
 
@@ -300,4 +300,28 @@ public class StatisticalFragment extends Fragment {
 
     }
 
+    private void getDataTop10(String idCuaHang , String tuNgay, String denNgay){
+        ApiService apiService = ApiRetrofit.getApiService();
+        top10sanPhamList = new ArrayList<>();
+        Call<List<Top10sanPham>> call = apiService.getTop10Product(tuNgay,denNgay,idCuaHang);
+        call.enqueue(new Callback<List<Top10sanPham>>() {
+            @Override
+            public void onResponse(Call<List<Top10sanPham>> call, Response<List<Top10sanPham>> response) {
+                if (response.isSuccessful()) {
+                    List<Top10sanPham> data = response.body();
+                    top10sanPhamList.clear();
+                    top10sanPhamList.addAll(data);
+                    top10Adapter.setData(top10sanPhamList);
+                    top10Adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Top10sanPham>> call, Throwable t) {
+                Log.e("brand", t.getMessage());
+            }
+        });
+    }
 }

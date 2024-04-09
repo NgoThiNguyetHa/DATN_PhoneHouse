@@ -23,6 +23,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -172,4 +173,8 @@ public interface ApiService {
     @GET("/thongke/thongke1/{nam}/{maCuaHang}")
     Call<List<ThongKeTheoTungThang>> getThongKeTheoNam(@Path("nam") int nam,
                                                        @Path("maCuaHang") String maCuaHang);
+
+    //xoa binh luan
+    @DELETE("danhgias/deleteDanhGia/{id}")
+    Call<Rating> deleteDanhGia(@Path("id") String id);
 }

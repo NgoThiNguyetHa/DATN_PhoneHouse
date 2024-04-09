@@ -34,7 +34,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.adapter.UuDaiAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiUuDaiService;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
+import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.model.UuDai;
 import com.example.appcuahang.untils.MySharedPreferences;
