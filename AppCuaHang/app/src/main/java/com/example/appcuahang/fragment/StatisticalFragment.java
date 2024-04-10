@@ -3,6 +3,7 @@ package com.example.appcuahang.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,15 +25,20 @@ import com.example.appcuahang.adapter.Top10Adapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.model.ThongKeDoanhThu;
+import com.example.appcuahang.model.ThongKeTheoTungThang;
 import com.example.appcuahang.model.Top10sanPham;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DecimalFormat;
@@ -66,7 +72,8 @@ public class StatisticalFragment extends Fragment {
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     int mYear,mMonth,mDay;
-
+    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    BarDataSet dataSet;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +99,7 @@ public class StatisticalFragment extends Fragment {
         tvSoLuongDaHuy = view.findViewById(R.id.tvSoLuongDonHuy);
         thongke_bieuDoDoanhThu = view.findViewById(R.id.thongke_bieuDoDoanhThu);
         mySharedPreferences = new MySharedPreferences(getContext());
+        getThongKeTrongNam(mySharedPreferences.getUserId());
     }
     private void initVariable(){
         top10sanPhamList = new ArrayList<>();
@@ -166,12 +174,132 @@ public class StatisticalFragment extends Fragment {
                     Toast.makeText(getContext(), "Yêu cầu chọn ngày", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                TongDoanhThu(mySharedPreferences.getUserId(),tuNgay,denNgay);
+//                TongDoanhThu(mySharedPreferences.getUserId(),tuNgay,denNgay);
                 getDataTop10(mySharedPreferences.getUserId(),tuNgay,denNgay);
             }
         });
 
     }
+    private void getThongKeTrongNam(String idCuaHang){
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<ThongKeTheoTungThang>> call = apiService.getThongKeTheoNam(currentYear,idCuaHang);
+        call.enqueue(new Callback<List<ThongKeTheoTungThang>>() {
+            @Override
+            public void onResponse(Call<List<ThongKeTheoTungThang>> call, Response<List<ThongKeTheoTungThang>> response) {
+                if (response.isSuccessful()) {
+                    List<ThongKeTheoTungThang> res = response.body();
+                    int tongDoanhThu = 0;
+                    for (ThongKeTheoTungThang item : res){
+                        tongDoanhThu += item.getTongTien();
+                    }
+                    testStyle(res);
+                    // Hiển thị tổng doanh thu
+                    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+                    String formattedNumber = decimalFormat.format(tongDoanhThu);
+                    tvTongTienDaGiao.setText("" + formattedNumber+ " đ");
+                } else {
+                    Log.e("thongketrongnam",response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ThongKeTheoTungThang>> call, Throwable t) {
+                Log.e("thongketrongnam",t.getMessage());
+            }
+        });
+
+    }
+
+    private void drawBarChart(List<ThongKeTheoTungThang> dataList) {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (int i = 0; i < dataList.size(); i++) {
+            entries.add(new BarEntry(i, (float) dataList.get(i).getTongTien()));
+
+        }
+
+        BarDataSet barDataSet = new BarDataSet(entries, "Doanh thu");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        // Cấu hình dữ liệu cho biểu đồ
+        BarData barData = new BarData(barDataSet);
+        thongke_bieuDoDoanhThu.setData(barData);
+
+        // Cấu hình trục X
+        XAxis xAxis = thongke_bieuDoDoanhThu.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Hiển thị trục X ở dưới
+        xAxis.setDrawGridLines(false); // Tắt đường line trên biểu đồ
+        xAxis.setGranularity(5f);
+        xAxis.setSpaceMin(5f);
+        xAxis.setSpaceMax(5f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(Color.DKGRAY);
+        barDataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
+        barDataSet.setValueTextSize(8f);
+        // Cấu hình animation
+        thongke_bieuDoDoanhThu.animateY(2000); // Hiệu ứng animation khi hiển thị biểu đồ
+        thongke_bieuDoDoanhThu.invalidate(); // refresh
+        thongke_bieuDoDoanhThu.setDragEnabled(true);
+        thongke_bieuDoDoanhThu.setScaleEnabled(true);
+        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(5); // Số lượng cột tối đa hiển thị trên màn hình
+        thongke_bieuDoDoanhThu.setHorizontalScrollBarEnabled(true);
+        thongke_bieuDoDoanhThu.invalidate(); // Vẽ lại biểu đồ
+        thongke_bieuDoDoanhThu.setGridBackgroundColor(Color.WHITE);
+    }
+
+    //dùng
+    private void testStyle (List<ThongKeTheoTungThang> dataList) {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (int i = 0; i < dataList.size(); i++) {
+            entries.add(new BarEntry(dataList.get(i).get_id(), (float) dataList.get(i).getTongTien()));
+            labels.add("Tháng " + dataList.get(i).get_id());
+        }
+        dataSet = new BarDataSet(entries, "Tháng ");
+        BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.9f);
+
+        thongke_bieuDoDoanhThu.setData(barData);
+
+        YAxis yAxis = thongke_bieuDoDoanhThu.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+
+        thongke_bieuDoDoanhThu.getAxisRight().setEnabled(false);
+
+        XAxis xAxis = thongke_bieuDoDoanhThu.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(12);
+        xAxis.setValueFormatter(null);
+        xAxis.setAxisMaximum(labels.size());
+        xAxis.setAxisMinimum(0.5f);
+        // Đặt nhãn cho trục X
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceMin(2f);
+        xAxis.setSpaceMax(0.5f);
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setGranularity(2f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
+        dataSet.setValueTextSize(9.5f);
+        Description description = new Description();
+        description.setText("");
+        thongke_bieuDoDoanhThu.setDescription(description);
+        thongke_bieuDoDoanhThu.animateY(2000);
+        thongke_bieuDoDoanhThu.setDragEnabled(true);
+        thongke_bieuDoDoanhThu.setScaleEnabled(true);
+        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(5);
+        thongke_bieuDoDoanhThu.setHorizontalScrollBarEnabled(true);
+        thongke_bieuDoDoanhThu.getLegend().setEnabled(false);
+        thongke_bieuDoDoanhThu.invalidate();
+
+    }
+
     private void getDataTop10(String idCuaHang , String tuNgay, String denNgay){
         ApiService apiService = ApiRetrofit.getApiService();
         top10sanPhamList = new ArrayList<>();
@@ -195,96 +323,5 @@ public class StatisticalFragment extends Fragment {
                 Log.e("brand", t.getMessage());
             }
         });
-    }
-
-    private void TongDoanhThu(String idCuaHang , String tuNgay, String denNgay){
-        ApiService apiService = ApiRetrofit.getApiService();
-        Call<ThongKeDoanhThu> thongKeDonHangXuat = apiService.getDoanhThuTheoNgay(tuNgay,denNgay,idCuaHang,TRANG_THAI_DA_GIAO);
-        thongKeDonHangXuat.enqueue(new Callback<ThongKeDoanhThu>() {
-            @Override
-            public void onResponse(Call<ThongKeDoanhThu> call, Response<ThongKeDoanhThu> response) {
-                if (response.isSuccessful()) {
-                    ThongKeDoanhThu res = response.body();
-                    if (res.getTongTien() > 0) {
-                        tongDoanhThuXuat = res.getTongTien();
-                    }else{
-                        tongDoanhThuXuat = 0;
-                    }
-                    barChart();
-                    float tongDoanhThu = tongDoanhThuXuat;
-                    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-                    String formattedNumber = decimalFormat.format(tongDoanhThu);
-                    tvTongTienDaGiao.setText("" + formattedNumber+ " đ");
-                } else {
-                    Log.e("doanhthuxuat",response.message());
-                }
-            }
-            @Override
-            public void onFailure(Call<ThongKeDoanhThu> call, Throwable t) {
-                Log.e("doanhthuxuat",t.getMessage());
-            }
-        });
-
-
-        Call<ThongKeDoanhThu> thongKeDonHangHuy = apiService.getDoanhThuTheoNgay(tuNgay,denNgay,mySharedPreferences.getUserId(),TRANG_THAI_DA_HUY);
-        thongKeDonHangHuy.enqueue(new Callback<ThongKeDoanhThu>() {
-            @Override
-            public void onResponse(Call<ThongKeDoanhThu> call, Response<ThongKeDoanhThu> response) {
-                if (response.isSuccessful()) {
-                    ThongKeDoanhThu res = response.body();
-                    tvSoLuongDaHuy.setText(""+res.getSoLuongHoaDon());
-                    if (res.getTongTien() > 0) {
-                        tongDoanhThuHuy = res.getTongTien();
-                    }else{
-                        tongDoanhThuHuy = 0;
-                    }
-                    float tongTienHuy = tongDoanhThuHuy;
-                    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-                    String formattedNumber = decimalFormat.format(tongTienHuy);
-                    tvTongTienDaHuy.setText("" + formattedNumber+ " đ");
-                } else {
-                    Log.e("doanhthuhuy",response.message());
-                }
-            }
-            @Override
-            public void onFailure(Call<ThongKeDoanhThu> call, Throwable t) {
-                Log.e("doanhthuhuy",t.getMessage());
-            }
-        });
-    }
-
-
-    private void barChart() {
-        thongke_bieuDoDoanhThu.getAxisRight().setDrawLabels(false);
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0,tongDoanhThuXuat));
-
-        YAxis yAxis = thongke_bieuDoDoanhThu.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(0f);
-        yAxis.setAxisMaximum(tongDoanhThuXuat);
-        yAxis.setAxisLineWidth(1f);
-        yAxis.setAxisLineColor(Color.BLACK);
-        yAxis.setLabelCount(10);
-
-        BarDataSet dataSet = new BarDataSet(entries,"Doanh thu đơn hàng");
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        dataSet.setValueTextColor(Color.BLACK);
-        dataSet.setValueTextSize(11f);
-        dataSet.setValueTextSize(11f);
-
-
-        BarData barData = new BarData(dataSet);
-        thongke_bieuDoDoanhThu.setData(barData);
-
-        thongke_bieuDoDoanhThu.getDescription().setEnabled(false);
-        thongke_bieuDoDoanhThu.invalidate();
-
-        thongke_bieuDoDoanhThu.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xValues));
-        thongke_bieuDoDoanhThu.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        thongke_bieuDoDoanhThu.getXAxis().setGranularity(1f);
-        thongke_bieuDoDoanhThu.getXAxis().setGranularityEnabled(true);
-        thongke_bieuDoDoanhThu.animateY(2000);
     }
 }

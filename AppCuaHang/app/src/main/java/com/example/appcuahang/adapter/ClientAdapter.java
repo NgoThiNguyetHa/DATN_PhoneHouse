@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemClientListenner;
+import com.example.appcuahang.interface_adapter.IItemClientListenner;
 import com.example.appcuahang.model.Client;
 
 import java.util.List;

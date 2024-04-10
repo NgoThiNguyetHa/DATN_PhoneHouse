@@ -53,10 +53,10 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
             holder.tvDCNhanHang.setText(""+diaChiNhanHang.getDiaChi());
         }
         if (hoaDon.getTrangThaiNhanHang().equals("Đang xử lý")){
-            holder.tvTrangThai.setTextColor(Color.GREEN);
+
         }else if (hoaDon.getTrangThaiNhanHang().equals("Đã giao")){
             holder.tvTrangThai.setTextColor(Color.BLUE);
-        }else{
+        }else if (hoaDon.getTrangThaiNhanHang().equals("Đã hủy")){
             holder.tvTrangThai.setTextColor(Color.RED);
         }
         holder.tvTrangThai.setText(""+hoaDon.getTrangThaiNhanHang());
@@ -73,7 +73,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
             e.printStackTrace();
         }
 
-        SimpleDateFormat sdfInput = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         SimpleDateFormat sdfOutput = new SimpleDateFormat("dd\n'thg' MM", Locale.getDefault());
         try {
             Date ngayTaoDate = sdfInput.parse(hoaDon.getNgayTao());

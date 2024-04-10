@@ -39,12 +39,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appcuahang.MainActivity;
 import com.example.appcuahang.R;
 import com.example.appcuahang.activity.ChiTietDienThoaiActivity;
 import com.example.appcuahang.adapter.PhoneAdapter;
@@ -75,6 +72,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,13 +99,14 @@ public class PhoneFragment extends Fragment {
     ImageView uploadImage;
 
     Spinner spHangSX, spMau, spRam, spDungLuong;
-    EditText edTenDienThoai, edCamera, edKichThuoc, edCPU, edPin, edHeDieuHanh, edNamSX, edCongNgheManHinh, edDoPhanGiai, edBaoHanh, edMoTa;
+    EditText edTenDienThoai, edCamera, edKichThuoc, edCPU, edPin, edHeDieuHanh, edNamSX, edCongNgheManHinh, edDoPhanGiai, edBaoHanh, edMoTa ;
     TextView tvTitle;
     Button btnSave;
     Phone phone;
     String idHang;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    EditText edTen, edSoLuong, edGiaTien;
+    EditText edTen, edSoLuong, edGiaTien ;
+    ImageView uploadImageChiTiet;
     Button chitiet_button;
     String idSpMau, idSpRam, idSpDungLuong;
     int position;
@@ -344,60 +343,62 @@ public class PhoneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                //
-                String strTenDT = edTenDienThoai.getText().toString().trim();
-                String strKichThuoc = edKichThuoc.getText().toString().trim();
-                String strCNMH = edCongNgheManHinh.getText().toString().trim();
-                String strCamera = edCamera.getText().toString().trim();
-                String strCPu = edCPU.getText().toString().trim();
-                String strPin = edPin.getText().toString().trim();
-                String strHeDieuHanh = edHeDieuHanh.getText().toString().trim();
-                String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
-                String strNamSX = edNamSX.getText().toString().trim();
-                String strBaoHanh = edBaoHanh.getText().toString().trim();
-                String strMoTa = edMoTa.getText().toString().trim();
-                ApiService apiService = ApiRetrofit.getApiService();
+                if (checkValidatePhone()){
+                    //
+                    String strTenDT = edTenDienThoai.getText().toString().trim();
+                    String strKichThuoc = edKichThuoc.getText().toString().trim();
+                    String strCNMH = edCongNgheManHinh.getText().toString().trim();
+                    String strCamera = edCamera.getText().toString().trim();
+                    String strCPu = edCPU.getText().toString().trim();
+                    String strPin = edPin.getText().toString().trim();
+                    String strHeDieuHanh = edHeDieuHanh.getText().toString().trim();
+                    String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
+                    String strNamSX = edNamSX.getText().toString().trim();
+                    String strBaoHanh = edBaoHanh.getText().toString().trim();
+                    String strMoTa = edMoTa.getText().toString().trim();
+                    ApiService apiService = ApiRetrofit.getApiService();
 
-                //upload ảnh lên firebase
-                if (imageUri != null) {
-                    String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
-                                    call.enqueue(new Callback<Phone>() {
-                                        @Override
-                                        public void onResponse(Call<Phone> call, Response<Phone> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                                progressDialog.dismiss();
+                    //upload ảnh lên firebase
+                    if (imageUri != null) {
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+
+                        String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Call<Phone> call = apiService.addDienThoai(new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
+                                        call.enqueue(new Callback<Phone>() {
+                                            @Override
+                                            public void onResponse(Call<Phone> call, Response<Phone> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Phone> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.e("Add dien thoai",t.getLocalizedMessage());
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Phone> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.e("Add dien thoai",t.getLocalizedMessage());
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             }
         });
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -471,7 +472,7 @@ public class PhoneFragment extends Fragment {
             public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
                 if (response.isSuccessful()){
                     List<Brand> item = response.body();
-                    ArrayAdapter loaiSanPhamAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, item);
+                    ArrayAdapter loaiSanPhamAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, item);
                     spHangSX.setAdapter(loaiSanPhamAdapter);
                     for (int i = 0; i < item.size(); i++) {
                         if (phone.getMaHangSX().equals(item.get(i).get_id())){
@@ -510,55 +511,61 @@ public class PhoneFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strTenDT = edTenDienThoai.getText().toString().trim();
-                String strKichThuoc = edKichThuoc.getText().toString().trim();
-                String strCNMH = edCongNgheManHinh.getText().toString().trim();
-                String strCamera = edCamera.getText().toString().trim();
-                String strCPu = edCPU.getText().toString().trim();
-                String strPin = edPin.getText().toString().trim();
-                String strHeDieuHanh = edHeDieuHanh.getText().toString().trim();
-                String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
-                String strNamSX = edNamSX.getText().toString().trim();
-                String strBaoHanh = edBaoHanh.getText().toString().trim();
-                String strMoTa = edMoTa.getText().toString().trim();
-                ApiService apiService = ApiRetrofit.getApiService();
-                //upload ảnh lên firebase
-                if (imageUri != null) {
-                    String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getContext(), "Upload success", Toast.LENGTH_SHORT).show();
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Call<Phone> call = apiService.putDienThoai(phone.get_id(),new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
-                                    call.enqueue(new Callback<Phone>() {
-                                        @Override
-                                        public void onResponse(Call<Phone> call, Response<Phone> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                            } else {
-                                                Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                if (checkValidatePhone()){
+                    String strTenDT = edTenDienThoai.getText().toString().trim();
+                    String strKichThuoc = edKichThuoc.getText().toString().trim();
+                    String strCNMH = edCongNgheManHinh.getText().toString().trim();
+                    String strCamera = edCamera.getText().toString().trim();
+                    String strCPu = edCPU.getText().toString().trim();
+                    String strPin = edPin.getText().toString().trim();
+                    String strHeDieuHanh = edHeDieuHanh.getText().toString().trim();
+                    String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
+                    String strNamSX = edNamSX.getText().toString().trim();
+                    String strBaoHanh = edBaoHanh.getText().toString().trim();
+                    String strMoTa = edMoTa.getText().toString().trim();
+                    ApiService apiService = ApiRetrofit.getApiService();
+                    //upload ảnh lên firebase
+                    if (imageUri != null) {
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(getContext(), "Upload success", Toast.LENGTH_SHORT).show();
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Call<Phone> call = apiService.putDienThoai(phone.get_id(),new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), uri.toString(), null,new Store(mySharedPreferences.getUserId())));
+                                        call.enqueue(new Callback<Phone>() {
+                                            @Override
+                                            public void onResponse(Call<Phone> call, Response<Phone> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                } else {
+                                                    Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Phone> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Phone> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             }
         });
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -572,7 +579,7 @@ public class PhoneFragment extends Fragment {
     //thêm chi tiết điện thoại
     private void dialogAddDetail(Context mContext, String id, String ten) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_them_chi_tiet, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_chi_tiet_dien_thoai, null);
         builder.setView(view);
         Dialog dialogDetail = builder.create();
         dialogDetail.show();
@@ -592,6 +599,7 @@ public class PhoneFragment extends Fragment {
         edTen = view.findViewById(R.id.dl_chitiet_edTenDienThoai);
         edSoLuong = view.findViewById(R.id.dl_chitiet_edSoLuong);
         edGiaTien = view.findViewById(R.id.dl_chitiet_edGiaTien);
+        uploadImageChiTiet = view.findViewById(R.id.dl_chitiet_uploadImageView);
         Button chitiet_button = view.findViewById(R.id.dl_chitiet_button);
         ImageView imgClose = view.findViewById(R.id.dl_chitiet_imageView);
         TextView tvTitle = view.findViewById(R.id.dl_chitiet_tvTitle);
@@ -600,26 +608,59 @@ public class PhoneFragment extends Fragment {
         getDataSpinnerChiTiet();
         ApiService apiService = ApiRetrofit.getApiService();
         edTen.setText("" + ten);
+        uploadImageChiTiet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPicker = new Intent();
+                photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+                photoPicker.setType("image/*");
+                activityResultLauncherChiTiet.launch(photoPicker);
+            }
+        });
         chitiet_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer strSoLuong = Integer.parseInt("" + edSoLuong.getText().toString());
-                Integer strGiaTien = Integer.parseInt("" + edGiaTien.getText().toString());
-                Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau), new DungLuong(idSpDungLuong), new Ram(idSpRam)));
-                call.enqueue(new Callback<DetailPhone>() {
-                    @Override
-                    public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                            dialogDetail.dismiss();
-                        }
-                    }
+                if (checkValidateDetailPhone()){
+                    Integer strSoLuong = Integer.parseInt("" + edSoLuong.getText().toString());
+                    Integer strGiaTien = Integer.parseInt("" + edGiaTien.getText().toString());
+                    if (imageUri != null) {
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau), new DungLuong(idSpDungLuong), new Ram(idSpRam) ,uri.toString()));
+                                        call.enqueue(new Callback<DetailPhone>() {
+                                            @Override
+                                            public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+                                                    progressDialog.dismiss();
+                                                    dialogDetail.dismiss();
+                                                }
+                                            }
 
-                    @Override
-                    public void onFailure(Call<DetailPhone> call, Throwable t) {
-                        Log.e("ChiTiet",t.getLocalizedMessage());
+                                            @Override
+                                            public void onFailure(Call<DetailPhone> call, Throwable t) {
+                                                Log.e("ChiTiet",t.getLocalizedMessage());
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+
             }
         });
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -648,6 +689,15 @@ public class PhoneFragment extends Fragment {
         }
     });
 
+    final ActivityResultLauncher<Intent> activityResultLauncherChiTiet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            Intent data = result.getData();
+            imageUri = data.getData();
+            uploadImageChiTiet.setImageURI(imageUri);
+        }
+    });
+
     //cấp đường link từ image
     private String getFileExtension(Uri fileUri) {
         ContentResolver contentResolver = getActivity().getContentResolver();
@@ -663,7 +713,7 @@ public class PhoneFragment extends Fragment {
             public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
                 if (response.isSuccessful()) {
                     List<Brand> data = response.body();
-                    ArrayAdapter loaiSanPhamAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, data);
+                    ArrayAdapter loaiSanPhamAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, data);
                     spHangSX.setAdapter(loaiSanPhamAdapter);
                     spHangSX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -780,5 +830,67 @@ public class PhoneFragment extends Fragment {
                 Log.e("DungLuong", t.getMessage());
             }
         });
+    }
+
+    private boolean checkValidatePhone(){
+        if (edTenDienThoai.getText().toString().isEmpty()){
+            edTenDienThoai.setError("Yêu cầu không để trống!!");
+            return false;
+        }else if (edKichThuoc.getText().toString().isEmpty()){
+            edKichThuoc.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edCongNgheManHinh.getText().toString().isEmpty()){
+            edCongNgheManHinh.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edCamera.getText().toString().isEmpty()){
+            edCamera.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edCPU.getText().toString().isEmpty()){
+            edCPU.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edPin.getText().toString().isEmpty()){
+            edPin.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edHeDieuHanh.getText().toString().isEmpty()){
+            edHeDieuHanh.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edDoPhanGiai.getText().toString().isEmpty()){
+            edDoPhanGiai.setError("Yêu cầu không để trống!!");
+            return false;
+        }else if (edNamSX.getText().toString().isEmpty()){
+            edNamSX.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        else if (edBaoHanh.getText().toString().isEmpty()){
+            edBaoHanh.setError("Yêu cầu không để trống!!");
+            return false;
+        }else if (edMoTa.getText().toString().isEmpty()){
+            edMoTa.setError("Yêu cầu không để trống!!");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkValidateDetailPhone(){
+        if (edSoLuong.getText().toString().isEmpty()) {
+            edSoLuong.setError("Yêu cầu không được để trống!!");
+            return false;
+        } else if (!Pattern.matches("\\d+", edSoLuong.getText().toString())) {
+            edSoLuong.setError("Yêu cầu nhập số lượng phải là số!!");
+            return false;
+        }else if (edGiaTien.getText().toString().isEmpty()) {
+            edGiaTien.setError("Yêu cầu không được để trống!!");
+            return false;
+        }else if (!Pattern.matches("\\d+", edGiaTien.getText().toString())) {
+            edGiaTien.setError("Yêu cầu nhập giá tiền phải là số!!");
+            return false;
+        }
+        return true;
     }
 }

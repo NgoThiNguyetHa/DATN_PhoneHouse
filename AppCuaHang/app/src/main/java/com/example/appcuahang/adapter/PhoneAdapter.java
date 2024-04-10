@@ -55,7 +55,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
                 dialog(item,Gravity.BOTTOM);
             }
         });
-        holder.tvTenDT.setText("Tên điện thoại: "+item.getTenDienThoai());
+        holder.tvTenDT.setText(""+item.getTenDienThoai());
         if (item.getHinhAnh() == null){
             holder.item_imgPhone.setImageResource(R.drawable.img_10);
         }else {

@@ -166,4 +166,36 @@ router.get('/getDanhGia/:id', async (req,res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+router.get('/getDanhGiaTheoDienThoai/:id', async (req,res) => {
+  try {
+    const idDienThoai = req.params.id;
+    const danhGia = await DanhGia.find()
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          match: { maDienThoai: idDienThoai },
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    const filteredDanhGia = danhGia.filter(item => item.idChiTietDienThoai !== null);
+
+    res.json(filteredDanhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
