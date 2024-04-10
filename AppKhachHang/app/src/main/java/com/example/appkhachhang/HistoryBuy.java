@@ -65,7 +65,7 @@ public class HistoryBuy extends AppCompatActivity {
                         }
                     });
                     rc_HistoryBuy.setAdapter(adapter);
-                    Log.e("zzzzz", "onResponse: " + response.body());
+//                    Log.e("zzzzz", "onResponse: " + response.body());
                 } else {
                     Toast.makeText(HistoryBuy.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }

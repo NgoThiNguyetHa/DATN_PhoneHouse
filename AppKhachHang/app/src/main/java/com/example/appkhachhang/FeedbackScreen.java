@@ -1,16 +1,21 @@
 package com.example.appkhachhang;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +30,12 @@ import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.FileData;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -43,6 +54,7 @@ public class FeedbackScreen extends AppCompatActivity {
 
     TextView bill_item_tvDienThoaiDG, bill_item_tvMauDG, bill_item_tvSoLuongDG, bill_item_tvTongTienDG;
 
+
     EditText edFeedback;
     Button btnFeedback;
 
@@ -51,6 +63,8 @@ public class FeedbackScreen extends AppCompatActivity {
     Number diemFeedback = 0;
 
 
+
+    FirebaseDatabase database;
     Uri imageUri;
     MySharedPreferences mySharedPreferences;
     @Override
@@ -148,91 +162,73 @@ public class FeedbackScreen extends AppCompatActivity {
             }
         });
 
+
         btnFeedback.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 String noiDung = edFeedback.getText().toString().trim();
-                if (imageUri != null) {
-                    // Chuyển đổi Uri của ảnh thành String để gửi lên server
-                    String hinhanh = imageUri.toString();
+                Number diemDanhGia = diemFeedback;
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                String currentDate = day + "-" + month + "-" + year;
+                final  DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
+                final  StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-                    // Lấy điểm đánh giá
-                    Number diemDanhGia = diemFeedback;
+                if(imageUri != null){
+                    String url_src = System.currentTimeMillis()+"."+ getFileExtension(imageUri);
+                    final StorageReference imageReference = storageReference.child(url_src);
+                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
+                                    Call<DanhGia> call = feedbackAPI.postDanhGia(new DanhGia(noiDung,uri.toString(),diemDanhGia,currentDate, new User(mySharedPreferences.getUserId()),new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id())));
+                                    call.enqueue(new Callback<DanhGia>() {
+                                        @Override
+                                        public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+                                            if (response.isSuccessful()){
+                                                Toast.makeText(FeedbackScreen.this, "đã đánh giá", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
 
-                    // Lấy ngày tạo
-                    Calendar calendar = Calendar.getInstance();
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
-                    int day = calendar.get(Calendar.DAY_OF_MONTH);
-                    String currentDate = day + "-" + month + "-" + year;
-
-                    InputStream inputStream = null;
-                    try {
-                        inputStream = getContentResolver().openInputStream(imageUri);
-                        byte[] buffer = convertInputStreamToByteArray(inputStream);
-                        String mimeType = getContentResolver().getType(imageUri);
-
-                        // Tạo đối tượng FileData và gán giá trị cho các thuộc tính
-                        FileData fileData = new FileData(mimeType, buffer);
-
-                        // Gọi API để gửi dữ liệu đánh giá lên server
-                        FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
-//                        Call<DanhGia> call = feedbackAPI.postDanhGia(
-//                                new DanhGia(noiDung, fileData, diemDanhGia, currentDate, new User(mySharedPreferences.getUserId()), new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id()))
-//                        );
-//                        call.enqueue(new Callback<DanhGia>() {
-//                            @Override
-//                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
-//                                if(response.isSuccessful()){
-//                                    Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    Toast.makeText(FeedbackScreen.this, "Thất bại", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<DanhGia> call, Throwable t) {
-//                                Log.d("zzz", "onFailure: "+ t.getMessage());
-//                            }
-//                        });
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    Toast.makeText(FeedbackScreen.this, "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
+                                        @Override
+                                        public void onFailure(Call<DanhGia> call, Throwable t) {
+                                            Toast.makeText(FeedbackScreen.this, "Loi đánh giá", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
+                            }
+                    });
                 }
+
             }
         });
 
 
     }
+
+    private String getFileExtension(Uri fileUri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
+    }
+
+
+
     final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-//            if (result.getResultCode() == RESULT_OK) {
-//                Intent data = result.getData();
-//                imageUri = data.getData();
-//                uploadImage.setImageURI(imageUri);
-//            } else {
-//                Toast.makeText(getContext(), "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
-//            }
             Intent data = result.getData();
             imageUri = data.getData();
             img_anh_danh_gia.setImageURI(imageUri);
         }
     });
 
-    private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, length);
-        }
-        byteArrayOutputStream.close();
-        return byteArrayOutputStream.toByteArray();
-    }
 
 }

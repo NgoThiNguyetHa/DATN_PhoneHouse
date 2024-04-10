@@ -14,7 +14,8 @@ router.post('/addDanhGia', async function(req, res, next) {
     idKhachHang: req.body.idKhachHang,
     idChiTietDienThoai: req.body.idChiTietDienThoai,
   })
-  const saved = danhGia.save()
+  const saved = await danhGia.save()
+  console.log(saved);
   const data = await DanhGia.findById(saved._id)
       .populate("idKhachHang")
       .populate({
@@ -34,6 +35,7 @@ router.post('/addDanhGia', async function(req, res, next) {
           {path: "maRam", model:"ram"}
         ]
       });
+      console.log(data);
   res.send(data)
 });
 
@@ -118,6 +120,33 @@ router.get('/getDanhGia/:id', async (req,res) => {
   try {
     const idChiTietDienThoai = req.params.id;
     const danhGia = await DanhGia.find({idChiTietDienThoai: idChiTietDienThoai})
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json(danhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
+  try {
+    const idKhachHang = req.params.id;
+    const danhGia = await DanhGia.find({idKhachHang})
         .populate("idKhachHang")
         .populate({
           path: "idChiTietDienThoai",
