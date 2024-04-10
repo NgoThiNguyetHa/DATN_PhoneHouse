@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class Ram {
+import java.io.Serializable;
+
+public class Ram implements Serializable {
     String _id;
     String RAM;
 

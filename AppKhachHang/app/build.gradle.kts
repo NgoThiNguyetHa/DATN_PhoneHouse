@@ -38,6 +38,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation ("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
 
 
     testImplementation("junit:junit:4.13.2")
@@ -59,5 +60,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
+
 
 }
