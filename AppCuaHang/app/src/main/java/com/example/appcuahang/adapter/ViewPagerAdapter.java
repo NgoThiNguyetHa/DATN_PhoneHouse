@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.appcuahang.fragment.BillOrderFragment;
-import com.example.appcuahang.fragment.BrandFragment;
 import com.example.appcuahang.fragment.HomeFragment;
-import com.example.appcuahang.fragment.MoreFragment;
 import com.example.appcuahang.viewpager.DonDaGiaoFragment;
 import com.example.appcuahang.viewpager.DonHuyFragment;
 import com.example.appcuahang.viewpager.DonXuLyFragment;

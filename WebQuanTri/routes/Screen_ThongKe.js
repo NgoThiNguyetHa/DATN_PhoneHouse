@@ -6,7 +6,7 @@ const {authenticateToken, baseUrl} = require('../middleware/index');
 // require('../models/CuaHang')
 // const CuaHang = mongoose.model("cuaHang");
 
-router.get('/', authenticateToken, function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
   const account = {
     id: req.userId,
     diaChi:req.diaChi,
@@ -14,7 +14,10 @@ router.get('/', authenticateToken, function(req, res, next) {
     email:req.email,
     sdt:req.sdt
   }
-  res.render('thongKe', { title: 'Express', account: account });
+  res.render('thongKe', {
+    title: 'Express',
+    account: account
+  });
 });
 
 module.exports = router;

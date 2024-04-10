@@ -180,6 +180,19 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
   }
 });
 
+router.get("/getChiTietDienThoaiByID/:id", async (req, res) => {
+  try {
+    const data = await ChiTietDienThoai.find({_id: req.params.id})
+        .populate({path: 'maDienThoai', populate: 'maHangSX', populate: "maUuDai", populate:"maCuaHang" })
+        .populate('maMau')
+        .populate('maDungLuong')
+        .populate('maRam')
+    res.json(data)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+})
+
 async function uploadImage(file, quantity) {
   const storageFB = getStorage(firebaseApp);
   const randomString = uuidv4();
@@ -232,13 +245,13 @@ router.put("/updateChiTietDienThoaiFirebase/:id", upload, async (req, res ) => {
     }
 
     const updated = {};
-    if (req.body.maRam) updatedHangSanXuat.maRam = req.body.maRam;
-    if (req.body.maDungLuong) updatedHangSanXuat.maDungLuong = req.body.maDungLuong;
-    if (req.body.maMau) updatedHangSanXuat.maMau = req.body.maMau;
-    if (req.body.maDienThoai) updatedHangSanXuat.maDienThoai = req.body.maDienThoai;
-    if (req.body.giaTien) updatedHangSanXuat.giaTien = req.body.giaTien;
-    if (req.body.soLuong) updatedHangSanXuat.soLuong = req.body.soLuong;
-    if (hinhAnhURL) updatedHangSanXuat.hinhAnh = hinhAnhURL;
+    if (req.body.maRam) updated.maRam = req.body.maRam;
+    if (req.body.maDungLuong) updated.maDungLuong = req.body.maDungLuong;
+    if (req.body.maMau) updated.maMau = req.body.maMau;
+    if (req.body.maDienThoai) updated.maDienThoai = req.body.maDienThoai;
+    if (req.body.giaTien) updated.giaTien = req.body.giaTien;
+    if (req.body.soLuong) updated.soLuong = req.body.soLuong;
+    if (hinhAnhURL) updated.hinhAnh = hinhAnhURL;
 
     const data = await ChiTietDienThoai.findByIdAndUpdate(id, updated, { new: true });
 
@@ -248,6 +261,7 @@ router.put("/updateChiTietDienThoaiFirebase/:id", upload, async (req, res ) => {
       return res.status(200).json({ message: "update successful", data });
     }
   }catch(err){
+    console.log(err)
     return res.status(500).json({message: err.message})
   }
 })

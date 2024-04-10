@@ -108,7 +108,6 @@ router.put("/updateDanhGia/:id", async (req, res ) => {
 
     }else{
       return res.status(200).json({message: "update successful"})
-
     }
   }catch(err){
     return res.status(500).json({message: err.message})
@@ -143,13 +142,15 @@ router.get('/getDanhGia/:id', async (req,res) => {
     res.status(500).json({ error: error.message });
   }
 })
-router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
+
+router.get('/getDanhGiaTheoDienThoai/:id', async (req,res) => {
   try {
-    const idKhachHang = req.params.id;
-    const danhGia = await DanhGia.find({idKhachHang})
+    const idDienThoai = req.params.id;
+    const danhGia = await DanhGia.find()
         .populate("idKhachHang")
         .populate({
           path: "idChiTietDienThoai",
+          match: { maDienThoai: idDienThoai },
           populate: [
             {
               path: "maDienThoai",
@@ -165,9 +166,12 @@ router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
             {path: "maRam", model:"ram"}
           ]
         });
-    res.json(danhGia);
+    const filteredDanhGia = danhGia.filter(item => item.idChiTietDienThoai !== null);
+
+    res.json(filteredDanhGia);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 })
+
 module.exports = router;

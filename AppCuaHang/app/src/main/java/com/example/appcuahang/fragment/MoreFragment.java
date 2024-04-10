@@ -1,7 +1,6 @@
 package com.example.appcuahang.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.appcuahang.R;
 
@@ -25,7 +22,7 @@ import com.example.appcuahang.R;
 public class MoreFragment extends Fragment {
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai, cv_client, cv_uudai;
+    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai, cv_client, cv_uudai , cv_danhGia;
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
 
@@ -60,7 +57,7 @@ public class MoreFragment extends Fragment {
         cv_dienThoai = view.findViewById(R.id.cv_dienThoai);
         cv_client = view.findViewById(R.id.cv_client);
         cv_uudai = view.findViewById(R.id.cv_uudai);
-
+        cv_danhGia = view.findViewById(R.id.cv_danhGia);
     }
 
     private void action() {
@@ -123,6 +120,12 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 replaceFragment(new UuDaiFragment());
+            }
+        });
+        cv_danhGia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new ReviewFragment());
             }
         });
     }
