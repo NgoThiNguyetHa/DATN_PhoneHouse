@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemID == R.id.navNotify) {
           loadFragment(new NotificationFragment(), false);
         } else {
-          loadFragment(new PaymentMethodFragment(), false);
+          loadFragment(new UserFragment(), false);
         }
         return true;
       }
