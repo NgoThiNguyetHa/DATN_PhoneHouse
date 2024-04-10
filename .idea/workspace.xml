@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="update chi tiết điện thoại">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="thống kê">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/thongKe.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/thongKe.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_ThongKe.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_ThongKe.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="QuanLyUuDai" />
+        <entry key="$PROJECT_DIR$" value="Longdhph28835" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -104,6 +102,7 @@
       <workItem from="1712050036769" duration="20154000" />
       <workItem from="1712254910298" duration="11508000" />
       <workItem from="1712299702504" duration="16256000" />
+      <workItem from="1712745671523" duration="2126000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
