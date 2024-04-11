@@ -35,6 +35,7 @@ var quanLyDonHangScreen = require('./routes/Screen_QuanLyDonHang')
 var quanLyHangSXScreen = require('./routes/Screen_QuanLyHangSX')
 var quanLyUuDaiScreen = require('./routes/Screen_QuanLyUuDai')
 var thongKeScreen = require('./routes/Screen_ThongKe')
+var quanLyDanhGiaScreen = require('./routes/Screen_QuanLyDanhGia')
 
 
 const mongoose = require('mongoose');
@@ -81,6 +82,7 @@ app.use('/doiMatKhauW', doiMatKhauScreen)
 app.use('/quanLyHangSanXuatW', quanLyHangSXScreen)
 app.use('/thongKeW', thongKeScreen)
 app.use('/quanLyUuDaiW', quanLyUuDaiScreen)
+app.use('/quanLyDanhGiaW', quanLyDanhGiaScreen)
 
 // parse application/json
 app.use(bodyParser.json())
