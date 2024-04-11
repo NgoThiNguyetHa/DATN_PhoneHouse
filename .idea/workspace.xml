@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="api get feedback">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
+      <change afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_ThongKe.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_ThongKe.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/thongKe.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/thongKe.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,7 +296,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712749698503</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="pull from dev">
+      <option name="closed" value="true" />
+      <created>1712821838076</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1712821838076</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,7 +324,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="login in website" />
     <MESSAGE value="navigation web" />
-    <MESSAGE value="pull from dev" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
     <MESSAGE value="sửa API" />
     <MESSAGE value="sửa API đăng ký khách hàng" />
@@ -333,6 +340,8 @@
     <MESSAGE value="fix api đánh giá" />
     <MESSAGE value="update chi tiết điện thoại" />
     <MESSAGE value="api get feedback" />
-    <option name="LAST_COMMIT_MESSAGE" value="api get feedback" />
+    <MESSAGE value="thống kê" />
+    <MESSAGE value="pull from dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
   </component>
 </project>
