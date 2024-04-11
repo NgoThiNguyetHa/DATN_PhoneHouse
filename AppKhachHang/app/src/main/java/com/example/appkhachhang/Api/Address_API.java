@@ -20,7 +20,7 @@ public interface Address_API {
 
 
     Address_API addRess = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8686/diachinhanhangs/")
+            .baseUrl("http://10.0.3.2:8686/diachinhanhangs/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(Address_API.class);
 

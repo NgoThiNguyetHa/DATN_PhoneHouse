@@ -305,14 +305,14 @@
       const doanhThuDaGiao = responseDaGiao.data.tongTien;
 
       // Cập nhật dữ liệu cho biểu đồ
-      const labels = ['Đang xử lý', 'Đã hủy', 'Đã giao'];
-      const doanhThuValues = [doanhThuDangXuLy, doanhThuDaHuy, doanhThuDaGiao];
+      const labels = ['Đã hủy', 'Đang xử lý', 'Đã giao'];
+      const doanhThuValues = [doanhThuDaHuy, doanhThuDangXuLy, doanhThuDaGiao];
 
       const dataReset = {
         labels: labels,
         datasets: [{
           label: 'Doanh thu',
-          backgroundColor: ['yellow', 'red', 'green'],
+          backgroundColor: ['red', 'yellow', 'green'],
           data: doanhThuValues,
           tension: 0.4
         }]
