@@ -15,23 +15,42 @@
         android:gravity="center"
         android:orientation="vertical"
         >
-
         <ImageView
             android:id="@+id/itemPhone_imgPhone"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:src="@drawable/img_3" />
+            android:src="@drawable/img_3"
+            android:paddingTop="5dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:id="@+id/itemPhone_bgSale"
+            android:visibility="visible"
+            >
+            <TextView
+                android:id="@+id/itemPhone_tvSale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sale 30%"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:background="@drawable/bg_sale_phone"
+                android:padding="10dp"
+                android:textSize="13dp"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/itemPhone_tvTenDienThoai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/itemPhone_imgPhone"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Tên điện thoại"
             android:textStyle="bold"
-            android:padding="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/itemPhone_imgPhone"/>
+            android:layout_marginBottom="10dp"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appcuahang.R;
+import com.example.appcuahang.adapter.ApDungUuDaiAdapter;
 import com.example.appcuahang.adapter.ChiTietAdapter;
 import com.example.appcuahang.adapter.DanhGiaAdapter;
 import com.example.appcuahang.adapter.UuDaiAdapter;
@@ -89,7 +90,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
     List<UuDai> listUuDai;
     List<Rating> ratingList;
     ChiTietAdapter adapter;
-    UuDaiAdapter adapterUuDai;
+    ApDungUuDaiAdapter adapterUuDai;
     DanhGiaAdapter danhGiaAdapter;
     GridLayoutManager manager;
     LinearLayoutManager linearLayoutManager, linearLayoutManagerUuDai;
@@ -325,10 +326,10 @@ public class ChiTietDienThoaiFragment extends Fragment {
         edTen.setText("" + detailPhone.getMaDienThoai().getTenDienThoai());
         edGiaTien.setText(""+detailPhone.getGiaTien());
         edSoLuong.setText(""+detailPhone.getSoLuong());
-        if (phone.getHinhAnh() == null) {
+        if (detailPhone.getHinhAnh() == null) {
             uploadImageChiTiet.setImageResource(R.drawable.baseline_phone_iphone_24);
         } else {
-            Picasso.get().load(phone.getHinhAnh()).into(uploadImageChiTiet);
+            Picasso.get().load(detailPhone.getHinhAnh()).into(uploadImageChiTiet);
         }
         uploadImageChiTiet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -551,7 +552,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
         listUuDai = new ArrayList<>();
         linearLayoutManagerUuDai = new LinearLayoutManager(getContext());
         rc__udch_uuDai.setLayoutManager(linearLayoutManagerUuDai);
-        adapterUuDai = new UuDaiAdapter(getContext(), new IItemUuDaiListenner() {
+        adapterUuDai = new ApDungUuDaiAdapter(getContext(), new IItemUuDaiListenner() {
             @Override
             public void showDetail(String idUuDai) {
 

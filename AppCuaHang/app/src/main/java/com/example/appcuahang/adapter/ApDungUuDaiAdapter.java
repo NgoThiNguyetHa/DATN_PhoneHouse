@@ -1,15 +1,12 @@
 package com.example.appcuahang.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,18 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
 import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
-import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.UuDai;
 
 import java.util.List;
 
-public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder> {
+public class ApDungUuDaiAdapter extends RecyclerView.Adapter<ApDungUuDaiAdapter.MyViewHolder> {
     Context mContext;
     List<UuDai> list;
     private IItemUuDaiListenner listenner;
     private int selectedItemPosition = -1;
 
-    public UuDaiAdapter(Context mContext, IItemUuDaiListenner listenner) {
+    public ApDungUuDaiAdapter(Context mContext, IItemUuDaiListenner listenner) {
         this.mContext = mContext;
         this.listenner = listenner;
     }
@@ -40,12 +36,12 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
 
     @NonNull
     @Override
-    public UuDaiAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_uudai, parent, false));
+    public ApDungUuDaiAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_apdung_uudai, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UuDaiAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ApDungUuDaiAdapter.MyViewHolder holder, int position) {
         UuDai uuDai = list.get(position);
         holder.tvGiamGia.setText("Giảm "+uuDai.getGiamGia() + "%");
         holder.tvThoiGian.setText("" + uuDai.getThoiGian());
@@ -58,17 +54,18 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
             holder.tvTrangThai.setBackgroundResource(R.drawable.bg_delete_yes);; // Màu đỏ không hoạt động
         }
 
-//        holder.item_frame.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                listenner.editUuDai(uuDai);
-//                listenner.selectUuDai(uuDai._id);
-//                holder.mdUD.setBackgroundResource(R.color.item_uu_dai);
-//                holder.tvGiamGia.setTextColor(Color.WHITE);
-//                holder.tvThoiGian.setTextColor(Color.WHITE);
-//                holder.tvTrangThai.setTextColor(Color.WHITE);
-//            }
-//        });
+        holder.item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listenner.editUuDai(uuDai);
+                listenner.selectUuDai(uuDai._id);
+                holder.mdUD.setBackgroundResource(R.color.item_uu_dai);
+                holder.tvGiamGia.setTextColor(Color.WHITE);
+                holder.tvThoiGian.setTextColor(Color.WHITE);
+                holder.tvTrangThai.setTextColor(Color.WHITE);
+                holder.textViewThoiGian.setTextColor(Color.WHITE);
+            }
+        });
 
     }
 
@@ -78,7 +75,7 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
     }
 
     public static final class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvGiamGia, tvThoiGian, tvTrangThai;
+        TextView tvGiamGia, tvThoiGian, tvTrangThai , textViewThoiGian;
         LinearLayout mdUD;
         CardView item_frame;
         public MyViewHolder(@NonNull View itemView) {
@@ -88,6 +85,7 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
             tvTrangThai = itemView.findViewById(R.id.item_tvTrangThai);
             mdUD = itemView.findViewById(R.id.mUD);
             item_frame = itemView.findViewById(R.id.item_frame);
+            textViewThoiGian = itemView.findViewById(R.id.item_textViewThoiGian);
         }
     }
 }
