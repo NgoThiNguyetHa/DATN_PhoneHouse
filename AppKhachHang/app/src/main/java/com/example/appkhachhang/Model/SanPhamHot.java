@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class SanPhamHot {
+import java.io.Serializable;
+
+public class SanPhamHot implements Serializable {
     ChiTietDienThoai _id;
     Number soLuong;
 

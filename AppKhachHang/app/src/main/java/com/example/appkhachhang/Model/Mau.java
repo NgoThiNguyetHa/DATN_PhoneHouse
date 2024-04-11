@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class Mau {
+import java.io.Serializable;
+
+public class Mau implements Serializable {
     String _id;
     String tenMau;
 

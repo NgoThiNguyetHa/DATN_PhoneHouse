@@ -16,10 +16,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".FeedbackScreen"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryBuy"
+            android:exported="false" />
+        <activity
             android:name=".InformationScreen"
             android:exported="false" />
-        <activity android:name=".AddressDelivery"
-            android:exported="false"/>
+        <activity
+            android:name=".AddressDelivery"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -34,7 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".RegisterScreen"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".HelloScreen"
             android:exported="true">

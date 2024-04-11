@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class UuDai {
+import java.io.Serializable;
+
+public class UuDai implements Serializable {
     String _id;
     String giamGia;
 

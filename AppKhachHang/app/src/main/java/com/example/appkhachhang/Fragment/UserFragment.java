@@ -22,13 +22,14 @@ import android.widget.TextView;
 
 import com.example.appkhachhang.AddressDelivery;
 import com.example.appkhachhang.ChangePassword;
+import com.example.appkhachhang.HistoryBuy;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.InformationScreen;
 
 public class UserFragment extends Fragment {
-    CardView btnChangePass, btnMap, btnInformation;
+    CardView btnChangePass, btnMap, btnInformation, btnHistoryBuy;
     TextView tvUsername, tvEmail;
     MySharedPreferences mySharedPreferences;
     Button btnDangXuat;
@@ -46,6 +47,7 @@ public class UserFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvUsername);
         btnDangXuat = view.findViewById(R.id.btnDangXuat);
         btnInformation = view.findViewById(R.id.btnInformation);
+        btnHistoryBuy = view.findViewById(R.id.btnHistoryBuy);
 
         mySharedPreferences = new MySharedPreferences(getContext());
         tvUsername.setText(mySharedPreferences.getUserName());
@@ -79,6 +81,15 @@ public class UserFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnHistoryBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), HistoryBuy.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private void handleLogout() {
