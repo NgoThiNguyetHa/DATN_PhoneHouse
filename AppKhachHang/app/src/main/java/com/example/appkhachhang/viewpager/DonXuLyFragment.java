@@ -72,7 +72,7 @@ public class DonXuLyFragment extends Fragment {
                     List<HoaDon> hoaDonList = response.body();
                     adapter = new HoaDonAdapter(getContext(),hoaDonList);
                     rc_donXuLy.setAdapter(adapter);
-                    Log.e("tag", hoaDonList.toString());
+//                    Log.e("tag", hoaDonList.toString());
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -81,7 +81,7 @@ public class DonXuLyFragment extends Fragment {
             @Override
             public void onFailure(Call<List<HoaDon>> call, Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("err",t.getMessage());
+//                Log.e("err",t.getMessage());
             }
         });
     }

@@ -91,7 +91,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onFailure(Call<List<ChiTietGioHang>> call, Throwable t) {
                 // Handle failure
-                Log.e("dungluong",t.getMessage());
+//                Log.e("dungluong",t.getMessage());
             }
         });
     }

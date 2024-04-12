@@ -93,7 +93,7 @@ public class RegisterScreen extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
-                        Log.d("zzz", matKhau);
+//                        Log.d("zzz", matKhau);
 
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
@@ -107,7 +107,7 @@ public class RegisterScreen extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             String errorMessage = task.getException().getMessage();
                             error = errorMessage;
-                            Log.d("zzz", error);
+//                            Log.d("zzz", error);
                         }
                     }
 
@@ -117,7 +117,7 @@ public class RegisterScreen extends AppCompatActivity {
         User_API.userApi.addUserDK(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d("sss", "onResponse: "+validate());
+//                Log.d("sss", "onResponse: "+validate());
 
                     if(checkBox.isChecked()) {
 
@@ -133,7 +133,7 @@ public class RegisterScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("error", "onFailure: "+ t.getMessage());
+//                Log.e("error", "onFailure: "+ t.getMessage());
             }
         });
     }
@@ -170,7 +170,7 @@ public class RegisterScreen extends AppCompatActivity {
 
          if (!error.isEmpty()) {
             edEmail.setError(error);
-             Log.d("zzzz1234", error);
+//             Log.d("zzzz1234", error);
             return false;
         }
         if(edMatkhau.getText().toString().length()<6){
@@ -187,7 +187,7 @@ public class RegisterScreen extends AppCompatActivity {
     private void handleErrorResponse(Response<User> response) {
         try {
             String errorBody = response.errorBody().string();
-            Log.e("ERROR_RESPONSE", errorBody);
+//            Log.e("ERROR_RESPONSE", errorBody);
             // Display error message to the user
             Toast.makeText(RegisterScreen.this, "Lỗi từ server: " + errorBody, Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

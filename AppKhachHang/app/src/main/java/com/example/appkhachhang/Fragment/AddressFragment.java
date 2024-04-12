@@ -125,7 +125,7 @@ public class AddressFragment extends Fragment {
             @Override
             public void onFailure(Call<List<AddressDelivery>> call, Throwable t) {
                 // Handle failure
-                Log.e("mau", t.getMessage());
+//                Log.e("mau", t.getMessage());
             }
         });
     }
