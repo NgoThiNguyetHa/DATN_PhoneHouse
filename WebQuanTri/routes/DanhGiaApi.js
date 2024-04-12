@@ -174,4 +174,35 @@ router.get('/getDanhGiaTheoDienThoai/:id', async (req,res) => {
   }
 })
 
+router.get('/getDanhGiaTheoCuaHang/:id', async (req,res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const danhGia = await DanhGia.find()
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang', match: { _id: idCuaHang },},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    const filteredDanhGia = danhGia.filter(item => item.idChiTietDienThoai.maDienThoai.maCuaHang !== null);
+
+    res.json(filteredDanhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
 module.exports = router;
