@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/UuDai')
+require('../models/DienThoai')
+const DienThoai = mongoose.model("dienthoai")
 
 const UuDai = mongoose.model("uudai")
 
@@ -96,6 +98,12 @@ router.put('/updateExpiredStatus', async (req, res) => {
     ])
     for (const voucher of expiredVouchers) {
       await UuDai.findByIdAndUpdate(voucher._id, { trangThai: 'Không hoạt động' }, {new: true});
+      const productsWithExpiredVoucher = await DienThoai.find({ maUuDai: voucher._id });
+
+      // Cập nhật lại trường uuDai cho các sản phẩm đó
+      for (const product of productsWithExpiredVoucher) {
+        await DienThoai.findByIdAndUpdate(product._id, { maUuDai: null }, { new: true });
+      }
     }
 
     res.status(200).json({ message: 'Cập nhật trạng thái voucher thành công' });
