@@ -15,7 +15,7 @@ router.post('/addDanhGia', async function(req, res, next) {
     idChiTietDienThoai: req.body.idChiTietDienThoai,
   })
   const saved = await danhGia.save()
-  console.log(saved);
+  // console.log(saved);
   const data = await DanhGia.findById(saved._id)
       .populate("idKhachHang")
       .populate({
@@ -35,7 +35,7 @@ router.post('/addDanhGia', async function(req, res, next) {
           {path: "maRam", model:"ram"}
         ]
       });
-      console.log(data);
+      // console.log(data);
   res.send(data)
 });
 

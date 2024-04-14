@@ -151,7 +151,7 @@ router.get('/getChiTietHoaDonTheoLichSuMuaHang/:maKhachHang', async (req, res) =
             {path: "maRam", model: "ram"}
           ]
         });
-        console.log("zzzz" , chiTietHoaDonList);
+        // console.log("zzzz" , chiTietHoaDonList);
     res.json(chiTietHoaDonList);
   } catch (error) {
     res.status(500).json({error: error.message});

@@ -107,7 +107,6 @@ public class ChiTietHoaDonFragment extends Fragment {
                     list.addAll(data);
                     for (ChiTietHoaDon item: list){
                         soLuong += Integer.parseInt(String.valueOf(item.getSoLuong()));
-                        Log.d("zzzzz", "action: "+ soLuong);
                     }
                     tvSoLuongSanPham.setText(""+soLuong);
                     adapter.notifyDataSetChanged();

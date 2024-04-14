@@ -17,7 +17,7 @@ router.post('/addMau', function(req, res, next) {
     const mau = new Mau({
     tenMau: req.body.tenMau,
   })
-  console.log("zzzz", req.body.tenMau)
+  // console.log("zzzz", req.body.tenMau)
   mau.save()
   .then(data => {
     // console.log(data)
