@@ -37,6 +37,7 @@ import com.example.appcuahang.api.ApiDungLuongService;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
 import com.example.appcuahang.model.DungLuong;
+import com.example.appcuahang.model.Mau;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -327,14 +328,13 @@ public class DungLuongFragament extends Fragment {
             edDungLuong.setError("Phải nhập là số!!");
             return false;
         }
-//
-//        if( edGiaTien.getText().toString().isEmpty()){
-//            edGiaTien.setError("Không được để trống!!");
-//            return false;
-//        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
-//            edGiaTien.setError("Phải nhập là số!!");
-//            return false;
-//        }
+        for (DungLuong item: list){
+            if (Integer.parseInt(String.valueOf(item.getBoNho())) == Integer.parseInt(edDungLuong.getText().toString().trim())){
+                edDungLuong.setError("Dung lượng đã tồn tại!!");
+                return false;
+            }
+        }
+
         return true;
     }
 }

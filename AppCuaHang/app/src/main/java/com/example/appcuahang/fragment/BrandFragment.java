@@ -48,6 +48,7 @@ import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -472,6 +473,12 @@ public class BrandFragment extends Fragment {
         if (edTenHang.getText().toString().isEmpty()) {
             edTenHang.setError("Yêu cầu không được để trống!!");
             return false;
+        }
+        for (Brand item: list){
+            if (item.getTenHang().toLowerCase().equals(edTenHang.getText().toString().trim().toLowerCase())){
+                edTenHang.setError("Hãng sản xuất đã tồn tại!!");
+                return false;
+            }
         }
         return true;
     }

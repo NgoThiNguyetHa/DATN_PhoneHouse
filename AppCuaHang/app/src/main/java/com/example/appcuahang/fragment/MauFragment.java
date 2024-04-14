@@ -72,9 +72,8 @@ public class MauFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mau, container, false);
         ((Activity) getContext()).setTitle("Màu");
         initView(view);
-        getData();
         initVariable();
-        fillDataRecyclerView();
+        getData();
 
         //Khoi tao
         listFilter = new ArrayList<>();
@@ -166,9 +165,6 @@ public class MauFragment extends Fragment {
     }
 
     private void getData() {
-        list = new ArrayList<>();
-        manager = new GridLayoutManager(getContext(), 2);
-        rc_mau.setLayoutManager(manager);
         ApiMauService apiMauService = ApiRetrofit.getApiMauService();
 
         Call<List<Mau>> call = apiMauService.getMau();
@@ -240,7 +236,7 @@ public class MauFragment extends Fragment {
 
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.postMau(new Mau(tenMau));
+                Call<Mau> call = apiMauService.postMau(new Mau("", tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -248,7 +244,6 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
                         }
                     }
 
@@ -267,13 +262,6 @@ public class MauFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void fillDataRecyclerView() {
-        list.clear();
-        list.addAll(listFilter);
-        adapter.notifyDataSetChanged();
     }
 
     private void updateData(Mau mau) { // thêm sửa mới
@@ -308,7 +296,7 @@ public class MauFragment extends Fragment {
 
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau));
+                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(mau.get_id(), tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -316,7 +304,6 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
                         }
                     }
 
@@ -343,6 +330,12 @@ public class MauFragment extends Fragment {
         if(edTenMau.getText().toString().isEmpty()){
             edTenMau.setError("Không được để trống!!");
             return false;
+        }
+        for (Mau mau: list){
+            if (mau.getTenMau().toLowerCase().equals(edTenMau.getText().toString().trim().toLowerCase())){
+                edTenMau.setError("Màu đã tồn tại!!");
+                return false;
+            }
         }
         return true;
     }

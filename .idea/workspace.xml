@@ -5,30 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/activity/ChiTietHoaDonActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/ChiTietHoaDonAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietHoaDonFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/interface_adapter/IItemHoaDonListenner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/ChiTietHoaDon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/drawable/icon_qr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/drawable/icon_time.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/activity_chi_tiet_hoa_don.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_hoa_don.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_chi_tiet_hoa_don.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/HoaDonAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/HoaDonAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/AddressDelivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/AddressDelivery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/HoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/HoaDon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonDaGiaoFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonDaGiaoFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonHuyFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonHuyFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonXuLyFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonXuLyFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_billoder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_billoder.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/MauFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/MauFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/PhoneFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/PhoneFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Mau.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Mau.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +112,7 @@
       <workItem from="1712745671523" duration="22837000" />
       <workItem from="1712812043074" duration="7430000" />
       <workItem from="1712927384936" duration="1198000" />
-      <workItem from="1713026899636" duration="19191000" />
+      <workItem from="1713026899636" duration="20485000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
