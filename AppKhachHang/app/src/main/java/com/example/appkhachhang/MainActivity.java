@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     bottomNavigationView = findViewById(R.id.bottomNavView);
     frameLayout = findViewById(R.id.frameLayout);
-//    toolbar = findViewById(R.id.main_toolBar);
-//    setSupportActionBar(toolbar);
+    toolbar = findViewById(R.id.main_toolBar);
+    setSupportActionBar(toolbar);
     bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {

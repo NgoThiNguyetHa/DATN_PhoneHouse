@@ -3,16 +3,16 @@ package com.example.appkhachhang.Model;
 import java.io.Serializable;
 
 public class GioHang implements Serializable {
-    private int _id;
+    private String _id;
     private String soLuong;
     private String tongTien;
-    private String maKhachHang;
+    private User maKhachHang;
 
-    public int get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
@@ -32,11 +32,11 @@ public class GioHang implements Serializable {
         this.tongTien = tongTien;
     }
 
-    public String getMaKhachHang() {
+    public User getMaKhachHang() {
         return maKhachHang;
     }
 
-    public void setMaKhachHang(String maKhachHang) {
+    public void setMaKhachHang(User maKhachHang) {
         this.maKhachHang = maKhachHang;
     }
 }

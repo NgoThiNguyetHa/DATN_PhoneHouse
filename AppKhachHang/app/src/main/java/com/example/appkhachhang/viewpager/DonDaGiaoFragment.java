@@ -50,16 +50,15 @@ public class DonDaGiaoFragment extends Fragment {
     }
     private void initView(View view){
         rc_donDaGiao = view.findViewById(R.id.rc_donDaGiao);
-
     }
 
     private void getData(){
         list = new ArrayList<>();
         manager = new LinearLayoutManager(getContext());
         rc_donDaGiao.setLayoutManager(manager);
-
         mySharedPreferences = new MySharedPreferences(getContext());
         getHoaDonByTrangThai(trangThai,mySharedPreferences.getUserId());
+        Log.d("userid", "getData: " + mySharedPreferences.getUserId());
     }
 
     public void getHoaDonByTrangThai(String trangThaiNhanHang, String maCuaHang) {
