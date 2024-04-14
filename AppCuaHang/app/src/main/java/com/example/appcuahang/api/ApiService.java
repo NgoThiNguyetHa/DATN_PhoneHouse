@@ -1,6 +1,7 @@
 package com.example.appcuahang.api;
 
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.ChiTietHoaDon;
 import com.example.appcuahang.model.DetailPhone;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.HoaDon;
@@ -177,4 +178,7 @@ public interface ApiService {
     //xoa binh luan
     @DELETE("danhgias/deleteDanhGia/{id}")
     Call<Rating> deleteDanhGia(@Path("id") String id);
+
+    @GET("chitiethoadons/getChiTietHoaDonTheoHoaDon/{id}")
+    Call<List<ChiTietHoaDon>> getChiTietHoaDon(@Path("id") String id);
 }

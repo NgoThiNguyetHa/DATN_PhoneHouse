@@ -4,16 +4,31 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="api filter feedback by Store">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/activity/ChiTietHoaDonActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/ChiTietHoaDonAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietHoaDonFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/interface_adapter/IItemHoaDonListenner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/ChiTietHoaDon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/drawable/icon_qr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/drawable/icon_time.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/activity_chi_tiet_hoa_don.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/fragment_chi_tiet_hoa_don.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_chi_tiet_hoa_don.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DienThoaiRoutersAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/HoaDonAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/adapter/HoaDonAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiRetrofit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/api/ApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/AddressDelivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/AddressDelivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/HoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/model/HoaDon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonDaGiaoFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonDaGiaoFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonHuyFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonHuyFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonXuLyFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/viewpager/DonXuLyFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_billoder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/item_billoder.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +130,7 @@
       <workItem from="1712745671523" duration="22837000" />
       <workItem from="1712812043074" duration="7430000" />
       <workItem from="1712927384936" duration="1198000" />
-      <workItem from="1713026899636" duration="15053000" />
+      <workItem from="1713026899636" duration="19191000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -317,7 +332,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712825879676</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
+      <option name="closed" value="true" />
+      <created>1713045990110</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1713045990110</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -356,6 +379,7 @@
     <MESSAGE value="thống kê" />
     <MESSAGE value="pull from dev" />
     <MESSAGE value="api filter feedback by Store" />
-    <option name="LAST_COMMIT_MESSAGE" value="api filter feedback by Store" />
+    <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
   </component>
 </project>
