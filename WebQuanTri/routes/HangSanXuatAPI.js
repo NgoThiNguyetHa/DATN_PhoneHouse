@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/HangSanXuat')
+require('dotenv').config;
+const {firebaseApp} = require('../middleware/firebaseConfig')
+const {getStorage, ref, uploadBytesResumable, getDownloadURL} = require('firebase/storage')
+const { v4: uuidv4 } = require('uuid');
+const {upload} = require("../middleware/multer");
 
 const HangSanXuat = mongoose.model("hangSanXuat")
- 
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
@@ -90,4 +93,67 @@ router.get('/searchHangSanXuat', async (req,res) => {
   }
 })
 
+async function uploadImage(file, quantity) {
+      const storageFB = getStorage(firebaseApp);
+      const randomString = uuidv4();
+      if (quantity === 'single') {
+        const dateTime = Date.now();
+        const fileName = `${dateTime}${randomString}`;
+        const storageRef = ref(storageFB, fileName);
+        const metadata = { contentType: file.type };
+        await uploadBytesResumable(storageRef, file.buffer, metadata);
+        const downloadURL = await getDownloadURL(ref(storageFB, fileName));
+        return downloadURL
+      }
+}
+router.post('/addHangSanXuatFirebase', upload, async (req, res, next) => {
+  try {
+    const file = {
+      type: req.file.mimetype,
+      buffer: req.file.buffer
+    }
+    const buildImage = await uploadImage(file,'single');
+
+    const hangSanXuat = new HangSanXuat({
+      tenHang: req.body.tenHang,
+      hinhAnh: buildImage,
+    });
+
+    const savedHangSanXuat = await hangSanXuat.save();
+    res.status(201).json(savedHangSanXuat);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.put("/updateHangSanXuatFirebase/:id", upload, async (req, res ) => {
+  try{
+    const id = req.params.id;
+    const { tenHang } = req.body;
+
+    let hinhAnhURL = '';
+    if (req.file) {
+      const file = {
+        type: req.file.mimetype,
+        buffer: req.file.buffer
+      }
+      hinhAnhURL = await uploadImage(file,'single');
+    }
+
+    const updatedHangSanXuat = {};
+    if (tenHang) updatedHangSanXuat.tenHang = tenHang;
+    if (hinhAnhURL) updatedHangSanXuat.hinhAnh = hinhAnhURL;
+
+    const data = await HangSanXuat.findByIdAndUpdate(id, updatedHangSanXuat, { new: true });
+
+    if (!data) {
+      return res.status(404).json({ message: "update failed" });
+    } else {
+      return res.status(200).json({ message: "update successful", data });
+    }
+  }catch(err){
+    return res.status(500).json({message: err.message})
+  }
+})
 module.exports = router;

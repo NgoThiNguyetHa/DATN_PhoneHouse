@@ -12,17 +12,17 @@
         android:id="@+id/mParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="vertical"
-        android:layout_margin="10dp"
         >
+
         <ImageView
             android:id="@+id/itemPhone_imgPhone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:scaleType="center"
-            android:src="@drawable/img_3"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:src="@drawable/img_3" />
         <TextView
             android:id="@+id/itemPhone_tvTenDienThoai"
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="Tên điện thoại"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
+            android:padding="10dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/itemPhone_imgPhone"/>
     </RelativeLayout>

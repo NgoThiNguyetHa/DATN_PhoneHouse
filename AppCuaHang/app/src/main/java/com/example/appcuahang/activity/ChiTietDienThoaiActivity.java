@@ -1,6 +1,5 @@
 package com.example.appcuahang.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -8,60 +7,22 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.adapter.BrandAdapter;
 import com.example.appcuahang.adapter.ChiTietAdapter;
-import com.example.appcuahang.api.ApiRetrofit;
-import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.fragment.ChiTietDienThoaiFragment;
-import com.example.appcuahang.interface_adapter.IItemBrandListenner;
-import com.example.appcuahang.interface_adapter.IItemDetailPhoneListenner;
-import com.example.appcuahang.interface_adapter.IItemMauListenner;
-import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.DetailPhone;
-import com.example.appcuahang.model.DungLuong;
-import com.example.appcuahang.model.Mau;
-import com.example.appcuahang.model.Phone;
-import com.example.appcuahang.model.Ram;
-import com.example.appcuahang.untils.MySharedPreferences;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChiTietDienThoaiActivity extends AppCompatActivity {
     TextView tvTenDienThoai;

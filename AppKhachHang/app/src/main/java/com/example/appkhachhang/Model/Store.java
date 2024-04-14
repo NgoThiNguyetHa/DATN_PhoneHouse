@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class Store {
+import java.io.Serializable;
+
+public class Store implements Serializable {
     private String _id;
     private String diaChi;
     private String username;

@@ -8,7 +8,7 @@
     tools:context=".activity.ManHinhDangNhap"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/log_in_ui__1_">
+    android:background="@drawable/bg_login">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         android:text="Đăng nhập"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
         android:text="Hãy kiểm tra email và mật khẩu để tiếp tục"
         android:textSize="16dp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -33,6 +33,9 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="15dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/textTenDangNhap"
+        app:helperText="Require*"
+        app:helperTextTextColor="#009688"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edTenDangNhap"
@@ -46,9 +49,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:passwordToggleEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="6"
+        android:id="@+id/textMatKhau"
+        app:helperText="Require*"
+        app:helperTextTextColor="#009688"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edMatKhau"
@@ -67,13 +75,15 @@
         android:gravity="right"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
         />
     <Button
         android:id="@+id/btnDangNhap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
-        android:layout_margin="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:textSize="18dp"
         />
 </LinearLayout>

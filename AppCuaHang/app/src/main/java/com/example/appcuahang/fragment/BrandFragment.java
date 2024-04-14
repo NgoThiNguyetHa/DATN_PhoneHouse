@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +50,7 @@ import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +65,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,10 +74,14 @@ import retrofit2.Response;
 public class BrandFragment extends Fragment {
     RecyclerView rc_brand;
     List<Brand> list;
-    List<Brand> listBackUp;
+    List<Brand> listFilter;
     BrandAdapter adapter;
     GridLayoutManager manager;
     MySharedPreferences mySharedPreferences;
+
+    TextView tv_entry;
+    TextInputEditText brand_edSearch;
+
 
 
     //upload image
@@ -100,11 +108,67 @@ public class BrandFragment extends Fragment {
         initView(view);
         initVariable();
         getData();
+
+        listFilter = new ArrayList<>();
+        brand_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getTenHang().toString().toLowerCase().contains(brand_edSearch.getText().toString().toLowerCase()) && brand_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new BrandAdapter(getContext(), new IItemBrandListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+
+                    }
+
+                    @Override
+                    public void editBrand(Brand idBrand) {
+                        updateData(idBrand);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+                if (brand_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_brand.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_brand.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_brand = view.findViewById(R.id.rc_brand);
+        brand_edSearch = view.findViewById(R.id.brand_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable(){
@@ -210,48 +274,50 @@ public class BrandFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                String tenHang = edTenHang.getText().toString().trim();
-                ApiService apiService = ApiRetrofit.getApiService();
                 //====
                 //upload ảnh lên firebase
-                if (imageUri != null){
-                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
+                if (Validate(edTenHang)){
+                    String tenHang = edTenHang.getText().toString().trim();
+                    ApiService apiService = ApiRetrofit.getApiService();
+                    if (imageUri != null){
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
 //                                    String key = reference.push().getKey();
 //                                    reference.child(key).setValue(uri.toString());
-                                    Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
-                                    call.enqueue(new Callback<Brand>() {
-                                        @Override
-                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                                progressDialog.dismiss();
+                                        Call<Brand> call = apiService.postHangSanXuat(new Brand(tenHang, uri.toString()));
+                                        call.enqueue(new Callback<Brand>() {
+                                            @Override
+                                            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Brand> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }else{
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Brand> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -307,48 +373,51 @@ public class BrandFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //====
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
                 //upload ảnh lên firebase
-                if (imageUri != null){
-                    String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String tenHang = edTenHang.getText().toString().trim();
-                                    ApiService apiService = ApiRetrofit.getApiService();
-                                    Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
-                                    call.enqueue(new Callback<Brand>() {
-                                        @Override
-                                        public void onResponse(Call<Brand> call, Response<Brand> response) {
-                                            if (response.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                                getData();
-                                                dialog.dismiss();
-                                                progressDialog.dismiss();
+                if (Validate(edTenHang)){
+                    if (imageUri != null){
+                        //====
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String tenHang = edTenHang.getText().toString().trim();
+                                        ApiService apiService = ApiRetrofit.getApiService();
+                                        Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , uri.toString()));
+                                        call.enqueue(new Callback<Brand>() {
+                                            @Override
+                                            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                                    getData();
+                                                    dialog.dismiss();
+                                                    progressDialog.dismiss();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<Brand> call, Throwable t) {
-                                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.e("loi update",t.getMessage());
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }else{
-                    Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(Call<Brand> call, Throwable t) {
+                                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.e("loi update",t.getMessage());
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
 
@@ -397,6 +466,14 @@ public class BrandFragment extends Fragment {
         ContentResolver contentResolver = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
+    }
+
+    private boolean Validate(EditText edTenHang) {
+        if (edTenHang.getText().toString().isEmpty()) {
+            edTenHang.setError("Yêu cầu không được để trống!!");
+            return false;
+        }
+        return true;
     }
 
 }

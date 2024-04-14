@@ -5,6 +5,10 @@ require('../models/DienThoai')
 require('../models/HangSanXuat')
 const axios = require('axios');
 const {authenticateToken, baseUrl} = require('../middleware/index');
+const {getStorage, ref, uploadBytesResumable, getDownloadURL} = require("firebase/storage");
+const {firebaseApp} = require("../middleware/firebaseConfig");
+const {v4: uuidv4} = require("uuid");
+const {upload} = require("../middleware/multer");
 
 
 const DienThoai = mongoose.model("dienthoai")
@@ -207,22 +211,22 @@ router.get('/searchPhones/:userId', async (req, res) => {
 
     if (tenDienThoai) {
       phones = phones.filter(phone =>
-          phone.tenDienThoai.toLowerCase() === tenDienThoai.toLowerCase()
+          phone.tenDienThoai.toLowerCase().includes(tenDienThoai.toLowerCase())
       );
     }
     if (tenHang) {
       phones = phones.filter(phone =>
-          phone.maHangSX.tenHang.toLowerCase() === tenHang.toLowerCase()
+          phone.maHangSX.tenHang.toLowerCase().includes(tenHang.toLowerCase())
       );
     }
 
     phones.forEach(phone => {
       if (phone.chiTiet && phone.chiTiet.length > 0) {
         phone.chiTiet = phone.chiTiet.filter(detail =>
-            (!tenMau || (detail.maMau && detail.maMau.tenMau.toLowerCase() === tenMau.toLowerCase())) &&
-            (!boNho || (detail.maDungLuong && detail.maDungLuong.boNho.toString() === boNho.toString())) &&
-            (!RAM || (detail.maRam && detail.maRam.RAM.toString() === RAM.toString())) &&
-            (!giaTien || (detail.giaTien && detail.giaTien.toString() === giaTien.toString()))
+            (!tenMau || (detail.maMau && detail.maMau.tenMau.toLowerCase().includes(tenMau.toLowerCase()))) &&
+            (!boNho || (detail.maDungLuong && detail.maDungLuong.boNho.toString().toLowerCase().includes(boNho.toString().toLowerCase()))) &&
+            (!RAM || (detail.maRam && detail.maRam.RAM.toString().toLowerCase().includes(RAM.toString().toLowerCase()))) &&
+            (!giaTien || (detail.giaTien && detail.giaTien.toString().toLowerCase().includes(giaTien.toString().toLowerCase())))
         );
       }
     });
@@ -235,4 +239,93 @@ router.get('/searchPhones/:userId', async (req, res) => {
   }
 });
 
+async function uploadImage(file, quantity) {
+  const storageFB = getStorage(firebaseApp);
+  const randomString = uuidv4();
+  if (quantity === 'single') {
+    const dateTime = Date.now();
+    const fileName = `${dateTime}${randomString}`;
+    const storageRef = ref(storageFB, fileName);
+    const metadata = { contentType: file.type };
+    await uploadBytesResumable(storageRef, file.buffer, metadata);
+    const downloadURL = await getDownloadURL(ref(storageFB, fileName));
+    return downloadURL
+  }
+}
+
+router.post('/addDienThoaiFirebase', upload, async (req, res, next) => {
+  try {
+    const file = {
+      type: req.file.mimetype,
+      buffer: req.file.buffer
+    }
+    const buildImage = await uploadImage(file,'single');
+
+    const dienThoai = new DienThoai({
+      tenDienThoai: req.body.tenDienThoai,
+      kichThuoc: req.body.kichThuoc,
+      congNgheManHinh: req.body.congNgheManHinh,
+      camera: req.body.camera,
+      cpu: req.body.cpu,
+      pin: req.body.pin,
+      heDieuHanh: req.body.heDieuHanh,
+      doPhanGiai: req.body.doPhanGiai,
+      namSanXuat: req.body.namSanXuat,
+      thoiGianBaoHanh: req.body.thoiGianBaoHanh,
+      moTaThem: req.body.moTaThem,
+      maHangSX: req.body.maHangSX,
+      maUuDai: req.body.maUuDai ? req.body.maUuDai : null,
+      maCuaHang: req.body.maCuaHang,
+      hinhAnh: buildImage,
+    });
+
+    const savedDienThoai = await dienThoai.save();
+    res.status(201).json(savedDienThoai);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.put("/updateDienThoaiFirebase/:id", upload, async (req, res ) => {
+  try{
+    const id = req.params.id;
+
+    let hinhAnhURL = '';
+    if (req.file) {
+      const file = {
+        type: req.file.mimetype,
+        buffer: req.file.buffer
+      }
+      hinhAnhURL = await uploadImage(file,'single');
+    }
+
+    const updatedDienThoai = {};
+    if (req.body.tenDienThoai) updatedDienThoai.tenDienThoai = req.body.tenDienThoai;
+    if (req.body.kichThuoc) updatedDienThoai.kichThuoc = req.body.kichThuoc;
+    if (req.body.congNgheManHinh) updatedDienThoai.congNgheManHinh = req.body.congNgheManHinh;
+    if (req.body.camera) updatedDienThoai.camera = req.body.camera;
+    if (req.body.cpu) updatedDienThoai.cpu = req.body.cpu;
+    if (req.body.pin) updatedDienThoai.pin = req.body.pin;
+    if (req.body.heDieuHanh) updatedDienThoai.heDieuHanh = req.body.heDieuHanh;
+    if (req.body.doPhanGiai) updatedDienThoai.doPhanGiai = req.body.doPhanGiai;
+    if (req.body.namSanXuat) updatedDienThoai.namSanXuat = req.body.namSanXuat;
+    if (req.body.thoiGianBaoHanh) updatedDienThoai.thoiGianBaoHanh = req.body.thoiGianBaoHanh;
+    if (req.body.moTaThem) updatedDienThoai.moTaThem = req.body.moTaThem;
+    if (req.body.maHangSX) updatedDienThoai.maHangSX = req.body.maHangSX;
+    if (req.body.maUuDai) updatedDienThoai.maUuDai = req.body.maUuDai;
+    if (req.body.maCuaHang) updatedDienThoai.maCuaHang = req.body.maCuaHang;
+    if (hinhAnhURL) updatedDienThoai.hinhAnh = hinhAnhURL;
+
+    const data = await DienThoai.findByIdAndUpdate(id, updatedDienThoai, { new: true });
+
+    if (!data) {
+      return res.status(404).json({ message: "update failed" });
+    } else {
+      return res.status(200).json({ message: "update successful", data });
+    }
+  }catch(err){
+    return res.status(500).json({message: err.message})
+  }
+})
 module.exports = router;

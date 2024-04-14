@@ -136,13 +136,13 @@
                                         <%= data[i].trangThaiNhanHang %>
                                     </td>
                                     <td>
-                                        <button
-                                                onclick="editDonHang(event, '<%= data[i]._id %>')"
-                                                class="btnEdit"
-                                        >
-                                            <span class="" id="editIcon"><i
-                                                        class="fa-solid fa-pen-to-square"></i></span>
-                                        </button>
+<!--                                        <button-->
+<!--                                                onclick=""-->
+<!--                                                class="btnEdit"-->
+<!--                                        >-->
+<!--                                            <span class="" id="editIcon"><i-->
+<!--                                                        class="fa-solid fa-pen-to-square"></i></span>-->
+<!--                                        </button>-->
                                         <button
                                                 onclick="detailDonHang(event, '<%= data[i]._id %>')"
                                                 class="btnEdit"
@@ -214,7 +214,7 @@
       }
       const data = await response.json();
 
-      let detailContent = ''; // Chuỗi để chứa nội dung chi tiết đơn hàng
+      let detailContent = '';
       detailContent+= `<p style="font-weight: bold">Đơn hàng ${data.hoaDon.trangThaiNhanHang.toLowerCase()}!</p>`
       detailContent += createDetailContent(data);
 
@@ -300,7 +300,6 @@
     return detailContent;
   }
 
-  // Sự kiện khi bấm vào icon sửa
   async function editDonHang(event, id) {
     try {
       const response = await fetch(`/hoadons/getHoaDon/${id}`, {
@@ -322,7 +321,7 @@
                                     </select>`
       editContent += createDetailContent(data);
 
-      // Gán nội dung vào modal
+
       document.getElementById('detailContent').innerHTML = editContent;
 
       let footerModal = "";
@@ -330,7 +329,7 @@
                 <button type="button" class="btn btn-dark" onclick="saveChanges('${id}')">Lưu Thay Đổi</button>`
       document.getElementById('modal-footer').innerHTML = footerModal;
 
-      // Hiển thị modal sửa
+
       const modal = new bootstrap.Modal(document.getElementById('detailModal'), {
         keyboard: false
       });

@@ -1,18 +1,20 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.ChiTietGioHang;
-import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+
 
 public interface ApiService {
 
@@ -46,4 +48,8 @@ public interface ApiService {
 
     @POST("/chitiethoadons/addChiTietHoaDon")
     Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons);
+
+    @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
+    Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
 }
+

@@ -1,5 +1,8 @@
 package com.example.appkhachhang.Model;
-public class AddressDelivery {
+
+import java.io.Serializable;
+
+public class AddressDelivery implements Serializable {
     private String _id;
     private String sdt;
     private String tenNguoiNhan;

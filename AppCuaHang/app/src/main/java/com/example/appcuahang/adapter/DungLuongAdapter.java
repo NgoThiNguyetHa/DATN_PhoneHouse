@@ -8,25 +8,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
 import com.example.appcuahang.interface_adapter.IItemDungLuongListenner;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
+import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.DungLuong;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DungLuongAdapter extends RecyclerView.Adapter<DungLuongAdapter.MyViewHolder>{
     Context mContext;
     List<DungLuong> list;
+
     private IItemDungLuongListenner listenner;
+
 
 
     public DungLuongAdapter(Context mContext, IItemDungLuongListenner listenner) {
         this.mContext = mContext;
         this.listenner = listenner;
+
     }
+
 
     public DungLuongAdapter(Context context, IItemUuDaiListenner iItemUuDaiListenner) {
     }

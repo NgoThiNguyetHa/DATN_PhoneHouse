@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     MySharedPreferences mySharedPreferences;
     Date currentDate = new Date();
-    private static final String date = "22-04-2024";
+    private static final String date = "18-09-2024";
     private static final String statusHuy = "Đã hủy";
     private static final String statusXuat = "Đã giao";
     public int tongDoanhThuXuat , tongDoanhThuHuy ;
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         SoLuongHoaDon(mySharedPreferences.getUserId() , dateString);
         SoLuongKhachHang(mySharedPreferences.getUserId(),dateString);
         SoLuongSanPham(mySharedPreferences.getUserId(),dateString);
-        TongDoanhThu(mySharedPreferences.getUserId(),dateString);
+        TongDoanhThu(mySharedPreferences.getUserId(),date);
     }
     private void SoLuongHoaDon(String idCuaHang , String ngayTao){
         ApiService apiService = ApiRetrofit.getApiService();

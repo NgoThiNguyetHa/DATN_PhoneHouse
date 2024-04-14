@@ -14,6 +14,7 @@ import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
+import com.example.appcuahang.model.ThongKeTheoTungThang;
 import com.example.appcuahang.model.Top10sanPham;
 import com.example.appcuahang.model.UuDai;
 
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -166,4 +168,13 @@ public interface ApiService {
     @PUT("dienthoais/updateMaUuDaiDienThoai/{id}")
     Call<Phone> putUuDaiDienThoai(@Path("id") String id,
                                  @Body UuDai maUuDai);
+
+    //thong ke theo từng tháng
+    @GET("/thongke/thongke1/{nam}/{maCuaHang}")
+    Call<List<ThongKeTheoTungThang>> getThongKeTheoNam(@Path("nam") int nam,
+                                                       @Path("maCuaHang") String maCuaHang);
+
+    //xoa binh luan
+    @DELETE("danhgias/deleteDanhGia/{id}")
+    Call<Rating> deleteDanhGia(@Path("id") String id);
 }

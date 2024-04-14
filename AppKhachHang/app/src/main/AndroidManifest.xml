@@ -24,10 +24,19 @@
             android:label="@string/title_activity_thanh_toan_screen"
             android:theme="@style/Theme.AppKhachHang" />
         <activity
+            android:name=".FeedbackScreen"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryBuy"
+            android:exported="false" />
+        <activity
             android:name=".InformationScreen"
             android:exported="false" />
         <activity android:name=".AddressDelivery"
             android:exported="false"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".DetailScreen"
             android:exported="false" />
@@ -41,7 +50,7 @@
             android:name=".RegisterScreen"
             android:exported="false"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".HelloScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
