@@ -112,7 +112,6 @@ public class UuDaiFragment extends Fragment {
                     @Override
                     public void editUuDai(UuDai idUuDai) {
                         //  updateData(idUuDai);
-                        Log.d("zzz", "uudai");
                     }
                     @Override
                     public void selectUuDai(String idUuDai) {
@@ -154,7 +153,6 @@ public class UuDaiFragment extends Fragment {
             @Override
             public void editUuDai(UuDai idUuDai) {
               //  updateData(idUuDai);
-                Log.d("zzz", "uudai");
 
             }
 

@@ -151,10 +151,32 @@
     formUpdateProfile.addEventListener('submit', async function (event) {
       event.preventDefault();
       const formData = new FormData(formUpdateProfile);
+      const username = formData.get('username');
+      const sdt = formData.get('sdt');
+      const diaChi = formData.get('diaChi');
+
+      // Kiểm tra username và số điện thoại
+      const sdtPattern = /^\d{10}$/; // Biểu thức chính quy cho số điện thoại (10 số)
+
+      if (!username) {
+        alert('Vui lòng nhập tên người dùng');
+        return;
+      }
+
+      if (!sdt) {
+        alert('Vui lòng nhập số điện thoại');
+        return;
+      }
+
+      if (!sdtPattern.test(sdt)) {
+        alert('Số điện thoại không đúng định dạng (phải có 10 số)');
+        return;
+      }
+
       const body = {
-        username: formData.get('username'),
-        sdt: formData.get('sdt'),
-        diaChi: formData.get('diaChi')
+        username,
+        sdt,
+        diaChi
       };
 
       try {

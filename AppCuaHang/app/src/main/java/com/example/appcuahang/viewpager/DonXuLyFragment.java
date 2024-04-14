@@ -1,5 +1,6 @@
 package com.example.appcuahang.viewpager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.appcuahang.R;
+import com.example.appcuahang.activity.ChiTietHoaDonActivity;
 import com.example.appcuahang.adapter.HoaDonAdapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
+import com.example.appcuahang.fragment.ChiTietHoaDonFragment;
+import com.example.appcuahang.interface_adapter.IItemHoaDonListenner;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.untils.MySharedPreferences;
 
@@ -71,7 +75,18 @@ public class DonXuLyFragment extends Fragment {
             public void onResponse(Call<List<HoaDon>> call, Response<List<HoaDon>> response) {
                 if (response.isSuccessful()) {
                     List<HoaDon> hoaDonList = response.body();
-                    adapter = new HoaDonAdapter(getContext(),hoaDonList);
+                    adapter = new HoaDonAdapter(getContext(), hoaDonList, new IItemHoaDonListenner() {
+                        @Override
+                        public void showDetailBill(HoaDon hoaDon) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("detailBill", hoaDon);
+                            ChiTietHoaDonFragment fragmentB = new ChiTietHoaDonFragment();
+                            fragmentB.setArguments(bundle);
+                            Intent intent = new Intent(getActivity(), ChiTietHoaDonActivity.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
                     rc_donXuLy.setAdapter(adapter);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();

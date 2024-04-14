@@ -2,15 +2,18 @@ package com.example.appcuahang.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
+import com.example.appcuahang.interface_adapter.IItemHoaDonListenner;
 import com.example.appcuahang.model.AddressDelivery;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.Client;
@@ -28,9 +31,12 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
     Context mContext;
     List<HoaDon> list;
 
-    public HoaDonAdapter(Context mContext, List<HoaDon> list) {
+    private IItemHoaDonListenner listenner;
+
+    public HoaDonAdapter(Context mContext, List<HoaDon> list, IItemHoaDonListenner listenner) {
         this.mContext = mContext;
         this.list = list;
+        this.listenner = listenner;
     }
 
     @NonNull
@@ -82,6 +88,15 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        holder.cardViewHoaDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listenner != null) {
+                    listenner.showDetailBill(hoaDon);
+                }
+            }
+        });
     }
 
     @Override
@@ -91,6 +106,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
 
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
     TextView tvKhachHang, tvDCNhanHang , tvTrangThai , tvPhuongThuc , tvNgayDat , tvTongTien , tvCardViewNgay;
+    CardView cardViewHoaDon;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvKhachHang = itemView.findViewById(R.id.bill_item_tvKhachHang);
@@ -100,6 +116,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
             tvNgayDat = itemView.findViewById(R.id.bill_item_tvNgayDat);
             tvTongTien = itemView.findViewById(R.id.bill_item_tvTongTien);
             tvCardViewNgay = itemView.findViewById(R.id.bill_item_tvCardViewNgay);
+            cardViewHoaDon = itemView.findViewById(R.id.cardViewHoaDon);
         }
     }
 }

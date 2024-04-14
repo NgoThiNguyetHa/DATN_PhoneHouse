@@ -260,6 +260,29 @@
         ramData = data;
       });
 
+  function validateInput() {
+    const tenDienThoai = document.getElementById('editTenDienThoai') ? document.getElementById('editTenDienThoai').value : document.getElementById('addTenDienThoai').value;
+    const hinhAnh = document.getElementById('editHinhAnh') ? document.getElementById('editHinhAnh').files[0] : document.getElementById('addHinhAnh').files[0];
+    const namSanXuat = document.getElementById('editNamSanXuat') ? document.getElementById('editNamSanXuat').value : document.getElementById('addNamSanXuat').value;
+
+    if (!tenDienThoai) {
+      alert('Vui lòng nhập tên điện thoại');
+      return false;
+    }
+
+    if (!hinhAnh) {
+      alert('Vui lòng chọn hình ảnh');
+      return false;
+    }
+
+    if (namSanXuat && isNaN(namSanXuat)) {
+      alert('Năm sản xuất phải là số');
+      return false;
+    }
+
+    return true;
+  }
+
   // thêm điện thoại
   function addDienThoaiModal() {
     try {
@@ -370,6 +393,9 @@
 
   async function saveDienThoai() {
     try {
+      if (!validateInput()) {
+        return;
+      }
       const fileInput = document.getElementById('addHinhAnh');
       const formData = new FormData();
       formData.append('tenDienThoai', document.getElementById('addTenDienThoai').value);
@@ -550,6 +576,9 @@
 
   async function updateDienThoai(idDienThoai) {
     try {
+      if (!validateInput()) {
+        return;
+      }
       const fileInput = document.getElementById('editHinhAnh');
       const formData = new FormData();
       formData.append('tenDienThoai', document.getElementById('editTenDienThoai').value);
@@ -623,7 +652,7 @@
     document.getElementById('detailContent').innerHTML = contentModal;
 
     let headerModal = "";
-    headerModal += `<h5 class="modal-title" id="detailModalLabel">${data.tenDienThoai}</h5>
+    headerModal += `<h5 class="modal-title" id="detailModalLabel">Thêm thông số điện thoại: ${data.tenDienThoai}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
     document.getElementById('modal-header').innerHTML = headerModal;
 
@@ -640,6 +669,9 @@
 
   async function saveChiTietDienThoai(idDienThoai) {
     try {
+      if (!validateChiTietInput()) {
+        return;
+      }
       const fileInput = document.getElementById('addHinhAnh');
       const formData = new FormData();
       formData.append('soLuong', document.getElementById('addSoLuong').value);
@@ -698,7 +730,7 @@
       document.getElementById('detailContent').innerHTML = contentModal;
 
       let headerModal = "";
-      headerModal += `<h5 class="modal-title" id="detailModalLabel">${tenDienThoai}</h5>
+      headerModal += `<h5 class="modal-title" id="detailModalLabel">Sửa thông số điện thoại: ${tenDienThoai}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
       document.getElementById('modal-header').innerHTML = headerModal;
 
@@ -764,6 +796,9 @@
 
   async function updateChiTietDienThoai(idCTDT){
     try {
+      if (!validateChiTietInput()) {
+        return;
+      }
       const fileInput = document.getElementById('editHinhAnh');
       const formData = new FormData();
       formData.append('maMau', document.getElementById('editMauSelect').value);
@@ -863,6 +898,39 @@
       keyboard: false
     });
     modal.show();
+  }
+
+  function validateChiTietInput() {
+    const giaTien = document.getElementById('editGiaTien') ? document.getElementById('editGiaTien').value : document.getElementById('addGiaTien').value;
+    const soLuong = document.getElementById('editSoLuong') ? document.getElementById('editSoLuong').value : document.getElementById('addSoLuong').value;
+    const hinhAnh = document.getElementById('editHinhAnh') ? document.getElementById('editHinhAnh').files[0] : document.getElementById('addHinhAnh').files[0];
+
+    if (!giaTien) {
+      alert('Vui lòng nhập giá tiền');
+      return false;
+    }
+
+    if (isNaN(giaTien)) {
+      alert('Giá tiền phải là số');
+      return false;
+    }
+
+    if (!soLuong) {
+      alert('Vui lòng nhập số lượng');
+      return false;
+    }
+
+    if (isNaN(soLuong)) {
+      alert('Số lượng phải là số');
+      return false;
+    }
+
+    if (!hinhAnh) {
+      alert('Vui lòng chọn hình ảnh');
+      return false;
+    }
+
+    return true;
   }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

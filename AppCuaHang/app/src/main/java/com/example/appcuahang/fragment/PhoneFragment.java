@@ -636,7 +636,7 @@ public class PhoneFragment extends Fragment {
                                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau), new DungLuong(idSpDungLuong), new Ram(idSpRam) ,uri.toString()));
+                                        Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau, ""), new DungLuong(idSpDungLuong), new Ram(idSpRam) ,uri.toString()));
                                         call.enqueue(new Callback<DetailPhone>() {
                                             @Override
                                             public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
