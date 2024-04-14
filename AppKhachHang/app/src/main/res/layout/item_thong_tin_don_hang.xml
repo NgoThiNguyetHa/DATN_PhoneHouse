@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/item_detailOrder_imgDienThoai"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_margin="7dp"
+            android:src="@drawable/img_3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/item_detailOrder_tvTenDienThoai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên điện thoại"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/item_detailOrder_tvMau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Màu"
+                    android:textColor="#818181"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_detailOrder_tvRamDungLuong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ram/dung lượng"
+                    android:textColor="#818181"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/item_detailOrder_tvSoLuong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="x0"
+                android:textColor="#818181"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:textAlignment="textEnd"
+                />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right|center"
+                android:paddingRight="5dp"
+                >
+                <TextView
+                    android:id="@+id/item_detailOrder_tvBaoHanh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bảo hành 6 tháng"
+                    android:textColor="#008BFA"
+                    android:textSize="11dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="left|center"
+
+                    />
+                <TextView
+                    android:id="@+id/item_detailOrder_tvGiaTienGiam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₫0\t"
+                    android:textColor="#000000"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="3dp"
+                    />
+                <TextView
+                    android:id="@+id/item_detailOrder_tvGiaTien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₫0"
+                    android:textColor="#FF0000"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

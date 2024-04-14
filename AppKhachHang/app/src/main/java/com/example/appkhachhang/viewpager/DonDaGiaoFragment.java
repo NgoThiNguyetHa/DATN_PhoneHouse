@@ -1,5 +1,6 @@
 package com.example.appkhachhang.viewpager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appkhachhang.Adapter.HoaDonAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
+import com.example.appkhachhang.Fragment.InfoOrderFragment;
+import com.example.appkhachhang.Interface_Adapter.IItemBillOrderListener;
 import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.ThongTinDonHangActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -57,6 +61,20 @@ public class DonDaGiaoFragment extends Fragment {
         manager = new LinearLayoutManager(getContext());
         rc_donDaGiao.setLayoutManager(manager);
         mySharedPreferences = new MySharedPreferences(getContext());
+        adapter= new HoaDonAdapter(getContext(), new IItemBillOrderListener() {
+            @Override
+            public void showDetail(HoaDon idHoaDon) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("infoOrder", idHoaDon);
+                InfoOrderFragment fragmentB = new InfoOrderFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), ThongTinDonHangActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        adapter.setData(list);
+        rc_donDaGiao.setAdapter(adapter);
         getHoaDonByTrangThai(trangThai,mySharedPreferences.getUserId());
         Log.d("userid", "getData: " + mySharedPreferences.getUserId());
     }
@@ -69,8 +87,9 @@ public class DonDaGiaoFragment extends Fragment {
             public void onResponse(Call<List<HoaDon>> call, Response<List<HoaDon>> response) {
                 if (response.isSuccessful()) {
                     List<HoaDon> hoaDonList = response.body();
-                    adapter = new HoaDonAdapter(getContext(),hoaDonList);
-                    rc_donDaGiao.setAdapter(adapter);
+                    list.clear();
+                    list.addAll(hoaDonList);
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -82,5 +101,10 @@ public class DonDaGiaoFragment extends Fragment {
                 Log.e("err",t.getMessage());
             }
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
     }
 }

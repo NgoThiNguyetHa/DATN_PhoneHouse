@@ -7,6 +7,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/bill_item_mLinearHoadon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -128,6 +129,7 @@
                             android:layout_height="match_parent"
                             android:text="Xử lý/ Đã giao / hủy"
                             android:textStyle="bold"
+                            android:textColor="#4E8D3A"
                             android:gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:textSize="11dp"
