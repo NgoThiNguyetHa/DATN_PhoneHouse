@@ -4,6 +4,8 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
+import com.example.appkhachhang.Model.ThongTinDonHang;
+import com.example.appkhachhang.Model.User;
 
 import java.util.List;
 
@@ -40,5 +42,13 @@ public interface ApiService {
 
     @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
     Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
+
+    //chi tiết hóa đơn
+    @GET("chitiethoadons/getChiTietHoaDonTheoHoaDon/{id}")
+    Call<List<ThongTinDonHang>> getThongTinDonHang(@Path("id") String id);
+
+    //update chi tiết
+    @PUT("hoadons/updateHoaDon/{id}")
+    Call<HoaDon> updateHoaDon(@Path("id") String id, @Body HoaDon hoaDon);
 }
 

@@ -5,18 +5,22 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.appkhachhang.Interface_Adapter.IItemBillOrderListener;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,12 +31,16 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
 
     Context mContext;
     List<HoaDon> list;
+    IItemBillOrderListener listener;
 
-    public HoaDonAdapter(Context mContext, List<HoaDon> list) {
+    public HoaDonAdapter(Context mContext, IItemBillOrderListener listener) {
         this.mContext = mContext;
-        this.list = list;
+        this.listener = listener;
     }
 
+    public void setData(List<HoaDon> list){
+        this.list = list;
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,18 +61,25 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
             holder.tvDCNhanHang.setText(""+diaChiNhanHang.getDiaChi());
         }
         if (hoaDon.getTrangThaiNhanHang().equals("Đang xử lý")){
-            holder.tvTrangThai.setTextColor(Color.GREEN);
+
         }else if (hoaDon.getTrangThaiNhanHang().equals("Đã giao")){
             holder.tvTrangThai.setTextColor(Color.BLUE);
-        }else{
+        }else if (hoaDon.getTrangThaiNhanHang().equals("Đã hủy")){
             holder.tvTrangThai.setTextColor(Color.RED);
         }
         holder.tvTrangThai.setText(""+hoaDon.getTrangThaiNhanHang());
 
         holder.tvPhuongThuc.setText("Thanh toán: "+hoaDon.getPhuongThucThanhToan());
         holder.tvNgayDat.setText("Ngày đặt: "+hoaDon.getNgayTao());
-        holder.tvTongTien.setText(""+hoaDon.getTongTien() +" đ");
-
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        String tongTien = hoaDon.getTongTien(); // Giả sử tổng tiền là một chuỗi số
+        try {
+            double tongTienNumber = Double.parseDouble(tongTien);
+            String formattedNumber = decimalFormat.format(tongTienNumber);
+            holder.tvTongTien.setText(""+formattedNumber +" đ");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat sdfInput = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         SimpleDateFormat sdfOutput = new SimpleDateFormat("dd\n'thg' MM", Locale.getDefault());
         try {
@@ -74,6 +89,12 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        holder.mLinearHoaDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.showDetail(hoaDon);
+            }
+        });
     }
 
     @Override
@@ -83,6 +104,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
 
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
     TextView tvKhachHang, tvDCNhanHang , tvTrangThai , tvPhuongThuc , tvNgayDat , tvTongTien , tvCardViewNgay;
+    LinearLayout mLinearHoaDon;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvKhachHang = itemView.findViewById(R.id.bill_item_tvKhachHang);
@@ -92,6 +114,7 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.MyViewHold
             tvNgayDat = itemView.findViewById(R.id.bill_item_tvNgayDat);
             tvTongTien = itemView.findViewById(R.id.bill_item_tvTongTien);
             tvCardViewNgay = itemView.findViewById(R.id.bill_item_tvCardViewNgay);
+            mLinearHoaDon = itemView.findViewById(R.id.bill_item_mLinearHoadon);
         }
     }
 }

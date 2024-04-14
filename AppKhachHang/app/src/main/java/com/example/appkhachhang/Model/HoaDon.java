@@ -12,6 +12,11 @@ public class HoaDon implements Serializable {
     private User maKhachHang;
     private Store maCuaHang;
 
+    public HoaDon(String _id, String trangThaiNhanHang) {
+        this._id = _id;
+        this.trangThaiNhanHang = trangThaiNhanHang;
+    }
+
     public String get_id() {
         return _id;
     }

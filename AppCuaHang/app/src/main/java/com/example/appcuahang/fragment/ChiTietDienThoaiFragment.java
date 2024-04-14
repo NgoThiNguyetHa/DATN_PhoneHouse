@@ -255,7 +255,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
         //get list danh gia
 
-        Call<List<Rating>> ratingListCall = apiService.getDanhGia();
+        Call<List<Rating>> ratingListCall = apiService.getDanhGiaTheoDienThoai(id);
         ratingListCall.enqueue(new Callback<List<Rating>>() {
             @Override
             public void onResponse(Call<List<Rating>> call, Response<List<Rating>> response) {
