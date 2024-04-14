@@ -112,7 +112,6 @@ public class AddressFragment extends Fragment {
             public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
                 if (response.isSuccessful()) {
                     List<AddressDelivery> data = response.body();
-
                     list.clear();
                     list.addAll(data);
                     adapter.notifyDataSetChanged();

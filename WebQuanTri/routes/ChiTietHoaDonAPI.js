@@ -15,20 +15,59 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/addChiTietHoaDon', function(req, res, next) {
-    const chiTietHoaDon = new ChiTietHoaDon({
-    soLuong: req.body.soLuong,
-    giaTien: req.body.giaTien,
-    maHoaDon: req.body.maHoaDon,
-    maChiTietDienThoai: req.body.maChiTietDienThoai,
-  })
-  chiTietHoaDon.save()
-  .then(data => {
-    // console.log(data)
-    res.send(data)
-  }).catch(err => {
-    console.log(err)
-  })
+router.post('/addChiTietHoaDon', async function(req, res, next) {
+  try {
+    const chiTietHoaDonList = req.body;
+    
+    if (!Array.isArray(chiTietHoaDonList)) {
+      return res.status(400).send({ message: 'Mảng chi tiết hóa đơn không hợp lệ' });
+    }
+
+    const savedChiTietHoaDonList = [];
+    for (const item of chiTietHoaDonList) {
+      const chiTietHoaDon = new ChiTietHoaDon({
+        soLuong: item.soLuong,
+        giaTien: item.giaTien,
+        maHoaDon: item.maHoaDon,
+        maChiTietDienThoai: item.maChiTietDienThoai,
+      });
+      await chiTietHoaDon.save();
+      savedChiTietHoaDonList.push(chiTietHoaDon);
+    }
+    
+    const populatedChiTietHoaDonList = await ChiTietHoaDon.populate(savedChiTietHoaDonList, [
+      {
+        path: "maHoaDon",
+        populate: [
+          { path: "maDiaChiNhanHang", model: "diaChiNhanHang", populate: { path: "maKhachHang", model: "khachhang" } },
+          { path: "maKhachHang", model: "khachhang" },
+          { path: "maCuaHang", model: "cuaHang" },
+        ],
+      },
+      {
+        path: "maChiTietDienThoai",
+        populate: [
+          {
+            path: "maDienThoai",
+            model: "dienthoai",
+            populate: [
+              { path: 'maCuaHang', model: 'cuaHang' },
+              { path: 'maUuDai', model: 'uudai', populate: 'maCuaHang' },
+              { path: 'maHangSX', model: 'hangSanXuat' }
+            ],
+          },
+          { path: "maMau", model: "mau" },
+          { path: "maDungLuong", model: "dungluong" },
+          { path: "maRam", model: "ram" },
+        ],
+      },
+    ]);
+
+    res.status(200).send(populatedChiTietHoaDonList);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Đã xảy ra lỗi khi thêm chi tiết hóa đơn' });
+  }
 });
 
 /* GET loaidichvu listing. */
