@@ -45,4 +45,11 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string-array name="spn_phuongthuc">
+        <item>Thanh toán khi nhận hàng</item>
+        <item>Ứng dụng thanh toán hỗ trợ VNPAY</item>
+        <item>Thẻ nội địa và tài khoản ngân hàng</item>
+        <item>Thẻ thanh toán quốc tế</item>
+        <item>Ví điện tử VNPAY</item>
+    </string-array>
 </resources>

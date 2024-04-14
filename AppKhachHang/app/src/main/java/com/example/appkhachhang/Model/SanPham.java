@@ -16,6 +16,7 @@ public class SanPham {
     String hinhAnh;
     HangSanXuat maHangSX;
     UuDai maUuDai;
+    Store maCuaHang;
 
     public SanPham() {
     }
@@ -138,5 +139,13 @@ public class SanPham {
 
     public void setMaUuDai(UuDai maUuDai) {
         this.maUuDai = maUuDai;
+    }
+
+    public Store getMaCuaHang() {
+        return maCuaHang;
+    }
+
+    public void setMaCuaHang(Store maCuaHang) {
+        this.maCuaHang = maCuaHang;
     }
 }

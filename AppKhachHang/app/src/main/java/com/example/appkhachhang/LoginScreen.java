@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,19 +80,17 @@ public class LoginScreen extends AppCompatActivity {
         }
         for (User user: list) {
             if (Email.equals(user.getEmail()) && Password.equals(user.getPassword())){
-                for (int i = 0; i < list.size(); i++) {
-                    if (Email.equals(list.get(i).getEmail())){
-                        Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                        SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
-                        editor.putString("idKhachHang", user.get_id());
-                        editor.apply();
-                        startActivity(intent);
-                    }
-                }
                 MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
                 sharedPreferences.saveUserData(user.get_id() , user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
                 Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                startActivity(intent);                break;
+                SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
+                editor.putString("idKhachHang", user.get_id());
+                Gson gson = new Gson();
+                String json = gson.toJson(user);
+                editor.putString("user", json);
+                editor.apply();
+                startActivity(intent);
+                break;
             } else if (Email.isEmpty()||Password.isEmpty()){
                 edEmail.setError("Email invalid");
                 edPassword.setError("Password invalid");

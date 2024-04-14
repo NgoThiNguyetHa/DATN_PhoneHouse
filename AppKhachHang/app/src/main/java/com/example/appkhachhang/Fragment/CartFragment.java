@@ -25,10 +25,18 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.GioHangAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
+import com.example.appkhachhang.Interface.OnClickListenerGioHang;
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.internal.$Gson$Types;
 
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,15 +44,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements OnClickListenerGioHang {
 
     RecyclerView rc_gioHang;
     TextView tvEmpty, tvTongTien;
     Button btnThanhToan;
 
-    List<ChiTietGioHang> list;
+    List<ChiTietGioHang> list, listChon;
     GioHangAdapter adapter;
     LinearLayoutManager linearLayoutManager;
+
+    User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,14 +80,20 @@ public class CartFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rc_gioHang.setLayoutManager(linearLayoutManager);
+        ((Activity)getContext()).setTitle("Giỏ hàng");
         list = new ArrayList<>();
         getDataGioHang();
-        adapter = new GioHangAdapter(getContext(),list);
+        listChon = new ArrayList<>();
+        adapter = new GioHangAdapter(getContext(),list, this);
         rc_gioHang.setAdapter(adapter);
+
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ThanhToanActivity.class);
+                Gson gson = new Gson();
+                String json = gson.toJson(listChon);
+                intent.putExtra("chiTietGioHangList", json);
                 startActivity(intent);
             }
         });
@@ -105,8 +121,29 @@ public class CartFragment extends Fragment {
             @Override
             public void onFailure(Call<List<ChiTietGioHang>> call, Throwable t) {
                 // Handle failure
-                Log.e("dungluong",t.getMessage());
+                Log.e("handle", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onItemClick(ChiTietGioHang chiTietGioHang, boolean isChecked) {
+        if (isChecked){
+            listChon.add(chiTietGioHang);
+
+        } else {
+            listChon.remove(chiTietGioHang);
+        }
+        int tongtien = 0;
+        for (int i = 0; i < listChon.size(); i++) {
+            tongtien += Integer.parseInt(listChon.get(i).getGiaTien().toString())*Integer.parseInt(listChon.get(i).getSoLuong().toString());
+        }
+        tvTongTien.setText(tongtien + "");
+//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("listChon", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(listChon);
+//        editor.putString("listChonJson", json);
+//        editor.apply();
     }
 }

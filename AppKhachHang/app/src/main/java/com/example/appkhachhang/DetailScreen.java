@@ -75,8 +75,8 @@ public class DetailScreen extends AppCompatActivity {
             public void onClick(View view) {
                 ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                 chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
-                chiTietGioHang.setSoLuong("1");
-                chiTietGioHang.setGiaTien(chiTietGioHang.getGiaTien());
+                chiTietGioHang.setSoLuong(1);
+                chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
                 ApiRetrofit.getApiService().addGioHang(chiTietGioHang, idKhachHang).enqueue(new Callback<ChiTietGioHang>() {
                     @Override
                     public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {

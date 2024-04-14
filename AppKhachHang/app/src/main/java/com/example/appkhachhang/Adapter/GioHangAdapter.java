@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
+import com.example.appkhachhang.Interface.OnClickListenerGioHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
@@ -27,6 +30,7 @@ import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,14 +39,18 @@ import retrofit2.Response;
 
 public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHolder> {
     private Context context;
-    private List<ChiTietGioHang> list;
-    private int soLuongGioHang = 1;
+    private List<ChiTietGioHang> list, listChon;
 
-    public GioHangAdapter(Context context, List<ChiTietGioHang> list) {
+    private OnClickListenerGioHang itemClickListener;
+
+    public GioHangAdapter(Context context, List<ChiTietGioHang> list, OnClickListenerGioHang listenerGioHang) {
         this.context = context;
         this.list = list;
+        this.itemClickListener = listenerGioHang;
         notifyDataSetChanged();
     }
+
+
 
     @NonNull
     @Override
@@ -56,9 +64,16 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
         ChiTietGioHang item = list.get(position);
         holder.tvTenSanPham.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
         holder.tvGiaTien.setText(item.getMaChiTietDienThoai().getGiaTien().toString());
-        holder.tvSoLuong.setText(item.getSoLuong());
+        holder.tvSoLuong.setText(item.getSoLuong().toString());
         String fullCoverImgUrl = item.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgGioHang);
+
+        holder.chkSP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                itemClickListener.onItemClick(item, b);
+            }
+        });
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,24 +105,27 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
                 builder.create().show();
             }
         });
-//        holder.tvSubtract.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (soLuongGioHang > 1){
-//                    soLuongGioHang--;
-//                    holder.tvSoLuong.setText(String.valueOf(soLuongGioHang));
-//                }
-//            }
-//        });
-//        holder.tvAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (soLuongGioHang < Integer.parseInt(item.getSoLuong().toString())){
-//                    soLuongGioHang++;
-//                    holder.tvSoLuong.setText(String.valueOf(soLuongGioHang));
-//                }
-//            }
-//        });
+
+
+        holder.tvSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(item.getSoLuong().toString()) > 1){
+                    item.setSoLuong(Integer.parseInt(item.getSoLuong().toString())-1);
+                    holder.tvSoLuong.setText(item.getSoLuong().toString());
+                }
+            }
+        });
+
+        holder.tvAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(item.getSoLuong().toString()) < Integer.parseInt(item.getMaChiTietDienThoai().getSoLuong().toString())){
+                    item.setSoLuong(Integer.parseInt(item.getSoLuong().toString())+1);
+                    holder.tvSoLuong.setText(item.getSoLuong().toString());
+                }
+            }
+        });
     }
 
     @Override

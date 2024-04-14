@@ -1,7 +1,9 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
+import com.example.appkhachhang.Model.HoaDon;
 
 import java.util.List;
 
@@ -38,4 +40,10 @@ public interface ApiService {
     //thống kê khách hàng theo ngày
     @GET("thongke/thongKeSoLuongKhachHang/{id}/{ngayTao}")
     Call<String> getSoLuongKhachHangTheoNgay(@Path("id") String id);
+
+    @POST("/hoadons/addHoaDon")
+    Call<HoaDon> addHoaDon(@Body HoaDon hoaDon);
+
+    @POST("/chitiethoadons/addChiTietHoaDon")
+    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons);
 }

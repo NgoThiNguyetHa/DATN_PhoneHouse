@@ -10,6 +10,13 @@ public class HoaDon {
     private User maKhachHang;
     private Store maCuaHang;
 
+    public HoaDon() {
+    }
+
+    public HoaDon(String _id) {
+        this._id = _id;
+    }
+
     public String get_id() {
         return _id;
     }

@@ -1,9 +1,11 @@
 package com.example.appkhachhang.Model;
 
-public class ChiTietGioHang {
+import java.io.Serializable;
+
+public class ChiTietGioHang implements Serializable {
     private String _id;
-    private String soLuong;
-    private String giaTien;
+    private Number soLuong;
+    private Number giaTien;
     private ChiTietDienThoai maChiTietDienThoai;
     private GioHang maGioHang;
 
@@ -15,22 +17,21 @@ public class ChiTietGioHang {
         this._id = _id;
     }
 
-    public String getSoLuong() {
+    public Number getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(String soLuong) {
+    public void setSoLuong(Number soLuong) {
         this.soLuong = soLuong;
     }
 
-    public String getGiaTien() {
+    public Number getGiaTien() {
         return giaTien;
     }
 
-    public void setGiaTien(String giaTien) {
+    public void setGiaTien(Number giaTien) {
         this.giaTien = giaTien;
     }
-
 
     public ChiTietDienThoai getMaChiTietDienThoai() {
         return maChiTietDienThoai;
@@ -46,5 +47,16 @@ public class ChiTietGioHang {
 
     public void setMaGioHang(GioHang maGioHang) {
         this.maGioHang = maGioHang;
+    }
+
+    @Override
+    public String toString() {
+        return "ChiTietGioHang{" +
+                "_id='" + _id + '\'' +
+                ", soLuong=" + soLuong +
+                ", giaTien=" + giaTien +
+                ", maChiTietDienThoai=" + maChiTietDienThoai +
+                ", maGioHang=" + maGioHang +
+                '}';
     }
 }
