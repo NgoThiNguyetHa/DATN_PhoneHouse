@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     Toolbar toolbar;
     AppCompatActivity activity;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

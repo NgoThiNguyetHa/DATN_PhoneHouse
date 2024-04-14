@@ -3,49 +3,60 @@ package com.example.appkhachhang.Model;
 import java.io.Serializable;
 
 public class ChiTietGioHang implements Serializable {
-    private int _id;
-    private String soLuong;
-    private String giaTien;
-    private SanPham maDienThoai;
-    private String maGioHang;
+    private String _id;
+    private Number soLuong;
+    private Number giaTien;
+    private ChiTietDienThoai maChiTietDienThoai;
+    private GioHang maGioHang;
 
-    public int get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
-    public String getSoLuong() {
+    public Number getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(String soLuong) {
+    public void setSoLuong(Number soLuong) {
         this.soLuong = soLuong;
     }
 
-    public String getGiaTien() {
+    public Number getGiaTien() {
         return giaTien;
     }
 
-    public void setGiaTien(String giaTien) {
+    public void setGiaTien(Number giaTien) {
         this.giaTien = giaTien;
     }
 
-    public SanPham getMaDienThoai() {
-        return maDienThoai;
+    public ChiTietDienThoai getMaChiTietDienThoai() {
+        return maChiTietDienThoai;
     }
 
-    public void setMaDienThoai(SanPham maDienThoai) {
-        this.maDienThoai = maDienThoai;
+    public void setMaChiTietDienThoai(ChiTietDienThoai maChiTietDienThoai) {
+        this.maChiTietDienThoai = maChiTietDienThoai;
     }
 
-    public String getMaGioHang() {
+    public GioHang getMaGioHang() {
         return maGioHang;
     }
 
-    public void setMaGioHang(String maGioHang) {
+    public void setMaGioHang(GioHang maGioHang) {
         this.maGioHang = maGioHang;
+    }
+
+    @Override
+    public String toString() {
+        return "ChiTietGioHang{" +
+                "_id='" + _id + '\'' +
+                ", soLuong=" + soLuong +
+                ", giaTien=" + giaTien +
+                ", maChiTietDienThoai=" + maChiTietDienThoai +
+                ", maGioHang=" + maGioHang +
+                '}';
     }
 }

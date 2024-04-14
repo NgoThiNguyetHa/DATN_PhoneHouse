@@ -20,7 +20,8 @@
         .borderColor {
             border: 1px solid #EEEEEE;
         }
-        .btnEdit{
+
+        .btnEdit {
             background: none;
             border: none;
         }
@@ -37,7 +38,7 @@
                 <button class="btn" type="button" data-bs-theme="dark">
                     <span><i class="fa-solid fa-bars" style="color: #000000;"></i></span>
                 </button>
-                <div class="btn"><span style="font-weight: bold; font-size: 20px">Quản lý cửa hàng liên kết</span></div>
+                <div class="btn"><span style="font-weight: bold; font-size: 20px">Quản lý đánh giá</span></div>
 
             </div>
             <div id="account">
@@ -57,48 +58,30 @@
                 <div class="tab-content d-flex row justify-content-center">
 
                     <div class="flex-row d-flex flex-row my-2">
-                        <form method="GET" action="/cuaHangLienKetW/searchCuaHang"
+                        <form method="GET" action="/quanLyDanhGiaW/searchDanhGia"
                               class="d-flex justify-content-between flex-fill">
-                            <div>
-                                <div class="d-flex flex-row">
-                                    <input type="text" name="username" class="m-1 form-control "
-                                           placeholder="Nhập tên người dùng"/>
-                                    <input type="text" name="sdt" class="m-1 form-control "
-                                           placeholder="Nhập số điện thoại"/>
-                                    <select  name="trangThai"
-                                             class="form-select"
-                                             aria-label="Default select example"
-                                             style="padding: 0.375rem 0.75rem; margin: 0.25rem; height: 37.6px">
-                                        <option value="">Trạng thái</option>
-                                        <option value="Hoạt động">Hoạt động</option>
-                                        <option value="Không hoạt động">Không hoạt động</option>
-                                    </select>
-                                </div>
-                                <div class="d-flex flex-row">
-                                    <input type="text" name="email" class="m-1 form-control "
-                                           placeholder="Nhập email"/>
-                                    <input type="text" name="diaChi" class="m-1 form-control "
-                                           placeholder="Nhập địa chỉ"/>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
-                                    <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
-                                    <span class="d-inline">Tìm Kiếm</span>
-                                </button>
-                            </div>
-                        </form>
 
-                        <form>
-                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="button" value="submit" id="addNewBtn">
-                                <span class=""><i class="fa-solid fa-plus"></i></span>
-                                <span class="d-inline">Thêm Mới</span>
+                            <input type="number" name="diemDanhGia" class="m-1 form-control "
+                                   placeholder="Nhập điểm đánh giá"/>
+                            <input type="text" name="sanPham" class="m-1 form-control "
+                                   placeholder="Nhập tên sản phẩm"/>
+                            <input type="date" name="ngayDanhGia" class="m-1 form-control "/>
+
+                            <input type="text" name="noiDung" class="m-1 form-control "
+                                   placeholder="Nhập nội dung"/>
+                            <input type="text" name="tenKhachHang" class="m-1 form-control "
+                                   placeholder="Nhập tên khách hàng"/>
+
+                            <button class="btn-dark m-1 btn d-flex flex-row col-auto" type="submit" value="submit">
+                                <span class=""><i class="fa-solid fa-magnifying-glass"></i></span>
+                                <span class="d-inline">Tìm Kiếm</span>
                             </button>
                         </form>
+
                     </div>
 
                     <div class="tab-content d-flex col align-content-center m-1">
-                        <span class="fw-bold">Tổng số cửa hàng: &nbsp; </span>
+                        <span class="fw-bold">Tổng số đánh giá: &nbsp; </span>
                         <span><%= data.length %></span>
                     </div>
                     <div class="tab-content d-flex row justify-content-center">
@@ -109,22 +92,21 @@
                                     style="background-color: #dcdada; text-align: center">STT
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Tên người
-                                    dùng
+                                    style="background-color: #dcdada; text-align: center">Tên khách hàng
+                                </th>
+                                <th scope="col" class="col-3 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Sản phẩm
+                                </th>
+                                <th scope="col" class="col-2 borderColor"
+                                    style="background-color: #dcdada; text-align: center">Nội dung
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">SĐT
+                                    style="background-color: #dcdada; text-align: center">Điểm
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Email
+                                    style="background-color: #dcdada; text-align: center">Ngày đánh giá
                                 </th>
-                                <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Địa chỉ
-                                </th>
-                                <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Trạng
-                                    thái
-                                </th>
+                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
 
                             </tr>
                             </thead>
@@ -132,14 +114,29 @@
                             <% for(var i = 0; i < data.length; i++){ %>
                                 <tr>
                                     <td scope="row"><%= i + 1 %></td>
-                                    <td><%= data[i].username %></td>
-                                    <td><%= data[i].sdt %></td>
-                                    <td><%= data[i].email %></td>
-                                    <td><%= data[i].diaChi %></td>
-                                    <td
-                                            style="color: <%= data[i].trangThai === 'Hoạt động' ? 'green' : 'red' %>"
-                                    >
-                                        <%= data[i].trangThai %>
+                                    <td><%= data[i].idKhachHang.username %></td>
+                                    <td><%= data[i].idChiTietDienThoai.maDienThoai.tenDienThoai %> <%= data[i].idChiTietDienThoai.maRam.RAM %>
+                                        GB/<%= data[i].idChiTietDienThoai.maDungLuong.boNho %>GB
+                                    </td>
+                                    <td style="max-width: 30px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= data[i].noiDung %></td>
+                                    <td><%= data[i].diemDanhGia %></td>
+                                    <td>
+                                        <%= data[i].ngayTao %>
+                                    </td>
+                                    <td>
+                                        <button
+                                                onclick="detailDanhGia(event, '<%= JSON.stringify(data[i]) %>')"
+                                                class="btnEdit"
+                                        >
+                                            <span class="" id="editIcon"><i
+                                                        class="fa-solid fa-clipboard-list"></i></span>
+                                        </button>
+                                        <button
+                                                onclick="deleteDanhGia(event, '<%= data[i]._id %>')"
+                                                class="btnEdit"
+                                        >
+                                            <span class="" id="editIcon"><i class="fa-regular fa-trash-can"></i></span>
+                                        </button>
                                     </td>
 
                                 </tr>
@@ -155,42 +152,22 @@
     </div>
 </div>
 
-<!-- Modal thêm-->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addNewModalLabel">Thêm Mới Ưu Đãi</h5>
+                <h5 class="modal-title" id="addNewModalLabel">Chi Tiết Đánh Giá</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addNewForm">
-                    <div class="mb-3">
-                        <label for="inputDiscount" class="form-label">Họ tên:</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Nhập họ tên">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputExpiration" class="form-label">Email:</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputDiscount" class="form-label">Số điện thoại:</label>
-                        <input type="text" class="form-control" id="sdt" name="sdt" placeholder="Nhập số điện thoại">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputExpiration" class="form-label">Password:</label>
-                        <input type="text" class="form-control" id="password" name="password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputDiscount" class="form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control" id="diaChi" name="diaChi" placeholder="Nhập địa chỉ">
-                    </div>
+                <div id="detailContent">
 
-                </form>
+                    <!-- Nội dung chi tiết đơn hàng sẽ được thay đổi thông qua JavaScript -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-dark" onclick="formThemMoi()">Thêm Mới</button>
             </div>
         </div>
     </div>
@@ -206,41 +183,96 @@
     window.location.reload();
   }
 
-  function formThemMoi() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const sdt = document.getElementById('sdt').value;
-    const diaChi = document.getElementById('diaChi').value;
-    const email = document.getElementById('email').value;
-    const trangThai = "Hoạt động";
-    const phanQuyen = "store";
+  function detailDanhGia(event, data) {
+    const danhGia = JSON.parse(data);
+    const diemDanhGia = parseInt(danhGia.diemDanhGia);
+    let stars = '';
 
-    fetch('/cuahangs/addCuaHang', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({username, diaChi, password, email, sdt, phanQuyen, trangThai}),
-    })
-        .then(response => response.json())
-        .then(data => {
-          reloadPage();
-          const modal = document.getElementById('addNewModal');
-          const bootstrapModal = bootstrap.Modal.getInstance(modal);
-          bootstrapModal.hide();
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-  }
+    // Thêm số sao tương ứng với điểm đánh giá
+    for (let i = 0; i < diemDanhGia; i++) {
+      stars += '<i class="fas fa-star" style="color: #ffa100;"></i>';
+    }
 
-  //click button add
-  document.getElementById('addNewBtn').addEventListener('click', function () {
-    var myModal = new bootstrap.Modal(document.getElementById('addNewModal'), {
+    // Thêm số sao trắng
+    for (let i = diemDanhGia; i < 5; i++) {
+      stars += '<i class="far fa-star" style="color: #ffa100"></i>';
+    }
+
+    let detailContent = '';
+    detailContent += `
+        <div class="d-flex flex-row col-auto gap-4 mb-3">
+            <div>
+              <i class="fa-solid fa-circle-user" style="font-size: 40px; color: #d2cece"></i>
+            </div>
+            <div class="d-flex justify-content-between" style="flex: auto">
+              <div>
+                <strong>${danhGia.idKhachHang.username}</strong> <br>
+                <span style="font-size: 15px; color: #888888">
+                    Phân loại: ${danhGia.idChiTietDienThoai.maDienThoai.tenDienThoai}
+                    ${danhGia.idChiTietDienThoai.maRam.RAM}GB/${danhGia.idChiTietDienThoai.maDungLuong.boNho}GB,
+                    ${danhGia.idChiTietDienThoai.maMau.tenMau}
+                </span>
+              </div>
+              <div>
+                ${stars}
+              </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row col-auto gap-3">
+            <div class="col-2">
+              <img src="${danhGia.hinhAnh}" class="img-fluid" alt="Product Image">
+            </div>
+            <div class="col-10">
+              <span>
+                <span>${danhGia.noiDung}</span> <br>
+                <span style="font-size: 15px; color: #888888">
+                    ${danhGia.ngayTao}
+                </span>
+              </span>
+            </div>
+        </div>
+    `
+
+    document.getElementById('detailContent').innerHTML = detailContent;
+    // Hiển thị modal detail
+    const modal = new bootstrap.Modal(document.getElementById('detailModal'), {
       keyboard: false
     });
-    myModal.show();
-  });
+    modal.show();
+  }
+
+  function deleteDanhGia(event, id) {
+    const isConfirmed = confirm("Bạn có chắc chắn muốn xóa đánh giá này?");
+
+    if (isConfirmed) {
+      fetch(`/danhgias/deleteDanhGia/${id}`, { method: 'DELETE' })
+          .then(response => {
+              if (response.ok) {
+                localStorage.setItem('deleteSuccess', true);
+                window.location.reload();
+              } else {
+                localStorage.setItem('deleteSuccess', false);
+                  throw new Error('Xóa đánh giá không thành công');
+              }
+          })
+          .catch(error => {
+              console.error('Lỗi:', error);
+          });
+
+
+    }
+  }
+
+  function showDeleteSuccessMessage() {
+    const deleteSuccess = localStorage.getItem('deleteSuccess');
+
+    if (deleteSuccess) {
+      alert("Đánh giá đã được xóa!");
+      localStorage.removeItem('deleteSuccess');
+    }
+  }
+
+  window.addEventListener('load', showDeleteSuccessMessage);
 
 </script>
 
