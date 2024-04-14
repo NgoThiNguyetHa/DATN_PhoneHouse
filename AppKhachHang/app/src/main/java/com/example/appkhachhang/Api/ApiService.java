@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Api;
 
 import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
 
