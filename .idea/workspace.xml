@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietHoaDonFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietHoaDonFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/MauRoutersAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/cuaHangLienKet.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/cuaHangLienKet.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/doiMatKhau.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/doiMatKhau.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" afterDir="false" />
-    </list>
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="validate web" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,7 +105,7 @@
       <workItem from="1712745671523" duration="22837000" />
       <workItem from="1712812043074" duration="7430000" />
       <workItem from="1712927384936" duration="1198000" />
-      <workItem from="1713026899636" duration="27221000" />
+      <workItem from="1713026899636" duration="27718000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -326,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713045990110</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="validate web">
+      <option name="closed" value="true" />
+      <created>1713082913145</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1713082913146</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,6 +363,7 @@
     <MESSAGE value="pull from dev" />
     <MESSAGE value="api filter feedback by Store" />
     <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
+    <MESSAGE value="validate web" />
+    <option name="LAST_COMMIT_MESSAGE" value="validate web" />
   </component>
 </project>
