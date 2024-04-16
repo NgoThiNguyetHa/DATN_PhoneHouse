@@ -86,7 +86,7 @@ router.post('/dangNhapKhachHang', async (req, res) => {
     return res.status(200).json({successMessage: 'Đăng nhập thành công.', khachHang});
   } catch (error) {
     console.error(error);
-    res.status(500).json({errorMessage: 'Lỗi server.'});
+    res.status(500).json({errorMessage: 'Lỗi server.'});  
   }
 });
 
