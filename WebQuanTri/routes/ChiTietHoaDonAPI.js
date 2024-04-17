@@ -2,12 +2,17 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/HoaDon')
+require('../models/ChiTietGioHang')
+require("../models/ChiTietDienThoai");
+require('../models/GioHang')
 
 const HoaDon = mongoose.model("hoaDon")
 require('../models/ChiTietHoaDon')
 
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon")
- 
+const ChiTietGioHang = mongoose.model("chiTietGioHang")
+const ChiTietDienThoai = mongoose.model("chitietdienthoai");
+const GioHang = mongoose.model("gioHang")
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -15,9 +20,10 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/addChiTietHoaDon', async function(req, res, next) {
+router.post('/addChiTietHoaDon/:id', async function(req, res, next) {
   try {
     const chiTietHoaDonList = req.body;
+    const gioHang = await GioHang.find({maKhachHang: req.params.id})
     
     if (!Array.isArray(chiTietHoaDonList)) {
       return res.status(400).send({ message: 'Mảng chi tiết hóa đơn không hợp lệ' });
@@ -31,6 +37,15 @@ router.post('/addChiTietHoaDon', async function(req, res, next) {
         maHoaDon: item.maHoaDon,
         maChiTietDienThoai: item.maChiTietDienThoai,
       });
+      await ChiTietGioHang.deleteMany({
+        maChiTietDienThoai: item.maChiTietDienThoai,
+        maGioHang: gioHang[0]._id
+      });
+      await ChiTietDienThoai.findByIdAndUpdate(
+          item.maChiTietDienThoai,
+          { $inc: { soLuong: -item.soLuong } },
+          { new: true }
+      )
       await chiTietHoaDon.save();
       savedChiTietHoaDonList.push(chiTietHoaDon);
     }
