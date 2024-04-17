@@ -66,7 +66,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     DiaChiNhanHangAdapter adapterDiaChi;
     String idDiaChi, selectedItem;
     List<ChiTietHoaDon> chiTietHoaDons;
-
+    MySharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,7 +244,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
     void addChiTietHoaDon() {
         // Gọi API để thêm chi tiết hóa đơn
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons).enqueue(new Callback<List<ChiTietHoaDon>>() {
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
+        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
             public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
                 if (response.body()!=null){
