@@ -49,8 +49,8 @@ public interface ApiService {
     @POST("/hoadons/addHoaDon")
     Call<HoaDon> addHoaDon(@Body HoaDon hoaDon);
 
-    @POST("/chitiethoadons/addChiTietHoaDon")
-    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons);
+    @POST("/chitiethoadons/addChiTietHoaDon/{id}")
+    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
 
     @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
     Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
