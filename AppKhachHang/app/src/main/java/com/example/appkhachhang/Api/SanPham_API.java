@@ -19,7 +19,7 @@ public interface SanPham_API {
 
 
     SanPham_API sanPhamApi = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.18:8686/dienthoais/")
+            .baseUrl("https://datn-phonehouse.onrender.com/dienthoais/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(SanPham_API.class);
 

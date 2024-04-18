@@ -21,24 +21,58 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
 
   try {
     // Tìm giỏ hàng của khách hàng dựa vào idKhachHang
-    const gioHang = await GioHang.findOne({
-      maKhachHang: idKhachHang,
-    });
+    const gioHang = await GioHang.findOne({ maKhachHang: idKhachHang });
 
     if (!gioHang) {
       return res.status(404).send({ message: 'Giỏ hàng không tồn tại' });
     }
 
-    // Tạo mới chi tiết giỏ hàng
-    const chiTietGioHang = new ChiTietGioHang({
-      soLuong: req.body.soLuong,
-      giaTien: req.body.giaTien,
+    const existingChiTiet = await ChiTietGioHang.findOne({
       maChiTietDienThoai: req.body.maChiTietDienThoai,
-      maGioHang: gioHang._id, // Sử dụng _id của giỏ hàng
+      maGioHang: gioHang._id,
     });
 
+    if (existingChiTiet) {
+      // Nếu đã tồn tại, chỉ cập nhật số lượng
+      existingChiTiet.soLuong += req.body.soLuong;
+      await existingChiTiet.save();
+      const populatedChiTiet = await ChiTietGioHang.findById(existingChiTiet._id)
+          .populate([
+            {
+              path: "maChiTietDienThoai",
+              populate: [
+                {
+                  path: "maDienThoai",
+                  model: "dienthoai",
+                  populate: [
+                    { path: 'maCuaHang', model: 'cuaHang' },
+                    { path: 'maUuDai', model: 'uudai', populate: { path: 'maCuaHang', model: 'cuaHang' } },
+                    { path: 'maHangSX', model: 'hangSanXuat' }
+                  ]
+                },
+                { path: "maMau", model: "mau" },
+                { path: "maDungLuong", model: "dungluong" },
+                { path: "maRam", model: "ram" }
+              ]
+            },
+            {
+              path: "maGioHang",
+              populate: { path: "maKhachHang", model: "khachhang" }
+            }
+          ]);
+
+      return res.send(populatedChiTiet);
+    } else {
+      // Nếu chưa tồn tại, tạo mới chi tiết giỏ hàng
+      const chiTietGioHang = new ChiTietGioHang({
+        soLuong: req.body.soLuong,
+        giaTien: req.body.giaTien,
+        maChiTietDienThoai: req.body.maChiTietDienThoai,
+        maGioHang: gioHang._id,
+      });
+
     // Lưu chi tiết giỏ hàng
-    
+
     const savedChiTietGioHang = await chiTietGioHang.save();
     const populateChiTietGioHang = await ChiTietGioHang
       .findById(savedChiTietGioHang._id)

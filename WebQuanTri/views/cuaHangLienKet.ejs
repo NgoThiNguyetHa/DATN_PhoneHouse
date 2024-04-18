@@ -160,30 +160,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addNewModalLabel">Thêm Mới Ưu Đãi</h5>
+                <h5 class="modal-title" id="addNewModalLabel">Thêm Mới Cửa Hàng Liên Kết</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="addNewForm">
                     <div class="mb-3">
                         <label for="inputDiscount" class="form-label">Họ tên:</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Nhập họ tên">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Nhập họ tên" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputExpiration" class="form-label">Email:</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputDiscount" class="form-label">Số điện thoại:</label>
-                        <input type="text" class="form-control" id="sdt" name="sdt" placeholder="Nhập số điện thoại">
+                        <input type="tel" class="form-control" id="sdt" name="sdt" placeholder="Nhập số điện thoại" minlength="10" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputExpiration" class="form-label">Password:</label>
-                        <input type="text" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập password" minlength="6" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputDiscount" class="form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control" id="diaChi" name="diaChi" placeholder="Nhập địa chỉ">
+                        <input type="text" class="form-control" id="diaChi" name="diaChi" placeholder="Nhập địa chỉ" required>
                     </div>
 
                 </form>
@@ -214,6 +214,31 @@
     const email = document.getElementById('email').value;
     const trangThai = "Hoạt động";
     const phanQuyen = "store";
+
+    // Biểu thức chính quy để kiểm tra email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Biểu thức chính quy để kiểm tra số điện thoại (10 số)
+    const sdtPattern = /^\d{10}$/;
+
+    if (username === '' || password === '' || sdt === '' || diaChi === '' || email === '') {
+      alert('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Mật khẩu phải có ít nhất 6 ký tự');
+      return;
+    }
+
+    if (!emailPattern.test(email)) {
+      alert('Email không đúng định dạng');
+      return;
+    }
+
+    if (!sdtPattern.test(sdt)) {
+      alert('Số điện thoại không đúng định dạng (phải có 10 số)');
+      return;
+    }
 
     fetch('/cuahangs/addCuaHang', {
       method: 'POST',

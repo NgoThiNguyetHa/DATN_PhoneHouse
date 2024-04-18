@@ -17,7 +17,7 @@ public interface HangSanXuat_API {
 
 
     HangSanXuat_API hangSXApi = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.18:8686/hangsanxuats/")
+            .baseUrl("https://datn-phonehouse.onrender.com/hangsanxuats/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(HangSanXuat_API.class);
 
