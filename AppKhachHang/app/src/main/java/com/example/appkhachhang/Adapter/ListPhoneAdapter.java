@@ -174,6 +174,25 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         });
 
         //gia tien
+//        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
+//            holder.tvGiaTienGoc.setText("");
+//            holder.tvGiaTienGoc.setVisibility(View.GONE);
+//        }else {
+//            holder.tvGiaTienGoc.setText("" + item.getChiTietDienThoai().getGiaTien());
+//        }
+//        //
+//        DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
+//        String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
+//        try {
+//            double tongTienNumber = Double.parseDouble(tongTien);
+//            String formattedNumber = decimalFormat.format(tongTienNumber);
+//            holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+//            holder.tvGiaTienGoc.setText(formattedNumber+"₫");
+//        } catch (NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+
+        //        //gia tien
         if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
             holder.tvGiaTienGoc.setText("");
             holder.tvGiaTienGoc.setVisibility(View.GONE);
@@ -212,6 +231,12 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         }else {
             Picasso.get().load(item.getChiTietDienThoai().getHinhAnh()).into(holder.imgPhone);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, ""+item.getChiTietDienThoai().getGiaTien(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
