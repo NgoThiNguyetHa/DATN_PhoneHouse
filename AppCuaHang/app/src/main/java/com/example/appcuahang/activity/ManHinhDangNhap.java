@@ -98,9 +98,6 @@ public class ManHinhDangNhap extends AppCompatActivity {
                 }else if (binding.edMatKhau.getText().toString().isEmpty()){
                     binding.textMatKhau.setError("Yêu cầu không được để trống!!");
                     return;
-                }else if (binding.edMatKhau.getText().length() > 6){
-                    binding.textMatKhau.setError("Tối đa 6 kí tự!!");
-                    return;
                 }
                 if (checkValidate()){
                     String email = binding.edTenDangNhap.getText().toString().trim();
