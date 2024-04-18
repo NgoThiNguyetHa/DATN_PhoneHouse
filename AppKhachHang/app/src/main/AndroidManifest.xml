@@ -36,6 +36,9 @@
             android:name=".HistoryBuy"
             android:exported="false" />
         <activity
+            android:name=".ViewFeedbackScreen"
+            android:exported="false" />
+        <activity
             android:name=".InformationScreen"
             android:exported="false" />
         <activity
