@@ -53,7 +53,7 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         SanPhamHot sanPhamHot = list.get(position);
         String fullCoverImgUrl = sanPhamHot.get_id().getMaDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
-        holder.tvGiaSanPham.setText(sanPhamHot.get_id().getGiaTien().toString()+"đ");
+        holder.tvGiaSanPham.setText(""+sanPhamHot.get_id().getGiaTien()+"đ");
         holder.tvTenSanPham.setText(sanPhamHot.get_id().getMaDienThoai().getTenDienThoai());
 
 

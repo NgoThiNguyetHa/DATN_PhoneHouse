@@ -34,7 +34,7 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        txtForgotPassword = findViewById(R.id.txtForgotPassword);
+//        txtForgotPassword = findViewById(R.id.txtForgotPassword);
         txtNonAccount = findViewById(R.id.txtDangky);
 
         txtNonAccount.setOnClickListener(new View.OnClickListener() {
@@ -44,16 +44,16 @@ public class LoginScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        txtForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginScreen.this);
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.dialog_forgotpassword, null);
-                builder.setView(view);
-                builder.create().show();
-            }
-        });
+//        txtForgotPassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(LoginScreen.this);
+//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                view = inflater.inflate(R.layout.dialog_forgotpassword, null);
+//                builder.setView(view);
+//                builder.create().show();
+//            }
+//        });
         edEmail = findViewById(R.id.edEmail);
         edPassword = findViewById(R.id.edPassword);
         list = new ArrayList<>();
@@ -64,11 +64,11 @@ public class LoginScreen extends AppCompatActivity {
                 clickLogin();
             }
         });
-        findViewById(R.id.btnLoginGoogle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+//        findViewById(R.id.btnLoginGoogle).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            }
+//        });
     }
 
 

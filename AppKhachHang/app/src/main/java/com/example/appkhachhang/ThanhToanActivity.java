@@ -66,7 +66,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     DiaChiNhanHangAdapter adapterDiaChi;
     String idDiaChi, selectedItem;
     List<ChiTietHoaDon> chiTietHoaDons;
-
+    MySharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,7 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         int tongTien = 0;
         for (int i = 0; i < chiTietGioHangList.size(); i++) {
-            tongTien += Integer.parseInt(chiTietGioHangList.get(i).getGiaTien().toString())*Integer.parseInt(chiTietGioHangList.get(i).getSoLuong().toString());
+            tongTien += chiTietGioHangList.get(i).getGiaTien()*chiTietGioHangList.get(i).getSoLuong();
         }
 
         int phiVanChuyen = 0;
@@ -198,7 +198,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                                     ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
                                     chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
                                     chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                    chiTietHoaDon.setSoLuong(item.getSoLuong().toString());
+                                    chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
                                     chiTietHoaDons.add(chiTietHoaDon);
                                     addChiTietHoaDon();
                                 } else {
@@ -244,7 +244,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
     void addChiTietHoaDon() {
         // Gọi API để thêm chi tiết hóa đơn
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons).enqueue(new Callback<List<ChiTietHoaDon>>() {
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
+        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
             public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
                 if (response.body()!=null){

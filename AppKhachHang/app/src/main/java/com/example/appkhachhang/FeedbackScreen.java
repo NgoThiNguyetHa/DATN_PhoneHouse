@@ -60,8 +60,8 @@ public class FeedbackScreen extends AppCompatActivity {
 
     List<ChiTietHoaDon> list;
 
-    Number diemFeedback = 0;
-
+//    Number diemFeedback = 0;
+        int diemFeedback = 0;
 
 
     FirebaseDatabase database;
@@ -168,7 +168,9 @@ public class FeedbackScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String noiDung = edFeedback.getText().toString().trim();
-                Number diemDanhGia = diemFeedback;
+//                Number diemDanhGia = diemFeedback;
+                int diemDanhGia = diemFeedback;
+
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
