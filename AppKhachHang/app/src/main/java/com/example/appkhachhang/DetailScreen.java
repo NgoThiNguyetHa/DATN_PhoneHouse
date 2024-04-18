@@ -49,7 +49,7 @@ public class DetailScreen extends AppCompatActivity {
         String json = preferences.getString("chiTietDienThoai", null);
         chiTietDienThoai = gson.fromJson(json, ChiTietDienThoai.class);
 
-        Picasso.get().load(chiTietDienThoai.getMaDienThoai().getHinhAnh()).into(imgAnhChiTiet);
+        Picasso.get().load(chiTietDienThoai.getHinhAnh()).into(imgAnhChiTiet);
         tv_tenDienThoai.setText(chiTietDienThoai.getMaDienThoai().getTenDienThoai());
         tv_giaChiTiet.setText(chiTietDienThoai.getGiaTien() + "đ");
         tv_danhGia.setText("5 | ");
