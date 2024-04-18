@@ -1,15 +1,17 @@
 package com.example.appkhachhang.Model;
 
-public class DanhGia {
+import java.io.Serializable;
+
+public class DanhGia implements Serializable {
     private String _id;
     private String noiDung;
     private String hinhAnh;
-    private Number diemDanhGia;
+    private int diemDanhGia;
     private String ngayTao;
     private User idKhachHang;
     private ChiTietDienThoai idChiTietDienThoai;
 
-    public DanhGia(String noiDung, String hinhAnh, Number diemDanhGia, String ngayTao, User idKhachHang, ChiTietDienThoai idChiTietDienThoai) {
+    public DanhGia(String noiDung, String hinhAnh, int diemDanhGia, String ngayTao, User idKhachHang, ChiTietDienThoai idChiTietDienThoai) {
         this.noiDung = noiDung;
         this.hinhAnh = hinhAnh;
         this.diemDanhGia = diemDanhGia;
@@ -50,11 +52,11 @@ public class DanhGia {
         this.hinhAnh = hinhAnh;
     }
 
-    public Number getDiemDanhGia() {
+    public int getDiemDanhGia() {
         return diemDanhGia;
     }
 
-    public void setDiemDanhGia(Number diemDanhGia) {
+    public void setDiemDanhGia(int diemDanhGia) {
         this.diemDanhGia = diemDanhGia;
     }
 

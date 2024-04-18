@@ -136,7 +136,7 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
         }
         int tongtien = 0;
         for (int i = 0; i < listChon.size(); i++) {
-            tongtien += Integer.parseInt(listChon.get(i).getGiaTien().toString())*Integer.parseInt(listChon.get(i).getSoLuong().toString());
+            tongtien += listChon.get(i).getGiaTien()*listChon.get(i).getSoLuong();
         }
         tvTongTien.setText(tongtien + "");
 //        SharedPreferences sharedPreferences = getContext().getSharedPreferences("listChon", MODE_PRIVATE);
