@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class SanPhamHot implements Serializable {
     ChiTietDienThoai _id;
-    Number soLuong;
+    int soLuong;
 
     public SanPhamHot() {
     }
@@ -17,11 +17,11 @@ public class SanPhamHot implements Serializable {
         this._id = _id;
     }
 
-    public Number getSoLuong() {
+    public int getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(Number soLuong) {
+    public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
 }

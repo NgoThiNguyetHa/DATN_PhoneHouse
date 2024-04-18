@@ -42,10 +42,10 @@ public class DienThoaiThanhToanAdapter extends RecyclerView.Adapter<DienThoaiTha
             Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         }
         holder.tvTenSP.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        holder.tvGiaSP.setText(item.getMaChiTietDienThoai().getGiaTien().toString());
+        holder.tvGiaSP.setText(""+item.getMaChiTietDienThoai().getGiaTien());
         holder.tvMauSac.setText(item.getMaChiTietDienThoai().getMaMau().getTenMau());
         holder.tvSoLuong.setText("x" +  item.getSoLuong());
-        holder.tvThanhTien.setText("Thành tiền " + "(" + item.getSoLuong() +" sản phẩm): " + Integer.parseInt(item.getSoLuong().toString())*Integer.parseInt(item.getGiaTien().toString()));
+        holder.tvThanhTien.setText("Thành tiền " + "(" + item.getSoLuong() +" sản phẩm): " +item.getSoLuong()*item.getGiaTien());
     }
 
     @Override

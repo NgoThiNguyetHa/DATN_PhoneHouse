@@ -71,12 +71,34 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
         maGioHang: gioHang._id,
       });
 
-      // Lưu chi tiết giỏ hàng mới tạo
-      const savedChiTietGioHang = await chiTietGioHang.save();
+    // Lưu chi tiết giỏ hàng
 
-      // Trả về kết quả
-      return res.send(savedChiTietGioHang);
-    }
+    const savedChiTietGioHang = await chiTietGioHang.save();
+    const populateChiTietGioHang = await ChiTietGioHang
+      .findById(savedChiTietGioHang._id)
+      .populate({
+        path: "maChiTietDienThoai",
+        populate: [
+          {
+            path: "maDienThoai",
+            model: "dienthoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          },
+          { path: "maMau", model: "mau" },
+          { path: "maDungLuong", model: "dungluong" },
+          { path: "maRam", model: "ram" },
+        ],
+      })
+      .populate({
+        path: "maGioHang",
+        populate: { path: "maKhachHang", model: "khachhang" },
+      });;
+    // Trả về kết quả
+    res.send(populateChiTietGioHang);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Đã xảy ra lỗi' });

@@ -38,6 +38,7 @@ import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.DanhSachActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment implements OnItemClickListenerSanPham, OnItemClickListenerSanPhamHot, OnItemClickListenerHang {
+public class HomeFragment extends Fragment implements OnItemClickListenerSanPham, OnItemClickListenerSanPhamHot {
     RecyclerView recyclerViewSP, recyclerViewSPHot, recyclerViewHang;
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
@@ -109,7 +110,18 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewHang.setLayoutManager(linearLayoutManager2);
         listHang = new ArrayList<>();
         getHangSanXuat();
-        hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, this);
+        hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, new OnItemClickListenerHang() {
+            @Override
+            public void onItemClickHang(HangSanXuat hangSanXuat) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idHangSanXuat", hangSanXuat);
+                PhoneListFragment fragmentB = new PhoneListFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DanhSachActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         recyclerViewHang.setAdapter(hangSanXuatAdapter);
     }
 
@@ -184,10 +196,6 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemClickHang(int position) {
-
-    }
 
     @Override
     public void onItemClickSP(int position) {

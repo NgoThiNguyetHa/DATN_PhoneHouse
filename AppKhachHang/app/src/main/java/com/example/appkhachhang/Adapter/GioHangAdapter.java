@@ -63,8 +63,8 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
     public void onBindViewHolder(@NonNull GioHangAdapter.ViewHolder holder, int position) {
         ChiTietGioHang item = list.get(position);
         holder.tvTenSanPham.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        holder.tvGiaTien.setText(item.getMaChiTietDienThoai().getGiaTien().toString());
-        holder.tvSoLuong.setText(item.getSoLuong().toString());
+        holder.tvGiaTien.setText(""+item.getMaChiTietDienThoai().getGiaTien());
+        holder.tvSoLuong.setText(""+item.getSoLuong());
         String fullCoverImgUrl = item.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgGioHang);
 
@@ -110,9 +110,9 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
         holder.tvSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Integer.parseInt(item.getSoLuong().toString()) > 1){
-                    item.setSoLuong(Integer.parseInt(item.getSoLuong().toString())-1);
-                    holder.tvSoLuong.setText(item.getSoLuong().toString());
+                if (item.getSoLuong() > 1){
+                    item.setSoLuong(item.getSoLuong()-1);
+                    holder.tvSoLuong.setText(""+item.getSoLuong());
                 }
             }
         });
@@ -120,9 +120,9 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
         holder.tvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Integer.parseInt(item.getSoLuong().toString()) < Integer.parseInt(item.getMaChiTietDienThoai().getSoLuong().toString())){
-                    item.setSoLuong(Integer.parseInt(item.getSoLuong().toString())+1);
-                    holder.tvSoLuong.setText(item.getSoLuong().toString());
+                if (item.getSoLuong()< item.getMaChiTietDienThoai().getSoLuong()){
+                    item.setSoLuong(item.getSoLuong()+1);
+                    holder.tvSoLuong.setText(""+item.getSoLuong());
                 }
             }
         });

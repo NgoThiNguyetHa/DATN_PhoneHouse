@@ -54,7 +54,7 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
         String fullCoverImgUrl = chiTietDienThoai.getMaDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         holder.tvTenSanPham.setText(chiTietDienThoai.getMaDienThoai().getTenDienThoai());
-        holder.tvGiaSanPham.setText(chiTietDienThoai.getGiaTien().toString() + "đ");
+        holder.tvGiaSanPham.setText(chiTietDienThoai.getGiaTien() + "đ");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
