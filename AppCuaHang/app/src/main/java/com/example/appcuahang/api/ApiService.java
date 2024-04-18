@@ -1,6 +1,7 @@
 package com.example.appcuahang.api;
 
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.ChiTietHoaDon;
 import com.example.appcuahang.model.DetailPhone;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.HoaDon;
@@ -157,9 +158,6 @@ public interface ApiService {
     @GET("chitietdienthoais/getChiTietTheoDienThoai/{maDienThoai}")
     Call<List<DetailPhone>> getChiTiet(@Path("maDienThoai") String id);
 
-    //get danh gia
-    @GET("danhgias/getDanhGia")
-    Call<List<Rating>> getDanhGia();
 
     //lay danh sach uu dai cua hang
     @GET("uudais/getUuDai-Active/{id}")
@@ -173,8 +171,16 @@ public interface ApiService {
     @GET("/thongke/thongke1/{nam}/{maCuaHang}")
     Call<List<ThongKeTheoTungThang>> getThongKeTheoNam(@Path("nam") int nam,
                                                        @Path("maCuaHang") String maCuaHang);
-
+    //get danh gia
+    @GET("danhgias/getDanhGiaTheoDienThoai/{id}")
+    Call<List<Rating>> getDanhGiaTheoDienThoai(@Path("id") String id);
+    //get theo cua hang
+    @GET("danhgias/getDanhGiaTheoCuaHang/{id}")
+    Call<List<Rating>> getDanhGiaTheoCuaHang(@Path("id") String id);
     //xoa binh luan
     @DELETE("danhgias/deleteDanhGia/{id}")
     Call<Rating> deleteDanhGia(@Path("id") String id);
+
+    @GET("chitiethoadons/getChiTietHoaDonTheoHoaDon/{id}")
+    Call<List<ChiTietHoaDon>> getChiTietHoaDon(@Path("id") String id);
 }

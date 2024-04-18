@@ -61,13 +61,13 @@ public class FeedbackScreen extends AppCompatActivity {
 
     List<ChiTietHoaDon> list;
 
-    Number diemFeedback = 0;
+//    Number diemFeedback = 0;
+        int diemFeedback = 0;
 
 
     FirebaseDatabase database;
     Uri imageUri;
     MySharedPreferences mySharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,9 +168,10 @@ public class FeedbackScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String noiDung = "";
-                 noiDung = edFeedback.getText().toString().trim();
-                Number diemDanhGia = diemFeedback;
+                String noiDung = edFeedback.getText().toString().trim();
+//                Number diemDanhGia = diemFeedback;
+                int diemDanhGia = diemFeedback;
+
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
@@ -245,6 +246,7 @@ public class FeedbackScreen extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
     }
+
 
 
     final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {

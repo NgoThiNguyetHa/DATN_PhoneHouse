@@ -211,22 +211,22 @@ router.get('/searchPhones/:userId', async (req, res) => {
 
     if (tenDienThoai) {
       phones = phones.filter(phone =>
-          phone.tenDienThoai.toLowerCase() === tenDienThoai.toLowerCase()
+          phone.tenDienThoai.toLowerCase().includes(tenDienThoai.toLowerCase())
       );
     }
     if (tenHang) {
       phones = phones.filter(phone =>
-          phone.maHangSX.tenHang.toLowerCase() === tenHang.toLowerCase()
+          phone.maHangSX.tenHang.toLowerCase().includes(tenHang.toLowerCase())
       );
     }
 
     phones.forEach(phone => {
       if (phone.chiTiet && phone.chiTiet.length > 0) {
         phone.chiTiet = phone.chiTiet.filter(detail =>
-            (!tenMau || (detail.maMau && detail.maMau.tenMau.toLowerCase() === tenMau.toLowerCase())) &&
-            (!boNho || (detail.maDungLuong && detail.maDungLuong.boNho.toString() === boNho.toString())) &&
-            (!RAM || (detail.maRam && detail.maRam.RAM.toString() === RAM.toString())) &&
-            (!giaTien || (detail.giaTien && detail.giaTien.toString() === giaTien.toString()))
+            (!tenMau || (detail.maMau && detail.maMau.tenMau.toLowerCase().includes(tenMau.toLowerCase()))) &&
+            (!boNho || (detail.maDungLuong && detail.maDungLuong.boNho.toString().toLowerCase().includes(boNho.toString().toLowerCase()))) &&
+            (!RAM || (detail.maRam && detail.maRam.RAM.toString().toLowerCase().includes(RAM.toString().toLowerCase()))) &&
+            (!giaTien || (detail.giaTien && detail.giaTien.toString().toLowerCase().includes(giaTien.toString().toLowerCase())))
         );
       }
     });

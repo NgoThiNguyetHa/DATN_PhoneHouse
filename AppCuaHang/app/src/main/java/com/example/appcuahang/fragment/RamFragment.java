@@ -169,9 +169,6 @@ public class RamFragment extends Fragment {
     }
 
     private void getData() {
-//        list = new ArrayList<>();
-//        manager = new GridLayoutManager(getContext(), 2);
-//        rc_ram.setLayoutManager(manager);
         ApiRamService apiRamService = ApiRetrofit.getApiRamService();
 
         Call<List<Ram>> call = apiRamService.getRam();
@@ -251,7 +248,6 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-//                            fillDataRecyclerView();
                         }
                     }
 
@@ -305,7 +301,7 @@ public class RamFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validate()){
+                if(ValidateUpdate(ram)){
 
 
                 Number tenram = Integer.parseInt(edTenRam.getText().toString().trim());
@@ -318,7 +314,6 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-//                            fillDataRecyclerView();
                         }
                     }
 
@@ -351,13 +346,32 @@ public class RamFragment extends Fragment {
             return false;
         }
 
-//        if( edGiaTien.getText().toString().isEmpty()){
-//            edGiaTien.setError("Không được để trống!!");
-//            return false;
-//        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
-//            edGiaTien.setError("Phải nhập là số!!");
-//            return false;
-//        }
+        for (Ram item: list){
+            if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())){
+                edTenRam.setError("RAM đã tồn tại!!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ValidateUpdate(Ram itemUpdate){
+        if(edTenRam.getText().toString().isEmpty()){
+            edTenRam.setError("Không được để trống!!");
+            return false;
+        }else if(!Pattern.matches("\\d+", edTenRam.getText().toString())){
+            edTenRam.setError("Phải nhập là số!!");
+            return false;
+        }
+
+        for (Ram item: list){
+            if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())
+                    && item.get_id() != itemUpdate.get_id()
+            ){
+                edTenRam.setError("RAM đã tồn tại!!");
+                return false;
+            }
+        }
         return true;
     }
 }

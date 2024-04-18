@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/menu.ejs" afterDir="false" />
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix api add hóa đơn, add giỏ hàng">
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Longdhph28835" />
+        <entry key="$PROJECT_DIR$" value="hantnph28876" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,8 +54,8 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/views&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN_PhoneHouse&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -111,6 +106,12 @@
       <workItem from="1712299702504" duration="16256000" />
       <workItem from="1712745671523" duration="22837000" />
       <workItem from="1712812043074" duration="7430000" />
+      <workItem from="1712927384936" duration="1198000" />
+      <workItem from="1713026899636" duration="27718000" />
+      <workItem from="1713120003218" duration="187000" />
+      <workItem from="1713257174434" duration="219000" />
+      <workItem from="1713282037449" duration="7588000" />
+      <workItem from="1713436409294" duration="526000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -304,7 +305,31 @@
       <option name="project" value="LOCAL" />
       <updated>1712821838076</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="api filter feedback by Store">
+      <option name="closed" value="true" />
+      <created>1712825879676</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1712825879676</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
+      <option name="closed" value="true" />
+      <created>1713045990110</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1713045990110</updated>
+    </task>
+    <task id="LOCAL-00027" summary="validate web">
+      <option name="closed" value="true" />
+      <created>1713082913145</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1713082913146</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,6 +367,9 @@
     <MESSAGE value="api get feedback" />
     <MESSAGE value="thống kê" />
     <MESSAGE value="pull from dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
+    <MESSAGE value="api filter feedback by Store" />
+    <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
+    <MESSAGE value="validate web" />
+    <option name="LAST_COMMIT_MESSAGE" value="validate web" />
   </component>
 </project>

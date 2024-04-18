@@ -1,80 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     app:cardElevation="10dp"
-    android:background="#FFFFFF">
-
-    <FrameLayout
+    android:background="#FFFFFF"
+    app:cardCornerRadius="30dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/item_frame"
+   >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/item_frame"
-            app:cardCornerRadius="20dp"
-            android:layout_width="330dp"
-            android:layout_height="100dp"
-            android:layout_gravity="right"
-            android:layout_margin="10dp">
-            <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/mUD"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:scaleType="fitXY"
+            android:src="@drawable/image_counpon"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
+            >
+            <TextView
+                android:id="@+id/item_tvGiamGia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="21dp"
+                android:text="Giảm giá \n 45%"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/item_textViewTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:id="@+id/mUD"
-                android:layout_marginLeft="0dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                </View>
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:text="@string/test_text"
+                android:textAlignment="textStart"
+                android:textStyle="bold"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                >
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
                     >
-
                     <TextView
-                        android:id="@+id/item_tvGiamGia"
+                        android:id="@+id/item_textViewThoiGian"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="25dp"
-                        android:text="Giảm giá"
+                        android:text="Thời gian"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/item_tvThoiGian"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:text="Thời gian"
+                        android:text="18 th09, 2023"
+                        android:textColor="#928C8C"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/item_tvTrangThai"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:text="Trạng thái"
-                        android:textStyle="bold" />
-
                 </LinearLayout>
 
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:src="@drawable/voucher"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:elevation="2dp"
-            android:layout_gravity="center_vertical" />
-    </FrameLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/item_tvTrangThai"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/bg_delete_yes"
+                    android:padding="7dp"
+                    android:text="Không hoạt động"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    android:textSize="11dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

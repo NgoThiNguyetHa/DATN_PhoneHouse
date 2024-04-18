@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
 
 /* POST Mau. */
 
-router.post('/addHoaDon', function (req, res, next) {
+router.post('/addHoaDon', async function (req, res, next) {
   const hoaDon = new HoaDon({
     tongTien: req.body.tongTien,
     ngayTao: req.body.ngayTao,
@@ -25,13 +25,12 @@ router.post('/addHoaDon', function (req, res, next) {
     maKhachHang: req.body.maKhachHang,
     maCuaHang: req.body.maCuaHang,
   })
-  hoaDon.save()
-      .then(data => {
-        // console.log(data)
-        res.send(data)
-      }).catch(err => {
-    console.log
-  })
+  const saved = await hoaDon.save();
+  const data = await HoaDon.findById(saved._id)
+      .populate("maKhachHang")
+      .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+      .populate("maCuaHang")
+  res.send(data)
 });
 
 /* GET loaidichvu listing. */

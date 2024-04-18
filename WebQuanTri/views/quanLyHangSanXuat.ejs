@@ -103,7 +103,7 @@
                 <button class="btn" type="button" data-bs-theme="dark">
                     <span><i class="fa-solid fa-bars" style="color: #000000;"></i></span>
                 </button>
-                <div class="btn"><span style="font-weight: bold; font-size: 20px">Quản lý hãng sản xuất</span></div>
+                <div class="btn"><span style="font-weight: bold; font-size: 20px">Quản lý thông tin điện thoại</span></div>
 
             </div>
             <div id="account">
@@ -256,7 +256,15 @@
   toggler.addEventListener("click", function () {
     document.querySelector("#sidebar").classList.toggle("collapsed");
   });
-
+  function decodeHTMLEntities(text) {
+    return text.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
+  }
+  const existingData = {
+    hangsanxuats: JSON.parse(decodeHTMLEntities('<%= JSON.stringify(hangsanxuats)%>')),
+    rams: JSON.parse(decodeHTMLEntities('<%= JSON.stringify(rams)%>')),
+    dungluongs: JSON.parse(decodeHTMLEntities('<%= JSON.stringify(dungluongs)%>')),
+    maus: JSON.parse(decodeHTMLEntities('<%= JSON.stringify(maus)%>'))
+  };
   function reloadPage() {
     window.location.reload();
   }
@@ -544,128 +552,255 @@
   }
 
   async function saveMau() {
-    const tenMau = document.getElementById('addTenMau').value;
-    const response = await fetch(`/maus/addMau`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tenMau })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('addMau', existingData)) {
+      const tenMau = document.getElementById('addTenMau').value;
+      const response = await fetch(`/maus/addMau`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tenMau })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function saveRam() {
-    const RAM = document.getElementById('addRAM').value;
-    const response = await fetch(`/rams/addRam`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ RAM })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('addRAM', existingData)) {
+      const RAM = document.getElementById('addRAM').value;
+      const response = await fetch(`/rams/addRam`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ RAM })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function saveDungLuong() {
-    const boNho = document.getElementById('addDungLuong').value;
-    const response = await fetch(`/dungluongs/addDungLuong`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ boNho })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('addDungLuong', existingData)) {
+      const boNho = document.getElementById('addDungLuong').value;
+      const response = await fetch(`/dungluongs/addDungLuong`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ boNho })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function saveHangSanXuat() {
     try {
-      const fileInput = document.getElementById('addHinhAnh');
-      const tenHang = document.getElementById('addHangSX').value;
-      const formData = new FormData();
-      formData.append('tenHang', tenHang);
-      formData.append('hinhAnh', fileInput.files[0]);
-      const response = await fetch('/hangsanxuats/addHangSanXuatFirebase', {
-        method: 'POST',
-        body: formData
-      });
+      if (validateForm('addHangSanXuat', existingData)) {
+        const fileInput = document.getElementById('addHinhAnh');
+        const tenHang = document.getElementById('addHangSX').value;
+        const formData = new FormData();
+        formData.append('tenHang', tenHang);
+        formData.append('hinhAnh', fileInput.files[0]);
+        const response = await fetch('/hangsanxuats/addHangSanXuatFirebase', {
+          method: 'POST',
+          body: formData
+        });
 
-      const data = await response.json();
-      reloadPage()
+        const data = await response.json();
+        reloadPage()
+      }
+
     } catch (error) {
       console.error('Error:', error);
     }
   }
 
   async function updateDungLuong(id) {
-    const boNho = document.getElementById('editDungLuong').value;
-    const response = await fetch(`/dungluongs/updateDungLuong/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ boNho })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('editDungLuong', existingData)) {
+      const boNho = document.getElementById('editDungLuong').value;
+      const response = await fetch(`/dungluongs/updateDungLuong/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ boNho })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function updateRAM(id) {
-    const RAM = document.getElementById('editRAM').value;
-    const response = await fetch(`/rams/updateRam/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ RAM })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('editRAM', existingData)) {
+      const RAM = document.getElementById('editRAM').value;
+      const response = await fetch(`/rams/updateRam/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ RAM })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function updateMau(id) {
-    const tenMau = document.getElementById('editMau').value;
-    const response = await fetch(`/maus/updateMau/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tenMau })
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('editMau', existingData)) {
+      const tenMau = document.getElementById('editMau').value;
+      const response = await fetch(`/maus/updateMau/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tenMau })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
   }
 
   async function updateHangSanXuat(id) {
-    const fileInput = document.getElementById('editHinhAnh');
-    const tenHang = document.getElementById('editTenHang').value;
-    const formData = new FormData();
-    formData.append('tenHang', tenHang);
-    formData.append('hinhAnh', fileInput.files[0]);
-    const response = await fetch(`/hangsanxuats/updateHangSanXuatFirebase/${id}`, {
-      method: 'PUT',
-      body: formData
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (validateForm('editHangSanXuat', existingData)) {
+      const fileInput = document.getElementById('editHinhAnh');
+      const tenHang = document.getElementById('editTenHang').value;
+      const formData = new FormData();
+      formData.append('tenHang', tenHang);
+      formData.append('hinhAnh', fileInput.files[0]);
+      const response = await fetch(`/hangsanxuats/updateHangSanXuatFirebase/${id}`, {
+        method: 'PUT',
+        body: formData
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      reloadPage()
     }
-    reloadPage()
+
+  }
+
+  function isImageFile(file) {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    return allowedExtensions.test(file.name);
+  }
+
+  function validateForm(formType, existingData) {
+    let isValid = true;
+    let tenHang, RAM, boNho, tenMau, fileInput;
+
+    switch (formType) {
+      case 'addHangSanXuat':
+        tenHang = document.getElementById('addHangSX').value.trim();
+        fileInput = document.getElementById('addHinhAnh').files[0];
+        if (!tenHang) {
+          isValid = false;
+          alert('Vui lòng nhập tên hãng sản xuất');
+        } else if (!fileInput || !isImageFile(fileInput)) {
+          isValid = false;
+          alert('Vui lòng chọn một file ảnh hợp lệ');
+        } else if (existingData.hangsanxuats.some(item => item.tenHang.toLowerCase() === tenHang.toLowerCase())) {
+          isValid = false;
+          alert('Hãng sản xuất này đã tồn tại');
+        }
+        break;
+      case 'editHangSanXuat':
+        tenHang = document.getElementById('editTenHang').value.trim();
+        fileInput = document.getElementById('editHinhAnh').files[0];
+        if (!tenHang) {
+          isValid = false;
+          alert('Vui lòng nhập tên hãng sản xuất');
+        } else if (fileInput && !isImageFile(fileInput)) {
+          isValid = false;
+          alert('Vui lòng chọn một file ảnh hợp lệ');
+        } else if (existingData.hangsanxuats.some(item => item.tenHang.toLowerCase() === tenHang.toLowerCase())) {
+          isValid = false;
+          alert('Hãng sản xuất này đã tồn tại');
+        }
+        break;
+      case 'addRAM':
+        RAM = document.getElementById('addRAM').value.trim();
+        if (!RAM || isNaN(RAM) || RAM <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập RAM là một số dương');
+        } else if (existingData.rams.some(item => item.RAM === parseInt(RAM))) {
+          isValid = false;
+          alert('RAM này đã tồn tại');
+        }
+        break;
+      case 'editRAM':
+        RAM = document.getElementById('editRAM').value.trim();
+        if (!RAM || isNaN(RAM) || RAM <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập RAM là một số dương');
+        }else if (existingData.rams.some(item => item.RAM === parseInt(RAM))) {
+          isValid = false;
+          alert('RAM này đã tồn tại');
+        }
+        break;
+      case 'addDungLuong':
+        boNho = document.getElementById('addDungLuong').value.trim();
+        if (!boNho || isNaN(boNho) || boNho <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập dung lượng là một số dương');
+        } else if (existingData.dungluongs.some(item => item.boNho === parseInt(boNho))) {
+          isValid = false;
+          alert('Dung lượng này đã tồn tại');
+        }
+        break;
+      case 'editDungLuong':
+        boNho = document.getElementById('editDungLuong').value.trim();
+        if (!boNho || isNaN(boNho) || boNho <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập dung lượng là một số dương');
+        }else if (existingData.dungluongs.some(item => item.boNho === parseInt(boNho))) {
+          isValid = false;
+          alert('Dung lượng này đã tồn tại');
+        }
+        break;
+      case 'addMau':
+        tenMau = document.getElementById('addTenMau').value.trim();
+        if (!tenMau) {
+          isValid = false;
+          alert('Vui lòng nhập tên màu');
+        } else if (existingData.maus.some(item => item.tenMau.toLowerCase() === tenMau.toLowerCase())) {
+          isValid = false;
+          alert('Màu này đã tồn tại');
+        }
+        break;
+      case 'editMau':
+        tenMau = document.getElementById('editMau').value.trim();
+        if (!tenMau) {
+          isValid = false;
+          alert('Vui lòng nhập tên màu');
+        }else if (existingData.maus.some(item => item.tenMau.toLowerCase() === tenMau.toLowerCase())) {
+          isValid = false;
+          alert('Màu này đã tồn tại');
+        }
+        break;
+    }
+
+    return isValid;
   }
 </script>
 

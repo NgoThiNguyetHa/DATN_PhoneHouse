@@ -3,27 +3,25 @@ package com.example.appkhachhang.Model;
 import java.io.Serializable;
 
 public class ChiTietHoaDon implements Serializable {
-    private int soLuong;
-    private String giaTien;
-    private String _id;
-    private HoaDon maHoaDon;
-    private ChiTietDienThoai maChiTietDienThoai;
+    String _id;
+    String soLuong;
+    String giaTien;
+    HoaDon maHoaDon;
+    ChiTietDienThoai maChiTietDienThoai;
 
-    public ChiTietHoaDon(int soLuong, String giaTien, HoaDon maHoaDon, ChiTietDienThoai maChiTietDienThoai) {
-        this.soLuong = soLuong;
-        this.giaTien = giaTien;
-        this.maHoaDon = maHoaDon;
-        this.maChiTietDienThoai = maChiTietDienThoai;
+    public String get_id() {
+        return _id;
     }
 
-    public ChiTietHoaDon() {
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public int getSoLuong() {
+    public String getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(String soLuong) {
         this.soLuong = soLuong;
     }
 
@@ -33,14 +31,6 @@ public class ChiTietHoaDon implements Serializable {
 
     public void setGiaTien(String giaTien) {
         this.giaTien = giaTien;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
     }
 
     public HoaDon getMaHoaDon() {

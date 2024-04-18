@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appcuahang.R;
+import com.example.appcuahang.adapter.ApDungUuDaiAdapter;
 import com.example.appcuahang.adapter.ChiTietAdapter;
 import com.example.appcuahang.adapter.DanhGiaAdapter;
 import com.example.appcuahang.adapter.UuDaiAdapter;
@@ -89,7 +90,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
     List<UuDai> listUuDai;
     List<Rating> ratingList;
     ChiTietAdapter adapter;
-    UuDaiAdapter adapterUuDai;
+    ApDungUuDaiAdapter adapterUuDai;
     DanhGiaAdapter danhGiaAdapter;
     GridLayoutManager manager;
     LinearLayoutManager linearLayoutManager, linearLayoutManagerUuDai;
@@ -254,7 +255,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
         //get list danh gia
 
-        Call<List<Rating>> ratingListCall = apiService.getDanhGia();
+        Call<List<Rating>> ratingListCall = apiService.getDanhGiaTheoDienThoai(id);
         ratingListCall.enqueue(new Callback<List<Rating>>() {
             @Override
             public void onResponse(Call<List<Rating>> call, Response<List<Rating>> response) {
@@ -325,10 +326,10 @@ public class ChiTietDienThoaiFragment extends Fragment {
         edTen.setText("" + detailPhone.getMaDienThoai().getTenDienThoai());
         edGiaTien.setText(""+detailPhone.getGiaTien());
         edSoLuong.setText(""+detailPhone.getSoLuong());
-        if (phone.getHinhAnh() == null) {
+        if (detailPhone.getHinhAnh() == null) {
             uploadImageChiTiet.setImageResource(R.drawable.baseline_phone_iphone_24);
         } else {
-            Picasso.get().load(phone.getHinhAnh()).into(uploadImageChiTiet);
+            Picasso.get().load(detailPhone.getHinhAnh()).into(uploadImageChiTiet);
         }
         uploadImageChiTiet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +359,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Call<DetailPhone> call = apiService.putChiTietDienThoai(detailPhone.get_id(), new DetailPhone(strSoLuong, strGiaTien, new Phone(detailPhone.getMaDienThoai().get_id()), new Mau(idSpMau), new DungLuong(idSpDungLuong), new Ram(idSpRam) , uri.toString()));
+                                        Call<DetailPhone> call = apiService.putChiTietDienThoai(detailPhone.get_id(), new DetailPhone(strSoLuong, strGiaTien, new Phone(detailPhone.getMaDienThoai().get_id()), new Mau(idSpMau, ""), new DungLuong(idSpDungLuong), new Ram(idSpRam) , uri.toString()));
                                         call.enqueue(new Callback<DetailPhone>() {
                                             @Override
                                             public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
@@ -368,6 +369,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                                                     action();
                                                     dialogDetail.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -381,7 +383,25 @@ public class ChiTietDienThoaiFragment extends Fragment {
                             }
                         });
                     } else {
-                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                        Call<DetailPhone> call = apiService.putChiTietDienThoai(detailPhone.get_id(), new DetailPhone(strSoLuong, strGiaTien, new Phone(detailPhone.getMaDienThoai().get_id()), new Mau(idSpMau, ""), new DungLuong(idSpDungLuong), new Ram(idSpRam) , detailPhone.getHinhAnh()));
+                        call.enqueue(new Callback<DetailPhone>() {
+                            @Override
+                            public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                    getData(detailPhone.get_id());
+                                    action();
+                                    dialogDetail.dismiss();
+                                    progressDialog.dismiss();
+                                    imageUri = null;
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<DetailPhone> call, Throwable t) {
+
+                            }
+                        });
                     }
                 }
 
@@ -551,7 +571,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
         listUuDai = new ArrayList<>();
         linearLayoutManagerUuDai = new LinearLayoutManager(getContext());
         rc__udch_uuDai.setLayoutManager(linearLayoutManagerUuDai);
-        adapterUuDai = new UuDaiAdapter(getContext(), new IItemUuDaiListenner() {
+        adapterUuDai = new ApDungUuDaiAdapter(getContext(), new IItemUuDaiListenner() {
             @Override
             public void showDetail(String idUuDai) {
 
@@ -616,6 +636,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
 
+                    getData(id);
                 }
             }
 

@@ -145,11 +145,11 @@
                 <form id="addNewForm">
                     <div class="mb-3">
                         <label for="inputDiscount" class="form-label">Giảm giá:</label>
-                        <input type="text" class="form-control" id="giamGia" name="giamGia" placeholder="Nhập giảm giá">
+                        <input type="text" class="form-control" id="giamGia" name="giamGia" placeholder="Nhập giảm giá" required>
                     </div>
                     <div class="mb-3">
                         <label for="inputExpiration" class="form-label">Hạn sử dụng:</label>
-                        <input type="date" class="form-control" id="thoiGian" name="thoiGian">
+                        <input type="date" class="form-control" id="thoiGian" name="thoiGian" required>
                     </div>
 
                 </form>
@@ -176,12 +176,12 @@
                     <div class="mb-3">
                         <label for="editDiscount" class="form-label">Giảm giá:</label>
                         <input type="text" class="form-control" id="editDiscount" name="editDiscount"
-                               placeholder="Nhập giảm giá">
+                               placeholder="Nhập giảm giá" required>
                     </div>
                     <div class="mb-3">
                         <label for="editExpiration" class="form-label">Hạn sử dụng:</label>
                         <input type="date" class="form-control" id="editExpiration" name="editExpiration"
-                               placeholder="Chọn hạn sử dụng">
+                               placeholder="Chọn hạn sử dụng" required>
                     </div>
 
                 </form>
@@ -204,6 +204,25 @@
 
   function reloadPage() {
     window.location.reload();
+  }
+
+  function validateUuDai(giamGia, thoiGian) {
+    giamGia = giamGia.trim();
+    thoiGian = thoiGian.trim();
+
+    // Kiểm tra giảm giá và thời gian không được trống
+    if (giamGia === '' || thoiGian === '') {
+      alert('Vui lòng nhập giảm giá và thời gian');
+      return false;
+    }
+
+    // Kiểm tra giảm giá phải là số
+    if (isNaN(giamGia) || giamGia < 0 || giamGia > 100) {
+      alert('Giảm giá phải là số từ 0 đến 100');
+      return false;
+    }
+
+    return true;
   }
 
   function formatDate(inputDate) {
@@ -230,6 +249,9 @@
   function formThemUuDai() {
     const giamGia = document.getElementById('giamGia').value;
     const thoiGian = document.getElementById('thoiGian').value;
+    if (!validateUuDai(giamGia, thoiGian)) {
+      return;
+    }
     const expirationDate = new Date(thoiGian);
     const currentDate = new Date();
     let trangThai = "";
@@ -284,6 +306,9 @@
   function saveChanges() {
     const giamGia = document.getElementById('editDiscount').value;
     const thoiGian = document.getElementById('editExpiration').value;
+    if (!validateUuDai(giamGia, thoiGian)) {
+      return;
+    }
     const expirationDate = new Date(thoiGian);
     const currentDate = new Date();
     let trangThai = "";

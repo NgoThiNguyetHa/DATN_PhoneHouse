@@ -382,6 +382,7 @@ public class PhoneFragment extends Fragment {
                                                     getData();
                                                     dialog.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -548,6 +549,7 @@ public class PhoneFragment extends Fragment {
                                                     getData();
                                                     dialog.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 } else {
                                                     Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                                                 }
@@ -563,7 +565,26 @@ public class PhoneFragment extends Fragment {
                             }
                         });
                     } else {
-                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                        Call<Phone> call = apiService.putDienThoai(phone.get_id(),new Phone(strTenDT, strKichThuoc, strCNMH, strCamera, strCPu, strPin, strHeDieuHanh, strDoPhanGiai, strNamSX, strBaoHanh, strMoTa, new Brand(idHang), phone.getHinhAnh(), null,new Store(mySharedPreferences.getUserId())));
+                        call.enqueue(new Callback<Phone>() {
+                            @Override
+                            public void onResponse(Call<Phone> call, Response<Phone> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                    getData();
+                                    dialog.dismiss();
+                                    progressDialog.dismiss();
+                                    imageUri = null;
+                                } else {
+                                    Toast.makeText(getContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Phone> call, Throwable t) {
+                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             }
@@ -636,7 +657,7 @@ public class PhoneFragment extends Fragment {
                                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau), new DungLuong(idSpDungLuong), new Ram(idSpRam) ,uri.toString()));
+                                        Call<DetailPhone> call = apiService.addChiTietDienThoai(new DetailPhone(strSoLuong, strGiaTien, new Phone(id), new Mau(idSpMau, ""), new DungLuong(idSpDungLuong), new Ram(idSpRam) ,uri.toString()));
                                         call.enqueue(new Callback<DetailPhone>() {
                                             @Override
                                             public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
@@ -644,6 +665,7 @@ public class PhoneFragment extends Fragment {
                                                     Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
                                                     progressDialog.dismiss();
                                                     dialogDetail.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -892,5 +914,11 @@ public class PhoneFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        getData();
+        super.onResume();
     }
 }

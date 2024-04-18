@@ -47,7 +47,7 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                onItemClickListenerHang.onItemClickHang(hangSanXuat);
             }
         });
     }
@@ -65,17 +65,17 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
             super(itemView);
             imgHang = itemView.findViewById(R.id.img_Hang);
             tvTenHang = itemView.findViewById(R.id.tv_tenHang);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListenerHang!=null){
-                        int pos = getAdapterPosition();
-                        if (pos!=RecyclerView.NO_POSITION){
-                            onItemClickListenerHang.onItemClickHang(pos);
-                        }
-                    }
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (onItemClickListenerHang!=null){
+//                        int pos = getAdapterPosition();
+//                        if (pos!=RecyclerView.NO_POSITION){
+//                            onItemClickListenerHang.onItemClickHang(pos);
+//                        }
+//                    }
+//                }
+//            });
         }
     }
 }

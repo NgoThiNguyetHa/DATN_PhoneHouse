@@ -1,5 +1,6 @@
 package com.example.appcuahang.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -52,6 +53,7 @@ public class ReviewFragment extends Fragment {
     CardView cv_sxTheoDiemDanhGia , cv_sxTheoNgay;
     List<Rating> list;
     LinearLayoutManager manager;
+    MySharedPreferences mySharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class ReviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review, container, false);
+        ((Activity) getContext()).setTitle("Đánh Giá");
         initView(view);
         initVariable();
         getData();
@@ -78,6 +81,7 @@ public class ReviewFragment extends Fragment {
     private void initVariable(){
         list = new ArrayList<>();
         FirebaseApp.initializeApp(getContext());
+        mySharedPreferences = new MySharedPreferences(getContext());
         manager = new LinearLayoutManager(getContext());
         rc_QLDanhGia.setLayoutManager(manager);
         adapter = new ReviewDanhGiaAdapter(getContext(), new IItemDanhGiaListenner() {
@@ -92,7 +96,7 @@ public class ReviewFragment extends Fragment {
 
     private void getData(){
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Rating>> ratingListCall = apiService.getDanhGia();
+        Call<List<Rating>> ratingListCall = apiService.getDanhGiaTheoCuaHang(mySharedPreferences.getUserId());
         ratingListCall.enqueue(new Callback<List<Rating>>() {
             @Override
             public void onResponse(Call<List<Rating>> call, Response<List<Rating>> response) {

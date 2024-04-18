@@ -15,7 +15,7 @@ router.post('/addDanhGia', async function(req, res, next) {
     idChiTietDienThoai: req.body.idChiTietDienThoai,
   })
   const saved = await danhGia.save()
-  console.log(saved);
+  // console.log(saved);
   const data = await DanhGia.findById(saved._id)
       .populate("idKhachHang")
       .populate({
@@ -35,7 +35,7 @@ router.post('/addDanhGia', async function(req, res, next) {
           {path: "maRam", model:"ram"}
         ]
       });
-      console.log(data);
+      // console.log(data);
   res.send(data)
 });
 
@@ -205,4 +205,43 @@ router.get('/getDanhGiaTheoCuaHang/:id', async (req,res) => {
   }
 })
 
+router.get('/searchDanhGia/:id', async (req, res) => {
+  try {
+    const { tenKhachHang, sanPham, noiDung, diemDanhGia, ngayDanhGia } = req.query;
+
+    const idCuaHang = req.params.id;
+    let danhGia = await DanhGia.find()
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang', match: { _id: idCuaHang },},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    danhGia = danhGia.filter(item =>
+            (item.idChiTietDienThoai.maDienThoai.maCuaHang !== null) &&
+            (!sanPham || item.idChiTietDienThoai.maDienThoai.tenDienThoai.toLowerCase().includes(sanPham.toLowerCase())) &&
+            (!tenKhachHang || item.idKhachHang.username.trim().toLowerCase().includes(tenKhachHang.toLowerCase())) &&
+            (!noiDung || item.noiDung.trim().toLowerCase().includes(noiDung.toLowerCase())) &&
+            (!diemDanhGia || item.diemDanhGia === parseInt(diemDanhGia)) &&
+            (!ngayDanhGia || item.ngayTao.trim().toLowerCase() === ngayDanhGia.toLowerCase())
+    );
+
+    res.json(danhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 module.exports = router;

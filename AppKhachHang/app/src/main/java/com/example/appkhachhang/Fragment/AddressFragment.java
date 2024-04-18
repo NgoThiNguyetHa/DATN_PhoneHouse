@@ -69,9 +69,8 @@ public class AddressFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_address, container, false);
         ((Activity) getContext()).setTitle("Địa chỉ");
         initView(view);
-        getData();
         initVariable();
-        fillDataRecyclerView();
+        getData();
         btnAddress = view.findViewById(R.id.btnAddress);
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +100,9 @@ public class AddressFragment extends Fragment {
         rc_address.setAdapter(adapter);
     }
     private void getData() {
-        list = new ArrayList<>();
-        manager = new LinearLayoutManager(getContext());
-        rc_address.setLayoutManager(manager);
+//        list = new ArrayList<>();
+//        manager = new LinearLayoutManager(getContext());
+//        rc_address.setLayoutManager(manager);
         Address_API address_api = ApiRetrofit.getApiAddress();
         mySharedPreferences = new MySharedPreferences(getContext());
         Call<List<AddressDelivery>> call = address_api.getDiaChi(mySharedPreferences.getUserId());
@@ -112,7 +111,6 @@ public class AddressFragment extends Fragment {
             public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
                 if (response.isSuccessful()) {
                     List<AddressDelivery> data = response.body();
-
                     list.clear();
                     list.addAll(data);
                     adapter.notifyDataSetChanged();
@@ -186,7 +184,6 @@ public class AddressFragment extends Fragment {
                                 Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                 getData();
                                 dialog.dismiss();
-                                fillDataRecyclerView();
                             }
                         }
 
@@ -233,6 +230,7 @@ public class AddressFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
 
         tvTitle.setText("Cập Nhật Địa Chỉ");
+        btnSave.setText("Cập nhật");
         edTenNguoiNhan.setText(addressDelivery.getTenNguoiNhan());
         edDiaChi.setText(addressDelivery.getDiaChi());
         edSDT.setText(addressDelivery.getSdt());
@@ -252,7 +250,6 @@ public class AddressFragment extends Fragment {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 getData();
                                 dialog.dismiss();
-                                fillDataRecyclerView();
                             }
                         }
                         @Override
@@ -275,24 +272,24 @@ public class AddressFragment extends Fragment {
 
     }
 
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void fillDataRecyclerView() {
-        list.clear();
-        list.addAll(listBackUp);
-        adapter.notifyDataSetChanged();
-    }
-
     private boolean Validate(){
+        String usernamePattern = "^[\\p{L}\\s]+$";
+        String phonePattern = "^0\\d{9}$";
+
         if(edTenNguoiNhan.getText().toString().isEmpty()){
             edTenNguoiNhan.setError("Không được để trống!!");
             return false;
-        }else if(edDiaChi.getText().toString().isEmpty()){
-            edDiaChi.setError("Không được để trống!!");
+        }else if(!edTenNguoiNhan.getText().toString().trim().matches(usernamePattern)){
+            edTenNguoiNhan.setError("Tên người nhận phải là chữ cái!!");
             return false;
         }else if(edSDT.getText().toString().isEmpty()){
             edSDT.setError("Không được để trống!!");
+            return false;
+        }else if(!edSDT.getText().toString().trim().matches(phonePattern)){
+            edSDT.setError("Số điện thoại không hợp lệ!!");
+            return false;
+        } else if(edDiaChi.getText().toString().isEmpty()){
+            edDiaChi.setError("Không được để trống!!");
             return false;
         }
         return true;
