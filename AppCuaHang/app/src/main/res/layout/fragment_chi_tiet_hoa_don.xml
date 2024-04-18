@@ -338,7 +338,7 @@
                     android:layout_weight="1"
                     android:text="200.000"
                     android:textColor="@color/maudo"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
             </LinearLayout>
 

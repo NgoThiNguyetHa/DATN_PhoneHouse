@@ -34,7 +34,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
     const TopDienThoai = await ChiTietDienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
-      select: "maDienThoai maMau maDungLuong maRam giaTien soLuong",
+      select: "maDienThoai maMau maDungLuong maRam giaTien soLuong hinhAnh",
       populate: [
         { path: "maMau", model: "mau"}, // Lấy thông tin từ bảng Mau
         { path: "maDungLuong", model: "dungluong"}, // Lấy thông tin từ bảng DungLuong

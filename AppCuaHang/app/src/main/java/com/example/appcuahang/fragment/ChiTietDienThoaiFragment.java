@@ -635,6 +635,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
             public void onResponse(Call<Phone> call, Response<Phone> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+
                     getData(id);
                 }
             }

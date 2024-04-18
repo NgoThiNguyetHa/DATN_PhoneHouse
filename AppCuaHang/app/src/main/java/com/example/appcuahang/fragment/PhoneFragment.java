@@ -915,4 +915,10 @@ public class PhoneFragment extends Fragment {
         }
         return true;
     }
+
+    @Override
+    public void onResume() {
+        getData();
+        super.onResume();
+    }
 }

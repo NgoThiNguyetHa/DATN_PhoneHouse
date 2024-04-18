@@ -301,7 +301,7 @@ public class RamFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validate()){
+                if(ValidateUpdate(ram)){
 
 
                 Number tenram = Integer.parseInt(edTenRam.getText().toString().trim());
@@ -348,6 +348,26 @@ public class RamFragment extends Fragment {
 
         for (Ram item: list){
             if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())){
+                edTenRam.setError("RAM đã tồn tại!!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ValidateUpdate(Ram itemUpdate){
+        if(edTenRam.getText().toString().isEmpty()){
+            edTenRam.setError("Không được để trống!!");
+            return false;
+        }else if(!Pattern.matches("\\d+", edTenRam.getText().toString())){
+            edTenRam.setError("Phải nhập là số!!");
+            return false;
+        }
+
+        for (Ram item: list){
+            if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())
+                    && item.get_id() != itemUpdate.get_id()
+            ){
                 edTenRam.setError("RAM đã tồn tại!!");
                 return false;
             }

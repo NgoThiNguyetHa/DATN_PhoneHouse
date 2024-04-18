@@ -5,7 +5,7 @@ public class ChiTietHoaDon {
     private DetailPhone maChiTietDienThoai;
     private HoaDon maHoaDon;
     private String giaTien;
-    private Number soLuong;
+    private Integer soLuong;
 
     public ChiTietHoaDon() {
     }
@@ -42,11 +42,11 @@ public class ChiTietHoaDon {
         this.giaTien = giaTien;
     }
 
-    public Number getSoLuong() {
+    public Integer getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(Number soLuong) {
+    public void setSoLuong(Integer soLuong) {
         this.soLuong = soLuong;
     }
 }

@@ -65,7 +65,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
         holder.tvTenSanPham.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
         holder.tvGiaTien.setText(""+item.getMaChiTietDienThoai().getGiaTien());
         holder.tvSoLuong.setText(""+item.getSoLuong());
-        String fullCoverImgUrl = item.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh();
+        String fullCoverImgUrl = item.getMaChiTietDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgGioHang);
 
         holder.chkSP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
