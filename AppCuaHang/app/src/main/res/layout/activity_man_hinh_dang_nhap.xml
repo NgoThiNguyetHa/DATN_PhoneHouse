@@ -34,7 +34,7 @@
         android:layout_marginBottom="15dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/textTenDangNhap"
-        app:helperText="Require*"
+        app:helperText=""
         app:helperTextTextColor="#009688"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +55,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="6"
         android:id="@+id/textMatKhau"
-        app:helperText="Require*"
+        app:helperText=""
         app:helperTextTextColor="#009688"
         >
         <com.google.android.material.textfield.TextInputEditText
