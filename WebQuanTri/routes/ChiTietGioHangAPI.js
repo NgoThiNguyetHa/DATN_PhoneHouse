@@ -99,6 +99,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
       });;
     // Trả về kết quả
     res.send(populateChiTietGioHang);
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Đã xảy ra lỗi' });
