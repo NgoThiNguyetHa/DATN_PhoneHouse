@@ -16,6 +16,7 @@ public class HoaDon implements Serializable {
     public HoaDon(String _id, String trangThaiNhanHang) {
         this._id = _id;
         this.trangThaiNhanHang = trangThaiNhanHang;
+    }
     public HoaDon() {
     }
 

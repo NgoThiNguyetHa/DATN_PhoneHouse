@@ -21,7 +21,9 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
 
   try {
     // Tìm giỏ hàng của khách hàng dựa vào idKhachHang
-    const gioHang = await GioHang.findOne({ maKhachHang: idKhachHang });
+    const gioHang = await GioHang.findOne({
+      maKhachHang: idKhachHang,
+    });
 
     if (!gioHang) {
       return res.status(404).send({ message: 'Giỏ hàng không tồn tại' });
@@ -36,10 +38,33 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
     });
 
     // Lưu chi tiết giỏ hàng
+    
     const savedChiTietGioHang = await chiTietGioHang.save();
-
+    const populateChiTietGioHang = await ChiTietGioHang
+      .findById(savedChiTietGioHang._id)
+      .populate({
+        path: "maChiTietDienThoai",
+        populate: [
+          {
+            path: "maDienThoai",
+            model: "dienthoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          },
+          { path: "maMau", model: "mau" },
+          { path: "maDungLuong", model: "dungluong" },
+          { path: "maRam", model: "ram" },
+        ],
+      })
+      .populate({
+        path: "maGioHang",
+        populate: { path: "maKhachHang", model: "khachhang" },
+      });;
     // Trả về kết quả
-    res.send(savedChiTietGioHang);
+    res.send(populateChiTietGioHang);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'Đã xảy ra lỗi' });

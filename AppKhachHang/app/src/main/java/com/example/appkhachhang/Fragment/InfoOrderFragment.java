@@ -175,9 +175,9 @@ public class InfoOrderFragment extends Fragment {
                     long total = 0;
                     for (ThongTinDonHang item : hoaDonList) {
                         if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-                            total += (Integer.parseInt(item.getMaChiTietDienThoai().getGiaTien().toString())  * (item.getSoLuong()));
+                            total += (item.getMaChiTietDienThoai().getGiaTien()  * (item.getSoLuong()));
                         }else{
-                            total += (Integer.parseInt(item.getMaChiTietDienThoai().getGiaTien().toString()) * Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100) * (item.getSoLuong());
+                            total += (item.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100) * (item.getSoLuong());
                         }
                         Log.e("soLuong", String.valueOf(item.getSoLuong()));
                     }

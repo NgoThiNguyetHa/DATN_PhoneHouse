@@ -1,5 +1,6 @@
 package com.example.appcuahang.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -64,6 +65,7 @@ public class ReviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review, container, false);
+        ((Activity) getContext()).setTitle("Đánh Giá");
         initView(view);
         initVariable();
         getData();

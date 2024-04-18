@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class ChiTietGioHang implements Serializable {
     private String _id;
-    private Number soLuong;
-    private Number giaTien;
+    private int soLuong;
+    private int giaTien;
     private ChiTietDienThoai maChiTietDienThoai;
     private GioHang maGioHang;
 
@@ -17,19 +17,19 @@ public class ChiTietGioHang implements Serializable {
         this._id = _id;
     }
 
-    public Number getSoLuong() {
+    public int getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(Number soLuong) {
+    public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
 
-    public Number getGiaTien() {
+    public int getGiaTien() {
         return giaTien;
     }
 
-    public void setGiaTien(Number giaTien) {
+    public void setGiaTien(int giaTien) {
         this.giaTien = giaTien;
     }
 
