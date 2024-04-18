@@ -3,10 +3,15 @@ var router = express.Router();
 const mongoose = require("mongoose");
 require("../models/ChiTietDienThoai");
 require("../models/DienThoai");
-const {getStorage, ref, uploadBytesResumable, getDownloadURL} = require("firebase/storage");
-const {firebaseApp} = require("../middleware/firebaseConfig");
-const {v4: uuidv4} = require("uuid");
-const {upload} = require("../middleware/multer");
+const {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} = require("firebase/storage");
+const { firebaseApp } = require("../middleware/firebaseConfig");
+const { v4: uuidv4 } = require("uuid");
+const { upload } = require("../middleware/multer");
 const DanhGia = require("../models/DanhGia");
 const HangSanXuat = require("../models/HangSanXuat");
 const Mau = require("../models/Mau");
@@ -24,7 +29,7 @@ router.post("/addChiTiet", async function (req, res, next) {
       maMau: req.body.maMau,
       maDungLuong: req.body.maDungLuong,
       maRam: req.body.maRam,
-      hinhAnh: req.body.hinhAnh
+      hinhAnh: req.body.hinhAnh,
     });
 
     const savedDienThoaiChiTiet = await chiTiet.save(); // Lưu đối tượng
@@ -153,7 +158,6 @@ router.get("/getChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
   }
 });
 
-
 //get theo hãng sx
 router.get("/getChiTietTheoHangSanXuat1/:id", async (req, res) => {
   try {
@@ -196,17 +200,18 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
     for (const dt of dienThoai) {
       const chiTietDienThoai = await ChiTietDienThoai.findOne({
         maDienThoai: dt._id,
-      }).populate("maRam")
-      .populate("maDungLuong")
-      .populate("maMau")
-      .populate({
-        path: "maDienThoai",
-        populate: [
-          { path: "maCuaHang", model: "cuaHang" },
-          { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-          { path: "maHangSX", model: "hangSanXuat" },
-        ],
-      });
+      })
+        .populate("maRam")
+        .populate("maDungLuong")
+        .populate("maMau")
+        .populate({
+          path: "maDienThoai",
+          populate: [
+            { path: "maCuaHang", model: "cuaHang" },
+            { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+            { path: "maHangSX", model: "hangSanXuat" },
+          ],
+        });
 
       if (chiTietDienThoai) {
         const danhGia = await DanhGia.find({
@@ -289,7 +294,6 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
 //   }
 // });
 
-
 // router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
 //   try {
 //     const idHangSX = req.params.id;
@@ -335,7 +339,6 @@ router.get("/getChiTietTheoHangSanXuat/:id", async (req, res) => {
 //     res.status(500).json({ error: error.message });
 //   }
 // });
-
 
 router.get("/getChiTietTheoHangSanXuatDG/:id", async (req, res) => {
   try {
@@ -401,37 +404,42 @@ router.get("/getChiTietTheoHangSanXuatDG/:id", async (req, res) => {
 
 router.get("/getChiTietDienThoaiByID/:id", async (req, res) => {
   try {
-    const data = await ChiTietDienThoai.find({_id: req.params.id})
-        .populate({path: 'maDienThoai', populate: 'maHangSX', populate: "maUuDai", populate:"maCuaHang" })
-        .populate('maMau')
-        .populate('maDungLuong')
-        .populate('maRam')
-    res.json(data)
+    const data = await ChiTietDienThoai.find({ _id: req.params.id })
+      .populate({
+        path: "maDienThoai",
+        populate: "maHangSX",
+        populate: "maUuDai",
+        populate: "maCuaHang",
+      })
+      .populate("maMau")
+      .populate("maDungLuong")
+      .populate("maRam");
+    res.json(data);
   } catch (err) {
-    return res.status(500).json({message: err.message})
+    return res.status(500).json({ message: err.message });
   }
-})
+});
 
 async function uploadImage(file, quantity) {
   const storageFB = getStorage(firebaseApp);
   const randomString = uuidv4();
-  if (quantity === 'single') {
+  if (quantity === "single") {
     const dateTime = Date.now();
     const fileName = `${dateTime}${randomString}`;
     const storageRef = ref(storageFB, fileName);
     const metadata = { contentType: file.type };
     await uploadBytesResumable(storageRef, file.buffer, metadata);
     const downloadURL = await getDownloadURL(ref(storageFB, fileName));
-    return downloadURL
+    return downloadURL;
   }
 }
-router.post('/addChiTietDienThoaiFirebase', upload, async (req, res, next) => {
+router.post("/addChiTietDienThoaiFirebase", upload, async (req, res, next) => {
   try {
     const file = {
       type: req.file.mimetype,
-      buffer: req.file.buffer
-    }
-    const buildImage = await uploadImage(file,'single');
+      buffer: req.file.buffer,
+    };
+    const buildImage = await uploadImage(file, "single");
 
     const chiTietDienThoai = new ChiTietDienThoai({
       soLuong: req.body.soLuong,
@@ -446,364 +454,362 @@ router.post('/addChiTietDienThoaiFirebase', upload, async (req, res, next) => {
     const saved = await chiTietDienThoai.save();
     res.status(201).json(saved);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-router
-  .put("/updateChiTietDienThoaiFirebase/:id", upload, async (req, res) => {
-    try {
-      const id = req.params.id;
-      let hinhAnhURL = "";
-      if (req.file) {
-        const file = {
-          type: req.file.mimetype,
-          buffer: req.file.buffer,
-        };
-        hinhAnhURL = await uploadImage(file, "single");
-      }
-
-      const updated = {};
-      if (req.body.maRam) updated.maRam = req.body.maRam;
-      if (req.body.maDungLuong) updated.maDungLuong = req.body.maDungLuong;
-      if (req.body.maMau) updated.maMau = req.body.maMau;
-      if (req.body.maDienThoai) updated.maDienThoai = req.body.maDienThoai;
-      if (req.body.giaTien) updated.giaTien = req.body.giaTien;
-      if (req.body.soLuong) updated.soLuong = req.body.soLuong;
-      if (hinhAnhURL) updated.hinhAnh = hinhAnhURL;
-
-      const data = await ChiTietDienThoai.findByIdAndUpdate(id, updated, {
-        new: true,
-      });
-
-      if (!data) {
-        return res.status(404).json({ message: "update failed" });
-      } else {
-        return res.status(200).json({ message: "update successful", data });
-      }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: err.message });
+router.put("/updateChiTietDienThoaiFirebase/:id", upload, async (req, res) => {
+  try {
+    const id = req.params.id;
+    let hinhAnhURL = "";
+    if (req.file) {
+      const file = {
+        type: req.file.mimetype,
+        buffer: req.file.buffer,
+      };
+      hinhAnhURL = await uploadImage(file, "single");
     }
-  })
 
-  // router.get("/filterChiTietDienThoai", async (req, res) => {
-  //   try {
-  //     const { Gia } = req.query;
-  //     let giaTien = await ChiTietDienThoai.find();
-  //     if(giaTien){
-  //       giaTien = await ChiTietDienThoai.find({ giaTien: Number(Gia) });
-  //     }
-  //     res.json({giaTien});
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).json({ error: error.message });
-  //   }
-  // });
+    const updated = {};
+    if (req.body.maRam) updated.maRam = req.body.maRam;
+    if (req.body.maDungLuong) updated.maDungLuong = req.body.maDungLuong;
+    if (req.body.maMau) updated.maMau = req.body.maMau;
+    if (req.body.maDienThoai) updated.maDienThoai = req.body.maDienThoai;
+    if (req.body.giaTien) updated.giaTien = req.body.giaTien;
+    if (req.body.soLuong) updated.soLuong = req.body.soLuong;
+    if (hinhAnhURL) updated.hinhAnh = hinhAnhURL;
 
-  // router.get("/filterGiaChiTietDienThoai", async (req, res) => {
-  //   try {
-  //     const { GiaMin, GiaMax } = req.query; // Thêm GiaMin và GiaMax từ query parameters
-  //     let giaTien;
+    const data = await ChiTietDienThoai.findByIdAndUpdate(id, updated, {
+      new: true,
+    });
 
-  //     // Kiểm tra xem cả hai giá trị đều tồn tại
-  //     if (GiaMin && GiaMax) {
-  //       giaTien = await ChiTietDienThoai.find({
-  //         giaTien: { $gte: Number(GiaMin), $lte: Number(GiaMax) },
-  //       })
-  //         .populate("maRam")
-  //         .populate("maDungLuong")
-  //         .populate("maMau")
-  //         .populate({
-  //           path: "maDienThoai",
-  //           populate: [
-  //             { path: "maCuaHang", model: "cuaHang" },
-  //             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //             { path: "maHangSX", model: "hangSanXuat" },
-  //           ],
-  //         });
-  //     } else if (GiaMin) {
-  //       // Nếu chỉ có giá tối thiểu được cung cấp
-  //       giaTien = await ChiTietDienThoai.find({
-  //         giaTien: { $gte: Number(GiaMin) },
-  //       })
-  //         .populate("maRam")
-  //         .populate("maDungLuong")
-  //         .populate("maMau")
-  //         .populate({
-  //           path: "maDienThoai",
-  //           populate: [
-  //             { path: "maCuaHang", model: "cuaHang" },
-  //             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //             { path: "maHangSX", model: "hangSanXuat" },
-  //           ],
-  //         });
-  //     } else if (GiaMax) {
-  //       // Nếu chỉ có giá tối đa được cung cấp
-  //       giaTien = await ChiTietDienThoai.find({
-  //         giaTien: { $lte: Number(GiaMax) },
-  //       })
-  //         .populate("maRam")
-  //         .populate("maDungLuong")
-  //         .populate("maMau")
-  //         .populate({
-  //           path: "maDienThoai",
-  //           populate: [
-  //             { path: "maCuaHang", model: "cuaHang" },
-  //             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //             { path: "maHangSX", model: "hangSanXuat" },
-  //           ],
-  //         });
-  //     } else {
-  //       // Nếu không có thông tin về giá
-  //       giaTien = await ChiTietDienThoai.find()
-  //         .populate("maRam")
-  //         .populate("maDungLuong")
-  //         .populate("maMau")
-  //         .populate({
-  //           path: "maDienThoai",
-  //           populate: [
-  //             { path: "maCuaHang", model: "cuaHang" },
-  //             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //             { path: "maHangSX", model: "hangSanXuat" },
-  //           ],
-  //         });
-  //     }
+    if (!data) {
+      return res.status(404).json({ message: "update failed" });
+    } else {
+      return res.status(200).json({ message: "update successful", data });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.message });
+  }
+});
 
-  //     res.json(giaTien);
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).json({ error: error.message });
-  //   }
-  // });
+// router.get("/filterChiTietDienThoai", async (req, res) => {
+//   try {
+//     const { Gia } = req.query;
+//     let giaTien = await ChiTietDienThoai.find();
+//     if(giaTien){
+//       giaTien = await ChiTietDienThoai.find({ giaTien: Number(Gia) });
+//     }
+//     res.json({giaTien});
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
-  // router.get("/filterMoreChiTietDienThoai", async (req, res) => {
-  //   try {
-  //     const { Gia, RAM } = req.query;
-  //     let query = {};
+// router.get("/filterGiaChiTietDienThoai", async (req, res) => {
+//   try {
+//     const { GiaMin, GiaMax } = req.query; // Thêm GiaMin và GiaMax từ query parameters
+//     let giaTien;
 
-  //     // Kiểm tra nếu có yêu cầu lọc theo giá
-  //     if (Gia) {
-  //       query.giaTien = Number(Gia);
-  //     }
+//     // Kiểm tra xem cả hai giá trị đều tồn tại
+//     if (GiaMin && GiaMax) {
+//       giaTien = await ChiTietDienThoai.find({
+//         giaTien: { $gte: Number(GiaMin), $lte: Number(GiaMax) },
+//       })
+//         .populate("maRam")
+//         .populate("maDungLuong")
+//         .populate("maMau")
+//         .populate({
+//           path: "maDienThoai",
+//           populate: [
+//             { path: "maCuaHang", model: "cuaHang" },
+//             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//             { path: "maHangSX", model: "hangSanXuat" },
+//           ],
+//         });
+//     } else if (GiaMin) {
+//       // Nếu chỉ có giá tối thiểu được cung cấp
+//       giaTien = await ChiTietDienThoai.find({
+//         giaTien: { $gte: Number(GiaMin) },
+//       })
+//         .populate("maRam")
+//         .populate("maDungLuong")
+//         .populate("maMau")
+//         .populate({
+//           path: "maDienThoai",
+//           populate: [
+//             { path: "maCuaHang", model: "cuaHang" },
+//             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//             { path: "maHangSX", model: "hangSanXuat" },
+//           ],
+//         });
+//     } else if (GiaMax) {
+//       // Nếu chỉ có giá tối đa được cung cấp
+//       giaTien = await ChiTietDienThoai.find({
+//         giaTien: { $lte: Number(GiaMax) },
+//       })
+//         .populate("maRam")
+//         .populate("maDungLuong")
+//         .populate("maMau")
+//         .populate({
+//           path: "maDienThoai",
+//           populate: [
+//             { path: "maCuaHang", model: "cuaHang" },
+//             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//             { path: "maHangSX", model: "hangSanXuat" },
+//           ],
+//         });
+//     } else {
+//       // Nếu không có thông tin về giá
+//       giaTien = await ChiTietDienThoai.find()
+//         .populate("maRam")
+//         .populate("maDungLuong")
+//         .populate("maMau")
+//         .populate({
+//           path: "maDienThoai",
+//           populate: [
+//             { path: "maCuaHang", model: "cuaHang" },
+//             { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//             { path: "maHangSX", model: "hangSanXuat" },
+//           ],
+//         });
+//     }
 
-  //     // Kiểm tra nếu có yêu cầu lọc theo RAM
-  //     if (RAM) {
-  //       // Tìm id của RAM từ schema Ram
-  //       const ramInfo = await Ram.findOne({ RAM: Number(RAM) });
-  //       if (ramInfo) {
-  //         query["maRam._id"] = ramInfo._id;
-  //       }
-  //     }
+//     res.json(giaTien);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
-  //     // Kiểm tra nếu có yêu cầu lọc theo dung lượng
-  //     // if (DungLuong) {
-  //     //   // Tìm id của DungLuong từ schema DungLuong
-  //     //   const dungLuongInfo = await DungLuong.findOne({
-  //     //     boNho: Number(DungLuong),
-  //     //   });
-  //     //   if (dungLuongInfo) {
-  //     //     query["maDungLuong._id"] = dungLuongInfo._id;
-  //     //   }
-  //     // }
+// router.get("/filterMoreChiTietDienThoai", async (req, res) => {
+//   try {
+//     const { Gia, RAM } = req.query;
+//     let query = {};
 
-  //     let giaTien = await ChiTietDienThoai.find(query);
+//     // Kiểm tra nếu có yêu cầu lọc theo giá
+//     if (Gia) {
+//       query.giaTien = Number(Gia);
+//     }
 
-  //     res.json({ giaTien });
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).json({ error: error.message });
-  //   }
-  // });
+//     // Kiểm tra nếu có yêu cầu lọc theo RAM
+//     if (RAM) {
+//       // Tìm id của RAM từ schema Ram
+//       const ramInfo = await Ram.findOne({ RAM: Number(RAM) });
+//       if (ramInfo) {
+//         query["maRam._id"] = ramInfo._id;
+//       }
+//     }
 
-  // router.get("/filterBoNhoChiTietDienThoai", async (req, res) => {
-  //   try {
-  //     // Lấy dung lượng RAM từ query string
-  //     let boNho = req.query.boNho;
+//     // Kiểm tra nếu có yêu cầu lọc theo dung lượng
+//     // if (DungLuong) {
+//     //   // Tìm id của DungLuong từ schema DungLuong
+//     //   const dungLuongInfo = await DungLuong.findOne({
+//     //     boNho: Number(DungLuong),
+//     //   });
+//     //   if (dungLuongInfo) {
+//     //     query["maDungLuong._id"] = dungLuongInfo._id;
+//     //   }
+//     // }
 
-  //     // Kiểm tra nếu dung lượng RAM được chỉ định trong query
-  //     if (!boNho) {
-  //       return res
-  //         .status(400)
-  //         .json({ message: "Vui lòng cung cấp dung lượng RAM." });
-  //     }
+//     let giaTien = await ChiTietDienThoai.find(query);
 
-  //     // Xử lý dungLuongRAM để tách thành mảng các giá trị
-  //     boNho = boNho.split(",").map((value) => parseInt(value.trim()));
+//     res.json({ giaTien });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
-  //     // Tìm các điện thoại có dung lượng RAM phù hợp
-  //     const dienThoai = await ChiTietDienThoai.find({})
-  //       .populate("maRam")
-  //       .populate("maMau")
-  //       .populate({
-  //         path: "maDienThoai",
-  //         populate: [
-  //           { path: "maCuaHang", model: "cuaHang" },
-  //           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //           { path: "maHangSX", model: "hangSanXuat" },
-  //         ],
-  //       })
-  //       .populate({
-  //         path: "maDungLuong",
-  //         match: { boNho: { $in: boNho } },
-  //       })
-  //       .exec();
+// router.get("/filterBoNhoChiTietDienThoai", async (req, res) => {
+//   try {
+//     // Lấy dung lượng RAM từ query string
+//     let boNho = req.query.boNho;
 
-  //     // Lọc ra các điện thoại có thông tin về dung lượng RAM phù hợp
-  //     const dienThoaiFiltered = dienThoai.filter((dt) => dt.maDungLuong !== null);
+//     // Kiểm tra nếu dung lượng RAM được chỉ định trong query
+//     if (!boNho) {
+//       return res
+//         .status(400)
+//         .json({ message: "Vui lòng cung cấp dung lượng RAM." });
+//     }
 
-  //     res.json(dienThoaiFiltered);
-  //   } catch (err) {
-  //     console.error(err);
-  //     res
-  //       .status(500)
-  //       .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
-  //   }
-  // });
+//     // Xử lý dungLuongRAM để tách thành mảng các giá trị
+//     boNho = boNho.split(",").map((value) => parseInt(value.trim()));
 
-  // router.get("/filterRamChiTietDienThoai", async (req, res) => {
-  //   try {
-  //     // Lấy dung lượng RAM từ query string
-  //     let Ram = req.query.Ram;
+//     // Tìm các điện thoại có dung lượng RAM phù hợp
+//     const dienThoai = await ChiTietDienThoai.find({})
+//       .populate("maRam")
+//       .populate("maMau")
+//       .populate({
+//         path: "maDienThoai",
+//         populate: [
+//           { path: "maCuaHang", model: "cuaHang" },
+//           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//           { path: "maHangSX", model: "hangSanXuat" },
+//         ],
+//       })
+//       .populate({
+//         path: "maDungLuong",
+//         match: { boNho: { $in: boNho } },
+//       })
+//       .exec();
 
-  //     // Kiểm tra nếu dung lượng RAM được chỉ định trong query
-  //     if (!Ram) {
-  //       return res
-  //         .status(400)
-  //         .json({ message: "Vui lòng cung cấp dung lượng RAM." });
-  //     }
+//     // Lọc ra các điện thoại có thông tin về dung lượng RAM phù hợp
+//     const dienThoaiFiltered = dienThoai.filter((dt) => dt.maDungLuong !== null);
 
-  //     // Xử lý dungLuongRAM để tách thành mảng các giá trị
-  //     Ram = Ram.split(",").map((value) => parseInt(value.trim()));
+//     res.json(dienThoaiFiltered);
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
+//   }
+// });
 
-  //     // Tìm các điện thoại có dung lượng RAM phù hợp
-  //     const dienThoai = await ChiTietDienThoai.find({})
-  //       .populate("maDungLuong")
-  //       .populate("maMau")
-  //       .populate({
-  //         path: "maDienThoai",
-  //         populate: [
-  //           { path: "maCuaHang", model: "cuaHang" },
-  //           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //           { path: "maHangSX", model: "hangSanXuat" },
-  //         ],
-  //       })
-  //       .populate({
-  //         path: "maRam",
-  //         match: { RAM: { $in: Ram } },
-  //       })
-  //       .exec();
+// router.get("/filterRamChiTietDienThoai", async (req, res) => {
+//   try {
+//     // Lấy dung lượng RAM từ query string
+//     let Ram = req.query.Ram;
 
-  //     // Lọc ra các điện thoại có thông tin về dung lượng RAM phù hợp
-  //     const dienThoaiFiltered = dienThoai.filter((dt) => dt.maRam !== null);
+//     // Kiểm tra nếu dung lượng RAM được chỉ định trong query
+//     if (!Ram) {
+//       return res
+//         .status(400)
+//         .json({ message: "Vui lòng cung cấp dung lượng RAM." });
+//     }
 
-  //     res.json(dienThoaiFiltered);
-  //   } catch (err) {
-  //     console.error(err);
-  //     res
-  //       .status(500)
-  //       .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
-  //   }
-  // });
+//     // Xử lý dungLuongRAM để tách thành mảng các giá trị
+//     Ram = Ram.split(",").map((value) => parseInt(value.trim()));
 
-  // //sắp xếp theo giá cao - thấp
-  // router.get("/sapxepGiaCao-Thap", async (req, res) => {
-  //   try {
-  //     const data = await ChiTietDienThoai.find()
-  //       .sort({ giaTien: -1 })
-  //       .populate("maRam")
-  //       .populate("maDungLuong")
-  //       .populate("maMau")
-  //       .populate({
-  //         path: "maDienThoai",
-  //         populate: [
-  //           { path: "maCuaHang", model: "cuaHang" },
-  //           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //           { path: "maHangSX", model: "hangSanXuat" },
-  //         ],
-  //       });
-  //     res.json(data);
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message });
-  //   }
-  // });
+//     // Tìm các điện thoại có dung lượng RAM phù hợp
+//     const dienThoai = await ChiTietDienThoai.find({})
+//       .populate("maDungLuong")
+//       .populate("maMau")
+//       .populate({
+//         path: "maDienThoai",
+//         populate: [
+//           { path: "maCuaHang", model: "cuaHang" },
+//           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//           { path: "maHangSX", model: "hangSanXuat" },
+//         ],
+//       })
+//       .populate({
+//         path: "maRam",
+//         match: { RAM: { $in: Ram } },
+//       })
+//       .exec();
 
-  // //sắp xếp theo giá thấp - cao
-  // router.get("/sapxepGiaThap-Cao", async (req, res) => {
-  //   try {
-  //     const data = await ChiTietDienThoai.find()
-  //       .sort({ giaTien: 1 })
-  //       .populate("maRam")
-  //       .populate("maDungLuong")
-  //       .populate("maMau")
-  //       .populate({
-  //         path: "maDienThoai",
-  //         populate: [
-  //           { path: "maCuaHang", model: "cuaHang" },
-  //           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //           { path: "maHangSX", model: "hangSanXuat" },
-  //         ],
-  //       }); ;
-  //     res.json(data);
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message });
-  //   }
-  // });
+//     // Lọc ra các điện thoại có thông tin về dung lượng RAM phù hợp
+//     const dienThoaiFiltered = dienThoai.filter((dt) => dt.maRam !== null);
 
-  // //ưu đãi hot
-  // router.get("/uuDaiHot", async (req, res) => {
-  //   try {
-  //     const data = await ChiTietDienThoai.find()
-  //       .populate("maRam")
-  //       .populate("maDungLuong")
-  //       .populate("maMau")
-  //       .populate({
-  //         path: "maDienThoai",
-  //         populate: [
-  //           { path: "maCuaHang", model: "cuaHang" },
-  //           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-  //           { path: "maHangSX", model: "hangSanXuat" },
-  //         ],
-  //       });
+//     res.json(dienThoaiFiltered);
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
+//   }
+// });
 
-  //     // Lọc các bản ghi mà maUuDai là null hoặc trangThai của maUuDai là "Không Hoạt Động"
-  //     const filteredData = data.filter((item) => {
-  //       return (
-  //         item.maDienThoai.maUuDai &&
-  //         item.maDienThoai.maUuDai.trangThai === "Hoạt động"
-  //       );
-  //     });
+// //sắp xếp theo giá cao - thấp
+// router.get("/sapxepGiaCao-Thap", async (req, res) => {
+//   try {
+//     const data = await ChiTietDienThoai.find()
+//       .sort({ giaTien: -1 })
+//       .populate("maRam")
+//       .populate("maDungLuong")
+//       .populate("maMau")
+//       .populate({
+//         path: "maDienThoai",
+//         populate: [
+//           { path: "maCuaHang", model: "cuaHang" },
+//           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//           { path: "maHangSX", model: "hangSanXuat" },
+//         ],
+//       });
+//     res.json(data);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
-  //     // Ép kiểu trường giamGia từ string sang integer
-  //     filteredData.forEach((item) => {
-  //       if (item.maDienThoai.maUuDai && item.maDienThoai.maUuDai.giamGia) {
-  //         item.maDienThoai.maUuDai.giamGia = parseInt(
-  //           item.maDienThoai.maUuDai.giamGia
-  //         );
-  //       }
-  //     });
+// //sắp xếp theo giá thấp - cao
+// router.get("/sapxepGiaThap-Cao", async (req, res) => {
+//   try {
+//     const data = await ChiTietDienThoai.find()
+//       .sort({ giaTien: 1 })
+//       .populate("maRam")
+//       .populate("maDungLuong")
+//       .populate("maMau")
+//       .populate({
+//         path: "maDienThoai",
+//         populate: [
+//           { path: "maCuaHang", model: "cuaHang" },
+//           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//           { path: "maHangSX", model: "hangSanXuat" },
+//         ],
+//       }); ;
+//     res.json(data);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
-  //     // Sắp xếp theo giamGia từ cao đến thấp
-  //     filteredData.sort((a, b) => {
-  //       const giamGiaA = a.maDienThoai.maUuDai
-  //         ? a.maDienThoai.maUuDai.giamGia
-  //         : 0;
-  //       const giamGiaB = b.maDienThoai.maUuDai
-  //         ? b.maDienThoai.maUuDai.giamGia
-  //         : 0;
-  //       return giamGiaB - giamGiaA;
-  //     });
+// //ưu đãi hot
+// router.get("/uuDaiHot", async (req, res) => {
+//   try {
+//     const data = await ChiTietDienThoai.find()
+//       .populate("maRam")
+//       .populate("maDungLuong")
+//       .populate("maMau")
+//       .populate({
+//         path: "maDienThoai",
+//         populate: [
+//           { path: "maCuaHang", model: "cuaHang" },
+//           { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+//           { path: "maHangSX", model: "hangSanXuat" },
+//         ],
+//       });
 
-  //     res.json(filteredData);
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message });
-  //   }
-  // });
+//     // Lọc các bản ghi mà maUuDai là null hoặc trangThai của maUuDai là "Không Hoạt Động"
+//     const filteredData = data.filter((item) => {
+//       return (
+//         item.maDienThoai.maUuDai &&
+//         item.maDienThoai.maUuDai.trangThai === "Hoạt động"
+//       );
+//     });
 
-  /// test
+//     // Ép kiểu trường giamGia từ string sang integer
+//     filteredData.forEach((item) => {
+//       if (item.maDienThoai.maUuDai && item.maDienThoai.maUuDai.giamGia) {
+//         item.maDienThoai.maUuDai.giamGia = parseInt(
+//           item.maDienThoai.maUuDai.giamGia
+//         );
+//       }
+//     });
 
-  
+//     // Sắp xếp theo giamGia từ cao đến thấp
+//     filteredData.sort((a, b) => {
+//       const giamGiaA = a.maDienThoai.maUuDai
+//         ? a.maDienThoai.maUuDai.giamGia
+//         : 0;
+//       const giamGiaB = b.maDienThoai.maUuDai
+//         ? b.maDienThoai.maUuDai.giamGia
+//         : 0;
+//       return giamGiaB - giamGiaA;
+//     });
+
+//     res.json(filteredData);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+/// test
+
 router.get("/filterGiaChiTietDienThoai", async (req, res) => {
   try {
     const { GiaMin, GiaMax } = req.query;
@@ -940,7 +946,6 @@ router.get("/filterMoreChiTietDienThoai", async (req, res) => {
   }
 });
 
-
 router.get("/filterBoNhoChiTietDienThoai", async (req, res) => {
   try {
     let boNho = req.query.boNho;
@@ -995,7 +1000,7 @@ router.get("/filterBoNhoChiTietDienThoai", async (req, res) => {
               { path: "maDungLuong", model: "dungluong" },
               { path: "maRam", model: "ram" },
             ],
-          });;
+          });
         return {
           chiTietDienThoai: item,
           danhGias: danhGias,
@@ -1011,7 +1016,6 @@ router.get("/filterBoNhoChiTietDienThoai", async (req, res) => {
       .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
   }
 });
-
 
 router.get("/filterRamChiTietDienThoai", async (req, res) => {
   try {
@@ -1140,7 +1144,6 @@ router.get("/filterRamChiTietDienThoai", async (req, res) => {
 //   }
 // });
 
-
 router.get("/sapxepGiaCao-Thap", async (req, res) => {
   try {
     const data = await ChiTietDienThoai.find()
@@ -1164,7 +1167,6 @@ router.get("/sapxepGiaCao-Thap", async (req, res) => {
         if (item.maDienThoai.maUuDai != null) {
           const giamGia = parseInt(item.maDienThoai.maUuDai.giamGia);
           item.giaTien = parseInt(item.giaTien / (giamGia / 100)); // Chuyển đổi giaTien thành kiểu integer
-          console.log(item.giaTien);
         }
 
         // Retrieve danhGias for each item
@@ -1199,8 +1201,6 @@ router.get("/sapxepGiaCao-Thap", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 //sắp xếp theo giá thấp - cao
 // router.get("/sapxepGiaThap-Cao", async (req, res) => {
@@ -1277,7 +1277,6 @@ router.get("/sapxepGiaThap-Cao", async (req, res) => {
         if (item.maDienThoai.maUuDai != null) {
           const giamGia = parseInt(item.maDienThoai.maUuDai.giamGia);
           item.giaTien = parseInt(item.giaTien / (giamGia / 100)); // Chuyển đổi giaTien thành kiểu integer
-          console.log(item.giaTien);
         }
 
         // Retrieve danhGias for each item
@@ -1312,9 +1311,6 @@ router.get("/sapxepGiaThap-Cao", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
 
 //ưu đãi hot
 router.get("/uuDaiHot", async (req, res) => {
@@ -1382,7 +1378,7 @@ router.get("/uuDaiHot", async (req, res) => {
               { path: "maDungLuong", model: "dungluong" },
               { path: "maRam", model: "ram" },
             ],
-          });;
+          });
         return {
           chiTietDienThoai: item,
           danhGias: danhGias,
@@ -1401,11 +1397,9 @@ router.get("/filterDienThoai", async (req, res) => {
     let { Ram, boNho } = req.query;
 
     if (!Ram || !boNho) {
-      return res
-        .status(400)
-        .json({
-          message: "Vui lòng cung cấp cả dung lượng RAM và dung lượng bộ nhớ.",
-        });
+      return res.status(400).json({
+        message: "Vui lòng cung cấp cả dung lượng RAM và dung lượng bộ nhớ.",
+      });
     }
 
     Ram = Ram.split(",").map((value) => parseInt(value.trim()));
@@ -1473,7 +1467,6 @@ router.get("/filterDienThoai", async (req, res) => {
   }
 });
 
-
-
+//sắp xếp điểm đánh giá
 
 module.exports = router;
