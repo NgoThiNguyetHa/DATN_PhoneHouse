@@ -51,11 +51,10 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull SanPhamHotAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SanPhamHot sanPhamHot = list.get(position);
-        String fullCoverImgUrl = sanPhamHot.get_id().getMaDienThoai().getHinhAnh();
+        String fullCoverImgUrl = sanPhamHot.get_id().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         holder.tvGiaSanPham.setText(""+sanPhamHot.get_id().getGiaTien()+"đ");
         holder.tvTenSanPham.setText(sanPhamHot.get_id().getMaDienThoai().getTenDienThoai());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
