@@ -74,12 +74,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanh_toan);
-//        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String user_json = pref.getString("user", "abc");
-//        user = gson.fromJson(user_json, User.class);
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
-
         tvTen = findViewById(R.id.tv_tenKhachHang);
         tvSdt = findViewById(R.id.tv_sdtKhachHang);
         tvDiaChi = findViewById(R.id.tv_DiaChiKhachHang);
@@ -234,28 +229,31 @@ public class ThanhToanActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<AddressDelivery>>() {
             @Override
             public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
-                if (response.body()!=null) {
+                if (response.isSuccessful() && response.body() != null) {
                     list.clear();
                     list.addAll(response.body());
                     adapterDiaChi.notifyDataSetChanged();
-                    idDiaChi = list.get(0).get_id();
-                    tvTen.setText(list.get(0).getTenNguoiNhan() + " | ");
-                    tvSdt.setText(list.get(0).getSdt());
-                    tvDiaChi.setText("Địa chỉ: " + list.get(0).getDiaChi());
+                    if (!list.isEmpty()) {
+                        AddressDelivery firstAddress = list.get(0);
+                        idDiaChi = firstAddress.get_id();
+                        tvTen.setText(firstAddress.getTenNguoiNhan() + " | ");
+                        tvSdt.setText(firstAddress.getSdt());
+                        tvDiaChi.setText("Địa chỉ: " + firstAddress.getDiaChi());
+                    } else {
+                        Toast.makeText(ThanhToanActivity.this, "Không có địa chỉ nào.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(ThanhToanActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ThanhToanActivity.this, "Không thể lấy danh sách địa chỉ.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<AddressDelivery>> call, Throwable t) {
-                // Handle failure
-                Log.e("mau", t.getMessage());
+                Log.e("errorrr", t.getMessage());
             }
         });
     }
     void addChiTietHoaDon() {
-        // Gọi API để thêm chi tiết hóa đơn
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
