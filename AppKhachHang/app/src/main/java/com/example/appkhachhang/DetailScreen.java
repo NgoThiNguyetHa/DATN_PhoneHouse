@@ -17,6 +17,7 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.GioHang;
+import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -32,6 +33,7 @@ public class DetailScreen extends AppCompatActivity {
     ImageView imgAnhChiTiet;
     TextView tv_tenDienThoai, tv_giaChiTiet, tv_soLuong, tv_moTa, tv_danhGia, tvSoLuongGioHang;
     ChiTietDienThoai chiTietDienThoai;
+    MySharedPreferences mySharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,14 +44,15 @@ public class DetailScreen extends AppCompatActivity {
         tv_soLuong = findViewById(R.id.tv_soLuongChiTiet);
         tv_moTa = findViewById(R.id.tv_moTaChiTiet);
         tv_danhGia = findViewById(R.id.tv_danhGia);
-        SharedPreferences prefs = getSharedPreferences("user_info", MODE_PRIVATE);
-        String idKhachHang = prefs.getString("idKhachHang", "abc");
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
+//        SharedPreferences prefs = getSharedPreferences("user_info", MODE_PRIVATE);
+//        String idKhachHang = prefs.getString("idKhachHang", "abc");
         SharedPreferences preferences = getSharedPreferences("chiTiet", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = preferences.getString("chiTietDienThoai", null);
         chiTietDienThoai = gson.fromJson(json, ChiTietDienThoai.class);
 
-        Picasso.get().load(chiTietDienThoai.getMaDienThoai().getHinhAnh()).into(imgAnhChiTiet);
+        Picasso.get().load(chiTietDienThoai.getHinhAnh()).into(imgAnhChiTiet);
         tv_tenDienThoai.setText(chiTietDienThoai.getMaDienThoai().getTenDienThoai());
         tv_giaChiTiet.setText(chiTietDienThoai.getGiaTien() + "đ");
         tv_danhGia.setText("5 | ");
@@ -73,25 +76,30 @@ public class DetailScreen extends AppCompatActivity {
         findViewById(R.id.btnAddGioHang).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
-                chiTietGioHang.setSoLuong(1);
-                chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
-                ApiRetrofit.getApiService().addGioHang(chiTietGioHang, idKhachHang).enqueue(new Callback<ChiTietGioHang>() {
-                    @Override
-                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                        if (response.body()!=null){
-                            Toast.makeText(DetailScreen.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        } else {
-                            handleErrorResponse(response);
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
+                    chiTietGioHang.setSoLuong(1);
+                    chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                    ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+                        @Override
+                        public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
+                            if (response.body() != null) {
+                                Toast.makeText(DetailScreen.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            } else {
+                                handleErrorResponse(response);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                        Log.d("error", "onFailure: " + t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+                            Log.d("error", "onFailure: " + t.getMessage());
+                        }
+                    });
+                }else {
+                    Intent intent = new Intent(DetailScreen.this, LoginScreen.class);
+                    startActivity(intent);
+                }
             }
         });
     }

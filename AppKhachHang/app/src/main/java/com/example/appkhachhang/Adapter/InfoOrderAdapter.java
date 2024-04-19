@@ -58,7 +58,7 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
         }
         //
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-        String tongTien = chiTietHoaDon.getMaChiTietDienThoai().getGiaTien().toString();
+        String tongTien = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien());
         try {
             double tongTienNumber = Double.parseDouble(tongTien);
             String formattedNumber = decimalFormat.format(tongTienNumber);
@@ -70,10 +70,10 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
         //
         String tongTienGiam ;
         if (chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-            tongTienGiam = String.valueOf(Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien().toString()));
+            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien());
 
         }else{
-            tongTienGiam = String.valueOf(Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien().toString()) * Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
+            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
 
         }
         try {

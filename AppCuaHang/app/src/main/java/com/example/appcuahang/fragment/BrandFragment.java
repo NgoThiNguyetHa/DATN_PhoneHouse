@@ -48,6 +48,7 @@ import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.interface_adapter.IItemBrandListenner;
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.untils.MySharedPreferences;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -93,6 +94,7 @@ public class BrandFragment extends Fragment {
     ImageView uploadImage;
     FirebaseDatabase database;
     ProgressDialog progressDialog;
+    String check;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -304,6 +306,7 @@ public class BrandFragment extends Fragment {
                                                     getData();
                                                     dialog.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -375,7 +378,7 @@ public class BrandFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //upload ảnh lên firebase
-                if (Validate(edTenHang)){
+                if (ValidateUpdate(brand,edTenHang)){
                     if (imageUri != null){
                         //====
                         progressDialog = new ProgressDialog(getContext());
@@ -401,6 +404,7 @@ public class BrandFragment extends Fragment {
                                                     getData();
                                                     dialog.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -415,7 +419,25 @@ public class BrandFragment extends Fragment {
                             }
                         });
                     }else{
-                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                        String tenHang = edTenHang.getText().toString().trim();
+                        ApiService apiService = ApiRetrofit.getApiService();
+                        Call<Brand> call = apiService.putHangSanXuat(brand.get_id(), new Brand(tenHang , brand.getHinhAnh()));
+                        call.enqueue(new Callback<Brand>() {
+                            @Override
+                            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                    getData();
+                                    dialog.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Brand> call, Throwable t) {
+                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e("loi update",t.getMessage());
+                            }
+                        });
                     }
                 }
 
@@ -480,6 +502,21 @@ public class BrandFragment extends Fragment {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean ValidateUpdate(Brand brand, EditText edTenHang) {
+        if (edTenHang.getText().toString().isEmpty()) {
+            edTenHang.setError("Không được để trống!!");
+            return false;
+        }
+        for (Brand item: list){
+            if (item.getTenHang().toLowerCase().equals(edTenHang.getText().toString().trim().toLowerCase()) && item.get_id() != brand.get_id()){
+                edTenHang.setError("Tên hãng đã tồn tại!!");
+                return false;
+            }
+        }
+
         return true;
     }
 

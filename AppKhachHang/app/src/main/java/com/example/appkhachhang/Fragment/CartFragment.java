@@ -31,6 +31,7 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
@@ -55,7 +56,7 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
     LinearLayoutManager linearLayoutManager;
 
     User user;
-
+    MySharedPreferences mySharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,10 +101,11 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
     }
 
     private void getDataGioHang(){
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
-        String idKhachHang = prefs.getString("idKhachHang", "abc");
+//        SharedPreferences prefs = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
+//        String idKhachHang = prefs.getString("idKhachHang", "abc");
+        mySharedPreferences = new MySharedPreferences(getContext());
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<ChiTietGioHang>> call = apiService.getListGioHang(idKhachHang);
+        Call<List<ChiTietGioHang>> call = apiService.getListGioHang(mySharedPreferences.getUserId());
         call.enqueue(new Callback<List<ChiTietGioHang>>() {
             @Override
             public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
@@ -136,7 +138,7 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
         }
         int tongtien = 0;
         for (int i = 0; i < listChon.size(); i++) {
-            tongtien += Integer.parseInt(listChon.get(i).getGiaTien().toString())*Integer.parseInt(listChon.get(i).getSoLuong().toString());
+            tongtien += listChon.get(i).getGiaTien()*listChon.get(i).getSoLuong();
         }
         tvTongTien.setText(tongtien + "");
 //        SharedPreferences sharedPreferences = getContext().getSharedPreferences("listChon", MODE_PRIVATE);

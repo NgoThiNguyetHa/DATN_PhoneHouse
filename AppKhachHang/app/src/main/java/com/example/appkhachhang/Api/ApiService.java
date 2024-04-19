@@ -1,9 +1,12 @@
 package com.example.appkhachhang.Api;
 
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
+import com.example.appkhachhang.Model.ListPhone;
+import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.ThongTinDonHang;
 import com.example.appkhachhang.Model.User;
 
@@ -17,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface ApiService {
@@ -49,8 +53,8 @@ public interface ApiService {
     @POST("/hoadons/addHoaDon")
     Call<HoaDon> addHoaDon(@Body HoaDon hoaDon);
 
-    @POST("/chitiethoadons/addChiTietHoaDon")
-    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons);
+    @POST("/chitiethoadons/addChiTietHoaDon/{id}")
+    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
 
     @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
     Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
@@ -62,5 +66,61 @@ public interface ApiService {
     //update chi tiết
     @PUT("hoadons/updateHoaDon/{id}")
     Call<HoaDon> updateHoaDon(@Path("id") String id, @Body HoaDon hoaDon);
+
+    //get điện thoại theo hãng
+//    @GET("chitietdienthoais/getChiTietTheoHangSanXuat/{id}")
+//    Call<List<ListPhone>> getAllChiTietTheoHang(@Path("id") String id);
+
+    @GET("chitietdienthoais/getChiTietTheoHangSanXuatDG/{id}")
+    Call<List<Root>> getAllChiTietTheoHang(@Path("id") String id);
+
+//    //filter giá tiền
+//    @GET("chitietdienthoais/filterGiaChiTietDienThoai")
+//    Call<List<ListPhone>> getFilterGiaTien(@Query("GiaMin") int min, @Query("GiaMax") int max);
+//
+//    //filter bộ nhớ
+//    @GET("chitietdienthoais/filterBoNhoChiTietDienThoai")
+//    Call<List<ListPhone>> getFilterBoNho(@Query("boNho") String boNho);
+//
+//    //filter dung lượng ram
+//    @GET("chitietdienthoais/filterRamChiTietDienThoai")
+//    Call<List<ListPhone>> getFilterDlRam(@Query("Ram") String Ram);
+//
+//    //sắp xếp giá cao - thấp
+//    @GET("chitietdienthoais/sapxepGiaCao-Thap")
+//    Call<List<ListPhone>> getSortDown();
+//    //sắp xếp giá thấp - cao
+//    @GET("chitietdienthoais/sapxepGiaThap-Cao")
+//    Call<List<ListPhone>> getSortUp();
+//
+//    //ưu đãi hot
+//    @GET("chitietdienthoais/uuDaiHot")
+//    Call<List<ListPhone>> getUuDaiHot();
+
+    //filter giá tiền
+    @GET("chitietdienthoais/filterGiaChiTietDienThoai")
+    Call<List<Root>> getFilterGiaTien(@Query("GiaMin") int min, @Query("GiaMax") int max);
+
+    //filter bộ nhớ
+    @GET("chitietdienthoais/filterBoNhoChiTietDienThoai")
+    Call<List<Root>> getFilterBoNho(@Query("boNho") String boNho);
+
+    //filter dung lượng ram
+    @GET("chitietdienthoais/filterRamChiTietDienThoai")
+    Call<List<Root>> getFilterDlRam(@Query("Ram") String Ram);
+
+    //sắp xếp giá cao - thấp
+    @GET("chitietdienthoais/sapxepGiaCao-Thap")
+    Call<List<Root>> getSortDown();
+    //sắp xếp giá thấp - cao
+    @GET("chitietdienthoais/sapxepGiaThap-Cao")
+    Call<List<Root>> getSortUp();
+
+    //ưu đãi hot
+    @GET("chitietdienthoais/uuDaiHot")
+    Call<List<Root>> getUuDaiHot();
+
+    @GET("chitietdienthoais/filterDienThoai")
+    Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho);
 }
 

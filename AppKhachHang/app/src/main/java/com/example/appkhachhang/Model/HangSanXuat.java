@@ -3,6 +3,7 @@ package com.example.appkhachhang.Model;
 import java.io.Serializable;
 
 public class HangSanXuat implements Serializable {
+    private String _id;
     String tenHang;
     Object maCuaHang;
 
@@ -15,6 +16,14 @@ public class HangSanXuat implements Serializable {
         this.tenHang = tenHang;
         this.maCuaHang = maCuaHang;
         this.hinhAnh = hinhAnh;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTenHang() {

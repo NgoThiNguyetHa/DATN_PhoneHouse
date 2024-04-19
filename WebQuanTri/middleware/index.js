@@ -23,6 +23,6 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
-const baseUrl = 'http://localhost:8686/';
+const baseUrl = 'https://datn-phonehouse.onrender.com/';
 
 module.exports = { baseUrl, authenticateToken };

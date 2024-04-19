@@ -54,7 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ThanhToanActivity extends AppCompatActivity {
-    User user;
+//    User user;
     TextView tvTen, tvSdt, tvGhiChu, tvDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
     ImageView imgDiaChi;
     LinearLayout ln_ghiChu;
@@ -66,17 +66,17 @@ public class ThanhToanActivity extends AppCompatActivity {
     DiaChiNhanHangAdapter adapterDiaChi;
     String idDiaChi, selectedItem;
     List<ChiTietHoaDon> chiTietHoaDons;
-
+    MySharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanh_toan);
-        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String user_json = pref.getString("user", "abc");
-        user = gson.fromJson(user_json, User.class);
-
+//        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String user_json = pref.getString("user", "abc");
+//        user = gson.fromJson(user_json, User.class);
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
 
         tvTen = findViewById(R.id.tv_tenKhachHang);
         tvSdt = findViewById(R.id.tv_sdtKhachHang);
@@ -89,7 +89,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         tvTongHoaDon = findViewById(R.id.tvTongHoaDon);
         spnPhuongThucThanhToan = findViewById(R.id.spn_PhuongThucThanhToan);
         list = new ArrayList<>();
-        getData(user.get_id());
+        getData(mySharedPreferences.getUserId());
         adapterDiaChi = new DiaChiNhanHangAdapter(ThanhToanActivity.this, list);
 
 
@@ -145,7 +145,7 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         int tongTien = 0;
         for (int i = 0; i < chiTietGioHangList.size(); i++) {
-            tongTien += Integer.parseInt(chiTietGioHangList.get(i).getGiaTien().toString())*Integer.parseInt(chiTietGioHangList.get(i).getSoLuong().toString());
+            tongTien += chiTietGioHangList.get(i).getGiaTien()*chiTietGioHangList.get(i).getSoLuong();
         }
 
         int phiVanChuyen = 0;
@@ -184,7 +184,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                         hoaDon.setTongTien(String.valueOf(tongThanhToan));
                         hoaDon.setNgayTao(formattedDate);
                         hoaDon.setPhuongThucThanhToan(selectedItem);
-                        hoaDon.setMaKhachHang(new User(user.get_id()));
+                        hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
                         hoaDon.setMaCuaHang(new Store(maCuaHang));
                         hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
                         hoaDon.setTrangThaiNhanHang("Đang xử lý");
@@ -198,7 +198,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                                     ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
                                     chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
                                     chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                    chiTietHoaDon.setSoLuong(item.getSoLuong().toString());
+                                    chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
                                     chiTietHoaDons.add(chiTietHoaDon);
                                     addChiTietHoaDon();
                                 } else {
@@ -244,7 +244,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
     void addChiTietHoaDon() {
         // Gọi API để thêm chi tiết hóa đơn
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons).enqueue(new Callback<List<ChiTietHoaDon>>() {
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
+        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
             public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
                 if (response.body()!=null){

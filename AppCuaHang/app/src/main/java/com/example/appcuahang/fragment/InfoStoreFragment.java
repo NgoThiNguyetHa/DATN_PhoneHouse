@@ -174,7 +174,6 @@ public class InfoStoreFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_store_imageView);
 
         tvTitle.setText("Đổi Mật Khẩu");
-        edOldPass.setText("" + mySharedPreferences.getPassword());
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

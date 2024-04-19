@@ -217,7 +217,7 @@ public class DungLuongFragament extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validate()) {
+                if (ValidateUpdate(dungLuong)) {
                     Number tenDL = Integer.parseInt(edDungLuong.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
                     Call<DungLuong> call = apiDungLuongService.putDungLuong(dungLuong.get_id(), new DungLuong(tenDL));
@@ -330,6 +330,26 @@ public class DungLuongFragament extends Fragment {
         }
         for (DungLuong item: list){
             if (Integer.parseInt(String.valueOf(item.getBoNho())) == Integer.parseInt(edDungLuong.getText().toString().trim())){
+                edDungLuong.setError("Dung lượng đã tồn tại!!");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean ValidateUpdate(DungLuong dungLuong) {
+        if (edDungLuong.getText().toString().isEmpty()) {
+            edDungLuong.setError("Không được để trống!!");
+            return false;
+        } else if (!Pattern.matches("\\d+", edDungLuong.getText().toString())) {
+            edDungLuong.setError("Phải nhập là số!!");
+            return false;
+        }
+        for (DungLuong item: list){
+            if (Integer.parseInt(String.valueOf(item.getBoNho())) == Integer.parseInt(edDungLuong.getText().toString().trim())
+                    && dungLuong.get_id() != item.get_id()
+            ){
                 edDungLuong.setError("Dung lượng đã tồn tại!!");
                 return false;
             }

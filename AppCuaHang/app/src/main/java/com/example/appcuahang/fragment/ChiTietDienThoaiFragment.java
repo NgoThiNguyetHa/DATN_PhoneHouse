@@ -369,6 +369,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                                                     action();
                                                     dialogDetail.dismiss();
                                                     progressDialog.dismiss();
+                                                    imageUri = null;
                                                 }
                                             }
 
@@ -382,7 +383,25 @@ public class ChiTietDienThoaiFragment extends Fragment {
                             }
                         });
                     } else {
-                        Toast.makeText(getContext(), "Yêu cầu chọn ảnh", Toast.LENGTH_SHORT).show();
+                        Call<DetailPhone> call = apiService.putChiTietDienThoai(detailPhone.get_id(), new DetailPhone(strSoLuong, strGiaTien, new Phone(detailPhone.getMaDienThoai().get_id()), new Mau(idSpMau, ""), new DungLuong(idSpDungLuong), new Ram(idSpRam) , detailPhone.getHinhAnh()));
+                        call.enqueue(new Callback<DetailPhone>() {
+                            @Override
+                            public void onResponse(Call<DetailPhone> call, Response<DetailPhone> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                    getData(detailPhone.get_id());
+                                    action();
+                                    dialogDetail.dismiss();
+                                    progressDialog.dismiss();
+                                    imageUri = null;
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<DetailPhone> call, Throwable t) {
+
+                            }
+                        });
                     }
                 }
 
@@ -617,6 +636,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
 
+                    getData(id);
                 }
             }
 

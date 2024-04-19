@@ -57,6 +57,12 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
         } else {
             holder.tvTrangThai.setBackgroundResource(R.drawable.bg_delete_yes);; // Màu đỏ không hoạt động
         }
+        holder.item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listenner.editUuDai(uuDai);
+            }
+        });
 
 //        holder.item_frame.setOnClickListener(new View.OnClickListener() {
 //            @Override

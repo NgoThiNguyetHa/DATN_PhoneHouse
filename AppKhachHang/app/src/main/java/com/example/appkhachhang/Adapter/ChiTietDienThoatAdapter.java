@@ -51,10 +51,10 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
     @Override
     public void onBindViewHolder(@NonNull ChiTietDienThoatAdapter.ViewHolder holder, int position) {
         ChiTietDienThoai chiTietDienThoai = list.get(position);
-        String fullCoverImgUrl = chiTietDienThoai.getMaDienThoai().getHinhAnh();
+        String fullCoverImgUrl = chiTietDienThoai.getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         holder.tvTenSanPham.setText(chiTietDienThoai.getMaDienThoai().getTenDienThoai());
-        holder.tvGiaSanPham.setText(chiTietDienThoai.getGiaTien().toString() + "đ");
+        holder.tvGiaSanPham.setText(chiTietDienThoai.getGiaTien() + "đ");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -291,7 +291,7 @@ public class MauFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validate()){
+                if(ValidateUpdate(mau)){
 
 
                 String tenMau = edTenMau.getText().toString().trim();
@@ -333,6 +333,22 @@ public class MauFragment extends Fragment {
         }
         for (Mau mau: list){
             if (mau.getTenMau().toLowerCase().equals(edTenMau.getText().toString().trim().toLowerCase())){
+                edTenMau.setError("Màu đã tồn tại!!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ValidateUpdate( Mau itemUpdate){
+        if(edTenMau.getText().toString().isEmpty()){
+            edTenMau.setError("Không được để trống!!");
+            return false;
+        }
+        for (Mau mau: list){
+            if (mau.getTenMau().toLowerCase().equals(edTenMau.getText().toString().trim().toLowerCase())
+                    && itemUpdate.get_id() != mau.get_id()
+            ){
                 edTenMau.setError("Màu đã tồn tại!!");
                 return false;
             }

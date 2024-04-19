@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
                         binding.countOrderCancel.setText("0");
                     }
                 } else {
-                    Log.e("hoadonhuy",response.message());
+//                    Log.e("hoadonhuy",response.message());
                 }
             }
 
@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
                         binding.countOrderDone.setText("0");
                     }
                 } else {
-                    Log.e("hoadonxuat",response.message());
+//                    Log.e("hoadonxuat",response.message());
                 }
             }
 
