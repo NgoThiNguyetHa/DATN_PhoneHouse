@@ -67,13 +67,19 @@
                app:cardCornerRadius="8dp"
                android:layout_margin="10dp">
                <TextView
-                   android:layout_width="match_parent"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginStart="20dp"
                    android:padding="4dp"
                    android:textColor="#5FB1C1"
                    android:textStyle="bold"
                    android:text="Hot nhất"/>
+               <ImageView
+                   android:id="@+id/img_listSPHot"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="end|center_vertical"
+                   android:src="@drawable/right"/>
            </androidx.cardview.widget.CardView>
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sphot"
@@ -95,6 +101,12 @@
                    android:textColor="#5FB1C1"
                    android:textStyle="bold"
                    android:text="Sản phẩm"/>
+               <ImageView
+                   android:id="@+id/img_listSP"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="end|center_vertical"
+                   android:src="@drawable/right"/>
            </androidx.cardview.widget.CardView>
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sp"

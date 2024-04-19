@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
@@ -52,6 +54,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnItemClickListenerSanPham, OnItemClickListenerSanPhamHot {
     RecyclerView recyclerViewSP, recyclerViewSPHot, recyclerViewHang;
+    ImageView imgSPHot, imgSP;
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
@@ -75,7 +78,22 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
+        imgSPHot = view.findViewById(R.id.img_listSPHot);
+        imgSP = view.findViewById(R.id.img_listSP);
         mySharedPreferences = new MySharedPreferences(getContext());
+        imgSPHot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý khi click vào ảnh sản phẩm hot
+                replaceFragment(new HotProductFragment());
+            }
+        });
+        imgSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new ProductFragment());
+            }
+        });
 //        toolbar = view.findViewById(R.id.main_toolBar);
 //        activity = (AppCompatActivity) getActivity();
 //        if (activity != null) {
@@ -83,6 +101,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
 //            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //            activity.getSupportActionBar().setTitle("Home");
 //        }
+
         sanPham();
         sanPhamHot();
         hangSanXuat();
@@ -221,6 +240,8 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frameLayout,fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
