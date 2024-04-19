@@ -54,7 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ThanhToanActivity extends AppCompatActivity {
-    User user;
+//    User user;
     TextView tvTen, tvSdt, tvGhiChu, tvDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
     ImageView imgDiaChi;
     LinearLayout ln_ghiChu;
@@ -72,11 +72,11 @@ public class ThanhToanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanh_toan);
-        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String user_json = pref.getString("user", "abc");
-        user = gson.fromJson(user_json, User.class);
-
+//        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String user_json = pref.getString("user", "abc");
+//        user = gson.fromJson(user_json, User.class);
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
 
         tvTen = findViewById(R.id.tv_tenKhachHang);
         tvSdt = findViewById(R.id.tv_sdtKhachHang);
@@ -89,7 +89,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         tvTongHoaDon = findViewById(R.id.tvTongHoaDon);
         spnPhuongThucThanhToan = findViewById(R.id.spn_PhuongThucThanhToan);
         list = new ArrayList<>();
-        getData(user.get_id());
+        getData(mySharedPreferences.getUserId());
         adapterDiaChi = new DiaChiNhanHangAdapter(ThanhToanActivity.this, list);
 
 
@@ -184,7 +184,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                         hoaDon.setTongTien(String.valueOf(tongThanhToan));
                         hoaDon.setNgayTao(formattedDate);
                         hoaDon.setPhuongThucThanhToan(selectedItem);
-                        hoaDon.setMaKhachHang(new User(user.get_id()));
+                        hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
                         hoaDon.setMaCuaHang(new Store(maCuaHang));
                         hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
                         hoaDon.setTrangThaiNhanHang("Đang xử lý");

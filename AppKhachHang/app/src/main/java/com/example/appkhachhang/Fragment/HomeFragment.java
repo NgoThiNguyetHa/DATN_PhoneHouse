@@ -29,9 +29,11 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.SanPham_API;
 import com.example.appkhachhang.Api.ThongKe_API;
+import com.example.appkhachhang.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -39,6 +41,7 @@ import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
+import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     List<HangSanXuat> listHang;
     Toolbar toolbar;
     AppCompatActivity activity;
+    MySharedPreferences mySharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +75,7 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
+        mySharedPreferences = new MySharedPreferences(getContext());
 //        toolbar = view.findViewById(R.id.main_toolBar);
 //        activity = (AppCompatActivity) getActivity();
 //        if (activity != null) {
@@ -191,7 +196,12 @@ public class HomeFragment extends Fragment implements OnItemClickListenerSanPham
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-            replaceFragment(new CartFragment());
+            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                replaceFragment(new CartFragment());
+            }else {
+                Intent intent = new Intent(getContext(), LoginScreen.class);
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
