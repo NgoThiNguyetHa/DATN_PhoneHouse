@@ -106,12 +106,12 @@ public class LoginScreen extends AppCompatActivity {
                 MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
                 sharedPreferences.saveUserData(user.get_id() , user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
                 Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
-                editor.putString("idKhachHang", user.get_id());
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
-                editor.putString("user", json);
-                editor.apply();
+//                SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
+//                editor.putString("idKhachHang", user.get_id());
+//                Gson gson = new Gson();
+//                String json = gson.toJson(user);
+//                editor.putString("user", json);
+//                editor.apply();
                 startActivity(intent);
                 break;
             }
