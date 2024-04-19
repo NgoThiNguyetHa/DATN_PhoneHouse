@@ -52,8 +52,6 @@
         android:layout_marginBottom="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:passwordToggleEnabled="true"
-        app:counterEnabled="true"
-        app:counterMaxLength="6"
         android:id="@+id/textMatKhau"
         app:helperText=""
         app:helperTextTextColor="#009688"
