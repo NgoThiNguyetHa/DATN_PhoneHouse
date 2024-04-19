@@ -17,7 +17,7 @@ public interface ThongKe_API {
 
 
     ThongKe_API thongKeApi = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8686/thongke/")
+            .baseUrl("https://datn-phonehouse.onrender.com/thongke/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(ThongKe_API.class);
 

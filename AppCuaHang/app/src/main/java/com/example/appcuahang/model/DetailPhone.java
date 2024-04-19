@@ -8,14 +8,16 @@ public class DetailPhone {
     private Mau maMau;
     private DungLuong maDungLuong;
     private Ram maRam;
+    private String hinhAnh;
 
-    public DetailPhone(int soLuong, int giaTien, Phone maDienThoai, Mau maMau, DungLuong maDungLuong, Ram maRam) {
+    public DetailPhone(int soLuong, int giaTien, Phone maDienThoai, Mau maMau, DungLuong maDungLuong, Ram maRam , String hinhAnh) {
         this.soLuong = soLuong;
         this.giaTien = giaTien;
         this.maDienThoai = maDienThoai;
         this.maMau = maMau;
         this.maDungLuong = maDungLuong;
         this.maRam = maRam;
+        this.hinhAnh = hinhAnh;
     }
 
     public String get_id() {
@@ -72,5 +74,13 @@ public class DetailPhone {
 
     public void setMaRam(Ram maRam) {
         this.maRam = maRam;
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 }

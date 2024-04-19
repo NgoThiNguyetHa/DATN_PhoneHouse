@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -43,6 +45,7 @@ import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +58,12 @@ import retrofit2.Response;
 public class RamFragment extends Fragment {
     RecyclerView rc_ram;
     List<Ram> list = new ArrayList<>();
-    List<Ram> listBackUp;
+    List<Ram> listFilter;
     RamAdapter adapter;
     GridLayoutManager manager;
     EditText edTenRam;
+    TextView tv_entry;
+    TextInputEditText ram_edSearch;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -74,16 +79,73 @@ public class RamFragment extends Fragment {
         getData();
         initVariable();
         fillDataRecyclerView();
+
+        //Khoi tao bien
+        listFilter = new ArrayList<>();
+        ram_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getRAM().toString().contains(ram_edSearch.getText().toString()) && ram_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new RamAdapter(getContext(), new IItemRamListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+
+                    }
+
+                    @Override
+                    public void editRam(Ram idRam) { //
+                        updateData(idRam);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+                if (ram_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_ram.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_ram.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_ram = view.findViewById(R.id.rc_ram);
+        ram_edSearch = view.findViewById(R.id.ram_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable() {
         list = new ArrayList<>();
-        listBackUp = new ArrayList<>();
+        listFilter = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
         rc_ram.setLayoutManager(manager);
         adapter = new RamAdapter(getContext(), new IItemRamListenner() {
@@ -107,9 +169,6 @@ public class RamFragment extends Fragment {
     }
 
     private void getData() {
-//        list = new ArrayList<>();
-//        manager = new GridLayoutManager(getContext(), 2);
-//        rc_ram.setLayoutManager(manager);
         ApiRamService apiRamService = ApiRetrofit.getApiRamService();
 
         Call<List<Ram>> call = apiRamService.getRam();
@@ -189,7 +248,6 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-//                            fillDataRecyclerView();
                         }
                     }
 
@@ -213,7 +271,7 @@ public class RamFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void fillDataRecyclerView() {
         list.clear();
-        list.addAll(listBackUp);
+        list.addAll(listFilter);
         adapter.notifyDataSetChanged();
     }
 
@@ -243,7 +301,7 @@ public class RamFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validate()){
+                if(ValidateUpdate(ram)){
 
 
                 Number tenram = Integer.parseInt(edTenRam.getText().toString().trim());
@@ -256,7 +314,6 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-//                            fillDataRecyclerView();
                         }
                     }
 
@@ -289,13 +346,32 @@ public class RamFragment extends Fragment {
             return false;
         }
 
-//        if( edGiaTien.getText().toString().isEmpty()){
-//            edGiaTien.setError("Không được để trống!!");
-//            return false;
-//        }else if(!Pattern.matches("\\d+", edGiaTien.getText().toString())){
-//            edGiaTien.setError("Phải nhập là số!!");
-//            return false;
-//        }
+        for (Ram item: list){
+            if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())){
+                edTenRam.setError("RAM đã tồn tại!!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ValidateUpdate(Ram itemUpdate){
+        if(edTenRam.getText().toString().isEmpty()){
+            edTenRam.setError("Không được để trống!!");
+            return false;
+        }else if(!Pattern.matches("\\d+", edTenRam.getText().toString())){
+            edTenRam.setError("Phải nhập là số!!");
+            return false;
+        }
+
+        for (Ram item: list){
+            if (Integer.parseInt(String.valueOf(item.getRAM())) == Integer.parseInt(edTenRam.getText().toString().trim())
+                    && item.get_id() != itemUpdate.get_id()
+            ){
+                edTenRam.setError("RAM đã tồn tại!!");
+                return false;
+            }
+        }
         return true;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.interface_adapter.IItemPhoneListenner;
 import com.example.appcuahang.model.DetailPhone;
 import com.example.appcuahang.model.Mau;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -56,6 +58,11 @@ public class ChiTietAdapter extends RecyclerView.Adapter<ChiTietAdapter.MyViewHo
                 listener.editDetail(item);
             }
         });
+        if (item.getHinhAnh() == null){
+            holder.imageHinhAnh.setImageResource(R.drawable.img_10);
+        }else {
+            Picasso.get().load(item.getHinhAnh()).into(holder.imageHinhAnh);
+        }
     }
     @Override
     public int getItemCount() {
@@ -64,6 +71,7 @@ public class ChiTietAdapter extends RecyclerView.Adapter<ChiTietAdapter.MyViewHo
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvMau , tvRam , tvDungLuong , tvGiaTien, tvSoLuong;
         LinearLayout mParent;
+        ImageView imageHinhAnh;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMau = itemView.findViewById(R.id.itemChiTiet_tvMau);
@@ -72,6 +80,7 @@ public class ChiTietAdapter extends RecyclerView.Adapter<ChiTietAdapter.MyViewHo
             tvSoLuong= itemView.findViewById(R.id.itemChiTiet_tvSoLuong);
             tvGiaTien = itemView.findViewById(R.id.itemChiTiet_tvGiaTien);
             mParent = itemView.findViewById(R.id.itemChiTiet_mParent);
+            imageHinhAnh = itemView.findViewById(R.id.itemChiTiet_imgView);
         }
     }
 }

@@ -69,9 +69,8 @@ public class AddressFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_address, container, false);
         ((Activity) getContext()).setTitle("Địa chỉ");
         initView(view);
-        getData();
         initVariable();
-        fillDataRecyclerView();
+        getData();
         btnAddress = view.findViewById(R.id.btnAddress);
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,23 +92,17 @@ public class AddressFragment extends Fragment {
         rc_address.setLayoutManager(manager);
         adapter = new AddressAdapter(getContext(), new IItemAddressListenner() {
             @Override
-            public void deleteAddress(String idAddress) {
-            }
-            @Override
-            public void editAddress(AddressDelivery editAddress) { //
-//                updateData(isAddress);
-            }
-            @Override
-            public void showAddress(String idAddress) {
+            public void editAddress(AddressDelivery isAddress) {
+                updateData(isAddress);
             }
         });
         adapter.setData(list);
         rc_address.setAdapter(adapter);
     }
     private void getData() {
-        list = new ArrayList<>();
-        manager = new LinearLayoutManager(getContext());
-        rc_address.setLayoutManager(manager);
+//        list = new ArrayList<>();
+//        manager = new LinearLayoutManager(getContext());
+//        rc_address.setLayoutManager(manager);
         Address_API address_api = ApiRetrofit.getApiAddress();
         mySharedPreferences = new MySharedPreferences(getContext());
         Call<List<AddressDelivery>> call = address_api.getDiaChi(mySharedPreferences.getUserId());
@@ -118,7 +111,6 @@ public class AddressFragment extends Fragment {
             public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
                 if (response.isSuccessful()) {
                     List<AddressDelivery> data = response.body();
-
                     list.clear();
                     list.addAll(data);
                     adapter.notifyDataSetChanged();
@@ -192,7 +184,6 @@ public class AddressFragment extends Fragment {
                                 Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                 getData();
                                 dialog.dismiss();
-                                fillDataRecyclerView();
                             }
                         }
 
@@ -213,24 +204,92 @@ public class AddressFragment extends Fragment {
         });
     }
 
+    //Update
+    private void updateData(AddressDelivery addressDelivery) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_address, null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        edTenNguoiNhan = view.findViewById(R.id.dl_edTenNguoiNhan);
+        edSDT = view.findViewById(R.id.dl_edSDT);
+        edDiaChi = view.findViewById(R.id.dl_edDiaChi);
+
+        Button btnSave = view.findViewById(R.id.yesButton);
+        TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
+        ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
+
+        tvTitle.setText("Cập Nhật Địa Chỉ");
+        btnSave.setText("Cập nhật");
+        edTenNguoiNhan.setText(addressDelivery.getTenNguoiNhan());
+        edDiaChi.setText(addressDelivery.getDiaChi());
+        edSDT.setText(addressDelivery.getSdt());
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Validate()){
+                    String tenNguoiNhan = edTenNguoiNhan.getText().toString().trim();
+                    String soDienThoai = edSDT.getText().toString().trim();
+                    String diaChi = edDiaChi.getText().toString().trim();
+                    Address_API address_api = ApiRetrofit.getApiAddress();
+                    Call<AddressDelivery> call = address_api.putDiaChi(new AddressDelivery(soDienThoai , tenNguoiNhan , diaChi , new User(mySharedPreferences.getUserId())) , addressDelivery.get_id());
+                    call.enqueue(new Callback<AddressDelivery>() {
+                        @Override
+                        public void onResponse(Call<AddressDelivery> call, Response<AddressDelivery> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                getData();
+                                dialog.dismiss();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<AddressDelivery> call, Throwable t) {
+                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            }
+        });
 
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void fillDataRecyclerView() {
-        list.clear();
-        list.addAll(listBackUp);
-        adapter.notifyDataSetChanged();
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private boolean Validate(){
+        String usernamePattern = "^[\\p{L}\\s]+$";
+        String phonePattern = "^0\\d{9}$";
+
         if(edTenNguoiNhan.getText().toString().isEmpty()){
             edTenNguoiNhan.setError("Không được để trống!!");
             return false;
-        }else if(edDiaChi.getText().toString().isEmpty()){
-            edDiaChi.setError("Không được để trống!!");
+        }else if(!edTenNguoiNhan.getText().toString().trim().matches(usernamePattern)){
+            edTenNguoiNhan.setError("Tên người nhận phải là chữ cái!!");
             return false;
         }else if(edSDT.getText().toString().isEmpty()){
             edSDT.setError("Không được để trống!!");
+            return false;
+        }else if(!edSDT.getText().toString().trim().matches(phonePattern)){
+            edSDT.setError("Số điện thoại không hợp lệ!!");
+            return false;
+        } else if(edDiaChi.getText().toString().isEmpty()){
+            edDiaChi.setError("Không được để trống!!");
             return false;
         }
         return true;

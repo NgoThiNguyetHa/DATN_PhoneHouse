@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -108,7 +108,7 @@
                                 android:gravity="center_vertical"
                                 android:text="0 đ"
                                 android:textColor="#5FB1C1"
-                                android:textSize="18dp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -122,10 +122,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="DOANH THU bằng biểu đồ tổng giá trị hóa đơn đã giao"
+                        android:text="DOANH THU bằng biểu đồ tổng giá trị từng tháng trong một năm"
                         android:textAlignment="center"
                         android:textColor="#000000"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

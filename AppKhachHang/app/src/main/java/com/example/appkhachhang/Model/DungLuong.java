@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class DungLuong {
+import java.io.Serializable;
+
+public class DungLuong implements Serializable {
     String _id;
     String boNho;
 

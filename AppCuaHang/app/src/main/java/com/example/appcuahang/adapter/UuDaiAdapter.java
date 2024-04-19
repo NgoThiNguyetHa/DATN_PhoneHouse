@@ -1,5 +1,6 @@
 package com.example.appcuahang.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcuahang.R;
-import com.example.appcuahang.interface_adapter.interface_adapter.IItemUuDaiListenner;
+import com.example.appcuahang.interface_adapter.IItemUuDaiListenner;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.UuDai;
 
@@ -46,24 +47,34 @@ public class UuDaiAdapter extends RecyclerView.Adapter<UuDaiAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull UuDaiAdapter.MyViewHolder holder, int position) {
         UuDai uuDai = list.get(position);
-        holder.tvGiamGia.setText(uuDai.getGiamGia() + "%");
-        holder.tvThoiGian.setText("Hạn sử dụng: " + uuDai.getThoiGian());
+        holder.tvGiamGia.setText("Giảm "+uuDai.getGiamGia() + "%");
+        holder.tvThoiGian.setText("" + uuDai.getThoiGian());
         holder.tvTrangThai.setText(uuDai.getTrangThai());
 
         // Kiểm tra trạng thái và đặt màu sắc cho các phần tử
         if (uuDai.getTrangThai().equals("Hoạt động")) {
-           holder.tvTrangThai.setTextColor(Color.GREEN); // Màu xanh hoạt động
+           holder.tvTrangThai.setBackgroundResource(R.drawable.bg_hoat_dong); // Màu xanh hoạt động
         } else {
-            holder.tvTrangThai.setTextColor(Color.RED);; // Màu đỏ không hoạt động
+            holder.tvTrangThai.setBackgroundResource(R.drawable.bg_delete_yes);; // Màu đỏ không hoạt động
         }
-
         holder.item_frame.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 listenner.editUuDai(uuDai);
-                listenner.selectUuDai(uuDai._id);
             }
         });
+
+//        holder.item_frame.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                listenner.editUuDai(uuDai);
+//                listenner.selectUuDai(uuDai._id);
+//                holder.mdUD.setBackgroundResource(R.color.item_uu_dai);
+//                holder.tvGiamGia.setTextColor(Color.WHITE);
+//                holder.tvThoiGian.setTextColor(Color.WHITE);
+//                holder.tvTrangThai.setTextColor(Color.WHITE);
+//            }
+//        });
 
     }
 

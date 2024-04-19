@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ import com.example.appcuahang.interface_adapter.IItemMauListenner;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +54,12 @@ import retrofit2.Response;
 public class MauFragment extends Fragment {
     RecyclerView rc_mau;
     List<Mau> list = new ArrayList<>();
-    List<Mau> listBackUp;
+    List<Mau> listFilter;
     MauAdapter adapter;
     GridLayoutManager manager;
     EditText edTenMau;
+    TextView tv_entry;
+    TextInputEditText mau_edSearch;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -67,19 +72,76 @@ public class MauFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mau, container, false);
         ((Activity) getContext()).setTitle("Màu");
         initView(view);
-        getData();
         initVariable();
-        fillDataRecyclerView();
+        getData();
+
+        //Khoi tao
+        listFilter = new ArrayList<>();
+        mau_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i< list.size(); i++){
+                    if(list.get(i).getTenMau().toString().toLowerCase().contains(mau_edSearch.getText().toString().toLowerCase()) && mau_edSearch.getText().length() != 0){
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if(listFilter.size() == 0){
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                adapter = new MauAdapter(getContext(), new IItemMauListenner() {
+                    @Override
+                    public void deleteBrand(String idBrand) {
+
+                    }
+
+                    @Override
+                    public void editMau(Mau isMau) { //
+                        updateData(isMau);
+                    }
+
+                    @Override
+                    public void showDetail(String idBrand) {
+
+                    }
+                });
+
+                if (mau_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_mau.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_mau.setAdapter(adapter);
+                }
+
+            }
+        });
         return view;
     }
 
     private void initView(View view) {
+
         rc_mau = view.findViewById(R.id.rc_mau);
+        mau_edSearch = view.findViewById(R.id.mau_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
     private void initVariable() {
         list = new ArrayList<>();
-        listBackUp = new ArrayList<>();
+        listFilter = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
         rc_mau.setLayoutManager(manager);
         adapter = new MauAdapter(getContext(), new IItemMauListenner() {
@@ -103,9 +165,6 @@ public class MauFragment extends Fragment {
     }
 
     private void getData() {
-        list = new ArrayList<>();
-        manager = new GridLayoutManager(getContext(), 2);
-        rc_mau.setLayoutManager(manager);
         ApiMauService apiMauService = ApiRetrofit.getApiMauService();
 
         Call<List<Mau>> call = apiMauService.getMau();
@@ -177,7 +236,7 @@ public class MauFragment extends Fragment {
 
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.postMau(new Mau(tenMau));
+                Call<Mau> call = apiMauService.postMau(new Mau("", tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -185,7 +244,6 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
                         }
                     }
 
@@ -204,13 +262,6 @@ public class MauFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void fillDataRecyclerView() {
-        list.clear();
-        list.addAll(listBackUp);
-        adapter.notifyDataSetChanged();
     }
 
     private void updateData(Mau mau) { // thêm sửa mới
@@ -240,12 +291,12 @@ public class MauFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Validate()){
+                if(ValidateUpdate(mau)){
 
 
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
-                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(tenMau));
+                Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(mau.get_id(), tenMau));
                 call.enqueue(new Callback<Mau>() {
                     @Override
                     public void onResponse(Call<Mau> call, Response<Mau> response) {
@@ -253,7 +304,6 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
-                            fillDataRecyclerView();
                         }
                     }
 
@@ -280,6 +330,28 @@ public class MauFragment extends Fragment {
         if(edTenMau.getText().toString().isEmpty()){
             edTenMau.setError("Không được để trống!!");
             return false;
+        }
+        for (Mau mau: list){
+            if (mau.getTenMau().toLowerCase().equals(edTenMau.getText().toString().trim().toLowerCase())){
+                edTenMau.setError("Màu đã tồn tại!!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ValidateUpdate( Mau itemUpdate){
+        if(edTenMau.getText().toString().isEmpty()){
+            edTenMau.setError("Không được để trống!!");
+            return false;
+        }
+        for (Mau mau: list){
+            if (mau.getTenMau().toLowerCase().equals(edTenMau.getText().toString().trim().toLowerCase())
+                    && itemUpdate.get_id() != mau.get_id()
+            ){
+                edTenMau.setError("Màu đã tồn tại!!");
+                return false;
+            }
         }
         return true;
     }

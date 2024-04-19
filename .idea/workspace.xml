@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix UI">
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix api add hóa đơn, add giỏ hàng">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/DetailScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/DetailScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/UserFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/HelloScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/HelloScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ThanhToanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ThanhToanActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,10 +33,17 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="hantnph28876" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -47,8 +62,8 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/FPT_Polytechnic/DATN_PhoneHouse/WebQuanTri/routes",
+    "git-widget-placeholder": "hantnph28876",
+    "last_opened_file_path": "D:/FPT_Polytechnic/DATN_PhoneHouse",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -58,8 +73,12 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\assets" />
       <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\routes" />
       <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\FPT_Polytechnic\DATN_PhoneHouse\WebQuanTri\assets" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -82,6 +101,25 @@
       <workItem from="1711266919699" duration="18242000" />
       <workItem from="1711372869388" duration="10542000" />
       <workItem from="1711424280910" duration="1610000" />
+      <workItem from="1711549199783" duration="1295000" />
+      <workItem from="1711595457816" duration="20551000" />
+      <workItem from="1711636584537" duration="10758000" />
+      <workItem from="1711678560673" duration="5713000" />
+      <workItem from="1711688811094" duration="4204000" />
+      <workItem from="1711809178403" duration="9330000" />
+      <workItem from="1711874714519" duration="19278000" />
+      <workItem from="1711969385487" duration="3915000" />
+      <workItem from="1712050036769" duration="20154000" />
+      <workItem from="1712254910298" duration="11508000" />
+      <workItem from="1712299702504" duration="16256000" />
+      <workItem from="1712745671523" duration="22837000" />
+      <workItem from="1712812043074" duration="7430000" />
+      <workItem from="1712927384936" duration="1198000" />
+      <workItem from="1713026899636" duration="27718000" />
+      <workItem from="1713120003218" duration="187000" />
+      <workItem from="1713257174434" duration="219000" />
+      <workItem from="1713282037449" duration="7588000" />
+      <workItem from="1713436409294" duration="526000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -139,7 +177,167 @@
       <option name="project" value="LOCAL" />
       <updated>1711424382423</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="tìm kiếm ưu đãi, cửa hàng liên kết">
+      <option name="closed" value="true" />
+      <created>1711451263239</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1711451263239</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix cập nhật trạng thái ưu đãi khi quá hạn">
+      <option name="closed" value="true" />
+      <created>1711837333170</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1711837333170</updated>
+    </task>
+    <task id="LOCAL-00010" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104206313</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104206313</updated>
+    </task>
+    <task id="LOCAL-00011" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104242232</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104242232</updated>
+    </task>
+    <task id="LOCAL-00012" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104340690</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104340690</updated>
+    </task>
+    <task id="LOCAL-00013" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104488540</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104488540</updated>
+    </task>
+    <task id="LOCAL-00014" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104504795</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104504795</updated>
+    </task>
+    <task id="LOCAL-00015" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712104669633</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1712104669633</updated>
+    </task>
+    <task id="LOCAL-00016" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105226866</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105226866</updated>
+    </task>
+    <task id="LOCAL-00017" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105551036</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105551036</updated>
+    </task>
+    <task id="LOCAL-00018" summary="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng">
+      <option name="closed" value="true" />
+      <created>1712105619606</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1712105619606</updated>
+    </task>
+    <task id="LOCAL-00019" summary="thêm điện thoại">
+      <option name="closed" value="true" />
+      <created>1712271663030</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1712271663030</updated>
+    </task>
+    <task id="LOCAL-00020" summary="update điện thoại">
+      <option name="closed" value="true" />
+      <created>1712311549094</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1712311549095</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix api đánh giá">
+      <option name="closed" value="true" />
+      <created>1712328716913</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1712328716913</updated>
+    </task>
+    <task id="LOCAL-00022" summary="update chi tiết điện thoại">
+      <option name="closed" value="true" />
+      <created>1712351828543</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1712351828543</updated>
+    </task>
+    <task id="LOCAL-00023" summary="api get feedback">
+      <option name="closed" value="true" />
+      <created>1712749698503</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1712749698503</updated>
+    </task>
+    <task id="LOCAL-00024" summary="pull from dev">
+      <option name="closed" value="true" />
+      <created>1712821838076</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1712821838076</updated>
+    </task>
+    <task id="LOCAL-00025" summary="api filter feedback by Store">
+      <option name="closed" value="true" />
+      <created>1712825879676</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1712825879676</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá">
+      <option name="closed" value="true" />
+      <created>1713045990110</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1713045990110</updated>
+    </task>
+    <task id="LOCAL-00027" summary="validate web">
+      <option name="closed" value="true" />
+      <created>1713082913145</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1713082913146</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -159,7 +357,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="login in website" />
     <MESSAGE value="navigation web" />
-    <MESSAGE value="pull from dev" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
     <MESSAGE value="sửa API" />
     <MESSAGE value="sửa API đăng ký khách hàng" />
@@ -167,6 +364,20 @@
     <MESSAGE value="lấy danh sách điện thoại, các thông số của điện thoại" />
     <MESSAGE value="fix UI web" />
     <MESSAGE value="fix UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix UI" />
+    <MESSAGE value="tìm kiếm ưu đãi, cửa hàng liên kết" />
+    <MESSAGE value="web: quản lý ưu đãi, hóa đơn, cửa hàng liên kết" />
+    <MESSAGE value="fix cập nhật trạng thái ưu đãi khi quá hạn" />
+    <MESSAGE value="thêm, sửa màu, ram, dung lượng, xem chi tiết đơn hàng" />
+    <MESSAGE value="thêm điện thoại" />
+    <MESSAGE value="update điện thoại" />
+    <MESSAGE value="fix api đánh giá" />
+    <MESSAGE value="update chi tiết điện thoại" />
+    <MESSAGE value="api get feedback" />
+    <MESSAGE value="thống kê" />
+    <MESSAGE value="pull from dev" />
+    <MESSAGE value="api filter feedback by Store" />
+    <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
+    <MESSAGE value="validate web" />
+    <option name="LAST_COMMIT_MESSAGE" value="validate web" />
   </component>
 </project>

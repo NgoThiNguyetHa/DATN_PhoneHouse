@@ -35,6 +35,7 @@ var quanLyDonHangScreen = require('./routes/Screen_QuanLyDonHang')
 var quanLyHangSXScreen = require('./routes/Screen_QuanLyHangSX')
 var quanLyUuDaiScreen = require('./routes/Screen_QuanLyUuDai')
 var thongKeScreen = require('./routes/Screen_ThongKe')
+var quanLyDanhGiaScreen = require('./routes/Screen_QuanLyDanhGia')
 
 
 const mongoose = require('mongoose');
@@ -81,6 +82,7 @@ app.use('/doiMatKhauW', doiMatKhauScreen)
 app.use('/quanLyHangSanXuatW', quanLyHangSXScreen)
 app.use('/thongKeW', thongKeScreen)
 app.use('/quanLyUuDaiW', quanLyUuDaiScreen)
+app.use('/quanLyDanhGiaW', quanLyDanhGiaScreen)
 
 // parse application/json
 app.use(bodyParser.json())
@@ -100,7 +102,7 @@ mongoose.connect(mongoURL)
 cron.schedule('0 0 * * *', async () => {
   try {
     // Gọi API cập nhật trạng thái voucher
-    const response = await axios.put('http://localhost:8686/uudais/updateExpiredStatus');
+    const response = await axios.put('https://datn-phonehouse.onrender.com/updateExpiredStatus');
 
   } catch (error) {
   }

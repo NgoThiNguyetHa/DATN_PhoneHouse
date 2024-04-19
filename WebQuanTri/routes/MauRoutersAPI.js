@@ -17,6 +17,7 @@ router.post('/addMau', function(req, res, next) {
     const mau = new Mau({
     tenMau: req.body.tenMau,
   })
+  // console.log("zzzz", req.body.tenMau)
   mau.save()
   .then(data => {
     // console.log(data)
@@ -62,7 +63,20 @@ router.put("/updateMau/:id", async (req, res ) => {
 
     }
   }catch(err){
+    console.log(err)
     return res.status(500).json({message: err.message})
+  }
+})
+
+router.get('/searchMau', async (req,res) => {
+  try {
+    const { tenMau } = req.query;
+    const mau = await Mau.find({ tenMau: { $regex: tenMau, $options: 'i' } });
+
+    res.json(mau);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
   }
 })
 

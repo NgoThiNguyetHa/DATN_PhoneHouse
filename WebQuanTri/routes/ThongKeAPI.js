@@ -34,7 +34,7 @@ router.get("/getDienThoaiHotNhat", async (req, res) => {
     // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại
     const TopDienThoai = await ChiTietDienThoai.populate(dienThoaiDuocMuaNhieu, {
       path: "_id",
-      select: "maDienThoai maMau maDungLuong maRam giaTien soLuong",
+      select: "maDienThoai maMau maDungLuong maRam giaTien soLuong hinhAnh",
       populate: [
         { path: "maMau", model: "mau"}, // Lấy thông tin từ bảng Mau
         { path: "maDungLuong", model: "dungluong"}, // Lấy thông tin từ bảng DungLuong
@@ -559,5 +559,83 @@ router.get('/tongtien', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+router.get("/thongke/:nam/:maCuaHang", async (req, res) => {
+  const nam = parseInt(req.params.nam); // Lấy năm từ tham số của URL
+  const maCuaHang = req.params.maCuaHang; // Lấy mã cửa hàng từ tham số của URL
+
+  try {
+    // Sử dụng phương thức aggregate để thực hiện phép toán nhóm và tính tổng tiền cho mỗi tháng
+    const ketQua = await HoaDon.aggregate([
+      {
+        $match: {
+          // Lọc các hóa đơn theo năm và mã cửa hàng được chỉ định
+          $expr: { $eq: [{ $year: { $toDate: "$ngayTao" } }, nam] },
+          maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
+          trangThaiNhanHang: "Đã giao",
+        },
+      },
+      {
+        $group: {
+          // Nhóm các hóa đơn theo tháng và tính tổng tiền
+          _id: { $month: { $toDate: "$ngayTao" } },
+          tongTien: { $sum: { $toDouble: "$tongTien" } },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Sắp xếp theo tháng tăng dần
+      },
+    ]);
+
+    res.json(ketQua);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi thực hiện thống kê." });
+  }
+});
+
+router.get("/thongke1/:nam/:maCuaHang", async (req, res) => {
+  const nam = parseInt(req.params.nam); // Lấy năm từ tham số của URL
+  const maCuaHang = req.params.maCuaHang; // Lấy mã cửa hàng từ tham số của URL
+
+  try {
+    // Sử dụng phương thức aggregate để thực hiện phép toán nhóm và tính tổng tiền cho mỗi tháng
+    const ketQua = await HoaDon.aggregate([
+      {
+        $match: {
+          // Lọc các hóa đơn theo năm và mã cửa hàng được chỉ định
+          $expr: { $eq: [{ $year: { $toDate: "$ngayTao" } }, nam] },
+          maCuaHang: new mongoose.Types.ObjectId(maCuaHang),
+        },
+      },
+      {
+        $group: {
+          // Nhóm các hóa đơn theo tháng và tính tổng tiền
+          _id: { $month: { $toDate: "$ngayTao" } },
+          tongTien: { $sum: { $toDouble: "$tongTien" } },
+        },
+      },
+    ]);
+
+    // Tạo một mảng chứa giá trị mặc định cho tất cả các tháng
+    const ketQuaCuoiCung = Array.from({ length: 12 }, (_, index) => {
+      return {
+        _id: index + 1,
+        tongTien: 0,
+      };
+    });
+
+    // Cập nhật giá trị tongTien cho các tháng đã có dữ liệu
+    ketQua.forEach((item) => {
+      ketQuaCuoiCung[item._id - 1].tongTien = item.tongTien;
+    });
+
+    res.json(ketQuaCuoiCung);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi thực hiện thống kê." });
+  }
+});
+
 
 module.exports = router;

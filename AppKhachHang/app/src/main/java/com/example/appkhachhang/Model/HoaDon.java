@@ -1,6 +1,8 @@
 package com.example.appkhachhang.Model;
 
-public class HoaDon {
+import java.io.Serializable;
+
+public class HoaDon implements Serializable {
     private String _id;
     private String tongTien;
     private String ngayTao;
@@ -9,6 +11,18 @@ public class HoaDon {
     private AddressDelivery maDiaChiNhanHang;
     private User maKhachHang;
     private Store maCuaHang;
+
+
+    public HoaDon(String _id, String trangThaiNhanHang) {
+        this._id = _id;
+        this.trangThaiNhanHang = trangThaiNhanHang;
+    }
+    public HoaDon() {
+    }
+
+    public HoaDon(String _id) {
+        this._id = _id;
+    }
 
     public String get_id() {
         return _id;

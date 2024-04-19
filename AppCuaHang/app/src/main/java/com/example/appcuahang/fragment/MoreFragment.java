@@ -1,34 +1,44 @@
 package com.example.appcuahang.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.appcuahang.R;
+import com.example.appcuahang.activity.ManHinhDangNhap;
+import com.example.appcuahang.untils.MySharedPreferences;
 
 
 public class MoreFragment extends Fragment {
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai, cv_client, cv_uudai;
+    CardView cv_hangSanXuat, cv_hoaDon, cv_mau, cv_loaiRam, cv_ThongTinCaNhan, cv_thongKe, cv_DungLuong , cv_dienThoai, cv_client, cv_uudai , cv_danhGia, cv_logout;
 
     //    CardView cv_hangSanXuat, cv_hoaDon , cv_ThongTinCaNhan;
-
+    MySharedPreferences preferences;
     String _idStore;
 
     @Override
@@ -60,7 +70,8 @@ public class MoreFragment extends Fragment {
         cv_dienThoai = view.findViewById(R.id.cv_dienThoai);
         cv_client = view.findViewById(R.id.cv_client);
         cv_uudai = view.findViewById(R.id.cv_uudai);
-
+        cv_danhGia = view.findViewById(R.id.cv_danhGia);
+        cv_logout = view.findViewById(R.id.cv_logout);
     }
 
     private void action() {
@@ -125,6 +136,18 @@ public class MoreFragment extends Fragment {
                 replaceFragment(new UuDaiFragment());
             }
         });
+        cv_danhGia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new ReviewFragment());
+            }
+        });
+        cv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleLogout();
+            }
+        });
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -147,6 +170,48 @@ public class MoreFragment extends Fragment {
         if (id == R.id.btn_add) {
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_yes_no, null);
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        Button btnYes = view.findViewById(R.id.yesButton);
+        Button btnNo = view.findViewById(R.id.noButton);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView tvMessage = view.findViewById(R.id.tvMessage);
+
+        tvMessage.setText("Bạn có chắc chắn muốn đăng xuất?");
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ManHinhDangNhap.class);
+                startActivity(intent);
+                preferences = new MySharedPreferences(getContext());
+                preferences.clearUserData();
+            }
+        });
+
     }
 
 }

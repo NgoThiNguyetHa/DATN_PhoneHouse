@@ -6,5 +6,6 @@
     <color name="xanhduong">#5FB1C1</color>
     <color name="maudo">#FF0000</color>
     <color name="custom_textview">#67726B</color>
-
+    <color name="dang_xu_ly">#328A35</color>
+    <color name="item_uu_dai">#392F74</color>
 </resources>

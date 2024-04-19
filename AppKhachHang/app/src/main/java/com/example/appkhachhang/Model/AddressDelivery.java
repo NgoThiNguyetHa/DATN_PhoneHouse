@@ -1,11 +1,15 @@
 package com.example.appkhachhang.Model;
-public class AddressDelivery {
+
+import java.io.Serializable;
+
+public class AddressDelivery implements Serializable {
     private String _id;
     private String sdt;
     private String tenNguoiNhan;
     private String diaChi;
     private User maKhachHang;
-    public AddressDelivery(String tenNguoiNhan) {
+    public AddressDelivery(String _id) {
+        this._id = _id;
     }
     public AddressDelivery(String sdt, String tenNguoiNhan, String diaChi, User khachHang) {
         this.sdt = sdt;

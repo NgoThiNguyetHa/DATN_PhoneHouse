@@ -55,11 +55,22 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
                 dialog(item,Gravity.BOTTOM);
             }
         });
-        holder.tvTenDT.setText("Tên điện thoại: "+item.getTenDienThoai());
+        holder.tvTenDT.setText(""+item.getTenDienThoai());
         if (item.getHinhAnh() == null){
             holder.item_imgPhone.setImageResource(R.drawable.img_10);
         }else {
             Picasso.get().load(item.getHinhAnh()).into(holder.item_imgPhone);
+        }
+        if (item.getMaUuDai() != null) {
+            if (item.getMaUuDai().getTrangThai().equals("Không hoạt động")) {
+                holder.tvUuDai.setText("");
+                holder.itemPhone_bgSale.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvUuDai.setText("Sale " + item.getMaUuDai().getGiamGia() +"%");
+                holder.itemPhone_bgSale.setVisibility(View.VISIBLE);
+            }
+        }else{
+            holder.itemPhone_bgSale.setVisibility(View.GONE);
         }
 
     }
@@ -70,14 +81,17 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
     }
 
     public static final class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTenDT;
+        TextView tvTenDT, tvUuDai;
         ImageView item_imgPhone;
         RelativeLayout mParent;
+        LinearLayout itemPhone_bgSale;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenDT = itemView.findViewById(R.id.itemPhone_tvTenDienThoai);
+            tvUuDai = itemView.findViewById(R.id.itemPhone_tvSale);
             item_imgPhone = itemView.findViewById(R.id.itemPhone_imgPhone);
             mParent = itemView.findViewById(R.id.mParent);
+            itemPhone_bgSale = itemView.findViewById(R.id.itemPhone_bgSale);
         }
     }
 

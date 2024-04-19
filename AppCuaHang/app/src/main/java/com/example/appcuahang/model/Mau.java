@@ -7,8 +7,9 @@ public class Mau {
     public Mau() {
     }
 
-    public Mau(String _id) {
+    public Mau(String _id, String tenMau) {
         this._id = _id;
+        this.tenMau = tenMau;
     }
 
     public String getTenMau() {

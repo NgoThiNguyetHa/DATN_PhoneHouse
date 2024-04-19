@@ -1,6 +1,8 @@
 package com.example.appcuahang.model;
 
-public class HoaDon {
+import java.io.Serializable;
+
+public class HoaDon implements Serializable {
     private String _id;
     private String tongTien;
     private String ngayTao;

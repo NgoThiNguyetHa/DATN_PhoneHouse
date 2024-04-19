@@ -1,6 +1,7 @@
 package com.example.appcuahang.api;
 
 import com.example.appcuahang.model.Brand;
+import com.example.appcuahang.model.ChiTietHoaDon;
 import com.example.appcuahang.model.DetailPhone;
 import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.HoaDon;
@@ -14,6 +15,7 @@ import com.example.appcuahang.model.ThongKeDoanhThu;
 import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
+import com.example.appcuahang.model.ThongKeTheoTungThang;
 import com.example.appcuahang.model.Top10sanPham;
 import com.example.appcuahang.model.UuDai;
 
@@ -22,6 +24,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -155,9 +158,6 @@ public interface ApiService {
     @GET("chitietdienthoais/getChiTietTheoDienThoai/{maDienThoai}")
     Call<List<DetailPhone>> getChiTiet(@Path("maDienThoai") String id);
 
-    //get danh gia
-    @GET("danhgias/getDanhGia")
-    Call<List<Rating>> getDanhGia();
 
     //lay danh sach uu dai cua hang
     @GET("uudais/getUuDai-Active/{id}")
@@ -166,4 +166,21 @@ public interface ApiService {
     @PUT("dienthoais/updateMaUuDaiDienThoai/{id}")
     Call<Phone> putUuDaiDienThoai(@Path("id") String id,
                                  @Body UuDai maUuDai);
+
+    //thong ke theo từng tháng
+    @GET("/thongke/thongke1/{nam}/{maCuaHang}")
+    Call<List<ThongKeTheoTungThang>> getThongKeTheoNam(@Path("nam") int nam,
+                                                       @Path("maCuaHang") String maCuaHang);
+    //get danh gia
+    @GET("danhgias/getDanhGiaTheoDienThoai/{id}")
+    Call<List<Rating>> getDanhGiaTheoDienThoai(@Path("id") String id);
+    //get theo cua hang
+    @GET("danhgias/getDanhGiaTheoCuaHang/{id}")
+    Call<List<Rating>> getDanhGiaTheoCuaHang(@Path("id") String id);
+    //xoa binh luan
+    @DELETE("danhgias/deleteDanhGia/{id}")
+    Call<Rating> deleteDanhGia(@Path("id") String id);
+
+    @GET("chitiethoadons/getChiTietHoaDonTheoHoaDon/{id}")
+    Call<List<ChiTietHoaDon>> getChiTietHoaDon(@Path("id") String id);
 }
