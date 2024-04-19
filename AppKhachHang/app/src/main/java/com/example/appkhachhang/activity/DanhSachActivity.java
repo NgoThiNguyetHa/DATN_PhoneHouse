@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.InfoOrderFragment;
 import com.example.appkhachhang.Fragment.PhoneListFragment;
 import com.example.appkhachhang.R;

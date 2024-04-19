@@ -135,7 +135,8 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.tvMau.setText(""+item.getChiTietDienThoai().getMaMau().getTenMau());
 
         holder.tvRam.setText(""+item.getChiTietDienThoai().getMaRam().getRAM() +" GB");
-        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
+        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");
+        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
             holder.tvSale.setText("");
             holder.tvSale.setBackgroundColor(Color.WHITE);
         } else {
