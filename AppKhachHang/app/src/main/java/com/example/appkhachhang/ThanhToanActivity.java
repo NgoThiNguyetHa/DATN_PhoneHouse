@@ -67,6 +67,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     String idDiaChi, selectedItem;
     List<ChiTietHoaDon> chiTietHoaDons;
     MySharedPreferences mySharedPreferences;
+    ChiTietDienThoai chiTietDienThoai;
+    List<ChiTietGioHang> chiTietGioHangList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +93,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         list = new ArrayList<>();
         getData(mySharedPreferences.getUserId());
         adapterDiaChi = new DiaChiNhanHangAdapter(ThanhToanActivity.this, list);
-
-
         imgDiaChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,9 +137,21 @@ public class ThanhToanActivity extends AppCompatActivity {
         this.setTitle("Thanh toán");
         Intent intent = getIntent();
         String json = intent.getStringExtra("chiTietGioHangList");
-        Gson gson1 = new Gson();
+        Gson gson = new Gson();
         Type type = new TypeToken<List<ChiTietGioHang>>() {}.getType();
-        List<ChiTietGioHang> chiTietGioHangList = gson1.fromJson(json, type);
+        chiTietGioHangList = gson.fromJson(json, type);
+        if (intent != null) {
+            String jsonChiTietDienThoai = intent.getStringExtra("chiTietDienThoai");
+            if (jsonChiTietDienThoai != null && json ==null) {
+                chiTietDienThoai = gson.fromJson(jsonChiTietDienThoai, ChiTietDienThoai.class);
+                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
+                chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                chiTietGioHang.setSoLuong(1);
+                chiTietGioHangList = new ArrayList<>();
+                chiTietGioHangList.add(chiTietGioHang);
+            }
+        }
         adapter = new DienThoaiThanhToanAdapter(chiTietGioHangList, this);
         rc_listChon.setAdapter(adapter);
 

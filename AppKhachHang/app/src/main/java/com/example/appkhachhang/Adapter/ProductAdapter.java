@@ -70,7 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
-        holder.tvRam.setText(item.getMaRam()+"GB");
+        holder.tvRam.setText(item.getMaRam().getRAM()+"GB");
         holder.tvMau.setText(item.getMaMau().getTenMau());
         holder.tvDungLuong.setText(item.getMaDungLuong().getBoNho()+"GB");
         if (item.getMaDienThoai().getMaUuDai()==null){

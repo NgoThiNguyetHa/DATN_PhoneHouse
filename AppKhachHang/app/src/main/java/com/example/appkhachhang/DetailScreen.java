@@ -97,6 +97,23 @@ public class DetailScreen extends AppCompatActivity {
                         }
                     });
                 }else {
+                    Toast.makeText(DetailScreen.this, "Bạn cần đăng nhập để mua hàng", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DetailScreen.this, LoginScreen.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        findViewById(R.id.btnMuaLuon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    Intent intent = new Intent(DetailScreen.this, ThanhToanActivity.class);
+                    // Chuyển dữ liệu của sản phẩm đang chọn sang màn hình thanh toán bằng intent extras
+                    intent.putExtra("chiTietDienThoai", gson.toJson(chiTietDienThoai));
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(DetailScreen.this, "Bạn cần đăng nhập để mua hàng", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DetailScreen.this, LoginScreen.class);
                     startActivity(intent);
                 }
