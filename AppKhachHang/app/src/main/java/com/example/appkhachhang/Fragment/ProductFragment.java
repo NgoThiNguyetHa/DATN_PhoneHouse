@@ -1,6 +1,5 @@
 package com.example.appkhachhang.Fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -25,23 +24,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
-import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
-import com.example.appkhachhang.Adapter.HotProductAdapter;
-import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Adapter.ProductAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
-import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
-import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
-import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
-import com.example.appkhachhang.Model.SanPham;
-import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -56,7 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductFragment extends Fragment implements OnItemClickListenerSanPham {
+public class ProductFragment extends Fragment {
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
     LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
@@ -120,7 +109,12 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
         rc_danhSachDienThoai.setLayoutManager(manager);
         list = new ArrayList<>();
         getListSanPham();
-        adapter = new ProductAdapter(getContext(), list, this);
+        adapter = new ProductAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+            @Override
+            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+
+            }
+        });
         rc_danhSachDienThoai.setAdapter(adapter);
     }
 
@@ -729,8 +723,4 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
         });
     }
 
-    @Override
-    public void onItemClickSP(int position) {
-
-    }
 }

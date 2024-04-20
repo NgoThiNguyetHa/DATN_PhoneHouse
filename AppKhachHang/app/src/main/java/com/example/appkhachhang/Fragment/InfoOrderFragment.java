@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -31,9 +30,7 @@ import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.ThongTinDonHang;
 import com.example.appkhachhang.R;
-import com.squareup.picasso.Picasso;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -59,6 +56,7 @@ public class InfoOrderFragment extends Fragment {
     LinearLayoutManager manager;
     RecyclerView rc_detailOrder;
     int tienPhiVanChuyen;
+    Date currentDate = new Date();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,7 +196,7 @@ public class InfoOrderFragment extends Fragment {
                         tvThanhTien.setText(""+formattedNumber+"₫");
                         tvTitleTongThanhTien.setText("Vui lòng thanh toán "+ formattedNumber+"₫" + " khi nhận hàng");
                         tvTongThanhToan.setText(""+formattedNumber+"₫");
-                        actionButton(hoaDon.get_id(),formattedNumber);
+                        actionButton(hoaDon.get_id(),formattedNumber, hoaDon.getNgayTao());
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -214,13 +212,35 @@ public class InfoOrderFragment extends Fragment {
             }
         });
     }
-    private void actionButton(String id, String thanhTien){
-        btnHuyDon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogHuyDon(id);
+    private void actionButton(String id, String thanhTien, String ngayTao){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        String ngayHienTai = dateFormat.format(currentDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            // Chuyển đổi ngày từ chuỗi thành Date
+            Date dateHienTai = sdf.parse(ngayHienTai);
+            Date dateTao = sdf.parse(ngayTao);
+
+            // Tính số ngày chênh lệch
+            long diffInMillies = Math.abs(dateHienTai.getTime() - dateTao.getTime());
+            long diff = diffInMillies / (24 * 60 * 60 * 1000);
+
+            if (diff >= 1) {
+                btnHuyDon.setEnabled(false);
+                btnHuyDon.setText("Đang giao");
+            }else {
+                btnHuyDon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogHuyDon(id);
+                    }
+                });
             }
-        });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         btnNhanHang.setOnClickListener(new View.OnClickListener() {
             @Override

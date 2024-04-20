@@ -3,12 +3,13 @@ package com.example.appcuahang.model;
 public class Top10sanPham {
     private String tenDienThoai;
     private int giaTien;
-    private int soLuong;
+    private String hinhAnh;
+    private int soLuongBan;
 
-    public Top10sanPham(String tenDienThoai, int giaTien, int soLuong) {
+    public Top10sanPham(String tenDienThoai, int giaTien, int soLuongBan) {
         this.tenDienThoai = tenDienThoai;
         this.giaTien = giaTien;
-        this.soLuong = soLuong;
+        this.soLuongBan = soLuongBan;
     }
 
     public String getTenDienThoai() {
@@ -27,11 +28,19 @@ public class Top10sanPham {
         this.giaTien = giaTien;
     }
 
-    public int getSoLuong() {
-        return soLuong;
+    public String getHinhAnh() {
+        return hinhAnh;
     }
 
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
+    public int getSoLuongBan() {
+        return soLuongBan;
+    }
+
+    public void setSoLuongBan(int soLuongBan) {
+        this.soLuongBan = soLuongBan;
     }
 }

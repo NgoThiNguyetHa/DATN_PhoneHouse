@@ -45,7 +45,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailScreen"
+            android:name=".activity.DetailScreen"
             android:exported="false" />
         <activity
             android:name=".LoginScreen"

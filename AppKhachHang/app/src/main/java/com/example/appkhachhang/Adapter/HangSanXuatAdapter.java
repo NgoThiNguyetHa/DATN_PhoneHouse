@@ -1,7 +1,6 @@
 package com.example.appkhachhang.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appkhachhang.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Model.HangSanXuat;
-import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +47,7 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
                 onItemClickListenerHang.onItemClickHang(hangSanXuat);
             }
         });
+        //
     }
 
     @Override
