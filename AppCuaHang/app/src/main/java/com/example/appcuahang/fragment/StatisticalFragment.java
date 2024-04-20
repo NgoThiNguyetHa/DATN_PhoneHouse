@@ -16,7 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import com.example.appcuahang.adapter.Top10Adapter;
 import com.example.appcuahang.api.ApiRetrofit;
 import com.example.appcuahang.api.ApiService;
 import com.example.appcuahang.model.ThongKeDoanhThu;
+import com.example.appcuahang.model.ThongKeDonHuy;
 import com.example.appcuahang.model.ThongKeTheoTungThang;
 import com.example.appcuahang.model.Top10sanPham;
 import com.example.appcuahang.untils.MySharedPreferences;
@@ -74,6 +79,12 @@ public class StatisticalFragment extends Fragment {
     int mYear,mMonth,mDay;
     int currentYear = Calendar.getInstance().get(Calendar.YEAR);
     BarDataSet dataSet;
+    private static final String[] days = new String[] {
+            "7 ngày qua", "14 ngày qua", "1 tháng qua"
+    };
+    AutoCompleteTextView autoDropdown;
+
+    ProgressBar progressBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,14 +103,13 @@ public class StatisticalFragment extends Fragment {
 
     private void initView(View view){
         rc_top10 = view.findViewById(R.id.rc_top10);
-        tvTuNgay = view.findViewById(R.id.thongke_tvTuNgay);
-        tvDenNgay = view.findViewById(R.id.thongke_tvDenNgay);
         tvTongTienDaGiao = view.findViewById(R.id.thongke_tvTongTienDaGiao);
         tvTongTienDaHuy = view.findViewById(R.id.thongke_tvTongTienDaHuy);
         tvSoLuongDaHuy = view.findViewById(R.id.tvSoLuongDonHuy);
         thongke_bieuDoDoanhThu = view.findViewById(R.id.thongke_bieuDoDoanhThu);
+        autoDropdown = view.findViewById(R.id.thongke_autoCompleTextView);
         mySharedPreferences = new MySharedPreferences(getContext());
-        getThongKeTrongNam(mySharedPreferences.getUserId());
+        progressBar = view.findViewById(R.id.thongke_progressBar);
     }
     private void initVariable(){
         top10sanPhamList = new ArrayList<>();
@@ -112,73 +122,23 @@ public class StatisticalFragment extends Fragment {
 
         //action date time
 
-        DatePickerDialog.OnDateSetListener mDateTuNgay = new DatePickerDialog.OnDateSetListener() {
+        getThongKeTrongNam(mySharedPreferences.getUserId());
+        getTongDonHuy(mySharedPreferences.getUserId());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, days);
+        autoDropdown.setAdapter(adapter);
+        autoDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                mYear = year;
-                mMonth = month;
-                mDay = dayOfMonth;
-                GregorianCalendar c = new GregorianCalendar(mYear,mMonth,mDay);
-                tvTuNgay.setText(sdf.format(c.getTime()));
-            }
-        };
-        DatePickerDialog.OnDateSetListener mDateDenNgay = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                mYear = year;
-                mMonth = month;
-                mDay = dayOfMonth;
-                GregorianCalendar c = new GregorianCalendar(mYear,mMonth,mDay);
-                tvDenNgay.setText(sdf.format(c.getTime()));
-            }
-        };
-
-        tvTuNgay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                mYear = calendar.get(Calendar.YEAR);
-                mMonth = calendar.get(Calendar.MONTH);
-                mDay = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog d = new DatePickerDialog(getActivity(),0,mDateTuNgay,mYear,mMonth,mDay);
-                d.show();
-            }
-        });
-        tvDenNgay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                mYear = calendar.get(Calendar.YEAR);
-                mMonth = calendar.get(Calendar.MONTH);
-                mDay = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog d = new DatePickerDialog(getActivity(),0,mDateDenNgay,mYear,mMonth,mDay);
-                d.show();
-            }
-        });
-        tvDenNgay.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String tuNgay = tvTuNgay.getText().toString();
-                String denNgay = s.toString();
-                if (tuNgay.isEmpty() || denNgay.isEmpty()){
-                    Toast.makeText(getContext(), "Yêu cầu chọn ngày", Toast.LENGTH_SHORT).show();
-                    return;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    getDataTop10(mySharedPreferences.getUserId(),"7");
+                }else if (position == 1){
+                    getDataTop10(mySharedPreferences.getUserId(),"14");
+                }else {
+                    getDataTop10(mySharedPreferences.getUserId(),"30");
                 }
-//                TongDoanhThu(mySharedPreferences.getUserId(),tuNgay,denNgay);
-                getDataTop10(mySharedPreferences.getUserId(),tuNgay,denNgay);
             }
         });
-
     }
     private void getThongKeTrongNam(String idCuaHang){
         ApiService apiService = ApiRetrofit.getApiService();
@@ -249,13 +209,66 @@ public class StatisticalFragment extends Fragment {
     }
 
     //dùng
+//    private void testStyle (List<ThongKeTheoTungThang> dataList) {
+//        ArrayList<BarEntry> entries = new ArrayList<>();
+//        List<String> labels = new ArrayList<>();
+//
+//        for (int i = 0; i < dataList.size(); i++) {
+//            entries.add(new BarEntry(dataList.get(i).get_id(), (float) dataList.get(i).getTongTien()));
+//            labels.add("Tháng " + dataList.get(i).get_id());
+//        }
+//        dataSet = new BarDataSet(entries, "Tháng ");
+//        BarData barData = new BarData(dataSet);
+//        barData.setBarWidth(0.9f);
+//
+//        thongke_bieuDoDoanhThu.setData(barData);
+//
+//        YAxis yAxis = thongke_bieuDoDoanhThu.getAxisLeft();
+//        yAxis.setAxisMinimum(0f);
+//
+//        thongke_bieuDoDoanhThu.getAxisRight().setEnabled(false);
+//
+//        XAxis xAxis = thongke_bieuDoDoanhThu.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setLabelCount(12);
+//        xAxis.setValueFormatter(null);
+//        xAxis.setAxisMaximum(labels.size());
+//        xAxis.setAxisMinimum(0.5f);
+//        // Đặt nhãn cho trục X
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setSpaceMin(2f);
+//        xAxis.setSpaceMax(0.5f);
+//        xAxis.setCenterAxisLabels(true);
+//        xAxis.setGranularity(2f);
+//        xAxis.setGranularityEnabled(true);
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+//        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+//        dataSet.setValueTextColor(Color.BLACK);
+//        dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
+//        dataSet.setValueTextSize(9.5f);
+//        Description description = new Description();
+//        description.setText("");
+//        thongke_bieuDoDoanhThu.setDescription(description);
+//        thongke_bieuDoDoanhThu.animateY(2000);
+//        thongke_bieuDoDoanhThu.setDragEnabled(true);
+//        thongke_bieuDoDoanhThu.setScaleEnabled(true);
+//        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(5);
+//        thongke_bieuDoDoanhThu.setHorizontalScrollBarEnabled(true);
+//        thongke_bieuDoDoanhThu.getLegend().setEnabled(false);
+//        thongke_bieuDoDoanhThu.invalidate();
+//
+//    }
     private void testStyle (List<ThongKeTheoTungThang> dataList) {
         ArrayList<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (int i = 0; i < dataList.size(); i++) {
             entries.add(new BarEntry(dataList.get(i).get_id(), (float) dataList.get(i).getTongTien()));
-            labels.add("Tháng " + dataList.get(i).get_id());
+            labels.add("Tháng " + (i));
+            if (i == dataList.size() - 1) {
+                labels.add("Tháng " + 12);
+            }
         }
         dataSet = new BarDataSet(entries, "Tháng ");
         BarData barData = new BarData(dataSet);
@@ -264,46 +277,63 @@ public class StatisticalFragment extends Fragment {
         thongke_bieuDoDoanhThu.setData(barData);
 
         YAxis yAxis = thongke_bieuDoDoanhThu.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMinimum(100f);
 
         thongke_bieuDoDoanhThu.getAxisRight().setEnabled(false);
 
         XAxis xAxis = thongke_bieuDoDoanhThu.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(12);
+        xAxis.setLabelCount(13);
         xAxis.setValueFormatter(null);
-        xAxis.setAxisMaximum(labels.size());
+//        xAxis.setAxisMaximum(labels.size());
+        xAxis.setAxisMaximum(12.5f);
         xAxis.setAxisMinimum(0.5f);
         // Đặt nhãn cho trục X
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setSpaceMin(2f);
-        xAxis.setSpaceMax(0.5f);
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setGranularity(2f);
+//        xAxis.setSpaceMin(2f);
+//        xAxis.setSpaceMax(0.5f);
+//        xAxis.setCenterAxisLabels(true);
+//        xAxis.setGranularity(2f);
+        xAxis.setGranularity(1f);
+        xAxis.setSpaceMin(3f);
+        xAxis.setSpaceMax(3f);
         xAxis.setGranularityEnabled(true);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+//        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+//        dataSet.setValueTextColor(Color.BLACK);
+//        dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
+//        dataSet.setValueTextSize(9.5f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(Color.DKGRAY);
         dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
-        dataSet.setValueTextSize(9.5f);
+        dataSet.setValueTextSize(9f);
         Description description = new Description();
         description.setText("");
+//        thongke_bieuDoDoanhThu.setDescription(description);
+//        thongke_bieuDoDoanhThu.animateY(2000);
+//        thongke_bieuDoDoanhThu.setDragEnabled(true);
+//        thongke_bieuDoDoanhThu.setScaleEnabled(true);
+//        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(4);
+//        thongke_bieuDoDoanhThu.setHorizontalScrollBarEnabled(true);
+//        thongke_bieuDoDoanhThu.getLegend().setEnabled(false);
+//        thongke_bieuDoDoanhThu.invalidate();
+        thongke_bieuDoDoanhThu.animateY(2000); // Hiệu ứng animation khi hiển thị biểu đồ
         thongke_bieuDoDoanhThu.setDescription(description);
-        thongke_bieuDoDoanhThu.animateY(2000);
+        thongke_bieuDoDoanhThu.invalidate(); // refresh
         thongke_bieuDoDoanhThu.setDragEnabled(true);
         thongke_bieuDoDoanhThu.setScaleEnabled(true);
-        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(5);
+        thongke_bieuDoDoanhThu.setVisibleXRangeMaximum(4); // Số lượng cột tối đa hiển thị trên màn hình
         thongke_bieuDoDoanhThu.setHorizontalScrollBarEnabled(true);
-        thongke_bieuDoDoanhThu.getLegend().setEnabled(false);
-        thongke_bieuDoDoanhThu.invalidate();
+        thongke_bieuDoDoanhThu.invalidate(); // Vẽ lại biểu đồ
+        thongke_bieuDoDoanhThu.setGridBackgroundColor(Color.WHITE);
 
     }
-
-    private void getDataTop10(String idCuaHang , String tuNgay, String denNgay){
+    private void getDataTop10(String idCuaHang , String day){
         ApiService apiService = ApiRetrofit.getApiService();
         top10sanPhamList = new ArrayList<>();
-        Call<List<Top10sanPham>> call = apiService.getTop10Product(tuNgay,denNgay,idCuaHang);
+        Call<List<Top10sanPham>> call = apiService.getTop10SP(idCuaHang,day);
         call.enqueue(new Callback<List<Top10sanPham>>() {
             @Override
             public void onResponse(Call<List<Top10sanPham>> call, Response<List<Top10sanPham>> response) {
@@ -313,6 +343,7 @@ public class StatisticalFragment extends Fragment {
                     top10sanPhamList.addAll(data);
                     top10Adapter.setData(top10sanPhamList);
                     top10Adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -320,6 +351,30 @@ public class StatisticalFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Top10sanPham>> call, Throwable t) {
+                Log.e("brand", t.getMessage());
+            }
+        });
+    }
+
+    private void getTongDonHuy(String idCuaHang){
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<ThongKeDonHuy> call = apiService.getSoLuongTongTienDonHuy(idCuaHang);
+        call.enqueue(new Callback<ThongKeDonHuy>() {
+            @Override
+            public void onResponse(Call<ThongKeDonHuy> call, Response<ThongKeDonHuy> response) {
+                if (response.isSuccessful()) {
+                    ThongKeDonHuy data = response.body();
+                    tvSoLuongDaHuy.setText(""+data.getCount());
+                    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+                    String formattedNumber = decimalFormat.format(data.getTotalAmount());
+                    tvTongTienDaHuy.setText(""+formattedNumber+"đ");
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ThongKeDonHuy> call, Throwable t) {
                 Log.e("brand", t.getMessage());
             }
         });

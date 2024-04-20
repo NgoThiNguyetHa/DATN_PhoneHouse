@@ -13,6 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/itemTop10_imgDienThoai"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="11dp"

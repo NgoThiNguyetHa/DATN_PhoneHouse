@@ -3,6 +3,7 @@ package com.example.appkhachhang.Api;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
+import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.ListPhone;
@@ -122,5 +123,11 @@ public interface ApiService {
 
     @GET("chitietdienthoais/filterDienThoai")
     Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho);
+
+    //get list đánh giá theo chi tiết
+    @GET("danhgias/getDanhGia/{id}")
+    Call<List<DanhGia>> getListDanhGiaTheoChiTiet(@Path("id") String id);
+
+
 }
 

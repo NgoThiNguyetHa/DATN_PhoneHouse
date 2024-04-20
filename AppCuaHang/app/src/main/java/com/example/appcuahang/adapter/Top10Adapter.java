@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import com.example.appcuahang.R;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Mau;
 import com.example.appcuahang.model.Top10sanPham;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -42,7 +44,12 @@ public class Top10Adapter extends RecyclerView.Adapter<Top10Adapter.MyViewHolder
         String formattedNumber = decimalFormat.format(item.getGiaTien());
         holder.tvTenDienThoai.setText(""+item.getTenDienThoai());
         holder.tvGiaTien.setText("Giá tiền: "+formattedNumber + " đ");
-        holder.tvSoLuong.setText("Số lượng: "+item.getSoLuong());
+        holder.tvSoLuong.setText("Số lượng: "+item.getSoLuongBan());
+        if (item.getHinhAnh() == null){
+            holder.imgDienThoai.setImageResource(R.drawable.img_3);
+        }else {
+            Picasso.get().load(item.getHinhAnh()).into(holder.imgDienThoai);
+        }
 
     }
 
@@ -54,11 +61,13 @@ public class Top10Adapter extends RecyclerView.Adapter<Top10Adapter.MyViewHolder
         TextView tvTenDienThoai;
         TextView tvGiaTien;
         TextView tvSoLuong;
+        ImageView imgDienThoai;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenDienThoai = itemView.findViewById(R.id.itemTop10_tvTen);
             tvGiaTien = itemView.findViewById(R.id.itemTop10_tvGiaTien);
             tvSoLuong = itemView.findViewById(R.id.itemTop10_tvSoLuong);
+            imgDienThoai = itemView.findViewById(R.id.itemTop10_imgDienThoai);
         }
     }
 }

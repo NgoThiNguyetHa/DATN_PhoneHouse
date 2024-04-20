@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/itemDanhGia_imgUser"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_user"/>
+        <TextView
+            android:id="@+id/itemDanhGia_tvTenUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:id="@+id/itemDanhGia_imgDate"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_date_range_24"
+            android:layout_marginLeft="15dp"/>
+        <TextView
+            android:id="@+id/itemDanhGia_tvNgayTao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <RatingBar
+        android:id="@+id/itemDanhGia_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:backgroundTint="#ffbd00"
+        android:progressTint="#ffbd00"
+        android:secondaryProgressTint="@android:color/black"
+        android:isIndicator="true"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        />
+        <TextView
+            android:id="@+id/itemDanhGia_tvNoiDung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nội dung"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/itemDanhGia_imgPhone"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_3"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#DAD6D6"
+        android:layout_marginTop="10dp" />
+</LinearLayout>
