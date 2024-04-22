@@ -298,8 +298,18 @@
                     android:scrollbars="none"
                     android:keepScreenOn="true"
                     />
+                <TextView
+                    android:id="@+id/tv_entry"
+                    android:layout_alignParentTop="true"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="70dp"
+                    android:gravity="center"
+                    android:text="Danh sách trống"
+                    android:textColor="@color/black"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
 </FrameLayout>

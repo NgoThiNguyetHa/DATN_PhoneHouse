@@ -130,12 +130,12 @@ public class PhoneListFragment extends Fragment {
                 if (listFilter.size() == 0) {
                     tv_entry.setVisibility(View.VISIBLE);
                 }
-                adapter.setOnClickListener(new IItemListPhoneListener() {
-                    @Override
-                    public void onClickDetail(Root root) {
-                        dialogBottomDetail(root);
-                    }
-                });
+//                adapter.setOnClickListener(new IItemListPhoneListener() {
+//                    @Override
+//                    public void onClickDetail(Root root) {
+//                        dialogBottomDetail(root);
+//                    }
+//                });
                 if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
                     adapter.setData(list);
                     tv_entry.setVisibility(View.GONE);

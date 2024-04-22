@@ -57,12 +57,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductFragment extends Fragment implements OnItemClickListenerSanPham {
+    EditText danhSach_edSearch;
+    List<ChiTietDienThoai> listFilter;
+    TextView tv_entry;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
     LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
-
     GridLayoutManager manager;
-
     ProgressDialog progressDialog;
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences ;
@@ -72,7 +73,6 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.fragment_product, container, false);
     }
@@ -80,41 +80,53 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        ((Activity) getContext()).setTitle("Danh Sách Điện Thoại");
         initView(view);
         actionFilter();
         if (getActivity() != null) {
             getActivity().setTitle("Danh sách sản phẩm");
         }
         sanPham();
-        edSearch.addTextChangedListener(new TextWatcher() {
+        listFilter = new ArrayList<>();
+
+        danhSach_edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Gọi phương thức để tìm kiếm sản phẩm mỗi khi người dùng thay đổi nội dung của EditText
                 searchProducts(s.toString().trim());
-
-//                if (before > count) {
-//                    // Nếu có, lọc danh sách sản phẩm
-//                    searchProducts(s.toString().trim());
-//                }
                 if(s.toString().isEmpty()){
                     sanPham();
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if (listFilter.size() == 0) {
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+                if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
+                    tv_entry.setVisibility(View.GONE);
+                    updateList(list);
+                } else {
+                    tv_entry.setVisibility(View.GONE);
+                    updateList(listFilter);
+                }
             }
         });
     }
 
     void sanPham(){
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager = new GridLayoutManager(getContext(), 2);
         rc_danhSachDienThoai.setLayoutManager(manager);
@@ -174,6 +186,9 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
         ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
         ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
         progressBar = view.findViewById(R.id.danhSach_progressBar);
+        rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
+        danhSach_edSearch = view.findViewById(R.id.danhSach_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
     private void actionFilter(){
         ln_boLoc.setOnClickListener(new View.OnClickListener() {
