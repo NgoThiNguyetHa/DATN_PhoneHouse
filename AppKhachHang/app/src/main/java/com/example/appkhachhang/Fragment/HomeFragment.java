@@ -37,6 +37,7 @@ import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
+import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -256,6 +257,10 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
             }
+        }
+        if (item.getItemId() == R.id.iconSearch){
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

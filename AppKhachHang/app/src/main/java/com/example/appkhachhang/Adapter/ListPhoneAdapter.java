@@ -155,7 +155,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -266,7 +266,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onClickDetail(item);
             }
         });
     }
