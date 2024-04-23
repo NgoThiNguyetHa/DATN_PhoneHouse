@@ -38,6 +38,7 @@ import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
 import com.example.appkhachhang.activity.SearchActivity;
+import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -251,12 +252,14 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                replaceFragment(new CartFragment());
-            }else {
-                Intent intent = new Intent(getContext(), LoginScreen.class);
-                startActivity(intent);
-            }
+//            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+//                replaceFragment(new CartFragment());
+//            }else {
+//                Intent intent = new Intent(getContext(), LoginScreen.class);
+//                startActivity(intent);
+//            }
+            Intent intent = new Intent(getContext(), ZalopayActivity.class);
+            startActivity(intent);
         }
         if (item.getItemId() == R.id.iconSearch){
             Intent intent = new Intent(getContext(), SearchActivity.class);
