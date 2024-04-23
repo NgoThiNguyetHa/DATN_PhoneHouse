@@ -20,16 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
+import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface.OnClickListenerGioHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
+import com.example.appkhachhang.Interface_Adapter.IItemDetailCartListener;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPham;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.untils.MySharedPreferences;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +45,23 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
     private Context context;
     private List<ChiTietGioHang> list, listChon;
 
-    private OnClickListenerGioHang itemClickListener;
+    private OnClickListenerGioHang itemClickListener;//click checkbox
+    private IItemDetailCartListener iItemDetailCartListener;//tang so luong
 
-    public GioHangAdapter(Context context, List<ChiTietGioHang> list, OnClickListenerGioHang listenerGioHang) {
+    public GioHangAdapter(Context context, List<ChiTietGioHang> list) {
         this.context = context;
         this.list = list;
-        this.itemClickListener = listenerGioHang;
         notifyDataSetChanged();
     }
 
+    public void isOnClickListenerGioHang(OnClickListenerGioHang listenerGioHang){
+        this.itemClickListener = listenerGioHang;
 
+    }
+
+    public void isOnClickListener(IItemDetailCartListener iItemDetailCartListener){
+        this.iItemDetailCartListener = iItemDetailCartListener;
+    }
 
     @NonNull
     @Override
@@ -62,47 +73,34 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull GioHangAdapter.ViewHolder holder, int position) {
         ChiTietGioHang item = list.get(position);
-        holder.tvTenSanPham.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        holder.tvGiaTien.setText(""+item.getMaChiTietDienThoai().getGiaTien());
+        if (item.getMaChiTietDienThoai() != null && item.getMaChiTietDienThoai().getMaDienThoai() != null) {
+            String tenDienThoai = item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai();
+            holder.tvTenSanPham.setText("Điện thoại " +tenDienThoai);
+        } else {
+            holder.tvTenSanPham.setText("");
+        }
         holder.tvSoLuong.setText(""+item.getSoLuong());
         String fullCoverImgUrl = item.getMaChiTietDienThoai().getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgGioHang);
-
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
+        try {
+            double tongTienGiamNumber = Double.parseDouble(String.valueOf(item.getGiaTien()));
+            String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+            holder.tvGiaTien.setText("Giá tiền: "+formattedNumber+"₫");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         holder.chkSP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 itemClickListener.onItemClick(item, b);
             }
         });
+
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Bạn có muốn xóa sản phẩm này?");
-                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ApiRetrofit.getApiService().deleteGioHang(item.get_id()).enqueue(new Callback<ChiTietGioHang>() {
-                            @Override
-                            public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                                list.remove(item);
-                                notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.create().show();
+            public void onClick(View v) {
+                iItemDetailCartListener.onClickRemoveItem(item);
             }
         });
 
@@ -113,6 +111,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
                 if (item.getSoLuong() > 1){
                     item.setSoLuong(item.getSoLuong()-1);
                     holder.tvSoLuong.setText(""+item.getSoLuong());
+                    iItemDetailCartListener.onClickReduceQuantity(item);
                 }
             }
         });
@@ -123,6 +122,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
                 if (item.getSoLuong()< item.getMaChiTietDienThoai().getSoLuong()){
                     item.setSoLuong(item.getSoLuong()+1);
                     holder.tvSoLuong.setText(""+item.getSoLuong());
+                    iItemDetailCartListener.onClickIncreaseQuantity(item);
                 }
             }
         });
@@ -130,12 +130,15 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if (list == null){
+            return 0;
+        }
         return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvTenSanPham , tvGiaTien , tvSoLuong, tvAdd, tvSubtract;
-        private ImageView imgGioHang, imgDelete;
+        private TextView tvTenSanPham , tvGiaTien , tvSoLuong;
+        private ImageView imgGioHang, imgDelete , tvAdd, tvSubtract;
         private CheckBox chkSP;
 
 

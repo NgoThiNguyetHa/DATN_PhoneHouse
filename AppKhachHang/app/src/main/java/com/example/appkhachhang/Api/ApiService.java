@@ -35,6 +35,8 @@ public interface ApiService {
     @DELETE("/chitietgiohangs/deleteChiTietGioHang/{id}")
     Call<ChiTietGioHang> deleteGioHang(@Path("id") String id);
 
+    @PUT("/chitietgiohangs/updateChiTietGioHang/{id}")
+    Call<ChiTietGioHang> updateGioHang(@Path("id") String id, @Body ChiTietGioHang chiTietGioHang);
     //lấy list danh sách hóa đơn theo trạng thái
     @GET("hoadons/getHoaDonTheoTrangThai/{trangThaiNhanHang}")
     Call<List<HoaDon>> getHoaDonByTrangThai(@Path("trangThaiNhanHang") String trangThaiNhanHang);
@@ -129,5 +131,8 @@ public interface ApiService {
     Call<List<DanhGia>> getListDanhGiaTheoChiTiet(@Path("id") String id);
 
 
+    //reload 1 list
+    @PUT("/chitietgiohangs/updateLoadListChiTietGioHang/{id}")
+    Call<List<ChiTietGioHang>> updateListChiTietGioHang(@Path("id") String id,@Body List<ChiTietGioHang> chiTietGioHang);
 }
 

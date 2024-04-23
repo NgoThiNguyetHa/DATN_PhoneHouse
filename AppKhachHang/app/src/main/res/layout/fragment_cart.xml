@@ -15,20 +15,21 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             >
+
             <TextView
                 android:id="@+id/gioHang_tvEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bạn chưa có sản phẩm nào\ntrong Giỏ Hàng"
-                android:textStyle="bold"
                 android:layout_centerInParent="true"
+                android:text="Bạn chưa có sản phẩm nào\ntrong Giỏ Hàng"
                 android:textAlignment="center"
-                />
+                android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_gioHang"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
+
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                     android:text="0đ"
                     android:textStyle="bold"
                     android:layout_centerInParent="true"
-                    android:textSize="22dp"
+                    android:textSize="18dp"
                     android:textColor="#FF0000"
                     android:layout_gravity="bottom"
                     />

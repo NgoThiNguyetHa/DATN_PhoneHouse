@@ -165,68 +165,6 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         Drawable drawable = holder.rbDiemDanhGia.getProgressDrawable();
         drawable.setColorFilter(Color.parseColor("#ffbd00"), PorterDuff.Mode.SRC_ATOP);
 
-        //
-        holder.imgCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onClickDetail(item);
-            }
-        });
-
-        //gia tien
-//        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-//            holder.tvGiaTienGoc.setText("");
-//            holder.tvGiaTienGoc.setVisibility(View.GONE);
-//        }else {
-//            holder.tvGiaTienGoc.setText("" + item.getChiTietDienThoai().getGiaTien());
-//        }
-//        //
-//        DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-//        String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
-//        try {
-//            double tongTienNumber = Double.parseDouble(tongTien);
-//            String formattedNumber = decimalFormat.format(tongTienNumber);
-//            holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-//            holder.tvGiaTienGoc.setText(formattedNumber+"₫");
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-
-        //        //gia tien
-//        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-//            holder.tvGiaTienGoc.setText("");
-//            holder.tvGiaTienGoc.setVisibility(View.GONE);
-//        }else {
-//            holder.tvGiaTienGoc.setText("" + item.getChiTietDienThoai().getGiaTien());
-//        }
-//        //
-//        DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-//        String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
-//        try {
-//            double tongTienNumber = Double.parseDouble(tongTien);
-//            String formattedNumber = decimalFormat.format(tongTienNumber);
-//            holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-//            holder.tvGiaTienGoc.setText(formattedNumber+"₫");
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//        //
-//        String tongTienGiam;
-//        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-//            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien());
-//
-//        }else{
-//            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien() * Double.parseDouble(item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
-//        }
-//        DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
-//        try {
-//            double tongTienGiamNumber = Double.parseDouble(tongTienGiam);
-//            String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
-//            holder.tvGiaTienGiam.setText(formattedNumber+"₫");
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-
         if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
             holder.tvGiaTienGoc.setVisibility(View.GONE);
         }else {
@@ -247,7 +185,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
             tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien());
 
         }else{
-            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien() * (Double.parseDouble(item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100));
+            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien() - (item.getChiTietDienThoai().getGiaTien() * (Double.parseDouble(item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100)));
         }
 
         DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
@@ -268,7 +206,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.onClickDetail(item);
             }
         });
     }
