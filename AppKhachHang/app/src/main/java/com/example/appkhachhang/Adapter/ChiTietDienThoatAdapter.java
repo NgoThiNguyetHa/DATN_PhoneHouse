@@ -91,14 +91,15 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailScreen.class);
-                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(chiTietDienThoai);
-                editor.putString("chiTietDienThoai", json);
-                editor.apply();
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, DetailScreen.class);
+//                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                Gson gson = new Gson();
+//                String json = gson.toJson(chiTietDienThoai);
+//                editor.putString("chiTietDienThoai", json);
+//                editor.apply();
+//                context.startActivity(intent);
+                onItemClickListenerSanPham.onItemClickSP(chiTietDienThoai);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {

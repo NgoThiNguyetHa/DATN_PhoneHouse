@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.mohammedalaa.seekbar.DoubleValueSeekBarView;
@@ -112,7 +114,13 @@ public class ProductFragment extends Fragment {
         adapter = new ProductAdapter(getContext(), list, new OnItemClickListenerSanPham() {
             @Override
             public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         rc_danhSachDienThoai.setAdapter(adapter);

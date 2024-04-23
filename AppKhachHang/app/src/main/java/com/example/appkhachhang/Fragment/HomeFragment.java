@@ -30,10 +30,10 @@ import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
+import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -102,6 +102,7 @@ public class HomeFragment extends Fragment {
         sanPham();
         sanPhamHot();
         hangSanXuat();
+        Log.d("zzz", "onViewCreated: "+list.size());
     }
 
 
@@ -236,6 +237,7 @@ public class HomeFragment extends Fragment {
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
                     setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
+                    Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
                 }
