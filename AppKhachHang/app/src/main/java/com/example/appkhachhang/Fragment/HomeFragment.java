@@ -197,7 +197,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<SanPhamHot>> call, Throwable t) {
-               Log.e("error", t.getMessage());
+//               Log.e("error", t.getMessage());
 
             }
         });
@@ -221,7 +221,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<HangSanXuat>> call, Throwable t) {
-                Log.e("error", t.getMessage());
+//                Log.e("error", t.getMessage());
 
             }
         });
@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
+//                Log.e("errorrr", "onFailure: " + t.getMessage() );
             }
         });
     }
