@@ -29,54 +29,87 @@ public class ZalopayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zalopay);
         btnZalopay = findViewById(R.id.btnZalopay);
-        StrictMode.ThreadPolicy policy = new
-                StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+//        StrictMode.ThreadPolicy policy = new
+//                StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
 
-        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
+//        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
 
-        btnZalopay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        btnZalopay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                CreateOrder orderApi = new CreateOrder();
+//                try {
+//                    JSONObject data = orderApi.createOrder(amount);
+//                    String code = data.getString("returncode");
+//
+//                    if (code.equals("1")) {
+//
+//                        String token = data.getString("zptranstoken");
+//
+//                        ZaloPaySDK.getInstance().payOrder(ZalopayActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                            @Override
+//                            public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+//                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                                startActivity(intent);
+//                                Toast.makeText(ZalopayActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onPaymentCanceled(String zpTransToken, String appTransID) {
+//                                Toast.makeText(ZalopayActivity.this, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+//                                Toast.makeText(ZalopayActivity.this, "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
-                CreateOrder orderApi = new CreateOrder();
-                try {
-                    JSONObject data = orderApi.createOrder(amount);
-                    String code = data.getString("returncode");
-
-                    if (code.equals("1")) {
-
-                        String token = data.getString("zptranstoken");
-
-                        ZaloPaySDK.getInstance().payOrder(ZalopayActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                            @Override
-                            public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(ZalopayActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onPaymentCanceled(String zpTransToken, String appTransID) {
-                                Toast.makeText(ZalopayActivity.this, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-                                Toast.makeText(ZalopayActivity.this, "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        CreateOrder orderApi = new CreateOrder();
+//        try {
+//            JSONObject data = orderApi.createOrder(amount);
+//            String code = data.getString("returncode");
+//
+//            if (code.equals("1")) {
+//
+//                String token = data.getString("zptranstoken");
+//
+//                ZaloPaySDK.getInstance().payOrder(ZalopayActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                    @Override
+//                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+//                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                        startActivity(intent);
+//                        Toast.makeText(ZalopayActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
+//                        Toast.makeText(ZalopayActivity.this, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+//                        Toast.makeText(ZalopayActivity.this, "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        ZaloPaySDK.getInstance().onResult(intent);
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        ZaloPaySDK.getInstance().onResult(intent);
+//    }
 }

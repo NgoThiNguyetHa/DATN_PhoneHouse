@@ -266,14 +266,14 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-//            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-//                replaceFragment(new CartFragment());
-//            }else {
-//                Intent intent = new Intent(getContext(), LoginScreen.class);
-//                startActivity(intent);
-//            }
-            Intent intent = new Intent(getContext(), ZalopayActivity.class);
-            startActivity(intent);
+            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                replaceFragment(new CartFragment());
+            }else {
+                Intent intent = new Intent(getContext(), LoginScreen.class);
+                startActivity(intent);
+            }
+//            Intent intent = new Intent(getContext(), ZalopayActivity.class);
+//            startActivity(intent);
         }
         if (item.getItemId() == R.id.iconSearch){
             Intent intent = new Intent(getContext(), SearchActivity.class);
@@ -303,5 +303,13 @@ public class HomeFragment extends Fragment {
     private void setLayoutAnimationHSX(int animResource){
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
         recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+    }
+
+    @Override
+    public void onResume() {
+        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+        setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
+        setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
+        super.onResume();
     }
 }

@@ -165,9 +165,9 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
 
     private void getDataGioHang() {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
-        String idKhachHang = prefs.getString("idKhachHang", "abc");
+//        String idKhachHang = prefs.getString("idKhachHang", "abc");//giá trị abc
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<ChiTietGioHang>> call = apiService.getListGioHang(idKhachHang);
+        Call<List<ChiTietGioHang>> call = apiService.getListGioHang(mySharedPreferences.getUserId());
         call.enqueue(new Callback<List<ChiTietGioHang>>() {
             @Override
             public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
@@ -179,7 +179,7 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
                     tvEmpty.setVisibility(View.GONE);
                     tvEmpty.setText("");
                 } else {
-                    tvEmpty.setText("Giỏ hàng trống");
+                    tvEmpty.setText("Bạn chưa có sản phẩm nào " + "\n" + "trong Giỏ Hàng");
                 }
             }
 
