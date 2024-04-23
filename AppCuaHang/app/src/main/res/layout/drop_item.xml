@@ -1,0 +1,10 @@
+<TextView android:id="@+id/tvTitleDropDown"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:text="Top 10 sản phẩm bán chạy"
+    android:textColor="#000000"
+    android:textSize="10dp"
+    android:textStyle="bold"
+    android:layout_centerVertical="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

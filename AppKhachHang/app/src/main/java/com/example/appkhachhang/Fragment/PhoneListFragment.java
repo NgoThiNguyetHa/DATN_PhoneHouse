@@ -1,30 +1,21 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,30 +25,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
-import com.example.appkhachhang.Adapter.InfoOrderAdapter;
 import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
-import com.example.appkhachhang.DetailScreen;
+import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
-import com.example.appkhachhang.Model.ListPhone;
 import com.example.appkhachhang.Model.Root;
-import com.example.appkhachhang.Model.ThongTinDonHang;
 import com.example.appkhachhang.R;
-import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.slider.RangeSlider;
 import com.mohammedalaa.seekbar.DoubleValueSeekBarView;
 import com.mohammedalaa.seekbar.OnDoubleValueSeekBarChangeListener;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,7 +66,7 @@ public class PhoneListFragment extends Fragment {
     ProgressDialog progressDialog;
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences ;
-    int quantity = 0; // Khởi tạo quantity với giá trị ban đầu là 0
+    int quantity = 1; // Khởi tạo quantity với giá trị ban đầu là 0
     DiaChiNhanHangAdapter adapterDiaChi;
 
     @Override
@@ -95,7 +80,6 @@ public class PhoneListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_phone_list, container, false);
-        ((Activity) getContext()).setTitle("Danh Sách Điện Thoại");
         initView(view);
         initVariable();
         action();
@@ -127,7 +111,14 @@ public class PhoneListFragment extends Fragment {
         adapter.setOnClickListener(new IItemListPhoneListener() {
             @Override
             public void onClickDetail(Root root) {
-                dialogBottomDetail(root);
+//                dialogBottomDetail(root);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         rc_danhSachDienThoai.setAdapter(adapter);
@@ -138,6 +129,7 @@ public class PhoneListFragment extends Fragment {
             hangSanXuat = (HangSanXuat) bundle.getSerializable("idHangSanXuat"); // Lấy dữ liệu từ Bundle bằng key
             // Sử dụng dữ liệu ở đây
             getData(hangSanXuat.get_id());
+            ((Activity) getContext()).setTitle(hangSanXuat.getTenHang());
         }
     }
 
@@ -176,6 +168,7 @@ public class PhoneListFragment extends Fragment {
                     list.addAll(data);
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
+                    setLayoutAnimation(R.anim.layout_anim_bottom_to_up);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -829,7 +822,7 @@ public class PhoneListFragment extends Fragment {
 
         tvTenDienThoai.setText(""+root.getChiTietDienThoai().getMaDienThoai().getTenDienThoai());
         tvSoLuongTon.setText("Số lượng còn hàng: "+root.getChiTietDienThoai().getSoLuong());
-
+        tvSoLuong.setText(""+quantity);
         lnMinius.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -870,31 +863,46 @@ public class PhoneListFragment extends Fragment {
                 chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
                 chiTietGioHang.setSoLuong(quantity);
                 chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
-                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
-                    @Override
-                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                        if (response.isSuccessful()){
-                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                        Log.d("error", "onFailure: " + t.getMessage());
-                    }
-                });
+//                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+//                    @Override
+//                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
+//                        if (response.isSuccessful()){
+//                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+//                            dialog.dismiss();
+//                            ///mới
+//                            ShoppingCartManager.saveChiTietGioHangForId(getContext(),mySharedPreferences.getUserId(), chiTietGioHang);
+//                        } else {
+//                            Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+//                        Log.d("error", "onFailure: " + t.getMessage());
+//                    }
+//                });
+                boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                if (isSuccess) {
+                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                    quantity = 1;
+                } else {
+                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                quantity = 1;
             }
         });
-
     }
+
+    private void setLayoutAnimation(int animResource){
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+        rc_danhSachDienThoai.setLayoutAnimation(layoutAnimationController);
+    }
+
 }

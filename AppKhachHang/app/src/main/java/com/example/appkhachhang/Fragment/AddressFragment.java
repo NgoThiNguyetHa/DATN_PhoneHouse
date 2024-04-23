@@ -54,7 +54,7 @@ public class AddressFragment extends Fragment {
     LinearLayoutManager manager;
     EditText edTenNguoiNhan;
     EditText edSDT;
-    EditText edDiaChi;
+    EditText dl_edDiaChiChiTiet, dl_edPhuongXa, dl_edQuanHuyen, dl_edTinhThanhPho;
     Button btnAddress;
     MySharedPreferences mySharedPreferences;
 
@@ -160,7 +160,10 @@ public class AddressFragment extends Fragment {
 
         edTenNguoiNhan = view.findViewById(R.id.dl_edTenNguoiNhan);
         edSDT = view.findViewById(R.id.dl_edSDT);
-        edDiaChi = view.findViewById(R.id.dl_edDiaChi);
+        dl_edDiaChiChiTiet = view.findViewById(R.id.dl_edDiaChiChiTiet);
+        dl_edPhuongXa = view.findViewById(R.id.dl_edPhuongXa);
+        dl_edQuanHuyen = view.findViewById(R.id.dl_edQuanHuyen);
+        dl_edTinhThanhPho = view.findViewById(R.id.dl_edTinhThanhPho);
 
         Button btnSave = view.findViewById(R.id.yesButton);
         TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
@@ -173,7 +176,10 @@ public class AddressFragment extends Fragment {
                 if(Validate()){
                     String tenNguoiNhan = edTenNguoiNhan.getText().toString().trim();
                     String soDienThoai = edSDT.getText().toString().trim();
-                    String diaChi = edDiaChi.getText().toString().trim();
+                    String diaChi = dl_edDiaChiChiTiet.getText().toString().trim() + ", "
+                            + dl_edPhuongXa.getText().toString().trim() + ", "
+                            + dl_edQuanHuyen.getText().toString().trim()+ ", "
+                            + dl_edTinhThanhPho.getText().toString().trim();
                     Address_API address_api = ApiRetrofit.getApiAddress();
                     mySharedPreferences = new MySharedPreferences(getContext());
                     Call<AddressDelivery> call = address_api.postDiaChi(new AddressDelivery(soDienThoai , tenNguoiNhan , diaChi , new User(mySharedPreferences.getUserId())));
@@ -223,7 +229,10 @@ public class AddressFragment extends Fragment {
 
         edTenNguoiNhan = view.findViewById(R.id.dl_edTenNguoiNhan);
         edSDT = view.findViewById(R.id.dl_edSDT);
-        edDiaChi = view.findViewById(R.id.dl_edDiaChi);
+        dl_edDiaChiChiTiet = view.findViewById(R.id.dl_edDiaChiChiTiet);
+        dl_edPhuongXa = view.findViewById(R.id.dl_edPhuongXa);
+        dl_edQuanHuyen = view.findViewById(R.id.dl_edQuanHuyen);
+        dl_edTinhThanhPho = view.findViewById(R.id.dl_edTinhThanhPho);
 
         Button btnSave = view.findViewById(R.id.yesButton);
         TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
@@ -232,15 +241,34 @@ public class AddressFragment extends Fragment {
         tvTitle.setText("Cập Nhật Địa Chỉ");
         btnSave.setText("Cập nhật");
         edTenNguoiNhan.setText(addressDelivery.getTenNguoiNhan());
-        edDiaChi.setText(addressDelivery.getDiaChi());
         edSDT.setText(addressDelivery.getSdt());
+        String[] parts = addressDelivery.getDiaChi().split(", ");
+
+        if (parts.length >= 4) {
+            StringBuilder diaChiChiTiet = new StringBuilder();
+            for (int i = 0; i < parts.length; i++) {
+                if (i != parts.length - 3 && i != parts.length - 2 && i != parts.length - 1) {
+                    diaChiChiTiet.append(parts[i]);
+                    if (i < parts.length - 4) {
+                        diaChiChiTiet.append(", ");
+                    }
+                }
+            }
+            dl_edDiaChiChiTiet.setText(diaChiChiTiet.toString());
+            dl_edPhuongXa.setText(parts[parts.length - 3]);
+            dl_edQuanHuyen.setText(parts[parts.length - 2]);
+            dl_edTinhThanhPho.setText(parts[parts.length - 1]);
+        }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Validate()){
                     String tenNguoiNhan = edTenNguoiNhan.getText().toString().trim();
                     String soDienThoai = edSDT.getText().toString().trim();
-                    String diaChi = edDiaChi.getText().toString().trim();
+                    String diaChi = dl_edDiaChiChiTiet.getText().toString().trim() + ", "
+                            + dl_edPhuongXa.getText().toString().trim() + ", "
+                            + dl_edQuanHuyen.getText().toString().trim()+ ", "
+                            + dl_edTinhThanhPho.getText().toString().trim();
                     Address_API address_api = ApiRetrofit.getApiAddress();
                     Call<AddressDelivery> call = address_api.putDiaChi(new AddressDelivery(soDienThoai , tenNguoiNhan , diaChi , new User(mySharedPreferences.getUserId())) , addressDelivery.get_id());
                     call.enqueue(new Callback<AddressDelivery>() {
@@ -275,6 +303,7 @@ public class AddressFragment extends Fragment {
     private boolean Validate(){
         String usernamePattern = "^[\\p{L}\\s]+$";
         String phonePattern = "^0\\d{9}$";
+        String kyTuDacBiet = "^[a-zA-Z0-9]*$";
 
         if(edTenNguoiNhan.getText().toString().isEmpty()){
             edTenNguoiNhan.setError("Không được để trống!!");
@@ -288,8 +317,26 @@ public class AddressFragment extends Fragment {
         }else if(!edSDT.getText().toString().trim().matches(phonePattern)){
             edSDT.setError("Số điện thoại không hợp lệ!!");
             return false;
-        } else if(edDiaChi.getText().toString().isEmpty()){
-            edDiaChi.setError("Không được để trống!!");
+        } else if(dl_edDiaChiChiTiet.getText().toString().isEmpty()){
+            dl_edDiaChiChiTiet.setError("Không được để trống!!");
+            return false;
+        } else if(dl_edPhuongXa.getText().toString().isEmpty()){
+            dl_edPhuongXa.setError("Không được để trống!!");
+            return false;
+        } else if(!dl_edPhuongXa.getText().toString().trim().matches(kyTuDacBiet)){
+            dl_edPhuongXa.setError("Không chứa ký tự đặc biệt!!");
+            return false;
+        } else if(dl_edQuanHuyen.getText().toString().isEmpty()){
+            dl_edQuanHuyen.setError("Không được để trống!!");
+            return false;
+        } else if(!dl_edQuanHuyen.getText().toString().trim().matches(kyTuDacBiet)){
+            dl_edQuanHuyen.setError("Không chứa ký tự đặc biệt!!");
+            return false;
+        } else if(dl_edTinhThanhPho.getText().toString().isEmpty()){
+            dl_edTinhThanhPho.setError("Không được để trống!!");
+            return false;
+        }else if(!dl_edTinhThanhPho.getText().toString().trim().matches(kyTuDacBiet)){
+            dl_edTinhThanhPho.setError("Không chứa ký tự đặc biệt!!");
             return false;
         }
         return true;

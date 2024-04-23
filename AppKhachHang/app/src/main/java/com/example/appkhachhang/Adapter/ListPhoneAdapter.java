@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
-import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
-import com.example.appkhachhang.Model.ListPhone;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
@@ -135,7 +132,8 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.tvMau.setText(""+item.getChiTietDienThoai().getMaMau().getTenMau());
 
         holder.tvRam.setText(""+item.getChiTietDienThoai().getMaRam().getRAM() +" GB");
-        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
+        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");
+        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
             holder.tvSale.setText("");
             holder.tvSale.setBackgroundColor(Color.WHITE);
         } else {
@@ -157,7 +155,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -165,59 +163,29 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         Drawable drawable = holder.rbDiemDanhGia.getProgressDrawable();
         drawable.setColorFilter(Color.parseColor("#ffbd00"), PorterDuff.Mode.SRC_ATOP);
 
-        //
-        holder.imgCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onClickDetail(item);
-            }
-        });
-
-        //gia tien
-//        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-//            holder.tvGiaTienGoc.setText("");
-//            holder.tvGiaTienGoc.setVisibility(View.GONE);
-//        }else {
-//            holder.tvGiaTienGoc.setText("" + item.getChiTietDienThoai().getGiaTien());
-//        }
-//        //
-//        DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-//        String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
-//        try {
-//            double tongTienNumber = Double.parseDouble(tongTien);
-//            String formattedNumber = decimalFormat.format(tongTienNumber);
-//            holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-//            holder.tvGiaTienGoc.setText(formattedNumber+"₫");
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-
-        //        //gia tien
         if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-            holder.tvGiaTienGoc.setText("");
             holder.tvGiaTienGoc.setVisibility(View.GONE);
         }else {
             holder.tvGiaTienGoc.setText("" + item.getChiTietDienThoai().getGiaTien());
+            DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
+            String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
+            try {
+                double tongTienNumber = Double.parseDouble(tongTien);
+                String formattedNumber = decimalFormat.format(tongTienNumber);
+                holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.tvGiaTienGoc.setText(formattedNumber+"₫");
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
-        //
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-        String tongTien = String.valueOf(item.getChiTietDienThoai().getGiaTien());
-        try {
-            double tongTienNumber = Double.parseDouble(tongTien);
-            String formattedNumber = decimalFormat.format(tongTienNumber);
-            holder.tvGiaTienGoc.setPaintFlags(holder.tvGiaTienGoc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.tvGiaTienGoc.setText(formattedNumber+"₫");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        //
         String tongTienGiam;
         if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
             tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien());
 
         }else{
-            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien() * Double.parseDouble(item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
+            tongTienGiam = String.valueOf(item.getChiTietDienThoai().getGiaTien() - (item.getChiTietDienThoai().getGiaTien() * (Double.parseDouble(item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100)));
         }
+
         DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
         try {
             double tongTienGiamNumber = Double.parseDouble(tongTienGiam);
@@ -226,15 +194,17 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+
+
         if (item.getChiTietDienThoai().getHinhAnh().equals("")){
-            holder.imgPhone.setImageResource(R.drawable.shape_custom_dialog);
+            holder.imgPhone.setVisibility(View.GONE);
         }else {
             Picasso.get().load(item.getChiTietDienThoai().getHinhAnh()).into(holder.imgPhone);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, ""+item.getChiTietDienThoai().getGiaTien(), Toast.LENGTH_SHORT).show();
+                listener.onClickDetail(item);
             }
         });
     }

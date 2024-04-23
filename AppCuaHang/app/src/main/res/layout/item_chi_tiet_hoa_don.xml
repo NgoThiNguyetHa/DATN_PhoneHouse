@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="6dp">
 
         <ImageView
             android:id="@+id/imgChiTietSP"
@@ -60,8 +62,9 @@
         </LinearLayout>
     </LinearLayout>
     <View
+        android:id="@+id/viewKeNgang"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/custom_textview"
+        android:background="#A3A3A3"
         />
 </LinearLayout>

@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require("mongoose");
 require("../models/ChiTietDienThoai");
 require("../models/DienThoai");
+require('../models/CuaHang')
 const {
   getStorage,
   ref,
@@ -19,7 +20,7 @@ const Ram = require("../models/Ram");
 const DungLuong = require("../models/DungLuong");
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const DienThoai = mongoose.model("dienthoai");
-
+const CuaHang = mongoose.model("cuaHang");
 router.post("/addChiTiet", async function (req, res, next) {
   try {
     const chiTiet = new ChiTietDienThoai({
@@ -152,7 +153,37 @@ router.get("/getChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
         chiTietDienThoais.push(...dienThoai);
       }
     }
-    res.json(chiTietDienThoais);
+
+    const transformedResponse = await Promise.all(
+        chiTietDienThoais.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    res.json(transformedResponse);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -1467,6 +1498,251 @@ router.get("/filterDienThoai", async (req, res) => {
   }
 });
 
-//sắp xếp điểm đánh giá
+//lọc điện thoại
+router.get("/filterChiTietDienThoai", async (req, res) => {
+    try {
+        const {
+            GiaMin,
+            GiaMax,
+            Ram,
+            boNho,
+            sortByPrice,
+            uuDaiHot,
+            maHangSanXuat,
+            sortDanhGia
+        } = req.query;
 
+        let filter = {};
+        let sort = {};
+
+        // Lọc theo giá
+        if (GiaMin && GiaMax) {
+            filter.giaTien = { $gte: Number(GiaMin), $lte: Number(GiaMax) };
+        } else if (GiaMin) {
+            filter.giaTien = { $gte: Number(GiaMin) };
+        } else if (GiaMax) {
+            filter.giaTien = { $lte: Number(GiaMax) };
+        }
+
+        // Sắp xếp theo giá
+        if (sortByPrice === "asc") {
+            sort.giaTien = 1;
+        } else if (sortByPrice === "desc") {
+            sort.giaTien = -1;
+        }
+
+        let dienThoai;
+        dienThoai = await ChiTietDienThoai.find(filter)
+            .sort(sort)
+            .populate("maRam")
+            .populate("maDungLuong")
+            .populate("maMau")
+            .populate({
+                path: "maDienThoai",
+                populate: [
+                    { path: "maCuaHang", model: "cuaHang" },
+                    { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                    { path: "maHangSX", model: "hangSanXuat" },
+                ],
+            });
+        if (maHangSanXuat){
+            dienThoai = dienThoai.filter(item => item.maDienThoai.maHangSX._id.toString() === maHangSanXuat)
+        }
+
+        if (uuDaiHot === "true") {
+            dienThoai = dienThoai.filter(item => item.maDienThoai.maUuDai !== null)
+                .sort((a, b) => {
+                    // Sắp xếp theo mã ưu đãi giảm dần
+                    return b.maDienThoai.maUuDai.giamGia - a.maDienThoai.maUuDai.giamGia;
+                });
+
+        }
+        if (Ram){
+            const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
+            dienThoai = dienThoai.filter(item =>
+                // log(item)
+                item.maRam.RAM >= minRam && item.maRam.RAM <= maxRam
+            )
+
+        }
+        if (boNho){
+            const [minBoNho, maxBoNho] = boNho.split(",").map((value) => parseInt(value.trim()));
+            dienThoai = dienThoai.filter(item => item.maDungLuong.boNho >= minBoNho && item.maDungLuong.boNho <= maxBoNho )
+
+        }
+
+        const transformedResponse = await Promise.all(
+            dienThoai.map(async (item) => {
+                const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+                    .populate("idKhachHang")
+                    .populate({
+                        path: "idChiTietDienThoai",
+                        populate: [
+                            {
+                                path: "maDienThoai",
+                                model: "dienthoai",
+                                populate: [
+                                    { path: "maCuaHang", model: "cuaHang" },
+                                    { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                                    { path: "maHangSX", model: "hangSanXuat" },
+                                ],
+                            },
+                            { path: "maMau", model: "mau" },
+                            { path: "maDungLuong", model: "dungluong" },
+                            { path: "maRam", model: "ram" },
+                        ],
+                    });
+                const averageRating = calculateAverageRating(danhGias);
+                return {
+                    chiTietDienThoai: item,
+                    danhGias: danhGias,
+                    tbDiemDanhGia: averageRating
+                };
+            })
+        );
+        if (sortDanhGia === "true"){
+            transformedResponse.sort((a, b) => b.tbDiemDanhGia - a.tbDiemDanhGia);
+        }
+
+        res.json(transformedResponse);
+    } catch (err) {
+        console.error(err);
+        res
+            .status(500)
+            .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
+    }
+});
+function calculateAverageRating(danhGias) {
+    if (danhGias.length === 0) return 0;
+
+    const totalRating = danhGias.reduce((sum, danhGia) => sum + danhGia.diemDanhGia, 0);
+    return totalRating / danhGias.length;
+}
+
+router.get("/searchDienThoaiVaCuaHang", async (req, res) => {
+  try {
+    const {
+      GiaMin,
+      GiaMax,
+      Ram,
+      boNho,
+      sortByPrice,
+      uuDaiHot,
+      maHangSanXuat,
+      sortDanhGia,
+      search
+    } = req.query;
+
+    let filter = {};
+    let sort = {};
+
+    // Lọc theo giá
+    if (GiaMin && GiaMax) {
+      filter.giaTien = { $gte: Number(GiaMin), $lte: Number(GiaMax) };
+    } else if (GiaMin) {
+      filter.giaTien = { $gte: Number(GiaMin) };
+    } else if (GiaMax) {
+      filter.giaTien = { $lte: Number(GiaMax) };
+    }
+
+    // Sắp xếp theo giá
+    if (sortByPrice === "asc") {
+      sort.giaTien = 1;
+    } else if (sortByPrice === "desc") {
+      sort.giaTien = -1;
+    }
+
+    let dienThoai;
+    let cuaHangs = [];
+    dienThoai = await ChiTietDienThoai.find(filter)
+        .sort(sort)
+        .populate("maRam")
+        .populate("maDungLuong")
+        .populate("maMau")
+        .populate({
+          path: "maDienThoai",
+          populate: [
+            { path: "maCuaHang", model: "cuaHang" },
+            { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+            { path: "maHangSX", model: "hangSanXuat" },
+          ],
+        });
+    if (search){
+      dienThoai = dienThoai.filter(item => item.maDienThoai.tenDienThoai.toLowerCase().includes(search.toLowerCase()))
+      cuaHangs = await CuaHang.find({username: { $regex: search, $options: "i" }})
+          .select('_id username diaChi')
+    }
+    if (maHangSanXuat){
+      dienThoai = dienThoai.filter(item => item.maDienThoai.maHangSX._id.toString() === maHangSanXuat)
+    }
+
+    if (uuDaiHot === "true") {
+      dienThoai = dienThoai.filter(item => item.maDienThoai.maUuDai !== null)
+          .sort((a, b) => {
+            // Sắp xếp theo mã ưu đãi giảm dần
+            return b.maDienThoai.maUuDai.giamGia - a.maDienThoai.maUuDai.giamGia;
+          });
+
+    }
+    if (Ram){
+      const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
+      dienThoai = dienThoai.filter(item =>
+          // log(item)
+          item.maRam.RAM >= minRam && item.maRam.RAM <= maxRam
+      )
+
+    }
+    if (boNho){
+      const [minBoNho, maxBoNho] = boNho.split(",").map((value) => parseInt(value.trim()));
+      dienThoai = dienThoai.filter(item => item.maDungLuong.boNho >= minBoNho && item.maDungLuong.boNho <= maxBoNho )
+
+    }
+
+    const transformedResponse = await Promise.all(
+        dienThoai.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    if (sortDanhGia === "true"){
+      transformedResponse.sort((a, b) => b.tbDiemDanhGia - a.tbDiemDanhGia);
+    }
+
+    res.json({dienThoais: transformedResponse, cuaHangs});
+  } catch (err) {
+    console.error(err);
+    res
+        .status(500)
+        .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
+  }
+});
+function calculateAverageRating(danhGias) {
+  if (danhGias.length === 0) return 0;
+
+  const totalRating = danhGias.reduce((sum, danhGia) => sum + danhGia.diemDanhGia, 0);
+  return totalRating / danhGias.length;
+}
 module.exports = router;
