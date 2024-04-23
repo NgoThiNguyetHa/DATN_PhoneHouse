@@ -58,7 +58,7 @@
                 android:background="@drawable/shape_custom"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Giá"
+                    android:text="Giá Tiền"
                     android:textStyle="bold"
                     android:padding="8dp"/>
                 <ImageView
@@ -107,10 +107,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
+            android:layout_margin="5dp"
             >
             <LinearLayout
                 android:id="@+id/danhSach_linearLocDlRam"
@@ -125,7 +122,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dung lượng Ram"
+                    android:text="Ram"
                     android:textStyle="bold"
                     android:padding="8dp"
                     />
@@ -142,11 +139,12 @@
                 android:background="@drawable/shape_custom"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:layout_margin="5dp"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bộ nhớ trong"
+                    android:text="Dung Lượng"
                     android:textStyle="bold"
                     android:padding="8dp"
                     />

@@ -60,7 +60,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
               populate: { path: "maKhachHang", model: "khachhang" }
             }
           ]);
-
+      console.log("populatedChiTiet", populatedChiTiet);
       return res.send(populatedChiTiet);
     } else {
       // Nếu chưa tồn tại, tạo mới chi tiết giỏ hàng
@@ -70,7 +70,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
         maChiTietDienThoai: req.body.maChiTietDienThoai,
         maGioHang: gioHang._id,
       });
-
+    console.log("chiTietGioHang", chiTietGioHang);
     // Lưu chi tiết giỏ hàng
 
     const savedChiTietGioHang = await chiTietGioHang.save();
@@ -98,6 +98,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
         populate: { path: "maKhachHang", model: "khachhang" },
       });;
     // Trả về kết quả
+    console.log("add chi tiet", chiTietGioHang);
     res.send(populateChiTietGioHang);
     }
   } catch (err) {
@@ -200,4 +201,38 @@ router.put("/updateChiTietGioHang/:id", async (req, res ) => {
   }
 })
 
+router.put("/updateLoadListChiTietGioHang/:id", async (req, res) => {
+  try {
+    const idKhachHang = req.params.id;
+    const chiTietGioHangList = req.body;
+    const promises = chiTietGioHangList.map(async (chiTiet) => {
+      const gioHang = await GioHang.findOne({ maKhachHang: idKhachHang });
+      if (!gioHang) {
+        throw new Error("Không tìm thấy giỏ hàng cho khách hàng này");
+      }
+      const updatedChiTiet = await ChiTietGioHang.findOneAndUpdate(
+        {
+          maGioHang: gioHang._id,
+          maChiTietDienThoai: chiTiet.maChiTietDienThoai,
+        },
+        { soLuong: chiTiet.soLuong },
+        { new: true }
+      );
+      console.log("chiTiet: ", updatedChiTiet);
+      return updatedChiTiet;
+    });
+
+    const updatedChiTietGioHangList = await Promise.all(promises);
+
+    if (updatedChiTietGioHangList.length > 0) {
+      return res.status(200).json({ message: "Cập nhật giỏ hàng thành công" });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy chi tiết giỏ hàng để cập nhật" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+});
 module.exports = router;

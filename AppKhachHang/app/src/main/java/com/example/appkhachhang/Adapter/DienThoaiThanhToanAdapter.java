@@ -15,6 +15,7 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class DienThoaiThanhToanAdapter extends RecyclerView.Adapter<DienThoaiThanhToanAdapter.ViewHolder> {
@@ -41,11 +42,27 @@ public class DienThoaiThanhToanAdapter extends RecyclerView.Adapter<DienThoaiTha
         if (fullCoverImgUrl != null && holder.imgSanPham != null) {
             Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         }
-        holder.tvTenSP.setText(item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        holder.tvGiaSP.setText(""+item.getMaChiTietDienThoai().getGiaTien());
+
+        holder.tvTenSP.setText("Điện thoại "+item.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
+        String tongTienGiam;
+        tongTienGiam = String.valueOf(item.getGiaTien());
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
+        try {
+            double tongTienGiamNumber = Double.parseDouble(tongTienGiam);
+            String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+            holder.tvGiaSP.setText(formattedNumber+"₫");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         holder.tvMauSac.setText(item.getMaChiTietDienThoai().getMaMau().getTenMau());
         holder.tvSoLuong.setText("x" +  item.getSoLuong());
-        holder.tvThanhTien.setText("Thành tiền " + "(" + item.getSoLuong() +" sản phẩm): " +item.getSoLuong()*item.getGiaTien());
+        try {
+            double tongTienGiamNumber = Double.parseDouble(String.valueOf(item.getSoLuong()*item.getGiaTien()));
+            String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+            holder.tvThanhTien.setText("Thành tiền " +formattedNumber+ "đ");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

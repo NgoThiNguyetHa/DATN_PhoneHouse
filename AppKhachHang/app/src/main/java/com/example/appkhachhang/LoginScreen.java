@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +73,7 @@ public class LoginScreen extends AppCompatActivity {
 //            public void onClick(View view) {
 //            }
 //        });
+        fullScreen();
     }
 
 
@@ -159,5 +164,16 @@ public class LoginScreen extends AppCompatActivity {
         // Kiểm tra xem mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt không
         String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
         return password.matches(passwordPattern);
+    }
+
+    private void fullScreen(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null){
+                controller.hide(WindowInsets.Type.statusBars());
+            }
+        }else{
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 }

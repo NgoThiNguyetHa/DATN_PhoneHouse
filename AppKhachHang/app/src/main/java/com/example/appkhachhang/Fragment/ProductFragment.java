@@ -1,7 +1,7 @@
 package com.example.appkhachhang.Fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,24 +25,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
-import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
-import com.example.appkhachhang.Adapter.HotProductAdapter;
-import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Adapter.ProductAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
-import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
-import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
-import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
-import com.example.appkhachhang.Model.SanPham;
-import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.mohammedalaa.seekbar.DoubleValueSeekBarView;
@@ -56,14 +47,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductFragment extends Fragment implements OnItemClickListenerSanPham {
+public class ProductFragment extends Fragment {
     EditText danhSach_edSearch;
     List<ChiTietDienThoai> listFilter;
     TextView tv_entry;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
     LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
+
     GridLayoutManager manager;
+
     ProgressDialog progressDialog;
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences ;
@@ -73,6 +66,7 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.fragment_product, container, false);
     }
@@ -80,6 +74,7 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        ((Activity) getContext()).setTitle("Danh Sách Điện Thoại");
         initView(view);
         actionFilter();
         if (getActivity() != null) {
@@ -93,14 +88,21 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Gọi phương thức để tìm kiếm sản phẩm mỗi khi người dùng thay đổi nội dung của EditText
                 searchProducts(s.toString().trim());
+
+//                if (before > count) {
+//                    // Nếu có, lọc danh sách sản phẩm
+//                    searchProducts(s.toString().trim());
+//                }
                 if(s.toString().isEmpty()){
                     sanPham();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 listFilter.clear();
@@ -126,13 +128,23 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
     }
 
     void sanPham(){
-
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager = new GridLayoutManager(getContext(), 2);
         rc_danhSachDienThoai.setLayoutManager(manager);
         list = new ArrayList<>();
         getListSanPham();
-        adapter = new ProductAdapter(getContext(), list, this);
+        adapter = new ProductAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+            @Override
+            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         rc_danhSachDienThoai.setAdapter(adapter);
     }
 
@@ -744,8 +756,4 @@ public class ProductFragment extends Fragment implements OnItemClickListenerSanP
         });
     }
 
-    @Override
-    public void onItemClickSP(int position) {
-
-    }
 }

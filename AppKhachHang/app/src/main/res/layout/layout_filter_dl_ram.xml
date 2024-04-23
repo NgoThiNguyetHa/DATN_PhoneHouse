@@ -17,7 +17,7 @@
         android:textColor="#fff"
         android:textSize="18dp"
         android:textAlignment="center"
-        android:text="Bộ Lọc Dung Lượng Ram"
+        android:text="Bộ Lọc Ram"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="0dp"

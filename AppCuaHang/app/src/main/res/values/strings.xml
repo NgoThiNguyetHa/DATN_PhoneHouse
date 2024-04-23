@@ -3,4 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="test_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididuntut labore et dolore magna aliqua. Ut enim ad</string>
+    <string name="select">Select item</string>
+    <string-array name="selectDay">
+        <item>7 ngày qua</item>
+        <item>14 ngày qua</item>
+        <item>1 tháng qua</item>
+    </string-array>
 </resources>

@@ -12,6 +12,7 @@ import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.model.Rating;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.model.ThongKeDoanhThu;
+import com.example.appcuahang.model.ThongKeDonHuy;
 import com.example.appcuahang.model.ThongKeHoaDon;
 import com.example.appcuahang.model.ThongKeKhachHang;
 import com.example.appcuahang.model.ThongKeSanPham;
@@ -183,4 +184,12 @@ public interface ApiService {
 
     @GET("chitiethoadons/getChiTietHoaDonTheoHoaDon/{id}")
     Call<List<ChiTietHoaDon>> getChiTietHoaDon(@Path("id") String id);
+
+    //thống kê số lương - tổng tiền hủy
+    @GET("thongke/tongDonHuy/{maCuaHang}")
+    Call<ThongKeDonHuy> getSoLuongTongTienDonHuy(@Path("maCuaHang") String id);
+
+    @GET("thongke/top-products/{maCuaHang}")
+    Call<List<Top10sanPham>> getTop10SP(@Path("maCuaHang") String id,
+                                        @Query("day") String day );
 }

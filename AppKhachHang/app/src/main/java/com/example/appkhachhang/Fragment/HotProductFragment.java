@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,17 +32,17 @@ import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.HotProductAdapter;
-import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
-import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.AddressDelivery;
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.mohammedalaa.seekbar.DoubleValueSeekBarView;
@@ -57,7 +56,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HotProductFragment extends Fragment implements OnItemClickListenerSanPhamHot {
+public class HotProductFragment extends Fragment  {
     MySharedPreferences mySharedPreferences;
     RecyclerView rc_danhSachSPHot;
     List<SanPhamHot> listSPHot;
@@ -133,7 +132,18 @@ public class HotProductFragment extends Fragment implements OnItemClickListenerS
         rc_danhSachSPHot.setLayoutManager(manager);
         listSPHot = new ArrayList<>();
         getSanPhamHot();
-        adapter = new HotProductAdapter(getContext(), listSPHot, this);
+        adapter = new HotProductAdapter(getContext(), listSPHot, new OnItemClickListenerSanPhamHot() {
+            @Override
+            public void onItemClickSPHot(ChiTietDienThoai chiTietDienThoai) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         rc_danhSachSPHot.setAdapter(adapter);
     }
 
@@ -206,10 +216,7 @@ public class HotProductFragment extends Fragment implements OnItemClickListenerS
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClickSPHot(int position) {
 
-    }
     private void actionFilter(){
         ln_boLoc.setOnClickListener(new View.OnClickListener() {
             @Override
