@@ -61,6 +61,9 @@ public class HotProductFragment extends Fragment  {
     RecyclerView rc_danhSachSPHot;
     List<SanPhamHot> listSPHot;
 
+    List<SanPhamHot> listSPHotFilter;
+    TextView tv_entry;
+
     HotProductAdapter adapter;
 
     EditText edSearch;
@@ -92,6 +95,9 @@ public class HotProductFragment extends Fragment  {
         ln_sxUuDai = view.findViewById(R.id.danhSachSPHot_linearSXUuDai);
         progressBar = view.findViewById(R.id.danhSachSPHot_progressBar);
 
+
+        tv_entry = view.findViewById(R.id.tv_entry);
+
     }
 
     @Override
@@ -104,6 +110,45 @@ public class HotProductFragment extends Fragment  {
             getActivity().setTitle("Danh sách sản phẩm hot");
         }
         sanPhamHot();
+        listSPHotFilter = new ArrayList<>();
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listSPHotFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for(int i = 0; i < listSPHot.size(); i++){
+                    if (listSPHot.get(i).get_id().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(edSearch.getText().toString().toLowerCase()) && edSearch.getText().length() != 0) {
+                        listSPHotFilter.add(listSPHot.get(i));
+                        tv_entry.setVisibility(View.GONE);
+
+                    }
+                }
+                if (edSearch.getText().toString().trim().isEmpty()) {
+                    tv_entry.setVisibility(View.GONE);
+                    updateList(listSPHot);
+                } else {
+                    if (listSPHotFilter.size() == 0) {
+                        tv_entry.setVisibility(View.VISIBLE);
+
+                    }else{
+                        tv_entry.setVisibility(View.GONE);
+                        updateList(listSPHotFilter);
+                    }
+
+                }
+
+            }
+        });
         edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
