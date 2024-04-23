@@ -57,14 +57,10 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         }else{
             holder.imgSanPham.setVisibility(View.GONE);
         }
-        if (sanPhamHot.get_id().getMaDienThoai().getMaHangSX().getHinhAnh() != null){
-            Picasso.get().load(sanPhamHot.get_id().getMaDienThoai().getMaHangSX().getHinhAnh()).into(holder.itemSPHot_imageBrand);
-        }else{
-            holder.itemSPHot_imageBrand.setVisibility(View.GONE);
-        }
         //gia tien - giam tien giam
         if (sanPhamHot.get_id().getMaDienThoai().getMaUuDai() == null){
-            holder.tv_giaTienGoc.setVisibility(View.GONE);
+//            holder.tv_giaTienGoc.setVisibility(View.GONE);
+            holder.tv_giaTienGoc.setText("");
             holder.tv_giamGia.setText("");
         }else {
             holder.tv_giamGia.setText("Giảm "+sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia() + "%");
@@ -83,9 +79,8 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         String tongTienGiam;
         if (sanPhamHot.get_id().getMaDienThoai().getMaUuDai() == null){
             tongTienGiam = String.valueOf(sanPhamHot.get_id().getGiaTien());
-
         }else{
-            tongTienGiam = String.valueOf(sanPhamHot.get_id().getGiaTien() * (Double.parseDouble(sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia()) / 100));
+            tongTienGiam = String.valueOf(sanPhamHot.get_id().getGiaTien() - (sanPhamHot.get_id().getGiaTien() * (Double.parseDouble(sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia()) / 100)));
         }
 
         DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
@@ -103,7 +98,8 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
                 onItemClickListenerSanPhamHot.onItemClickSPHot(sanPhamHot.get_id());
             }
         });
-
+        holder.tvSoLuongDaBan.setVisibility(View.VISIBLE);
+        holder.tvSoLuongDaBan.setText("Đã bán "+sanPhamHot.getSoLuong());
 //        List<DanhGia> danhGiaList = sanPhamHot.getDanhGia();
 //        if (danhGiaList != null) {
 //            for (int i = 0; i < danhGiaList.size(); i++) {
@@ -128,6 +124,7 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         private ImageView imgSanPham , itemSPHot_imageBrand ,itemSPHot_imageCart;
         private TextView tvTenSanPham , tv_danhGia , tv_giaTienGoc , tv_giamGia ;
         private TextView tvGiaSanPham;
+        private TextView tvSoLuongDaBan;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,8 +134,8 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
             tv_danhGia = itemView.findViewById(R.id.tv_danhGia);
             tv_giaTienGoc = itemView.findViewById(R.id.tv_giaTienGoc);
             tv_giamGia = itemView.findViewById(R.id.tv_giamGia);
-            itemSPHot_imageBrand = itemView.findViewById(R.id.itemSPHot_imageBrand);
-            itemSPHot_imageCart = itemView.findViewById(R.id.itemSPHot_imageCart);
+            tvSoLuongDaBan = itemView.findViewById(R.id.tv_Custom);
+//            itemSPHot_imageCart = itemView.findViewById(R.id.itemSPHot_imageCart);
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {

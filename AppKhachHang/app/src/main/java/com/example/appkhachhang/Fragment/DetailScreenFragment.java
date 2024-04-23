@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,10 +22,13 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.DanhGiaAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
+import com.example.appkhachhang.DBHelper.ShoppingCartManager;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.squareup.picasso.Picasso;
 
@@ -186,7 +190,7 @@ public class DetailScreenFragment extends Fragment {
             tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien());
 
         }else{
-            tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100));
+            tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100)));
         }
 
         DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
@@ -247,12 +251,24 @@ public class DetailScreenFragment extends Fragment {
                 ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                 chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                 chiTietGioHang.setSoLuong(quantity);
-                chiTietGioHang.setGiaTien(chiTietGioHang.getGiaTien());
+                if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null){
+                    chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                }else {
+                    chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                }
                 ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
                     @Override
                     public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
                         if (response.isSuccessful()){
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
+                            boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                            if (isSuccess) {
+                                Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                                quantity = 1;
+                            } else {
+                                Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
 

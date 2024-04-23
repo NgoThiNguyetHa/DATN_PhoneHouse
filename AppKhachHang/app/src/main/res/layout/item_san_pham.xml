@@ -11,44 +11,6 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="5dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="3dp"
-                >
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/rating_sao_vang"/>
-                <TextView
-                    android:id="@+id/tv_danhGia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5.0"
-                    android:textStyle="bold"
-                    android:textSize="15dp"/>
-            </LinearLayout>
-            <androidx.cardview.widget.CardView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:cardCornerRadius="24dp"
-                android:layout_alignParentRight="true"
-                >
-                <ImageView
-                    android:id="@+id/itemSPHot_imageBrand"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/uu_dai_hot"
-                    android:layout_centerVertical="true"/>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
         <ImageView
             android:id="@+id/img_SanPham"
             android:layout_width="150dp"
@@ -71,58 +33,58 @@
                 android:text="Tên điện thoại"
                 android:padding="3dp"/>
             <LinearLayout
-                android:id="@+id/ln_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_alignParentLeft="true"
-                android:padding="3dp"
                 >
-                <TextView
-                    android:id="@+id/tv_giaSanPham"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="#E30D0D"
-                    android:textSize="12dp"
-                    android:text="Giá tiền"/>
-                <View
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"/>
                 <TextView
                     android:id="@+id/tv_giaTienGoc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="11dp"
-                    android:text="Giá gốc"/>
+                    android:text="000.000đ"
+                    android:textColor="#7B7B7B"
+                    android:textSize="12dp"
+                    android:padding="3dp"
 
+                    />
+                <TextView
+                    android:id="@+id/tv_giamGia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="Giảm 20%"
+                    android:textColor="#4A99A8"
+                    android:textSize="11dp"
+                    android:padding="3dp"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="3dp"
+                android:padding="5dp"
                 >
                 <TextView
-                    android:id="@+id/tv_giamGia"
+                    android:id="@+id/tv_giaSanPham"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textColor="#E30D0D"
+                    android:textSize="14dp"
+                    android:text="999.999.999đ"/>
+                <TextView
+                    android:id="@+id/tv_Custom"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="Giảm giá"
-                    android:textColor="#4A99A8"
-                    android:textSize="13dp"
-                    android:layout_alignParentBottom="true"/>
-                <ImageView
-                    android:id="@+id/itemSPHot_imageCart"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/icon_shopping_cart"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
+                    android:text="Đã bán 8k"
+                    android:textColor="#6A6A6A"
+                    android:textSize="11dp"
+                    android:textAlignment="viewEnd"
+                    android:visibility="gone"
                     />
             </LinearLayout>
         </LinearLayout>
