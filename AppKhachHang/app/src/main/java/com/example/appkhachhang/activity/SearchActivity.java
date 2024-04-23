@@ -9,43 +9,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.appkhachhang.Fragment.DetailScreenFragment;
-import com.example.appkhachhang.Model.ChiTietGioHang;
+import com.example.appkhachhang.Fragment.PhoneListFragment;
+import com.example.appkhachhang.Fragment.SearchFragment;
 import com.example.appkhachhang.R;
 
-import java.io.IOException;
-
-import retrofit2.Response;
-
-public class DetailScreen extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_screen);
+        setContentView(R.layout.activity_search);
         initView();
     }
-    private void handleErrorResponse(Response<ChiTietGioHang> response) {
-        try {
-            String errorBody = response.errorBody().string();
-            Log.e("ERROR_RESPONSE", errorBody);
-            // Display error message to the user
-            Toast.makeText(DetailScreen.this, "Lỗi từ server: " + errorBody, Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void initView(){
-        toolbar = findViewById(R.id.detailScreen_toolBar);
+        toolbar = findViewById(R.id.search_toolBar);
         setSupportActionBar(toolbar);
-        DetailScreenFragment fragment = new DetailScreenFragment();
+        SearchFragment fragment = new SearchFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.detailScreen_frameLayout, fragment);
+        fragmentTransaction.add(R.id.search_frameLayout, fragment);
         fragmentTransaction.commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

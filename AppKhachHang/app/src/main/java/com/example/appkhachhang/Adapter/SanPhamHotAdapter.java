@@ -3,13 +3,11 @@ package com.example.appkhachhang.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +18,8 @@ import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.ViewHolder> {
     private Context context;

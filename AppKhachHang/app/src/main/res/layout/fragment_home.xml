@@ -14,23 +14,7 @@
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical">
-           <androidx.cardview.widget.CardView
-               android:id="@+id/cv_top"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_centerHorizontal="true"
-               app:cardCornerRadius="20dp"
-               android:layout_margin="5dp">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/home_edSearch"
-                   style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                   android:layout_width="match_parent"
-                   android:layout_height="50dp"
-                   android:drawableLeft="@drawable/baseline_search_24"
-                   android:drawablePadding="10dp"
-                   android:hint="Search here..." />
-           </androidx.cardview.widget.CardView>
            <androidx.cardview.widget.CardView
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -59,13 +43,19 @@
                app:cardCornerRadius="8dp"
                android:layout_margin="10dp">
                <TextView
-                   android:layout_width="match_parent"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginStart="20dp"
                    android:padding="4dp"
                    android:textColor="#5FB1C1"
                    android:textStyle="bold"
                    android:text="Hot nhất"/>
+               <ImageView
+                   android:id="@+id/img_listSPHot"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="end|center_vertical"
+                   android:src="@drawable/right"/>
            </androidx.cardview.widget.CardView>
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sphot"
@@ -87,6 +77,12 @@
                    android:textColor="#5FB1C1"
                    android:textStyle="bold"
                    android:text="Sản phẩm"/>
+               <ImageView
+                   android:id="@+id/img_listSP"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="end|center_vertical"
+                   android:src="@drawable/right"/>
            </androidx.cardview.widget.CardView>
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/ryc_sp"

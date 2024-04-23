@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.DanhGiaAdapter;
-import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.DBHelper.ShoppingCartManager;
@@ -28,8 +27,6 @@ import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
-import com.example.appkhachhang.Model.HangSanXuat;
-import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;

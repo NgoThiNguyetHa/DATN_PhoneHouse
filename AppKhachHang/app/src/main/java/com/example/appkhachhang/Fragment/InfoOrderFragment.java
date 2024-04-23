@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -31,9 +30,7 @@ import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.ThongTinDonHang;
 import com.example.appkhachhang.R;
-import com.squareup.picasso.Picasso;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;

@@ -9,9 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
-import com.example.appkhachhang.Fragment.InfoOrderFragment;
+
 import com.example.appkhachhang.Fragment.PhoneListFragment;
 import com.example.appkhachhang.R;
 

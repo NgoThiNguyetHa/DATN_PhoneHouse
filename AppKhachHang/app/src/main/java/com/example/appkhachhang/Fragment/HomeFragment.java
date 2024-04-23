@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
 import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
@@ -29,16 +30,18 @@ import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
-import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
+import com.example.appkhachhang.activity.SearchActivity;
+import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +52,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerViewSP, recyclerViewSPHot, recyclerViewHang;
+    ImageView imgSPHot, imgSP;
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
@@ -57,6 +61,7 @@ public class HomeFragment extends Fragment {
     List<HangSanXuat> listHang;
     Toolbar toolbar;
     AppCompatActivity activity;
+    MySharedPreferences mySharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +76,22 @@ public class HomeFragment extends Fragment {
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
+        imgSPHot = view.findViewById(R.id.img_listSPHot);
+        imgSP = view.findViewById(R.id.img_listSP);
+        mySharedPreferences = new MySharedPreferences(getContext());
+        imgSPHot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý khi click vào ảnh sản phẩm hot
+                replaceFragment(new HotProductFragment());
+            }
+        });
+        imgSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new ProductFragment());
+            }
+        });
 //        toolbar = view.findViewById(R.id.main_toolBar);
 //        activity = (AppCompatActivity) getActivity();
 //        if (activity != null) {
@@ -162,14 +183,14 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < sanPhamHotList.size(); i++) {
                         SanPhamHot sanPhamHot = sanPhamHotList.get(i);
                         if (sanPhamHot != null && sanPhamHot.getDanhGia() != null) {
-                            Log.e("list danh gia", String.valueOf(sanPhamHot.getDanhGia().size()));
+//                            Log.e("list danh gia", String.valueOf(sanPhamHot.getDanhGia().size()));
                         } else {
-                            Log.e("list danh gia", "DanhGia is null or empty");
+//                            Log.e("list danh gia", "DanhGia is null or empty");
                         }
                     }
                     sanPhamHotAdapter.notifyDataSetChanged();
                 } else {
-                    Log.e("list danh gia", "SanPhamHotList is null or empty");
+//                    Log.e("list danh gia", "SanPhamHotList is null or empty");
                 }
             }
 
@@ -242,7 +263,16 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
-            replaceFragment(new CartFragment());
+            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                replaceFragment(new CartFragment());
+            }else {
+                Intent intent = new Intent(getContext(), LoginScreen.class);
+                startActivity(intent);
+            }
+        }
+        if (item.getItemId() == R.id.iconSearch){
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

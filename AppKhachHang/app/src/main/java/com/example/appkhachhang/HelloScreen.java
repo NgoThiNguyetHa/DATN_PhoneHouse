@@ -22,7 +22,7 @@ public class HelloScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(HelloScreen.this, LoginScreen.class);
+                Intent intent = new Intent(HelloScreen.this, MainActivity.class);
                 startActivity(intent);
             }
         }, 3000);

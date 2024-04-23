@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.Fragment.NotificationFragment;
 import com.example.appkhachhang.Fragment.PaymentMethodFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
+import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.elevation.SurfaceColors;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
   BottomNavigationView bottomNavigationView;
   FrameLayout frameLayout;
   Toolbar toolbar;
+  MySharedPreferences mySharedPreferences;
   @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     frameLayout = findViewById(R.id.frameLayout);
     toolbar = findViewById(R.id.main_toolBar);
     setSupportActionBar(toolbar);
+    mySharedPreferences = new MySharedPreferences(getApplicationContext());
     bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -51,7 +55,12 @@ public class MainActivity extends AppCompatActivity {
         if (itemID == R.id.navHome){
           loadFragment(new HomeFragment(), false);
         } else if (itemID == R.id.navBill) {
-          loadFragment(new BillOrderFragment(), false);
+          if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+            loadFragment(new BillOrderFragment(), false);
+          }else {
+            Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+            startActivity(intent);
+          }
         } else if (itemID == R.id.navNotify) {
           loadFragment(new NotificationFragment(), false);
         } else {

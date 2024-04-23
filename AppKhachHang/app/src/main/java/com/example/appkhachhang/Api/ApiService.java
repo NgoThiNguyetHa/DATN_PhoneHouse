@@ -1,15 +1,11 @@
 package com.example.appkhachhang.Api;
 
-import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.DanhGia;
-import com.example.appkhachhang.Model.GioHang;
 import com.example.appkhachhang.Model.HoaDon;
-import com.example.appkhachhang.Model.ListPhone;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.ThongTinDonHang;
-import com.example.appkhachhang.Model.User;
 
 import java.util.List;
 
@@ -17,7 +13,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;

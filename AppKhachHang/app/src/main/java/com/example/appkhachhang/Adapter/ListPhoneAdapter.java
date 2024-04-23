@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
-import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
-import com.example.appkhachhang.Model.ListPhone;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
@@ -135,7 +132,8 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.tvMau.setText(""+item.getChiTietDienThoai().getMaMau().getTenMau());
 
         holder.tvRam.setText(""+item.getChiTietDienThoai().getMaRam().getRAM() +" GB");
-        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
+        holder.tvDungLuong.setText(""+item.getChiTietDienThoai().getMaDungLuong().getBoNho() + " GB");
+        if (item.getChiTietDienThoai().getMaDienThoai().getMaUuDai() == null) {
             holder.tvSale.setText("");
             holder.tvSale.setBackgroundColor(Color.WHITE);
         } else {
@@ -157,7 +155,7 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
 
             }
         });
