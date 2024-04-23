@@ -106,22 +106,27 @@ public class ProductFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 listFilter.clear();
+
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
+
                     }
-                }
-                if (listFilter.size() == 0) {
-                    tv_entry.setVisibility(View.VISIBLE);
                 }
                 if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
                     tv_entry.setVisibility(View.GONE);
                     updateList(list);
                 } else {
-                    tv_entry.setVisibility(View.GONE);
-                    updateList(listFilter);
+                    if (listFilter.size() == 0) {
+                        tv_entry.setVisibility(View.VISIBLE);
+
+                    }else{
+                        tv_entry.setVisibility(View.GONE);
+                        updateList(listFilter);
+                    }
+
                 }
             }
         });
