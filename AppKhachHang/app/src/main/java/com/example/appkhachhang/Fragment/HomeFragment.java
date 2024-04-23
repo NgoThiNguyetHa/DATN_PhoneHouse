@@ -19,6 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 import android.widget.ImageView;
 
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
@@ -27,10 +30,10 @@ import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
+import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -99,6 +102,7 @@ public class HomeFragment extends Fragment {
         sanPham();
         sanPhamHot();
         hangSanXuat();
+        Log.d("zzz", "onViewCreated: "+list.size());
     }
 
 
@@ -172,12 +176,11 @@ public class HomeFragment extends Fragment {
                 List<SanPhamHot> sanPhamHotList = response.body();
                 listSPHot.clear();
                 listSPHot.addAll(sanPhamHotList);
-//                Log.e("list danh gia", String.valueOf(sanPhamHotList.get(1).getDanhGia().size()));
                 sanPhamHotAdapter.notifyDataSetChanged();
-
                 if (sanPhamHotList != null && !sanPhamHotList.isEmpty()) {
                     listSPHot.clear();
                     listSPHot.addAll(sanPhamHotList);
+                    setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
                     for (int i = 0; i < sanPhamHotList.size(); i++) {
                         SanPhamHot sanPhamHot = sanPhamHotList.get(i);
                         if (sanPhamHot != null && sanPhamHot.getDanhGia() != null) {
@@ -206,9 +209,14 @@ public class HomeFragment extends Fragment {
         HangSanXuat_API.hangSXApi.getHangSanXuat().enqueue(new Callback<List<HangSanXuat>>() {
             @Override
             public void onResponse(Call<List<HangSanXuat>> call, Response<List<HangSanXuat>> response) {
-                listHang.clear();
-                listHang.addAll(response.body());
-                hangSanXuatAdapter.notifyDataSetChanged();
+                if (response.isSuccessful()) {
+                    listHang.clear();
+                    listHang.addAll(response.body());
+                    hangSanXuatAdapter.notifyDataSetChanged();
+                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+                }else{
+                    Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -224,9 +232,15 @@ public class HomeFragment extends Fragment {
         ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
             @Override
             public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
-                list.clear();
-                list.addAll(response.body());
-                chiTietDienThoatAdapter.notifyDataSetChanged();
+                if (response.isSuccessful()) {
+                    list.clear();
+                    list.addAll(response.body());
+                    chiTietDienThoatAdapter.notifyDataSetChanged();
+                    setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
+                    Log.d("zzz240", "onViewCreated: "+list.size());
+                }else{
+                    Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -272,5 +286,19 @@ public class HomeFragment extends Fragment {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frameLayout,fragment);
         transaction.commit();
+    }
+    private void setLayoutAnimationSanPham(int animResource){
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
+    }
+
+    private void setLayoutAnimationSanPhamHot(int animResource){
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
+    }
+
+    private void setLayoutAnimationHSX(int animResource){
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
     }
 }

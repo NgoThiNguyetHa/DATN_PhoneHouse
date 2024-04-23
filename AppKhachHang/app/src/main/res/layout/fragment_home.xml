@@ -34,7 +34,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_marginStart="10dp"
-               tools:listitem="@layout/item_hang_san_xuat"
+               android:layoutAnimation="@anim/layout_anim"
                >
            </androidx.recyclerview.widget.RecyclerView>
            <androidx.cardview.widget.CardView

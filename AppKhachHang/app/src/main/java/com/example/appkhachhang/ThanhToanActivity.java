@@ -1,6 +1,9 @@
 package com.example.appkhachhang;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +13,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +35,8 @@ import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
+import com.example.appkhachhang.Fragment.DetailScreenFragment;
+import com.example.appkhachhang.Fragment.ThanhToanFragment;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
@@ -54,219 +62,43 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ThanhToanActivity extends AppCompatActivity {
-//    User user;
-    TextView tvTen, tvSdt, tvGhiChu, tvDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
-    ImageView imgDiaChi;
-    LinearLayout ln_ghiChu;
-    RecyclerView rc_listChon, rcDiaChiNhanHang;
-    LinearLayoutManager linearLayoutManager;
-    DienThoaiThanhToanAdapter adapter;
-    Spinner spnPhuongThucThanhToan;
-    List<AddressDelivery> list;
-    DiaChiNhanHangAdapter adapterDiaChi;
-    String idDiaChi, selectedItem;
-    List<ChiTietHoaDon> chiTietHoaDons;
-    MySharedPreferences mySharedPreferences;
-    ChiTietDienThoai chiTietDienThoai;
-    List<ChiTietGioHang> chiTietGioHangList;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanh_toan);
-        mySharedPreferences = new MySharedPreferences(getApplicationContext());
-        tvTen = findViewById(R.id.tv_tenKhachHang);
-        tvSdt = findViewById(R.id.tv_sdtKhachHang);
-        tvDiaChi = findViewById(R.id.tv_DiaChiKhachHang);
-        imgDiaChi = findViewById(R.id.imgDiaChi);
-        rc_listChon = findViewById(R.id.rc_listChon);
-        tvTongTienHang = findViewById(R.id.tv_tongTienHang);
-        tvPhiVanChuyen = findViewById(R.id.tv_PhiVanChuyen);
-        tvTongThanhToan = findViewById(R.id.tv_tongThanhToan);
-        tvTongHoaDon = findViewById(R.id.tvTongHoaDon);
-        spnPhuongThucThanhToan = findViewById(R.id.spn_PhuongThucThanhToan);
-        list = new ArrayList<>();
-        getData(mySharedPreferences.getUserId());
-        adapterDiaChi = new DiaChiNhanHangAdapter(ThanhToanActivity.this, list);
-        imgDiaChi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ThanhToanActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialog_view = inflater.inflate(R.layout.dialog_diachi, null);
-                rcDiaChiNhanHang = dialog_view.findViewById(R.id.rc_diaChiNhanHang);
-                linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-                rcDiaChiNhanHang.setLayoutManager(linearLayoutManager);
-                builder.setView(dialog_view);
+        initView();
 
-                rcDiaChiNhanHang.setAdapter(adapterDiaChi);
-
-                builder.setPositiveButton("Chọn", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        adapterDiaChi.setOnItemCheckedChangeListener(new DiaChiNhanHangAdapter.OnItemCheckedChangeListener() {
-                            @Override
-                            public void onItemCheckedChanged(AddressDelivery addressDelivery) {
-                                tvTen.setText(addressDelivery.getTenNguoiNhan() + " | ");
-                                tvSdt.setText(addressDelivery.getSdt());
-                                tvDiaChi.setText("Địa chỉ: " + addressDelivery.getDiaChi());
-                                idDiaChi = addressDelivery.get_id();
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                builder.create().show();
-            }
-        });
-        linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        rc_listChon.setLayoutManager(linearLayoutManager);
-        this.setTitle("Thanh toán");
-        Intent intent = getIntent();
-        String json = intent.getStringExtra("chiTietGioHangList");
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ChiTietGioHang>>() {}.getType();
-        chiTietGioHangList = gson.fromJson(json, type);
-        if (intent != null) {
-            String jsonChiTietDienThoai = intent.getStringExtra("chiTietDienThoai");
-            if (jsonChiTietDienThoai != null && json ==null) {
-                chiTietDienThoai = gson.fromJson(jsonChiTietDienThoai, ChiTietDienThoai.class);
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
-                chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
-                chiTietGioHang.setSoLuong(1);
-                chiTietGioHangList = new ArrayList<>();
-                chiTietGioHangList.add(chiTietGioHang);
-            }
-        }
-        adapter = new DienThoaiThanhToanAdapter(chiTietGioHangList, this);
-        rc_listChon.setAdapter(adapter);
-
-        int tongTien = 0;
-        for (int i = 0; i < chiTietGioHangList.size(); i++) {
-            tongTien += chiTietGioHangList.get(i).getGiaTien()*chiTietGioHangList.get(i).getSoLuong();
-        }
-
-        int phiVanChuyen = 0;
-        tvTongTienHang.setText(tongTien + "");
-        tvPhiVanChuyen.setText(phiVanChuyen + "");
-        tvTongThanhToan.setText(tongTien + phiVanChuyen +"");
-        tvTongHoaDon.setText(tongTien + phiVanChuyen +"");
-        int tongThanhToan = tongTien+phiVanChuyen;
-
-        ArrayAdapter<CharSequence> adapterSpn = ArrayAdapter.createFromResource(this, R.array.spn_phuongthuc, android.R.layout.simple_list_item_1);
-        spnPhuongThucThanhToan.setDropDownWidth(android.R.layout.simple_spinner_dropdown_item);
-        spnPhuongThucThanhToan.setAdapter(adapterSpn);
-        spnPhuongThucThanhToan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                 selectedItem = adapterView.getItemAtPosition(i).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        findViewById(R.id.btnThanhToan).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<String> addStores = new ArrayList<>();
-                for (ChiTietGioHang item: chiTietGioHangList) {
-                    String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
-
-                    if (!addStores.contains(maCuaHang)){
-                        Calendar calendar = Calendar.getInstance();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                        String formattedDate = dateFormat.format(calendar.getTime());
-                        HoaDon hoaDon = new HoaDon();
-                        hoaDon.setTongTien(String.valueOf(tongThanhToan));
-                        hoaDon.setNgayTao(formattedDate);
-                        hoaDon.setPhuongThucThanhToan(selectedItem);
-                        hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
-                        hoaDon.setMaCuaHang(new Store(maCuaHang));
-                        hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
-                        hoaDon.setTrangThaiNhanHang("Đang xử lý");
-                        ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
-                            @Override
-                            public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
-                                if (response.body()!=null){
-                                    Toast.makeText(ThanhToanActivity.this, "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
-                                    chiTietHoaDons = new ArrayList<>();
-                                    String hoaDonId = response.body().get_id();
-                                    ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                                    chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
-                                    chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                    chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
-                                    chiTietHoaDons.add(chiTietHoaDon);
-                                    addChiTietHoaDon();
-                                } else {
-                                    Log.e("Error", "Response not successful");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<HoaDon> call, Throwable t) {
-                                Log.e("errorrr", "onFailure: " + t.getMessage());
-                            }
-                        });
-                    }
-                }
-            }
-        });
     }
-    private void getData(String id) {
-        Address_API address_api = ApiRetrofit.getApiAddress();
-        Call<List<AddressDelivery>> call = address_api.getDiaChi(id);
-        call.enqueue(new Callback<List<AddressDelivery>>() {
-            @Override
-            public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    list.clear();
-                    list.addAll(response.body());
-                    adapterDiaChi.notifyDataSetChanged();
-                    if (!list.isEmpty()) {
-                        AddressDelivery firstAddress = list.get(0);
-                        idDiaChi = firstAddress.get_id();
-                        tvTen.setText(firstAddress.getTenNguoiNhan() + " | ");
-                        tvSdt.setText(firstAddress.getSdt());
-                        tvDiaChi.setText("Địa chỉ: " + firstAddress.getDiaChi());
-                    } else {
-                        Toast.makeText(ThanhToanActivity.this, "Không có địa chỉ nào.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(ThanhToanActivity.this, "Không thể lấy danh sách địa chỉ.", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<AddressDelivery>> call, Throwable t) {
-                Log.e("errorrr", t.getMessage());
-            }
-        });
+    private void initView(){
+        toolbar = findViewById(R.id.thanhtoan_toolBar);
+        setSupportActionBar(toolbar);
+        ThanhToanFragment fragment = new ThanhToanFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.thanhtoan_frameLayout, fragment);
+        fragmentTransaction.commit();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
+//        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
+        getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
     }
-    void addChiTietHoaDon() {
-        mySharedPreferences = new MySharedPreferences(getApplicationContext());
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
-            @Override
-            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
-                if (response.body()!=null){
-                    Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
-            }
-        });
+    private Drawable resizeDrawable(Drawable drawable, int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(getResources(), resizedBitmap);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

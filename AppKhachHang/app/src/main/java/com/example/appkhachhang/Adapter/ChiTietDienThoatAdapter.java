@@ -52,16 +52,12 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
         Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         holder.tvTenSanPham.setText(chiTietDienThoai.getMaDienThoai().getTenDienThoai());
         holder.tvGiaSanPham.setText(chiTietDienThoai.getGiaTien() + "đ");
-        if (chiTietDienThoai.getMaDienThoai().getMaHangSX().getHinhAnh() != null){
-            Picasso.get().load(chiTietDienThoai.getMaDienThoai().getMaHangSX().getHinhAnh()).into(holder.itemSPHot_imageBrand);
-        }else{
-            holder.itemSPHot_imageBrand.setVisibility(View.GONE);
-        }
         //gia tien - giam tien giam
         //gia tien - giam tien giam
         if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null){
-            holder.tv_giaTienGoc.setVisibility(View.GONE);
+//            holder.tv_giaTienGoc.setVisibility(View.GONE);
             holder.tv_giamGia.setText("");
+            holder.tv_giaTienGoc.setText("");
         }else {
             holder.tv_giamGia.setText("Giảm "+chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia() + "%");
             holder.tv_giaTienGoc.setText("" + chiTietDienThoai.getGiaTien());
@@ -81,7 +77,7 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
             tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien());
 
         }else{
-            tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100));
+            tongTienGiam = String.valueOf(chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100)));
         }
 
         DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
@@ -95,14 +91,15 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailScreen.class);
-                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(chiTietDienThoai);
-                editor.putString("chiTietDienThoai", json);
-                editor.apply();
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, DetailScreen.class);
+//                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                Gson gson = new Gson();
+//                String json = gson.toJson(chiTietDienThoai);
+//                editor.putString("chiTietDienThoai", json);
+//                editor.apply();
+//                context.startActivity(intent);
+                onItemClickListenerSanPham.onItemClickSP(chiTietDienThoai);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +108,8 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
                 onItemClickListenerSanPham.onItemClickSP(chiTietDienThoai);
             }
         });
+        holder.tv_diaChi.setVisibility(View.VISIBLE);
+        holder.tv_diaChi.setText(""+chiTietDienThoai.getMaDienThoai().getMaCuaHang().getDiaChi());
     }
 
     @Override
@@ -121,7 +120,7 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgSanPham, itemSPHot_imageBrand ,itemSPHot_imageCart;
         private TextView tvTenSanPham , tv_danhGia , tv_giaTienGoc , tv_giamGia;
-        private TextView tvGiaSanPham;
+        private TextView tvGiaSanPham , tv_diaChi;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -131,8 +130,9 @@ public class ChiTietDienThoatAdapter extends RecyclerView.Adapter<ChiTietDienTho
             tv_danhGia = itemView.findViewById(R.id.tv_danhGia);
             tv_giaTienGoc = itemView.findViewById(R.id.tv_giaTienGoc);
             tv_giamGia = itemView.findViewById(R.id.tv_giamGia);
-            itemSPHot_imageBrand = itemView.findViewById(R.id.itemSPHot_imageBrand);
-            itemSPHot_imageCart = itemView.findViewById(R.id.itemSPHot_imageCart);
+            tv_diaChi = itemView.findViewById(R.id.tv_Custom);
+//            itemSPHot_imageBrand = itemView.findViewById(R.id.itemSPHot_imageBrand);
+//            itemSPHot_imageCart = itemView.findViewById(R.id.itemSPHot_imageCart);
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {

@@ -9,6 +9,15 @@ public class ChiTietGioHang implements Serializable {
     private ChiTietDienThoai maChiTietDienThoai;
     private GioHang maGioHang;
 
+    public ChiTietGioHang() {
+    }
+
+    public ChiTietGioHang(ChiTietDienThoai maChiTietDienThoai, int soLuong , int giaTien) {
+        this.maChiTietDienThoai = maChiTietDienThoai;
+        this.soLuong = soLuong;
+        this.giaTien = giaTien;
+    }
+
     public String get_id() {
         return _id;
     }

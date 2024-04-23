@@ -55,14 +55,15 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DetailScreen.class);
-                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(sanPhamHot.get_id());
-                editor.putString("chiTietDienThoai", json);
-                editor.apply();
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, DetailScreen.class);
+//                SharedPreferences sharedPreferences = context.getSharedPreferences("chiTiet", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                Gson gson = new Gson();
+//                String json = gson.toJson(sanPhamHot.get_id());
+//                editor.putString("chiTietDienThoai", json);
+//                editor.apply();
+//                context.startActivity(intent);
+                onItemClickListenerSanPhamHot.onItemClickSPHot(sanPhamHot.get_id());
             }
         });
         holder.tvRam.setText(sanPhamHot.get_id().getMaRam().getRAM()+"GB");

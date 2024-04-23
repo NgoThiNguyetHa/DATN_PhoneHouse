@@ -42,6 +42,7 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.mohammedalaa.seekbar.DoubleValueSeekBarView;
@@ -134,7 +135,13 @@ public class HotProductFragment extends Fragment  {
         adapter = new HotProductAdapter(getContext(), listSPHot, new OnItemClickListenerSanPhamHot() {
             @Override
             public void onItemClickSPHot(ChiTietDienThoai chiTietDienThoai) {
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         rc_danhSachSPHot.setAdapter(adapter);

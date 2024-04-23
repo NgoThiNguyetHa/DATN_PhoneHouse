@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
@@ -28,6 +29,8 @@ import com.example.appkhachhang.Fragment.PaymentMethodFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.elevation.SurfaceColors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +70,13 @@ public class MainActivity extends AppCompatActivity {
       }
     });
     loadFragment(new HomeFragment(), true);
-    fullScreen();
+    Window window = this.getWindow();
+    DynamicColors.applyIfAvailable(this); // After this
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      window.setNavigationBarColor(SurfaceColors.SURFACE_2.getColor(this));
+    }
+
+//    fullScreen();
   }
   public void loadFragment(Fragment fragment, boolean isAppInitialized){
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -80,15 +89,5 @@ public class MainActivity extends AppCompatActivity {
     fragmentTransaction.commit();
   }
 
-  private void fullScreen(){
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-      WindowInsetsController controller = getWindow().getInsetsController();
-      if (controller != null){
-        controller.hide(WindowInsets.Type.statusBars());
-      }
-    }else{
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-  }
 
 }
