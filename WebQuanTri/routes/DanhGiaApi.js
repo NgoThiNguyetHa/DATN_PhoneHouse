@@ -244,4 +244,32 @@ router.get('/searchDanhGia/:id', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
+  try {
+    const idKhachHang = req.params.id;
+    const danhGia = await DanhGia.find({idKhachHang: idKhachHang})
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model:"dienthoai",
+              populate: [
+                {path: 'maCuaHang', model: 'cuaHang'},
+                {path: 'maUuDai', model: 'uudai', populate: 'maCuaHang'},
+                {path: 'maHangSX', model: 'hangSanXuat'}
+              ]
+            },
+            {path: "maMau", model:"mau"},
+            {path: "maDungLuong", model:"dungluong"},
+            {path: "maRam", model:"ram"}
+          ]
+        });
+    res.json(danhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 module.exports = router;

@@ -1,7 +1,10 @@
 package com.example.appkhachhang;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,10 +26,12 @@ public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
     Button btnSave, btnCancle;
     FirebaseAuth mAuth;
+    Toolbar toolbar;
 
     MySharedPreferences mySharedPreferences;
     ProgressBar progressBar;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,16 @@ public class ChangePassword extends AppCompatActivity {
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
+        toolbar = findViewById(R.id.changePass_toolBar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
+        toolbar.setTitle("Đổi mật khẩu");
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        Log.e("TAG", "onCreate: " + user.getEmail() );
@@ -154,5 +169,11 @@ public class ChangePassword extends AppCompatActivity {
 
 
     }
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+
 
 }

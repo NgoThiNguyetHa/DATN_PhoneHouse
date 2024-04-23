@@ -25,6 +25,7 @@ import com.example.appkhachhang.ChangePassword;
 import com.example.appkhachhang.HistoryBuy;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.ViewFeedbackScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.InformationScreen;
 
@@ -86,7 +87,8 @@ public class UserFragment extends Fragment {
         btnViewFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), ViewFeedbackScreen.class);
+                startActivity(intent);
             }
         });
         btnHistoryBuy.setOnClickListener(new View.OnClickListener() {
