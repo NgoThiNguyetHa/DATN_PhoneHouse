@@ -187,6 +187,7 @@ public class InfoStoreFragment extends Fragment {
                 String newPass = edNewPass.getText().toString().trim();
                 String confirmPass = edConfirmPass.getText().toString().trim();
                 String oldPass = edOldPass.getText().toString().trim();
+                String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
                 if (oldPass.isEmpty()){
                     edOldPass.setError("Yêu cầu nhập mật khẩu cũ");
                     return;
@@ -199,6 +200,9 @@ public class InfoStoreFragment extends Fragment {
                     return;
                 }else if (newPass.length() < 6) {
                     edNewPass.setError("Yêu cầu nhập mật khẩu tối thiểu 6 kí tự!!");
+                    return;
+                }else if (!newPass.matches(passwordPattern)) {
+                    edNewPass.setError("Mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt!!");
                     return;
                 }
                 else if (!newPass.equals(confirmPass)) {
