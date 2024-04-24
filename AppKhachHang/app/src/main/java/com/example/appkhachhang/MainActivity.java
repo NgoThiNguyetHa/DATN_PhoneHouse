@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
       if(extras != null) {
         String data = extras.getString("key");
         // Gửi dữ liệu cho Fragment HoaDon
-        DonXuLyFragment hoaDonFragment = new DonXuLyFragment();
+        BillOrderFragment hoaDonFragment = new BillOrderFragment();
         Bundle bundle = new Bundle();
         bundle.putString("key", data);
         hoaDonFragment.setArguments(bundle);

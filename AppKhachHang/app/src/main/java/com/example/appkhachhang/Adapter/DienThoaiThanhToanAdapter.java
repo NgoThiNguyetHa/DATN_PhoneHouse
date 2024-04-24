@@ -38,7 +38,7 @@ public class DienThoaiThanhToanAdapter extends RecyclerView.Adapter<DienThoaiTha
     @Override
     public void onBindViewHolder(@NonNull DienThoaiThanhToanAdapter.ViewHolder holder, int position) {
         ChiTietGioHang item = list.get(position);
-        String fullCoverImgUrl = item.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh();
+        String fullCoverImgUrl = item.getMaChiTietDienThoai().getHinhAnh();
         if (fullCoverImgUrl != null && holder.imgSanPham != null) {
             Picasso.get().load(fullCoverImgUrl).into(holder.imgSanPham);
         }
