@@ -22,6 +22,9 @@
             android:name=".activity.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".ViewFeedBack"
+            android:exported="false" />
+        <activity
             android:name=".activity.DanhSachActivity"
             android:exported="false" />
         <activity
@@ -40,6 +43,9 @@
             android:exported="false" />
         <activity
             android:name=".HistoryBuy"
+            android:exported="false" />
+        <activity
+            android:name=".ViewFeedbackScreen"
             android:exported="false" />
         <activity
             android:name=".InformationScreen"

@@ -27,11 +27,13 @@ import com.example.appkhachhang.HistoryBuy;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.MainActivity;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.ViewFeedbackScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.InformationScreen;
 
 public class UserFragment extends Fragment {
-    CardView btnChangePass, btnMap, btnInformation, btnHistoryBuy;
+    CardView btnChangePass, btnMap, btnInformation, btnViewFeedback, btnHistoryBuy;
+
     TextView tvUsername, tvEmail;
     MySharedPreferences mySharedPreferences;
     Button btnDangXuat;
@@ -53,6 +55,7 @@ public class UserFragment extends Fragment {
         btnInformation = view.findViewById(R.id.btnInformation);
         btnHistoryBuy = view.findViewById(R.id.btnHistoryBuy);
 
+        btnViewFeedback = view.findViewById(R.id.btnViewFeedback);
         mySharedPreferences = new MySharedPreferences(getContext());
         tvUsername.setText(mySharedPreferences.getUserName());
         tvEmail.setText(mySharedPreferences.getEmail());
@@ -112,6 +115,13 @@ public class UserFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), LoginScreen.class);
                     startActivity(intent);
                 }
+            }
+        });
+        btnViewFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewFeedbackScreen.class);
+                startActivity(intent);
             }
         });
         btnHistoryBuy.setOnClickListener(new View.OnClickListener() {

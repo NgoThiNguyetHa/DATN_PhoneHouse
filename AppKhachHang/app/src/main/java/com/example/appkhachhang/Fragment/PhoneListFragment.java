@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,8 @@ import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.DBHelper.ShoppingCartManager;
+
+import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietGioHang;
@@ -50,13 +54,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PhoneListFragment extends Fragment {
-
+    EditText danhSach_edSearch;
+    TextView tv_entry;
     HangSanXuat hangSanXuat;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
-    LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
-//    List<ListPhone >list;
+    LinearLayout ln_boLoc, ln_locGia, ln_locDlRam, ln_locBoNho, ln_sxGiaCao, ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
+    //    List<ListPhone >list;
     List<Root> list;
+    List<Root> listFilter;
     List<AddressDelivery> addressDeliveryList;
     ListPhoneAdapter adapter;
 
@@ -84,23 +90,66 @@ public class PhoneListFragment extends Fragment {
         initVariable();
         action();
         actionFilter();
+        listFilter = new ArrayList<>();
+        danhSach_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toLowerCase().toString().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if (listFilter.size() == 0) {
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+//                adapter.setOnClickListener(new IItemListPhoneListener() {
+//                    @Override
+//                    public void onClickDetail(Root root) {
+//                        dialogBottomDetail(root);
+//                    }
+//                });
+                if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_danhSachDienThoai.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_danhSachDienThoai.setAdapter(adapter);
+                }
+            }
+        });
         return view;
     }
 
-    private void initView(View view){
-        rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
-        edSearch = view.findViewById(R.id.danhSach_edSearch);
-        ln_boLoc = view.findViewById(R.id.danhSach_linearBoLoc);
-        ln_locGia = view.findViewById(R.id.danhSach_linearLocGia);
-        ln_locDlRam = view.findViewById(R.id.danhSach_linearLocDlRam);
-        ln_locBoNho = view.findViewById(R.id.danhSach_linearLocBoNho);
-        ln_sxGiaCao = view.findViewById(R.id.danhSach_linearSXGiaCaoThap);
-        ln_sxGiaThap = view.findViewById(R.id.danhSach_linearSXGiaThapCao);
-        ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
-        ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
-        progressBar = view.findViewById(R.id.danhSach_progressBar);
-
-    }
+            private void initView(View view) {
+                rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
+                edSearch = view.findViewById(R.id.danhSach_edSearch);
+                ln_boLoc = view.findViewById(R.id.danhSach_linearBoLoc);
+                ln_locGia = view.findViewById(R.id.danhSach_linearLocGia);
+                ln_locDlRam = view.findViewById(R.id.danhSach_linearLocDlRam);
+                ln_locBoNho = view.findViewById(R.id.danhSach_linearLocBoNho);
+                ln_sxGiaCao = view.findViewById(R.id.danhSach_linearSXGiaCaoThap);
+                ln_sxGiaThap = view.findViewById(R.id.danhSach_linearSXGiaThapCao);
+                ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
+                ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
+                progressBar = view.findViewById(R.id.danhSach_progressBar);
+                rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
+                danhSach_edSearch = view.findViewById(R.id.danhSach_edSearch);
+                tv_entry = view.findViewById(R.id.tv_entry);
+            }
 
     private void initVariable(){
         list = new ArrayList<>();
