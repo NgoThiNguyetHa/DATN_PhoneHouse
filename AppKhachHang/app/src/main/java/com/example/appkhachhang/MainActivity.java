@@ -28,6 +28,7 @@ import com.example.appkhachhang.Fragment.NotificationFragment;
 import com.example.appkhachhang.Fragment.PaymentMethodFragment;
 import com.example.appkhachhang.Fragment.UserFragment;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.example.appkhachhang.viewpager.DonXuLyFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.elevation.SurfaceColors;
@@ -75,7 +76,22 @@ public class MainActivity extends AppCompatActivity {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       window.setNavigationBarColor(SurfaceColors.SURFACE_2.getColor(this));
     }
+    Intent intent = getIntent();
+    if(intent != null) {
+      // Lấy dữ liệu từ Intent nếu cần
+      Bundle extras = intent.getExtras();
+      if(extras != null) {
+        String data = extras.getString("key");
+        // Gửi dữ liệu cho Fragment HoaDon
+        DonXuLyFragment hoaDonFragment = new DonXuLyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key", data);
+        hoaDonFragment.setArguments(bundle);
 
+        // Thay thế Fragment hiện tại bằng Fragment HoaDon
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, hoaDonFragment).commit();
+      }
+    }
 //    fullScreen();
   }
   public void loadFragment(Fragment fragment, boolean isAppInitialized){
