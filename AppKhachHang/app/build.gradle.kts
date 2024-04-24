@@ -42,6 +42,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
     //zalo
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
+    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
