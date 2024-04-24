@@ -98,7 +98,7 @@ public class DonDaGiaoFragment extends Fragment {
             @Override
             public void onFailure(Call<List<HoaDon>> call, Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("err",t.getMessage());
+//                Log.e("err",t.getMessage());
             }
         });
     }

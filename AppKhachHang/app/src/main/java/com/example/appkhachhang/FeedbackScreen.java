@@ -42,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -89,10 +90,10 @@ public class FeedbackScreen extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         ChiTietHoaDon chiTietHoaDon = (ChiTietHoaDon) bundle.getSerializable("DanhGia");
-        bill_item_tvDienThoaiDG.setText(""+ chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        bill_item_tvMauDG.setText(""+ chiTietHoaDon.getMaChiTietDienThoai().getMaMau().getTenMau());
-        bill_item_tvSoLuongDG.setText("x"+ chiTietHoaDon.getSoLuong());
-        bill_item_tvTongTienDG.setText("Tổng tiền: "+ chiTietHoaDon.getGiaTien());
+        bill_item_tvDienThoaiDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
+        bill_item_tvMauDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaMau().getTenMau());
+        bill_item_tvSoLuongDG.setText("x" + chiTietHoaDon.getSoLuong());
+        bill_item_tvTongTienDG.setText("Tổng tiền: " + chiTietHoaDon.getGiaTien());
         Picasso.get().load(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh()).into(imgDienThoaiDG);
 
 
@@ -175,47 +176,72 @@ public class FeedbackScreen extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                String currentDate = day + "-" + month + "-" + year;
-                final  DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
-                final  StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-                if(imageUri != null){
-                    String url_src = System.currentTimeMillis()+"."+ getFileExtension(imageUri);
-                    final StorageReference imageReference = storageReference.child(url_src);
-                    imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
-                                    Call<DanhGia> call = feedbackAPI.postDanhGia(new DanhGia(noiDung,uri.toString(),diemDanhGia,currentDate, new User(mySharedPreferences.getUserId()),new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id())));
-                                    call.enqueue(new Callback<DanhGia>() {
-                                        @Override
-                                        public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
-                                            if (response.isSuccessful()){
-                                                Toast.makeText(FeedbackScreen.this, "đã đánh giá", Toast.LENGTH_SHORT).show();
+                // Định dạng ngày theo "dd-MM-yyyy"
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String currentDate = sdf.format(calendar.getTime());
+
+                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
+                final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                if ((Integer.parseInt(String.valueOf(diemDanhGia)) < 1) || Integer.parseInt(String.valueOf(diemDanhGia)) >5) {
+                    // Xử lý khi không có nội dung
+                    Toast.makeText(FeedbackScreen.this, "Hãy chọn điểm đánh giá", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (imageUri != null) {
+                        String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+                        String finalNoiDung = noiDung;
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
+                                        Call<DanhGia> call = feedbackAPI.postDanhGia(new DanhGia(finalNoiDung, uri.toString(), diemDanhGia, currentDate, new User(mySharedPreferences.getUserId()), new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id())));
+                                        call.enqueue(new Callback<DanhGia>() {
+                                            @Override
+                                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(FeedbackScreen.this, "đã đánh giá", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<DanhGia> call, Throwable t) {
-                                            Toast.makeText(FeedbackScreen.this, "Loi đánh giá", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
+                                            @Override
+                                            public void onFailure(Call<DanhGia> call, Throwable t) {
+                                                Toast.makeText(FeedbackScreen.this, "Loi đánh giá", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                             }
-                    });
-                }
+                        });
+                    }else{
+                        FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
+                        Call<DanhGia> call = feedbackAPI.postDanhGia(new DanhGia(noiDung, "", diemDanhGia, currentDate, new User(mySharedPreferences.getUserId()), new ChiTietDienThoai(chiTietHoaDon.getMaChiTietDienThoai().get_id())));
+                        call.enqueue(new Callback<DanhGia>() {
+                            @Override
+                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(Call<DanhGia> call, Throwable t) {
+                                Toast.makeText(FeedbackScreen.this, "Lỗi đánh giá", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
             }
         });
 
 
     }
 
-    private String getFileExtension(Uri fileUri){
+    private String getFileExtension(Uri fileUri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));

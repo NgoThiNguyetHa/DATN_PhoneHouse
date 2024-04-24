@@ -40,6 +40,8 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
     public void onBindViewHolder(@NonNull HistoryBuyAdapter.MyViewHolder holder, int position) {
         ChiTietHoaDon chiTietHoaDon = list.get(position);
         ChiTietDienThoai chiTietDienThoai = chiTietHoaDon.getMaChiTietDienThoai();
+        String ram = chiTietHoaDon.getMaChiTietDienThoai().getMaRam().getRAM();
+        String dungLuong = chiTietHoaDon.getMaChiTietDienThoai().getMaDungLuong().getBoNho();
         String tongTien = chiTietHoaDon.getGiaTien();
         String tenDienThoai = chiTietDienThoai.getMaDienThoai().getTenDienThoai();
         String mauDT = chiTietDienThoai.getMaMau().getTenMau();
@@ -47,9 +49,9 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
         String soLuong = String.valueOf(chiTietHoaDon.getSoLuong());
 
         holder.bill_item_tvSoLuong.setText("x" + soLuong);
-        holder.bill_item_tvDienThoai.setText(tenDienThoai);
+        holder.bill_item_tvDienThoai.setText(tenDienThoai+ ram + "/" + dungLuong);
         holder.bill_item_tvMau.setText("" +mauDT);
-        holder.bill_item_tvTongTien.setText("Tổng tiền: "+ tongTien);
+        holder.bill_item_tvTongTien.setText( tongTien + "");
         Picasso.get().load(anh).into(holder.imgDienThoai);
 
         holder.btnDanhGia.setOnClickListener(new View.OnClickListener() {

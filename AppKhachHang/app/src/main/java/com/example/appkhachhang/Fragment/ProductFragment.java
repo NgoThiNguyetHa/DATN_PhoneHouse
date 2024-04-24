@@ -54,6 +54,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
+    EditText danhSach_edSearch;
+    List<ChiTietDienThoai> listFilter;
+    TextView tv_entry;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
     LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
@@ -91,7 +94,9 @@ public class ProductFragment extends Fragment {
             getActivity().setTitle("Danh sách sản phẩm");
         }
         sanPham();
-        edSearch.addTextChangedListener(new TextWatcher() {
+        listFilter = new ArrayList<>();
+
+        danhSach_edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -113,7 +118,29 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                listFilter.clear();
 
+                tv_entry.setVisibility(View.VISIBLE);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+
+                    }
+                }
+                if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
+                    tv_entry.setVisibility(View.GONE);
+                    updateList(list);
+                } else {
+                    if (listFilter.size() == 0) {
+                        tv_entry.setVisibility(View.VISIBLE);
+
+                    }else{
+                        tv_entry.setVisibility(View.GONE);
+                        updateList(listFilter);
+                    }
+
+                }
             }
         });
     }
@@ -189,6 +216,9 @@ public class ProductFragment extends Fragment {
         ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
         ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
         progressBar = view.findViewById(R.id.danhSach_progressBar);
+        rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
+        danhSach_edSearch = view.findViewById(R.id.danhSach_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
     private void actionFilter(){
         ln_boLoc.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.example.appkhachhang;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class InformationScreen extends AppCompatActivity {
     EditText edHotenHS, edSdtHS, edDiachiHS;
     Button btnSaveHS;
 
+    Toolbar toolbar;
     MySharedPreferences mySharedPreferences;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -32,6 +34,17 @@ public class InformationScreen extends AppCompatActivity {
         edSdtHS = findViewById(R.id.edSdtHS);
         edDiachiHS = findViewById(R.id.edDiaChiHS);
         btnSaveHS = findViewById(R.id.btnSaveHS);
+        toolbar = findViewById(R.id.information_toolBar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
+        toolbar.setTitle("Thông tin người dùng");
+
+
 
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         edHotenHS.setText(mySharedPreferences.getUserName());
@@ -65,5 +78,9 @@ public class InformationScreen extends AppCompatActivity {
 
             }
         });
+    }
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

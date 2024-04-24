@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".InformationScreen"
     android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/information_toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         app:errorEnabled="true"
@@ -14,12 +19,14 @@
         android:hint="Họ tên"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edHotenHS"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
