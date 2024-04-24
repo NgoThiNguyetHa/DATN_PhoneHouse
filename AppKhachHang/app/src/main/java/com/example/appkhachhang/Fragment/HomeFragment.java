@@ -41,6 +41,7 @@ import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
 import com.example.appkhachhang.activity.SearchActivity;
+import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -271,6 +272,8 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
             }
+//            Intent intent = new Intent(getContext(), ZalopayActivity.class);
+//            startActivity(intent);
         }
         if (item.getItemId() == R.id.iconSearch){
             Intent intent = new Intent(getContext(), SearchActivity.class);
@@ -300,5 +303,13 @@ public class HomeFragment extends Fragment {
     private void setLayoutAnimationHSX(int animResource){
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
         recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+    }
+
+    @Override
+    public void onResume() {
+        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+        setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
+        setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
+        super.onResume();
     }
 }
