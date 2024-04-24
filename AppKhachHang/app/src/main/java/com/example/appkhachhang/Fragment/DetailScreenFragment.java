@@ -1,9 +1,11 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.ShopActivity;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.squareup.picasso.Picasso;
@@ -46,7 +49,7 @@ import retrofit2.Response;
 public class DetailScreenFragment extends Fragment {
 
     ImageView imgAnhChiTiet , imgMinus , imgAdd;
-    TextView tv_tenDienThoai, tv_giaChiTiet, tv_soLuong, tv_moTa, tv_danhGia, tvGiaTienGoc, tvDanhGiaKhachHang,tvSoLuong,tvGiamGia ,tvRam , tvMau , tvDungLuong ;
+    TextView tv_tenDienThoai, tv_giaChiTiet, tv_soLuong, tv_moTa, tv_danhGia, tvGiaTienGoc, tvDanhGiaKhachHang,tvSoLuong,tvGiamGia ,tvRam , tvMau , tvDungLuong, tvTenCuaHang, tvDiaChi ;
     LinearLayout lnError;
     ChiTietDienThoai chiTietDienThoai;
     List<DanhGia> danhGiaList;
@@ -56,6 +59,7 @@ public class DetailScreenFragment extends Fragment {
     int quantity = 1;
     Button btnMuaLuon , btnThemVaoGio;
     MySharedPreferences mySharedPreferences ;
+    AppCompatButton btnXemShop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,9 @@ public class DetailScreenFragment extends Fragment {
         tvDungLuong = view.findViewById(R.id.detailScreen_tvDungLuong);
         lnError = view.findViewById(R.id.detailScreen_lnError);
         tvSoLuong = view.findViewById(R.id.detailScreen_tvSoLuong);
+        tvTenCuaHang = view.findViewById(R.id.tvTenCuaHang);
+        tvDiaChi = view.findViewById(R.id.tvDiaChi);
+        btnXemShop = view.findViewById(R.id.btnXemShop);
     }
     private void initVariable(){
         danhGiaList = new ArrayList<>();
@@ -103,6 +110,8 @@ public class DetailScreenFragment extends Fragment {
         adapter = new DanhGiaAdapter(getContext());
         adapter.setData(danhGiaList);
         rcDanhGia.setAdapter(adapter);
+
+
     }
     private void getDataBundle(){
         Bundle bundle = getActivity().getIntent().getExtras();
@@ -112,6 +121,16 @@ public class DetailScreenFragment extends Fragment {
             setTextData(chiTietDienThoai);
             actionAddToCartAndBuyNow(chiTietDienThoai);
         }
+        btnXemShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("cuaHang", chiTietDienThoai.getMaDienThoai().getMaCuaHang());
+                Intent intent = new Intent(getContext(), ShopActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData(String id){
@@ -215,6 +234,8 @@ public class DetailScreenFragment extends Fragment {
         tvMau.setText(""+chiTietDienThoai.getMaMau().getTenMau());
         tvRam.setText(""+chiTietDienThoai.getMaRam().getRAM()+ " GB Ram");
         tvDungLuong.setText(""+ chiTietDienThoai.getMaDungLuong().getBoNho() +" GB Dung Lượng");
+        tvTenCuaHang.setText(chiTietDienThoai.getMaDienThoai().getMaCuaHang().getUsername());
+        tvDiaChi.setText(chiTietDienThoai.getMaDienThoai().getMaCuaHang().getDiaChi());
     }
 
     private void actionAddToCartAndBuyNow(ChiTietDienThoai chiTietDienThoai){

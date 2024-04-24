@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
                 if (sanPhamHotList != null && !sanPhamHotList.isEmpty()) {
                     listSPHot.clear();
                     listSPHot.addAll(sanPhamHotList);
-                    setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
+//                    setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
                     for (int i = 0; i < sanPhamHotList.size(); i++) {
                         SanPhamHot sanPhamHot = sanPhamHotList.get(i);
                         if (sanPhamHot != null && sanPhamHot.getDanhGia() != null) {
@@ -213,7 +213,7 @@ public class HomeFragment extends Fragment {
                     listHang.clear();
                     listHang.addAll(response.body());
                     hangSanXuatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+//                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
                 }else{
                     Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment {
                     list.clear();
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
+//                    setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
                     Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
@@ -287,18 +287,18 @@ public class HomeFragment extends Fragment {
         transaction.replace(R.id.frameLayout,fragment);
         transaction.commit();
     }
-    private void setLayoutAnimationSanPham(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationSanPhamHot(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationHSX(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
-    }
+//    private void setLayoutAnimationSanPham(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+//        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+//    private void setLayoutAnimationSanPhamHot(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+//        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+//    private void setLayoutAnimationHSX(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
+//        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+//    }
 }

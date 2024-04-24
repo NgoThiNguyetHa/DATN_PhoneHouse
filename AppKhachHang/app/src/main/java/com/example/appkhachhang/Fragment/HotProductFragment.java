@@ -174,6 +174,10 @@ public class HotProductFragment extends Fragment  {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menuItem = menu.findItem(R.id.iconSearch);
+        if (menuItem != null) {
+            menuItem.setVisible(false);
+        }
     }
 
     @Override
