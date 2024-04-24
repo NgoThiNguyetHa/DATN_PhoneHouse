@@ -70,7 +70,7 @@
                 android:id="@+id/gioHang_btnThanhToan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thanh Toán"
+                android:text="Mua hàng"
                 android:layout_margin="10dp"/>
         </LinearLayout>
     </LinearLayout>

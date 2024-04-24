@@ -47,6 +47,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((getActivity())).setTitle("Thông Tin Cá Nhân");
         btnMap = view.findViewById(R.id.btnMap);
         btnChangePass = view.findViewById(R.id.btnChangePass);
         tvEmail = view.findViewById(R.id.tvEmail);
