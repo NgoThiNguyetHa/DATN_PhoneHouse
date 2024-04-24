@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -55,6 +57,8 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ListPhoneAdapter.ViewHolder holder, int position) {
+        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
+        holder.itemView.startAnimation(animation);
 //        ListPhone item = list.get(position);
 //        String tenDienThoai = item.getMaDienThoai().getTenDienThoai();
 //        if (tenDienThoai.length() > 10) {

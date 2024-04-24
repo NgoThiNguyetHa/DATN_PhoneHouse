@@ -1,9 +1,11 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,12 +29,16 @@ import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.math.RoundingMode;
@@ -56,11 +65,12 @@ public class DetailScreenFragment extends Fragment {
     int quantity = 1;
     Button btnMuaLuon , btnThemVaoGio;
     MySharedPreferences mySharedPreferences ;
+    List<ChiTietGioHang> listChon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -98,6 +108,7 @@ public class DetailScreenFragment extends Fragment {
     }
     private void initVariable(){
         danhGiaList = new ArrayList<>();
+        listChon = new ArrayList<>();
         manager = new LinearLayoutManager(getContext());
         rcDanhGia.setLayoutManager(manager);
         adapter = new DanhGiaAdapter(getContext());
@@ -222,13 +233,19 @@ public class DetailScreenFragment extends Fragment {
         imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantity > 0) {
+//                if(quantity > 0) {
+//                    quantity--;
+//                    tvSoLuong.setText(""+quantity);
+//                    lnError.setVisibility(View.GONE);
+//                } else {
+//                    quantity += 1;
+//                }
+                if (quantity <= 0){
+                    quantity+=1;
+                }else{
                     quantity--;
                     tvSoLuong.setText(""+quantity);
                     lnError.setVisibility(View.GONE);
-                } else {
-                    quantity += 0;
-
                 }
             }
         });
@@ -248,48 +265,89 @@ public class DetailScreenFragment extends Fragment {
         btnThemVaoGio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
-                chiTietGioHang.setSoLuong(quantity);
-                if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null){
-                    chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
-                }else {
-                    chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
-                }
-                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
-                    @Override
-                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                        if (response.isSuccessful()){
-                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                            CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
-                            boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
-                            if (isSuccess) {
-                                Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
-                                quantity = 1;
+                if (quantity < chiTietDienThoai.getSoLuong()){
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
+                    chiTietGioHang.setSoLuong(quantity);
+                    if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null){
+                        chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                    }else {
+                        chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                    }
+                    ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+                        @Override
+                        public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
+                            if (response.isSuccessful()){
+                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
+                                boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                                if (isSuccess) {
+                                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                                    quantity = 1;
+                                } else {
+                                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
+
                             }
-                        } else {
-                            Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                        Log.d("error", "onFailure: " + t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+                            Log.d("error", "onFailure: " + t.getMessage());
+                        }
+                    });
+                }else{
+                    lnError.setVisibility(View.VISIBLE);
+                    return;
+                }
             }
         });
 
-        //btn mua ngay
+//        btn mua ngay
         btnMuaLuon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
+                    chiTietGioHang.setSoLuong(quantity);
+                    if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null) {
+                        chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                    } else {
+                        chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                    }
+                    listChon.add(chiTietGioHang);
+                    Gson gson = new Gson();
+                    Bundle bundle = new Bundle();
+                    String json = gson.toJson(listChon);
+                    ThanhToanFragment fragmentB = new ThanhToanFragment();
+                    bundle.putString("chiTietGioHangList", json);
+                    fragmentB.setArguments(bundle);
+                    Intent intent = new Intent(getContext(), ThanhToanActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Bạn cần đăng nhập để mua hàng", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginScreen.class);
+                    startActivity(intent);
+                }
             }
         });
+
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
 }

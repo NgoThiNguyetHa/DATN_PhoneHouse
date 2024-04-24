@@ -68,12 +68,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_home, container, false);
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
@@ -100,14 +95,21 @@ public class HomeFragment extends Fragment {
 //            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //            activity.getSupportActionBar().setTitle("Home");
 //        }
+//        Log.d("zzz", "onViewCreated: "+list.size());
         sanPham();
         sanPhamHot();
         hangSanXuat();
-        Log.d("zzz", "onViewCreated: "+list.size());
+        return  view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
 
     void sanPham(){
+//        setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSP.setLayoutManager(linearLayoutManager);
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment {
     }
 
     void sanPhamHot(){
+//        setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
@@ -155,6 +158,7 @@ public class HomeFragment extends Fragment {
         recyclerViewHang.setLayoutManager(linearLayoutManager2);
         listHang = new ArrayList<>();
         getHangSanXuat();
+//        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
         hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, new OnItemClickListenerHang() {
             @Override
             public void onItemClickHang(HangSanXuat hangSanXuat) {
@@ -181,7 +185,6 @@ public class HomeFragment extends Fragment {
                 if (sanPhamHotList != null && !sanPhamHotList.isEmpty()) {
                     listSPHot.clear();
                     listSPHot.addAll(sanPhamHotList);
-                    setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
                     for (int i = 0; i < sanPhamHotList.size(); i++) {
                         SanPhamHot sanPhamHot = sanPhamHotList.get(i);
                         if (sanPhamHot != null && sanPhamHot.getDanhGia() != null) {
@@ -214,7 +217,7 @@ public class HomeFragment extends Fragment {
                     listHang.clear();
                     listHang.addAll(response.body());
                     hangSanXuatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+//                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
                 }else{
                     Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -237,7 +240,6 @@ public class HomeFragment extends Fragment {
                     list.clear();
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
                     Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
@@ -272,8 +274,6 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
             }
-//            Intent intent = new Intent(getContext(), ZalopayActivity.class);
-//            startActivity(intent);
         }
         if (item.getItemId() == R.id.iconSearch){
             Intent intent = new Intent(getContext(), SearchActivity.class);
@@ -290,26 +290,18 @@ public class HomeFragment extends Fragment {
         transaction.replace(R.id.frameLayout,fragment);
         transaction.commit();
     }
-    private void setLayoutAnimationSanPham(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationSanPhamHot(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationHSX(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
-    }
-
-    @Override
-    public void onResume() {
-        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
-        setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
-        setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
-        super.onResume();
-    }
+//    private void setLayoutAnimationSanPham(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+//        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+//    private void setLayoutAnimationSanPhamHot(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+//        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+//    private void setLayoutAnimationHSX(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+//        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+//    }
 }
