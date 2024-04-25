@@ -4,21 +4,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="fix title toolbar">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
+      <change afterPath="$PROJECT_DIR$/WebQuanTri/socket_server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/InfoStoreFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/InfoStoreFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ListPhoneAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ListPhoneAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_thanh_toan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_thanh_toan.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nodemon/bin/nodemon.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nopt/bin/nopt.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nopt/examples/my-program.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/touch/bin/nodetouch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +75,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging hantn&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hantn&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN/DATN_PhoneHouse&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -149,7 +145,8 @@
       <workItem from="1713944051654" duration="1822000" />
       <workItem from="1713968013262" duration="605000" />
       <workItem from="1713987331830" duration="1127000" />
-      <workItem from="1714031797752" duration="905000" />
+      <workItem from="1714031797752" duration="1254000" />
+      <workItem from="1714033753692" duration="2198000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -367,7 +364,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713082913146</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="pull from dev">
+      <option name="closed" value="true" />
+      <created>1714032836254</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714032836254</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,11 +409,11 @@
     <MESSAGE value="update chi tiết điện thoại" />
     <MESSAGE value="api get feedback" />
     <MESSAGE value="thống kê" />
-    <MESSAGE value="pull from dev" />
     <MESSAGE value="api filter feedback by Store" />
     <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
     <MESSAGE value="validate web" />
     <MESSAGE value="fix title toolbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix title toolbar" />
+    <MESSAGE value="pull from dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
   </component>
 </project>
