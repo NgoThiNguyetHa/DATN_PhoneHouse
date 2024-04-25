@@ -262,42 +262,42 @@ public class ThanhToanFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")){
-//                    CreateOrder orderApi = new CreateOrder();
-//                    try {
-//                        JSONObject data = orderApi.createOrder(String.valueOf(10000));
-//                        String code = data.getString("returncode");
-//
-//                        if (code.equals("1")) {
-//
-//                            String token = data.getString("zptranstoken");
-//
-//                            ZaloPaySDK.getInstance().payOrder((Activity) getContext(), token, "demozpdk://app", new PayOrderListener() {
-//                                @Override
-//                                public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-//                                    Intent intent = new Intent(getContext(), MainActivity.class);
-//                                    startActivity(intent);
-//                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onPaymentCanceled(String zpTransToken, String appTransID) {
-//                                    Toast.makeText(getContext(), "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-//                                    Toast.makeText(getContext(), "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
+                    CreateOrder orderApi = new CreateOrder();
+                    try {
+                        JSONObject data = orderApi.createOrder(String.valueOf(10000));
+                        String code = data.getString("returncode");
 
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("key", "Thanh toan thanh cong");
-                    startActivity(intent);
+                        if (code.equals("1")) {
+
+                            String token = data.getString("zptranstoken");
+
+                            ZaloPaySDK.getInstance().payOrder((Activity) getContext(), token, "demozpdk://app", new PayOrderListener() {
+                                @Override
+                                public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onPaymentCanceled(String zpTransToken, String appTransID) {
+                                    Toast.makeText(getContext(), "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+                                    Toast.makeText(getContext(), "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    intent.putExtra("key", "Thanh toan thanh cong");
+//                    startActivity(intent);
                 }else{
                     List<String> addStores = new ArrayList<>();
                     for (ChiTietGioHang item: chiTietGioHangList) {

@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
         recyclerViewHang.setLayoutManager(linearLayoutManager2);
         listHang = new ArrayList<>();
         getHangSanXuat();
-//        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
         hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, new OnItemClickListenerHang() {
             @Override
             public void onItemClickHang(HangSanXuat hangSanXuat) {
@@ -300,8 +300,8 @@ public class HomeFragment extends Fragment {
 //        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
 //    }
 //
-//    private void setLayoutAnimationHSX(int animResource){
-//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
-//        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
-//    }
+   private void setLayoutAnimationHSX(int animResource){
+       LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+       recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+   }
 }

@@ -34,6 +34,7 @@ import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -171,7 +172,7 @@ public class PhoneListFragment extends Fragment {
             }
         });
         rc_danhSachDienThoai.setHasFixedSize(true);
-        rc_danhSachDienThoai.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_anim_right_to_left));
+        rc_danhSachDienThoai.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_right_to_left));
         rc_danhSachDienThoai.setAdapter(adapter);
     }
 
@@ -913,10 +914,11 @@ public class PhoneListFragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
-                chiTietGioHang.setSoLuong(quantity);
-                chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
+                    chiTietGioHang.setSoLuong(quantity);
+                    chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
 //                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
 //                    @Override
 //                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
@@ -936,12 +938,16 @@ public class PhoneListFragment extends Fragment {
 //                        Log.d("error", "onFailure: " + t.getMessage());
 //                    }
 //                });
-                boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
-                if (isSuccess) {
-                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
-                    quantity = 1;
-                } else {
-                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                    boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                    if (isSuccess) {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        quantity = 1;
+                    } else {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Intent intent = new Intent(getContext(), LoginScreen.class);
+                    startActivity(intent);
                 }
             }
         });

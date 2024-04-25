@@ -33,7 +33,7 @@ public class BillOrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bill_order, container, false);
-        ((Activity)getContext()).setTitle("Quản Lý Hóa Đơn");
+        ((Activity)getContext()).setTitle("Đơn Mua");
         init(view);
         action();
         customTabLayout();

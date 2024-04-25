@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
 
-//    private static final String BASE_URL = "https://datn-phonehouse.onrender.com/";
-    private static final String BASE_URL = "http://192.168.1.18:8686/";
+    private static final String BASE_URL = "https://datn-phonehouse.onrender.com/";
+//    private static final String BASE_URL = "http://192.168.1.18:8686/";
 
 
     private static ApiService apiService;
