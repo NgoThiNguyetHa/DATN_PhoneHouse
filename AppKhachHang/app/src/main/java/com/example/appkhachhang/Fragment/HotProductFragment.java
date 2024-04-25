@@ -33,7 +33,9 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.HotProductAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
+import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ThongKe_API;
+import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.AddressDelivery;
@@ -320,6 +322,7 @@ public class HotProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_boloc);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoLoc_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoLoc_cv128GB_256GB);
@@ -456,7 +459,6 @@ public class HotProductFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -466,6 +468,7 @@ public class HotProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_giatien);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         TextView tvMin, tvMax;
         tvMin = dialog.findViewById(R.id.filterGiaTien_tvMin);
         tvMax = dialog.findViewById(R.id.filterGiaTien_tvMax);
@@ -508,7 +511,6 @@ public class HotProductFragment extends Fragment {
                     String formattedMaxNumber = decimalFormat.format(maxNumber);
                     tvMin.setText("" + formattedMinNumber + "đ");
                     tvMax.setText("" + formattedMaxNumber + "đ");
-
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -537,7 +539,26 @@ public class HotProductFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Call<List<SanPhamHot>> call = apiService.getFilterGiaTienSPHot(minValue[0] * 1000000, maxValue[0] * 1000000);
+                call.enqueue(new Callback<List<SanPhamHot>>() {
+                    @Override
+                    public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
+                        if (response.isSuccessful()) {
+                            List<SanPhamHot> data = response.body();
+                            listSPHot.clear();
+                            listSPHot.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<SanPhamHot>> call, Throwable t) {
+                        Log.e("filter gia tien", t.getLocalizedMessage());
+                    }
+                });
             }
         });
     }
@@ -547,6 +568,7 @@ public class HotProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_bonho);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoNho_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoNho_cv128GB_256GB);
@@ -619,6 +641,8 @@ public class HotProductFragment extends Fragment {
                 }
 
                 Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
+
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -634,6 +658,7 @@ public class HotProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_dl_ram);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterDlRam_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterDlRam_cv8GB_12GB);
@@ -703,6 +728,8 @@ public class HotProductFragment extends Fragment {
                 }
 
                 Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
+
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -718,6 +745,8 @@ public class HotProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+
     }
 
     private void sortGiaTienThapCao() {
@@ -725,6 +754,8 @@ public class HotProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+
     }
 
     private void uuDaiHot() {
@@ -732,6 +763,8 @@ public class HotProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+
     }
 
     private void dialogBottomDetail(Root root) {
@@ -739,6 +772,7 @@ public class HotProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_themgio_muangay);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         mySharedPreferences = new MySharedPreferences(getContext());
         adapterDiaChi = new DiaChiNhanHangAdapter(getContext(), addressDeliveryList);
         addressDeliveryList = new ArrayList<>();
@@ -757,7 +791,7 @@ public class HotProductFragment extends Fragment {
 
         tvTenDienThoai.setText("" + root.getChiTietDienThoai().getMaDienThoai().getTenDienThoai());
         tvSoLuongTon.setText("Số lượng còn hàng: " + root.getChiTietDienThoai().getSoLuong());
-
+        tvSoLuong.setText("" + quantity);
         lnMinius.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -799,24 +833,33 @@ public class HotProductFragment extends Fragment {
                     chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
                     chiTietGioHang.setSoLuong(quantity);
                     chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
-                    ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
-                        @Override
-                        public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            } else {
-                                Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                            Log.d("error", "onFailure: " + t.getMessage());
-                        }
-                    });
-                } else {
+//                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+//                    @Override
+//                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
+//                        if (response.isSuccessful()){
+//                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+//                            dialog.dismiss();
+//                            ///mới
+//                            ShoppingCartManager.saveChiTietGioHangForId(getContext(),mySharedPreferences.getUserId(), chiTietGioHang);
+//                        } else {
+//                            Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+//                        Log.d("error", "onFailure: " + t.getMessage());
+//                    }
+//                });
+                    boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                    if (isSuccess) {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        quantity = 1;
+                    } else {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
                     Intent intent = new Intent(getContext(), LoginScreen.class);
                     startActivity(intent);
                 }
@@ -826,7 +869,14 @@ public class HotProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                quantity = 1;
             }
         });
     }
+
+//    private void setLayoutAnimation(int animResource) {
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), animResource);
+//        rc_danhSachDienThoai.setLayoutAnimation(layoutAnimationController);
+//    }
+
 }
