@@ -300,8 +300,8 @@ public class HomeFragment extends Fragment {
 //        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
 //    }
 //
-    private void setLayoutAnimationHSX(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
-        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
-    }
+   private void setLayoutAnimationHSX(int animResource){
+       LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+       recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+   }
 }

@@ -27,6 +27,7 @@
         app:cardCornerRadius="20dp"
         android:layout_margin="10dp"
         app:cardElevation="10dp"
+        android:background="#F5F5F5"
         >
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavView"

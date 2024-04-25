@@ -59,13 +59,13 @@ public class ProductFragment extends Fragment {
     TextView tv_entry;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
-    LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
+    LinearLayout ln_boLoc, ln_locGia, ln_locDlRam, ln_locBoNho, ln_sxGiaCao, ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
 
     GridLayoutManager manager;
 
     ProgressDialog progressDialog;
     ProgressBar progressBar;
-    MySharedPreferences mySharedPreferences ;
+    MySharedPreferences mySharedPreferences;
     int quantity = 0; // Khởi tạo quantity với giá trị ban đầu là 0
     List<ChiTietDienThoai> list;
     ProductAdapter adapter;
@@ -111,7 +111,7 @@ public class ProductFragment extends Fragment {
 //                    // Nếu có, lọc danh sách sản phẩm
 //                    searchProducts(s.toString().trim());
 //                }
-                if(s.toString().isEmpty()){
+                if (s.toString().isEmpty()) {
                     sanPham();
                 }
             }
@@ -135,7 +135,7 @@ public class ProductFragment extends Fragment {
                     if (listFilter.size() == 0) {
                         tv_entry.setVisibility(View.VISIBLE);
 
-                    }else{
+                    } else {
                         tv_entry.setVisibility(View.GONE);
                         updateList(listFilter);
                     }
@@ -145,7 +145,7 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    void sanPham(){
+    void sanPham() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager = new GridLayoutManager(getContext(), 2);
         rc_danhSachDienThoai.setLayoutManager(manager);
@@ -166,7 +166,7 @@ public class ProductFragment extends Fragment {
         rc_danhSachDienThoai.setAdapter(adapter);
     }
 
-    void getListSanPham(){
+    void getListSanPham() {
         progressBar.setVisibility(View.VISIBLE);
         ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
             @Override
@@ -179,10 +179,11 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
+                Log.e("errorrr", "onFailure: " + t.getMessage());
             }
         });
     }
+
     void searchProducts(String query) {
         progressBar.setVisibility(View.VISIBLE);
         List<ChiTietDienThoai> danhSachDaLoc = new ArrayList<>();
@@ -204,7 +205,8 @@ public class ProductFragment extends Fragment {
         list.addAll(newList);
         adapter.notifyDataSetChanged();
     }
-    private void initView(View view){
+
+    private void initView(View view) {
         rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
         edSearch = view.findViewById(R.id.danhSach_edSearch);
         ln_boLoc = view.findViewById(R.id.danhSach_linearBoLoc);
@@ -220,7 +222,8 @@ public class ProductFragment extends Fragment {
         danhSach_edSearch = view.findViewById(R.id.danhSach_edSearch);
         tv_entry = view.findViewById(R.id.tv_entry);
     }
-    private void actionFilter(){
+
+    private void actionFilter() {
         ln_boLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,16 +268,17 @@ public class ProductFragment extends Fragment {
             }
         });
     }
+
     private void bottomDialogFilterBoLoc() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_boloc);
 
         dialog.show();
-        LinearLayout ln_512GB , ln_128GB_256GB , ln_32GB_64GB;
+        LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoLoc_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoLoc_cv128GB_256GB);
         ln_32GB_64GB = dialog.findViewById(R.id.filterBoLoc_cv32GB_64GB);
-        LinearLayout ln4GB_6GB , ln8GB_12GB , ln16GB;
+        LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterBoLoc_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterBoLoc_cv8GB_12GB);
         ln16GB = dialog.findViewById(R.id.filterBoLoc_cv16GB);
@@ -290,7 +294,7 @@ public class ProductFragment extends Fragment {
         ln_512GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick512[0]){
+                if (isOnclick512[0]) {
                     ln_512GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick512[0] = false;
                 } else {
@@ -303,7 +307,7 @@ public class ProductFragment extends Fragment {
         ln_128GB_256GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick128_258[0]){
+                if (isOnclick128_258[0]) {
                     ln_128GB_256GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick128_258[0] = false;
                 } else {
@@ -316,7 +320,7 @@ public class ProductFragment extends Fragment {
         ln_32GB_64GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick32_64[0]){
+                if (isOnclick32_64[0]) {
                     ln_32GB_64GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick32_64[0] = false;
                 } else {
@@ -328,7 +332,7 @@ public class ProductFragment extends Fragment {
         ln4GB_6GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick4_6[0]){
+                if (isOnclick4_6[0]) {
                     ln4GB_6GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick4_6[0] = false;
                 } else {
@@ -341,7 +345,7 @@ public class ProductFragment extends Fragment {
         ln8GB_12GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick8_12[0]){
+                if (isOnclick8_12[0]) {
                     ln8GB_12GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick8_12[0] = false;
                 } else {
@@ -354,7 +358,7 @@ public class ProductFragment extends Fragment {
         ln16GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick16[0]){
+                if (isOnclick16[0]) {
                     ln16GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick16[0] = false;
                 } else {
@@ -410,18 +414,19 @@ public class ProductFragment extends Fragment {
             }
         });
     }
-    private void bottomDialogFilterGiaTien(){
+
+    private void bottomDialogFilterGiaTien() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_giatien);
 
         dialog.show();
-        TextView tvMin , tvMax;
+        TextView tvMin, tvMax;
         tvMin = dialog.findViewById(R.id.filterGiaTien_tvMin);
         tvMax = dialog.findViewById(R.id.filterGiaTien_tvMax);
         DoubleValueSeekBarView doubleValueSeekBarView = dialog.findViewById(R.id.double_range_seekbar);
         final DecimalFormat[] decimalFormat = {new DecimalFormat("#,##0.##")};
-        String filterMin = String.valueOf(doubleValueSeekBarView.getMinValue()*1000000);
-        String filterMax = String.valueOf(doubleValueSeekBarView.getMaxValue()*1000000);
+        String filterMin = String.valueOf(doubleValueSeekBarView.getMinValue() * 1000000);
+        String filterMax = String.valueOf(doubleValueSeekBarView.getMaxValue() * 1000000);
         final int[] minValue = new int[1];
         final int[] maxValue = new int[1];
         try {
@@ -429,8 +434,8 @@ public class ProductFragment extends Fragment {
             double maxNumber = Double.parseDouble(filterMax);
             String formattedMinNumber = decimalFormat[0].format(minNumber);
             String formattedMaxNumber = decimalFormat[0].format(maxNumber);
-            tvMin.setText(""+formattedMinNumber+"đ");
-            tvMax.setText(""+formattedMaxNumber+"đ");
+            tvMin.setText("" + formattedMinNumber + "đ");
+            tvMax.setText("" + formattedMaxNumber + "đ");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -448,15 +453,15 @@ public class ProductFragment extends Fragment {
                 minValue[0] = min;
                 maxValue[0] = max;
                 DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-                String filterMin = String.valueOf(min*1000000);
-                String filterMax = String.valueOf(max*1000000);
+                String filterMin = String.valueOf(min * 1000000);
+                String filterMax = String.valueOf(max * 1000000);
                 try {
                     double minNumber = Double.parseDouble(filterMin);
                     double maxNumber = Double.parseDouble(filterMax);
                     String formattedMinNumber = decimalFormat.format(minNumber);
                     String formattedMaxNumber = decimalFormat.format(maxNumber);
-                    tvMin.setText(""+formattedMinNumber+"đ");
-                    tvMax.setText(""+formattedMaxNumber+"đ");
+                    tvMin.setText("" + formattedMinNumber + "đ");
+                    tvMax.setText("" + formattedMaxNumber + "đ");
 
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -472,9 +477,9 @@ public class ProductFragment extends Fragment {
             public void onStopTrackingTouch(@Nullable DoubleValueSeekBarView seekBar, int min, int max) {
             }
         });
-        minValue[0] = doubleValueSeekBarView.getCurrentMinValue()*1000000;
-        maxValue[0] = doubleValueSeekBarView.getCurrentMaxValue()*1000000;
-        Button btnCancel , btnConfirm;
+        minValue[0] = doubleValueSeekBarView.getCurrentMinValue() * 1000000;
+        maxValue[0] = doubleValueSeekBarView.getCurrentMaxValue() * 1000000;
+        Button btnCancel, btnConfirm;
         btnCancel = dialog.findViewById(R.id.filterGiaTien_btnCancel);
         btnConfirm = dialog.findViewById(R.id.filterGiaTien_btnConfirm);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -491,12 +496,12 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    private void  bottomDialogFilterBoNho(){
+    private void bottomDialogFilterBoNho() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_bonho);
 
         dialog.show();
-        LinearLayout ln_512GB , ln_128GB_256GB , ln_32GB_64GB;
+        LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoNho_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoNho_cv128GB_256GB);
         ln_32GB_64GB = dialog.findViewById(R.id.filterBoNho_cv32GB_64GB);
@@ -509,7 +514,7 @@ public class ProductFragment extends Fragment {
         ln_512GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick512[0]){
+                if (isOnclick512[0]) {
                     ln_512GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick512[0] = false;
                 } else {
@@ -522,7 +527,7 @@ public class ProductFragment extends Fragment {
         ln_128GB_256GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick128_258[0]){
+                if (isOnclick128_258[0]) {
                     ln_128GB_256GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick128_258[0] = false;
                 } else {
@@ -535,7 +540,7 @@ public class ProductFragment extends Fragment {
         ln_32GB_64GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick32_64[0]){
+                if (isOnclick32_64[0]) {
                     ln_32GB_64GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick32_64[0] = false;
                 } else {
@@ -578,12 +583,12 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    private void bottomDialogFilterDlRam(){
+    private void bottomDialogFilterDlRam() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_dl_ram);
 
         dialog.show();
-        LinearLayout ln4GB_6GB , ln8GB_12GB , ln16GB;
+        LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterDlRam_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterDlRam_cv8GB_12GB);
         ln16GB = dialog.findViewById(R.id.filterDlRam_cv16GB);
@@ -596,7 +601,7 @@ public class ProductFragment extends Fragment {
         ln4GB_6GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick4_6[0]){
+                if (isOnclick4_6[0]) {
                     ln4GB_6GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick4_6[0] = false;
                 } else {
@@ -609,7 +614,7 @@ public class ProductFragment extends Fragment {
         ln8GB_12GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick8_12[0]){
+                if (isOnclick8_12[0]) {
                     ln8GB_12GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick8_12[0] = false;
                 } else {
@@ -622,7 +627,7 @@ public class ProductFragment extends Fragment {
         ln16GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick16[0]){
+                if (isOnclick16[0]) {
                     ln16GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick16[0] = false;
                 } else {
@@ -662,21 +667,21 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    private void sortGiaTienCaoThap(){
+    private void sortGiaTienCaoThap() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
-    private void sortGiaTienThapCao(){
+    private void sortGiaTienThapCao() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
-    private void uuDaiHot(){
+    private void uuDaiHot() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
@@ -743,27 +748,32 @@ public class ProductFragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
-                chiTietGioHang.setSoLuong(quantity);
-                chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
-                ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
-                    @Override
-                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
+                    chiTietGioHang.setSoLuong(quantity);
+                    chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
+                    ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+                        @Override
+                        public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
 
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                        Log.d("error", "onFailure: " + t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+                            Log.d("error", "onFailure: " + t.getMessage());
+                        }
+                    });
+                } else {
+                    Intent intent = new Intent(getContext(), LoginScreen.class);
+                    startActivity(intent);
+                }
             }
         });
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -773,13 +783,15 @@ public class ProductFragment extends Fragment {
             }
         });
     }
-    private void replaceFragment(Fragment fragment){
+
+    private void replaceFragment(Fragment fragment) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout,fragment);
+        transaction.replace(R.id.frameLayout, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_home_menu, menu);
@@ -789,13 +801,14 @@ public class ProductFragment extends Fragment {
             menuItem.setVisible(false);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         mySharedPreferences = new MySharedPreferences(getContext());
-        if (item.getItemId() == R.id.gioHang){
+        if (item.getItemId() == R.id.gioHang) {
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
                 replaceFragment(new CartFragment());
-            }else {
+            } else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
             }

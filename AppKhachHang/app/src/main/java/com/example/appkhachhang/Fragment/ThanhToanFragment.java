@@ -264,7 +264,7 @@ public class ThanhToanFragment extends Fragment {
                 if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")){
                     CreateOrder orderApi = new CreateOrder();
                     try {
-                        JSONObject data = orderApi.createOrder(String.valueOf(100));
+                        JSONObject data = orderApi.createOrder(String.valueOf(10000));
                         String code = data.getString("returncode");
 
                         if (code.equals("1")) {
@@ -274,51 +274,9 @@ public class ThanhToanFragment extends Fragment {
                             ZaloPaySDK.getInstance().payOrder((Activity) getContext(), token, "demozpdk://app", new PayOrderListener() {
                                 @Override
                                 public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-//                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-//                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-//                                    intent.putExtra("key", "Thanh toan thanh cong");
-//                                    startActivity(intent);
-                                    List<String> addStores = new ArrayList<>();
-                                    for (ChiTietGioHang item: chiTietGioHangList) {
-                                        String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
-
-                                        if (!addStores.contains(maCuaHang)){
-                                            Calendar calendar = Calendar.getInstance();
-                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                            String formattedDate = dateFormat.format(calendar.getTime());
-                                            HoaDon hoaDon = new HoaDon();
-                                            hoaDon.setTongTien(String.valueOf(tongThanhToan));
-                                            hoaDon.setNgayTao(formattedDate);
-                                            hoaDon.setPhuongThucThanhToan(selectedItem);
-                                            hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
-                                            hoaDon.setMaCuaHang(new Store(maCuaHang));
-                                            hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
-                                            hoaDon.setTrangThaiNhanHang("Đang xử lý");
-                                            ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
-                                                @Override
-                                                public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
-                                                    if (response.body()!=null){
-                                                        Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
-                                                        chiTietHoaDons = new ArrayList<>();
-                                                        String hoaDonId = response.body().get_id();
-                                                        ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                                                        chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
-                                                        chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                                        chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
-                                                        chiTietHoaDons.add(chiTietHoaDon);
-                                                        addChiTietHoaDon();
-                                                    } else {
-                                                        Log.e("Error", "Response not successful");
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<HoaDon> call, Throwable t) {
-                                                    Log.e("errorrr", "onFailure: " + t.getMessage());
-                                                }
-                                            });
-                                        }
-                                    }
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -336,6 +294,10 @@ public class ThanhToanFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    intent.putExtra("key", "Thanh toan thanh cong");
+//                    startActivity(intent);
                 }else{
                     List<String> addStores = new ArrayList<>();
                     for (ChiTietGioHang item: chiTietGioHangList) {
@@ -420,10 +382,6 @@ public class ThanhToanFragment extends Fragment {
             public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
                 if (response.body()!=null){
                     Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
-                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("key", "Thanh toan thanh cong");
-                    startActivity(intent);
                 }
             }
 
