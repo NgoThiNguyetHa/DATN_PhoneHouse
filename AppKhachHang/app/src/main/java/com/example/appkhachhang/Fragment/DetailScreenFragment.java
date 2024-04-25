@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +37,7 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
@@ -233,16 +236,10 @@ public class DetailScreenFragment extends Fragment {
         imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(quantity > 0) {
-//                    quantity--;
-//                    tvSoLuong.setText(""+quantity);
-//                    lnError.setVisibility(View.GONE);
-//                } else {
-//                    quantity += 1;
-//                }
-                if (quantity <= 0){
-                    quantity+=1;
-                }else{
+                if(quantity <= 1) {
+                    quantity = 1;
+                    tvSoLuong.setText(""+quantity);
+                } else {
                     quantity--;
                     tvSoLuong.setText(""+quantity);
                     lnError.setVisibility(View.GONE);
@@ -347,7 +344,22 @@ public class DetailScreenFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.gioHang){
+            if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(getContext(), LoginScreen.class);
+                startActivity(intent);
+            }
+        }
         return super.onOptionsItemSelected(item);
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout,fragment);
+        transaction.commit();
     }
 
 }

@@ -31,6 +31,7 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
@@ -269,7 +270,9 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                replaceFragment(new CartFragment());
+//                replaceFragment(new CartFragment());
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
             }else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);

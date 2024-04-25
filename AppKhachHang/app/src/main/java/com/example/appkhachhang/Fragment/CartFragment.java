@@ -107,9 +107,9 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
                 boolean isSuccess = sharedPreferences.updateQuantityForItem(getContext(), mySharedPreferences.getUserId(), item.getMaChiTietDienThoai().get_id(), +1);
                 if (isSuccess) {
                     cartList = sharedPreferences.getChiTietGioHangForId(getContext(),mySharedPreferences.getUserId());
-                    Toast.makeText(getContext(), "Cập nhật số lượng thành công", Toast.LENGTH_SHORT).show();
+                    Log.e( "tang so luong gio hang","Cập nhật số lượng thành công");
                 } else {
-                    Toast.makeText(getContext(), "Không tìm thấy sản phẩm để cập nhật", Toast.LENGTH_SHORT).show();
+                    Log.e( "tang so luong gio hang","Cập nhật số lượng ko thành công");
                 }
             }
 
@@ -118,12 +118,10 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
                 CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
                 boolean isSuccess = sharedPreferences.updateQuantityForItem(getContext(), mySharedPreferences.getUserId(), item.getMaChiTietDienThoai().get_id(), -1);
                 if (isSuccess) {
-                    Toast.makeText(getContext(), "Cập nhật số lượng thành công", Toast.LENGTH_SHORT).show();
-//                    cartList.add((ChiTietGioHang) CartSharedPreferences.getChiTietGioHangForId(getContext(),mySharedPreferences.getUserId()));
                     cartList = sharedPreferences.getChiTietGioHangForId(getContext(),mySharedPreferences.getUserId());
-                    Toast.makeText(getContext(), "Cập nhật số lượng thành công", Toast.LENGTH_SHORT).show();
+                   Log.e( "giam so luong gio hang","Cập nhật số lượng thành công");
                 } else {
-                    Toast.makeText(getContext(), "Không tìm thấy sản phẩm để cập nhật", Toast.LENGTH_SHORT).show();
+                    Log.e( "giam so luong gio hang","Cập nhật số lượng ko thành công");
                 }
             }
 
@@ -143,11 +141,6 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ThanhToanActivity.class);
-//                Gson gson = new Gson();
-//                String json = gson.toJson(listChon);
-//                intent.putExtra("chiTietGioHangList", json);
-//                startActivity(intent);
                 ThanhToanFragment fragmentB = new ThanhToanFragment();
                 Bundle bundle = new Bundle();
                 Gson gson = new Gson();

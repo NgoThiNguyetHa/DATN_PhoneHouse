@@ -57,8 +57,13 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ListPhoneAdapter.ViewHolder holder, int position) {
-        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
-        holder.itemView.startAnimation(animation);
+        if (position % 2 == 0) {
+            Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_out_right);
+            holder.itemView.startAnimation(animation);
+        }else{
+            Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
+            holder.itemView.startAnimation(animation);
+        }
 //        ListPhone item = list.get(position);
 //        String tenDienThoai = item.getMaDienThoai().getTenDienThoai();
 //        if (tenDienThoai.length() > 10) {
@@ -154,12 +159,10 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
         if (soLuongDanhGia != 0) {
             diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
         }
-        String toastMessage = "Tổng điểm đánh giá: " + tongDiemDanhGia + "\nĐiểm trung bình: " + diemTrungBinh;
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -235,7 +238,6 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
             tvGiaTienGiam = itemView.findViewById(R.id.itemListPhone_tvGiaTienGiam);
             tvGiaTienGoc = itemView.findViewById(R.id.itemListPhone_tvGiaTienGoc);
             rbDiemDanhGia = itemView.findViewById(R.id.itemListPhone_rbDiemDanhGia);
-            imgCart = itemView.findViewById(R.id.itemListPhone_imgCart);
             imgPhone = itemView.findViewById(R.id.itemListPhone_imgDienThoai);
         }
     }

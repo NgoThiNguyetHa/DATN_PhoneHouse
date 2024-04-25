@@ -112,6 +112,9 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
                     item.setSoLuong(item.getSoLuong()-1);
                     holder.tvSoLuong.setText(""+item.getSoLuong());
                     iItemDetailCartListener.onClickReduceQuantity(item);
+                }else{
+                    iItemDetailCartListener.onClickRemoveItem(item);
+                    item.setSoLuong(1);
                 }
             }
         });

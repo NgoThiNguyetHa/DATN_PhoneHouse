@@ -178,15 +178,7 @@
                 android:rating="0"
                 android:secondaryProgressTint="@android:color/black"
                 android:stepSize="1" />
-
-            <ImageView
-                android:id="@+id/itemListPhone_imgCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="5dp"
-                android:src="@drawable/icon_shopping_cart" />
+            
         </RelativeLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

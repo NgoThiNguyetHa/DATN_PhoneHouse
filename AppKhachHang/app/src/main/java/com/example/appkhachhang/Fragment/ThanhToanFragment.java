@@ -44,6 +44,7 @@ import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
 import com.example.appkhachhang.activity.ZalopayActivity;
+import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.example.appkhachhang.viewpager.DonXuLyFragment;
 import com.google.common.reflect.TypeToken;
@@ -79,12 +80,11 @@ public class ThanhToanFragment extends Fragment {
     Spinner spnPhuongThucThanhToan;
     List<AddressDelivery> list;
     DiaChiNhanHangAdapter adapterDiaChi;
-    String idDiaChi, selectedItem , addressCheck;
+    String idDiaChi, selectedItem, addressCheck;
     List<ChiTietHoaDon> chiTietHoaDons;
     MySharedPreferences mySharedPreferences;
     ChiTietDienThoai chiTietDienThoai;
     List<ChiTietGioHang> chiTietGioHangList;
-
 
 
     @Override
@@ -109,13 +109,13 @@ public class ThanhToanFragment extends Fragment {
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         tvTen = view.findViewById(R.id.tv_tenKhachHang);
         tvSdt = view.findViewById(R.id.tv_sdtKhachHang);
         tvDiaChi = view.findViewById(R.id.tv_DiaChiKhachHang);
         imgDiaChi = view.findViewById(R.id.imgDiaChi);
-        rc_listChon =view.findViewById(R.id.rc_listChon);
-        tvTongTienHang =view.findViewById(R.id.tv_tongTienHang);
+        rc_listChon = view.findViewById(R.id.rc_listChon);
+        tvTongTienHang = view.findViewById(R.id.tv_tongTienHang);
         tvPhiVanChuyen = view.findViewById(R.id.tv_PhiVanChuyen);
         tvTongThanhToan = view.findViewById(R.id.tv_tongThanhToan);
         tvTongHoaDon = view.findViewById(R.id.tvTongHoaDon);
@@ -137,7 +137,7 @@ public class ThanhToanFragment extends Fragment {
 //         user = gson.fromJson(user_json, User.class);
 //    }
 
-    private void initVariable(View view){
+    private void initVariable(View view) {
         mySharedPreferences = new MySharedPreferences(getContext());
         list = new ArrayList<>();
         getData(mySharedPreferences.getUserId());
@@ -188,11 +188,12 @@ public class ThanhToanFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String json = intent.getStringExtra("chiTietGioHangList");
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ChiTietGioHang>>() {}.getType();
+        Type type = new TypeToken<List<ChiTietGioHang>>() {
+        }.getType();
         chiTietGioHangList = gson.fromJson(json, type);
         if (intent != null) {
             String jsonChiTietDienThoai = intent.getStringExtra("chiTietDienThoai");
-            if (jsonChiTietDienThoai != null && json ==null) {
+            if (jsonChiTietDienThoai != null && json == null) {
                 chiTietDienThoai = gson.fromJson(jsonChiTietDienThoai, ChiTietDienThoai.class);
                 ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                 chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
@@ -207,7 +208,7 @@ public class ThanhToanFragment extends Fragment {
 
         int tongTien = 0;
         for (int i = 0; i < chiTietGioHangList.size(); i++) {
-            tongTien += chiTietGioHangList.get(i).getGiaTien()*chiTietGioHangList.get(i).getSoLuong();
+            tongTien += chiTietGioHangList.get(i).getGiaTien() * chiTietGioHangList.get(i).getSoLuong();
         }
 
 
@@ -236,13 +237,13 @@ public class ThanhToanFragment extends Fragment {
             e.printStackTrace();
         }
         try {
-            double tongTienGiamNumber = Double.parseDouble(String.valueOf(+ tongTien + phiVanChuyen));
+            double tongTienGiamNumber = Double.parseDouble(String.valueOf(+tongTien + phiVanChuyen));
             String formattedNumber = decimalFormat.format(tongTienGiamNumber);
             tvTongHoaDon.setText(formattedNumber + "đ");
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        int tongThanhToan = tongTien+phiVanChuyen;
+        int tongThanhToan = tongTien + phiVanChuyen;
 
         ArrayAdapter<CharSequence> adapterSpn = ArrayAdapter.createFromResource(getContext(), R.array.spn_phuongthuc, android.R.layout.simple_list_item_1);
         spnPhuongThucThanhToan.setDropDownWidth(android.R.layout.simple_spinner_dropdown_item);
@@ -261,7 +262,7 @@ public class ThanhToanFragment extends Fragment {
         view.findViewById(R.id.btnThanhToan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")){
+                if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")) {
 //                    CreateOrder orderApi = new CreateOrder();
 //                    try {
 //                        JSONObject data = orderApi.createOrder(String.valueOf(10000));
@@ -276,6 +277,11 @@ public class ThanhToanFragment extends Fragment {
 //                                public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
 //                                    Intent intent = new Intent(getContext(), MainActivity.class);
 //                                    startActivity(intent);
+//                                        for (ChiTietGioHang item: chiTietGioHangList) {
+//                                            String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
+//                                            CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
+//                                            sharedPreferences.removeChiTietGioHang(getContext(), mySharedPreferences.getUserId(), item.getMaChiTietDienThoai().get_id());
+//                                        }
 //                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
 //                                }
 //
@@ -298,12 +304,12 @@ public class ThanhToanFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.putExtra("key", "Thanh toan thanh cong");
                     startActivity(intent);
-                }else{
+                } else {
                     List<String> addStores = new ArrayList<>();
-                    for (ChiTietGioHang item: chiTietGioHangList) {
+                    for (ChiTietGioHang item : chiTietGioHangList) {
                         String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
 
-                        if (!addStores.contains(maCuaHang)){
+                        if (!addStores.contains(maCuaHang)) {
                             Calendar calendar = Calendar.getInstance();
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                             String formattedDate = dateFormat.format(calendar.getTime());
@@ -318,7 +324,7 @@ public class ThanhToanFragment extends Fragment {
                             ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
                                 @Override
                                 public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
-                                    if (response.body()!=null){
+                                    if (response.body() != null) {
                                         Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
                                         chiTietHoaDons = new ArrayList<>();
                                         String hoaDonId = response.body().get_id();
@@ -327,7 +333,7 @@ public class ThanhToanFragment extends Fragment {
                                         chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
                                         chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
                                         chiTietHoaDons.add(chiTietHoaDon);
-                                        addChiTietHoaDon();
+                                        addChiTietHoaDon(item);
                                     } else {
                                         Log.e("Error", "Response not successful");
                                     }
@@ -375,19 +381,22 @@ public class ThanhToanFragment extends Fragment {
             }
         });
     }
-    void addChiTietHoaDon() {
+
+    void addChiTietHoaDon(ChiTietGioHang item) {
         mySharedPreferences = new MySharedPreferences(getContext());
         ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
             public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
-                if (response.body()!=null){
+                if (response.body() != null) {
                     Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
+                    CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
+                    sharedPreferences.removeChiTietGioHang(getContext(), mySharedPreferences.getUserId(), item.getMaChiTietDienThoai().get_id());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
+                Log.e("errorrr", "onFailure: " + t.getMessage());
             }
         });
     }

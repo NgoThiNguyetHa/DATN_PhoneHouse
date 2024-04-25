@@ -105,20 +105,56 @@ router.get('/getHoaDonTheoTrangThai/:trangThaiNhanHang/:maCuaHang', async (req, 
   }
 });
 // lấy hóa đơn theo mã khách hàng
-router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
-  try {
-    const trangThaiNhanHang = req.params.trangThaiNhanHang;
-    const maKhachHang = req.params.maKhachHang;
-//    console.log(trangThaiNhanHang, " / ", maKhachHang)
-    const hoaDon = await HoaDon.find({trangThaiNhanHang, maKhachHang})
+// router.get('/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang', async (req, res) => {
+//   try {
+//     const trangThaiNhanHang = req.params.trangThaiNhanHang;
+//     const maKhachHang = req.params.maKhachHang;
+// //    console.log(trangThaiNhanHang, " / ", maKhachHang)
+//     const hoaDon = await HoaDon.find({trangThaiNhanHang, maKhachHang})
+//         .populate("maKhachHang")
+//         .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+//         .populate("maCuaHang")
+//     res.json(hoaDon);
+//   } catch (error) {
+//     res.status(500).json({error: error.message});
+//   }
+// });
+
+router.get(
+  "/getHoaDonTheoTrangThai-KH/:trangThaiNhanHang/:maKhachHang",
+  async (req, res) => {
+    try {
+      const trangThaiNhanHang = req.params.trangThaiNhanHang;
+      const maKhachHang = req.params.maKhachHang;
+
+      const hoaDon = await HoaDon.find({ trangThaiNhanHang, maKhachHang })
         .populate("maKhachHang")
-        .populate({path: "maDiaChiNhanHang", populate: {path: "maKhachHang", model: "khachhang"}})
+        .populate({
+          path: "maDiaChiNhanHang",
+          populate: { path: "maKhachHang", model: "khachhang" },
+        })
         .populate("maCuaHang")
-    res.json(hoaDon);
-  } catch (error) {
-    res.status(500).json({error: error.message});
+        .sort({ ngayTao: -1 }); // Sắp xếp theo ngày tạo giảm dần
+
+      // Kiểm tra và sắp xếp ngày tạo của các đối tượng hoá đơn
+      hoaDon.sort((a, b) => {
+        const datePartsA = a.ngayTao.split("-").reverse(); // Chuyển định dạng ngày tháng từ dd-mm-yyyy thành yyyy-mm-dd
+        const datePartsB = b.ngayTao.split("-").reverse(); // Chuyển định dạng ngày tháng từ dd-mm-yyyy thành yyyy-mm-dd
+        const dateA = new Date(datePartsA.join("-"));
+        const dateB = new Date(datePartsB.join("-"));
+        return dateB - dateA; // Sắp xếp giảm dần
+      });
+
+      res.json(hoaDon);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
+
+
+
+
 router.get('/getHoaDonTheoChiTiet', async (req, res) => {
   try {
     const hoaDon = await HoaDon.find()
