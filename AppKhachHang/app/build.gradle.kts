@@ -46,6 +46,10 @@ dependencies {
         "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
         "include" to listOf("*.aar", "*.jar")
     )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\ZaloPay",
+        "include" to listOf("*.aar", "*.jar")
+    )))
 
 
     testImplementation("junit:junit:4.13.2")

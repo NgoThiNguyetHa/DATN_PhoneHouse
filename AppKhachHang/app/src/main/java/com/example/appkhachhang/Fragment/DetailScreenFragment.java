@@ -128,7 +128,8 @@ public class DetailScreenFragment extends Fragment {
     private void getDataBundle() {
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
-            chiTietDienThoai = (ChiTietDienThoai) bundle.getSerializable("idChiTietDienThoai"); // Lấy dữ liệu từ Bundle bằng key
+            chiTietDienThoai = (ChiTietDienThoai) bundle.getSerializable("idChiTietDienThoai");// Lấy dữ liệu từ Bundle bằng key
+            Log.e("abcabcabc", "getDataBundle: " + chiTietDienThoai.getMaDienThoai() );
             getData(chiTietDienThoai.get_id());
             setTextData(chiTietDienThoai);
             actionAddToCartAndBuyNow(chiTietDienThoai);
