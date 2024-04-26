@@ -20,8 +20,8 @@ public interface ChiTietSanPham_API {
 
 
     ChiTietSanPham_API chiTietSanPhamApi = new Retrofit.Builder()
-//            .baseUrl("https://datn-phonehouse.onrender.com/chitietdienthoais/")
-            .baseUrl("http://192.168.1.170:8686/chitietdienthoais/")
+            .baseUrl("https://datn-phonehouse.onrender.com/chitietdienthoais/")
+//            .baseUrl("http://192.168.1.170:8686/chitietdienthoais/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(ChiTietSanPham_API.class);
 
