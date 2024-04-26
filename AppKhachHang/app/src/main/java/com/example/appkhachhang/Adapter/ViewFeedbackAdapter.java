@@ -51,7 +51,7 @@ public class ViewFeedbackAdapter extends RecyclerView.Adapter<ViewFeedbackAdapte
         holder.tvViewTenDT.setText(tenDienThoai);
         holder.tvViewNgayDanhGia.setText(ngayTao);
         Picasso.get().load(anhDienThoai).into(holder.imgViewAnhDT);
-        Picasso.get().load(anhDanhGia).into(holder.img_viewAnhDG);
+//        Picasso.get().load(anhDanhGia).into(holder.img_viewAnhDG);
 
         if(diemDanhgia==1){
             holder.img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);

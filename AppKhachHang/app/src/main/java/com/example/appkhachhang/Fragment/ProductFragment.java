@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
+import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
@@ -298,6 +299,7 @@ public class ProductFragment extends Fragment {
         Button btnCancel, btnConfirm;
         btnCancel = dialog.findViewById(R.id.filterBoLoc_btnCancel);
         btnConfirm = dialog.findViewById(R.id.filterBoLoc_btnConfirm);
+        ApiService apiService = ApiRetrofit.getApiService();
         final boolean[] isOnclick512 = {false};
         final boolean[] isOnclick128_258 = {false};
         final boolean[] isOnclick32_64 = {false};

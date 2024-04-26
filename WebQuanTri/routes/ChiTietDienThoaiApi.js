@@ -1715,7 +1715,7 @@ router.get("/searchDienThoaiVaCuaHang", async (req, res) => {
             // Sắp xếp theo mã ưu đãi giảm dần
             return b.maDienThoai.maUuDai.giamGia - a.maDienThoai.maUuDai.giamGia;
           });
-
+          
     }
     if (Ram){
       const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
