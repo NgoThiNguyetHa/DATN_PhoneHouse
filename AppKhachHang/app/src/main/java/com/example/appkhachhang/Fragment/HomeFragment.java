@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,9 +30,10 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -41,7 +41,6 @@ import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
 import com.example.appkhachhang.activity.SearchActivity;
-import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class HomeFragment extends Fragment {
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
-    List<ChiTietDienThoai> list;
+    List<Root> list;
     List<SanPhamHot> listSPHot;
     List<HangSanXuat> listHang;
     Toolbar toolbar;
@@ -115,11 +114,11 @@ public class HomeFragment extends Fragment {
         recyclerViewSP.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         getListSanPham();
-        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new IItemListPhoneListener() {
             @Override
-            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+            public void onClickDetail(Root root) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
                 DetailScreenFragment fragmentB = new DetailScreenFragment();
                 fragmentB.setArguments(bundle);
                 Intent intent = new Intent(getActivity(), DetailScreen.class);
@@ -233,21 +232,21 @@ public class HomeFragment extends Fragment {
 
 
     void getListSanPham(){
-        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<Root>>() {
             @Override
-            public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
                 if (response.isSuccessful()) {
                     list.clear();
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
-                    Log.d("zzz240", "onViewCreated: "+list.size());
+//                    Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
+            public void onFailure(Call<List<Root>> call, Throwable t) {
 //                Log.e("errorrr", "onFailure: " + t.getMessage() );
             }
         });

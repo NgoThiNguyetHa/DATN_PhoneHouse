@@ -89,24 +89,24 @@
                             <thead>
                             <tr class="bg-secondary bg-opacity-50 text-bg-info">
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">STT
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">STT
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Tên khách hàng
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Tên khách hàng
                                 </th>
                                 <th scope="col" class="col-3 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Sản phẩm
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Sản phẩm
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Nội dung
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Nội dung
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Điểm
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Điểm
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Ngày đánh giá
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Ngày đánh giá
                                 </th>
-                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
+                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada; vertical-align: middle;"></th>
 
                             </tr>
                             </thead>
@@ -139,6 +139,11 @@
                                         </button>
                                     </td>
 
+                                </tr>
+                            <% } %>
+                            <% if (data.length === 0) { %>
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">Danh sách trống</td>
                                 </tr>
                             <% } %>
                             </tbody>

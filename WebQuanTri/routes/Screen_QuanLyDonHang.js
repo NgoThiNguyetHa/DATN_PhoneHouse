@@ -52,11 +52,11 @@ router.get('/searchHoaDon', authenticateToken, async function(req, res, next) {
     }
 
     const queryParams = new URLSearchParams({
-      tenNguoiNhan: req.query.tenNguoiNhan,
-      tongTien: req.query.tongTien,
+      tenNguoiNhan: req.query.tenNguoiNhan.trim(),
+      tongTien: req.query.tongTien.trim(),
       trangThaiNhanHang: req.query.trangThaiNhanHang,
       ngayTao: req.query.ngayTao ? formatDate(req.query.ngayTao) : "",
-      username: req.query.username
+      username: req.query.username.trim()
     });
 
     const response = await axios.get(`${baseUrl}hoadons/searchHoaDon/${account.id}?${queryParams}`);

@@ -168,6 +168,9 @@
                                 </div>
                             <% } %>
                         </div>
+                        <% if (hangsanxuats.length === 0) { %>
+                            <p class="list" style="text-align: center;">Danh sách trống</p>
+                        <% } %>
                     </div>
 
                     <div class="box borderColor">
@@ -185,7 +188,9 @@
                                 </div>
                             <% } %>
                         </div>
-
+                        <% if (maus.length === 0) { %>
+                            <p class="list" style="text-align: center;">Danh sách trống</p>
+                        <% } %>
                     </div>
 
                     <div class="box borderColor">
@@ -202,7 +207,11 @@
                                     <td><%= dungluongs[i].boNho %> GB</td>
                                 </div>
                             <% } %>
+
                         </div>
+                        <% if (dungluongs.length === 0) { %>
+                            <p class="list" style="text-align: center;">Danh sách trống</p>
+                        <% } %>
 
                     </div>
 
@@ -221,6 +230,9 @@
                                 </div>
                             <% } %>
                         </div>
+                        <% if (rams.length === 0) { %>
+                            <p class="list" style="text-align: center;">Danh sách trống</p>
+                        <% } %>
 
                     </div>
                 </div>

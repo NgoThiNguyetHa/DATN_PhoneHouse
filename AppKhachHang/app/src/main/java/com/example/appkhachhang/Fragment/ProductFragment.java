@@ -30,12 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appkhachhang.Adapter.ProductAdapter;
+import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
-import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
@@ -55,7 +54,7 @@ import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
     EditText danhSach_edSearch;
-    List<ChiTietDienThoai> listFilter;
+    List<Root> listFilter;
     TextView tv_entry;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
@@ -67,8 +66,8 @@ public class ProductFragment extends Fragment {
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences;
     int quantity = 0; // Khởi tạo quantity với giá trị ban đầu là 0
-    List<ChiTietDienThoai> list;
-    ProductAdapter adapter;
+    List<Root> list;
+    ListPhoneAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,7 +121,7 @@ public class ProductFragment extends Fragment {
 
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
 
@@ -151,11 +150,25 @@ public class ProductFragment extends Fragment {
         rc_danhSachDienThoai.setLayoutManager(manager);
         list = new ArrayList<>();
         getListSanPham();
-        adapter = new ProductAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+//        adapter = new ProductAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+//            @Override
+//            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+//                DetailScreenFragment fragmentB = new DetailScreenFragment();
+//                fragmentB.setArguments(bundle);
+//                Intent intent = new Intent(getActivity(), DetailScreen.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
+        adapter = new ListPhoneAdapter(getContext());
+        adapter.setData(list);
+        adapter.setOnClickListener(new IItemListPhoneListener() {
             @Override
-            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+            public void onClickDetail(Root root) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
                 DetailScreenFragment fragmentB = new DetailScreenFragment();
                 fragmentB.setArguments(bundle);
                 Intent intent = new Intent(getActivity(), DetailScreen.class);
@@ -168,9 +181,9 @@ public class ProductFragment extends Fragment {
 
     void getListSanPham() {
         progressBar.setVisibility(View.VISIBLE);
-        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<Root>>() {
             @Override
-            public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
                 list.clear();
                 list.addAll(response.body());
                 adapter.notifyDataSetChanged();
@@ -178,7 +191,7 @@ public class ProductFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
+            public void onFailure(Call<List<Root>> call, Throwable t) {
                 Log.e("errorrr", "onFailure: " + t.getMessage());
             }
         });
@@ -186,11 +199,11 @@ public class ProductFragment extends Fragment {
 
     void searchProducts(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        List<ChiTietDienThoai> danhSachDaLoc = new ArrayList<>();
+        List<Root> danhSachDaLoc = new ArrayList<>();
 
         // Duyệt qua danh sách ban đầu để tìm các sản phẩm phù hợp
-        for (ChiTietDienThoai sanPham : list) {
-            if (sanPham.getMaDienThoai().getTenDienThoai().toLowerCase().contains(query.toLowerCase())) {
+        for (Root sanPham : list) {
+            if (sanPham.getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toLowerCase().contains(query.toLowerCase())) {
                 danhSachDaLoc.add(sanPham);
             }
         }
@@ -200,7 +213,7 @@ public class ProductFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
     }
 
-    public void updateList(List<ChiTietDienThoai> newList) {
+    public void updateList(List<Root> newList) {
         list.clear();
         list.addAll(newList);
         adapter.notifyDataSetChanged();
