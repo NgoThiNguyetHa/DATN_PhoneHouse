@@ -42,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -89,6 +90,200 @@ public class FeedbackScreen extends AppCompatActivity {
 
 
         Bundle bundle = getIntent().getExtras();
+        DanhGia danhGia = (DanhGia) bundle.getSerializable("updateDanhGia");
+        if(danhGia!= null){
+            bill_item_tvDienThoaiDG.setText(danhGia.getIdChiTietDienThoai().getMaDienThoai().getTenDienThoai());
+            Picasso.get().load(danhGia.getIdChiTietDienThoai().getHinhAnh()).into(imgDienThoaiDG);
+            bill_item_tvSoLuongDG.setText(danhGia.getIdChiTietDienThoai().getSoLuong()+"");
+            bill_item_tvMauDG.setText(danhGia.getIdChiTietDienThoai().getMaMau().getTenMau());
+            DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
+            try {
+                double tongTienGiamNumber = Double.parseDouble(danhGia.getIdChiTietDienThoai().getGiaTien()+"");
+                String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+                bill_item_tvTongTienDG.setText(formattedNumber+"₫");
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            edFeedback.setText(danhGia.getNoiDung());
+            diemFeedback = danhGia.getDiemDanhGia();
+            if(!danhGia.getHinhAnh().equals("")){
+                Picasso.get().load(danhGia.getHinhAnh()).into(img_anh_danh_gia);
+            }
+            if(diemFeedback==1){
+                img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_2.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_3.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+            }
+            else if(diemFeedback==2){
+                img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_3.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+            }
+            else if(diemFeedback==3){
+                img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+            }
+            else if(diemFeedback==4){
+                img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_4.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+            }
+            else if(diemFeedback==5){
+                img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_4.setImageResource(R.drawable.rating_sao_vang);
+                img_sao_xam_5.setImageResource(R.drawable.rating_sao_vang);
+            }
+            img_sao_xam_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_2.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_3.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+                    diemFeedback = 1;
+                }
+            });
+            img_sao_xam_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_3.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+                    diemFeedback = 2;
+                }
+            });
+            img_sao_xam_3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_4.setImageResource(R.drawable.rating_star_xam);
+                    img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+                    diemFeedback = 3;
+                }
+            });
+            img_sao_xam_4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_4.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_5.setImageResource(R.drawable.rating_star_xam);
+                    diemFeedback = 4;
+                }
+            });
+            img_sao_xam_5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    img_sao_xam_1.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_2.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_3.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_4.setImageResource(R.drawable.rating_sao_vang);
+                    img_sao_xam_5.setImageResource(R.drawable.rating_sao_vang);
+                    diemFeedback = 5;
+                }
+            });
+            img_anh_danh_gia.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent photoPicker = new Intent();
+                    photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+                    photoPicker.setType("image/*");
+                    activityResultLauncher.launch(photoPicker);
+                }
+            });
+            btnFeedback.setText("Sửa");
+            btnFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String noiDung = edFeedback.getText().toString().trim();
+//                Number diemDanhGia = diemFeedback;
+                    int diemDanhGia = diemFeedback;
+
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cộng thêm 1
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    // Định dạng ngày theo "dd-MM-yyyy"
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                    String currentDate = sdf.format(calendar.getTime());
+
+                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("image");
+                    final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                    if (imageUri != null) {
+                        String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+                        final StorageReference imageReference = storageReference.child(url_src);
+
+                        imageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
+                                        Call<DanhGia> call = feedbackAPI.update(danhGia.get_id(),new DanhGia(noiDung,uri.toString(),diemDanhGia,currentDate, danhGia.getIdKhachHang(), danhGia.getIdChiTietDienThoai()));
+                                        call.enqueue(new Callback<DanhGia>() {
+                                            @Override
+                                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+                                                if (response.isSuccessful()) {
+                                                    Toast.makeText(FeedbackScreen.this, "đã sửa", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
+                                                    startActivity(intent);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<DanhGia> call, Throwable t) {
+                                                Toast.makeText(FeedbackScreen.this, "sửa thất bại", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+                    else{
+                        FeedbackAPI feedbackAPI = ApiRetrofit.getFeedbackAPI();
+                        Call<DanhGia> call = feedbackAPI.update(danhGia.get_id(),new DanhGia(noiDung, danhGia.getHinhAnh(), diemDanhGia, currentDate, danhGia.getIdKhachHang(), danhGia.getIdChiTietDienThoai()));
+                        call.enqueue(new Callback<DanhGia>() {
+                            @Override
+                            public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(FeedbackScreen.this, "Đã  sửa", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
+                                    startActivity(intent);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<DanhGia> call, Throwable t) {
+                                Toast.makeText(FeedbackScreen.this, "Lỗi đánh giá", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+
+        }else{
         ChiTietHoaDon chiTietHoaDon = (ChiTietHoaDon) bundle.getSerializable("DanhGia");
         bill_item_tvDienThoaiDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
         bill_item_tvMauDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaMau().getTenMau());
@@ -224,6 +419,8 @@ public class FeedbackScreen extends AppCompatActivity {
                             public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                 if(response.isSuccessful()){
                                     Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
+                                    startActivity(intent);
                                 }
                             }
 
@@ -235,9 +432,12 @@ public class FeedbackScreen extends AppCompatActivity {
                     }
 
                 }
-            }
-        });
 
+
+            }
+
+        });
+        }
 
     }
 

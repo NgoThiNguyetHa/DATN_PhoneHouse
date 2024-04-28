@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface.OnItemClickListenerDanhGia;
+import com.example.appkhachhang.Interface.OnItemClickListenerUpdateDanhGia;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
@@ -44,7 +45,7 @@ public class ViewFeedbackAdapter extends RecyclerView.Adapter<ViewFeedbackAdapte
         int diemDanhgia = danhGia.getDiemDanhGia();
         String ngayTao = danhGia.getNgayTao();
         String tenDienThoai = danhGia.getIdChiTietDienThoai().getMaDienThoai().getTenDienThoai();
-        String anhDienThoai = danhGia.getIdChiTietDienThoai().getMaDienThoai().getHinhAnh();
+        String anhDienThoai = danhGia.getIdChiTietDienThoai().getHinhAnh();
         String anhDanhGia = danhGia.getHinhAnh();
         String ram = danhGia.getIdChiTietDienThoai().getMaRam().getRAM();
         String dungLuong = danhGia.getIdChiTietDienThoai().getMaDungLuong().getBoNho();

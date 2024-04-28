@@ -21,5 +21,6 @@ public interface FeedbackAPI {
     Call<List<DanhGia>> getDanhGia(@Path("id") String id);
 
     @PUT("danhgias/updateDanhGia/{id}")
-    Call<DanhGia> update(@Path("id") String id, String string, int diemDanhGia, String currentDate, User idKhachHang, ChiTietDienThoai idChiTietDienThoai);
+    Call<DanhGia> update(@Path("id") String id,
+                            @Body DanhGia danhGia);
 }
