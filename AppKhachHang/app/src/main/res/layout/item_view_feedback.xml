@@ -14,7 +14,7 @@
         android:layout_marginLeft="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -24,24 +24,36 @@
                 android:layout_gravity="center"
                 android:src="@drawable/avatar" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvViewTenKhachHang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên khách hàng" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/tvViewTenKhachHang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên khách hàng"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:layout_marginRight="10dp">
                 <ImageView
                     android:id="@+id/img_sao_xam_1"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/rating_star_xam" />
+                    android:src="@drawable/rating_star_xam"
+                    />
 
                 <ImageView
                     android:id="@+id/img_sao_xam_2"
@@ -65,17 +77,39 @@
                     android:id="@+id/img_sao_xam_5"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/rating_star_xam" />
+                    android:src="@drawable/rating_star_xam"
+                    />
+                </LinearLayout>
+
             </LinearLayout>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvViewNgayDanhGia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày đánh giá"
+                    />
+                <TextView
+                    android:id="@+id/tvViewPhanLoai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phân loại: "
+                    />
+            </LinearLayout>
+
         </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvViewNgayDanhGia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ngày đánh giá"
-                android:layout_marginLeft="35dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#989595"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"/>
         <TextView
             android:id="@+id/tvViewNoiDungDG"
             android:layout_width="wrap_content"
@@ -84,9 +118,11 @@
             android:layout_marginLeft="35dp"/>
         <ImageView
             android:id="@+id/img_viewAnhDG"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="35dp"
+            android:layout_gravity="left"
             />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -113,11 +149,19 @@
                     android:layout_weight="1"
                     android:layout_marginRight="10dp"
                     android:singleLine="true"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end"
+                    android:textColor="@color/black"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
+            <ImageView
+                android:id="@+id/img_updateDanhGia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_note_24"
+                android:layout_gravity="end"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
