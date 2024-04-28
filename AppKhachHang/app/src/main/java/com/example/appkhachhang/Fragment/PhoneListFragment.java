@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,10 @@ import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.DBHelper.ShoppingCartManager;
+
+import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -50,13 +55,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PhoneListFragment extends Fragment {
-
+    EditText danhSach_edSearch;
+    TextView tv_entry;
     HangSanXuat hangSanXuat;
     RecyclerView rc_danhSachDienThoai;
     EditText edSearch;
-    LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
-//    List<ListPhone >list;
+    LinearLayout ln_boLoc, ln_locGia, ln_locDlRam, ln_locBoNho, ln_sxGiaCao, ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
+    //    List<ListPhone >list;
     List<Root> list;
+    List<Root> listFilter;
     List<AddressDelivery> addressDeliveryList;
     ListPhoneAdapter adapter;
 
@@ -65,7 +72,7 @@ public class PhoneListFragment extends Fragment {
 
     ProgressDialog progressDialog;
     ProgressBar progressBar;
-    MySharedPreferences mySharedPreferences ;
+    MySharedPreferences mySharedPreferences;
     int quantity = 1; // Khởi tạo quantity với giá trị ban đầu là 0
     DiaChiNhanHangAdapter adapterDiaChi;
 
@@ -84,10 +91,51 @@ public class PhoneListFragment extends Fragment {
         initVariable();
         action();
         actionFilter();
+        listFilter = new ArrayList<>();
+        danhSach_edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                listFilter.clear();
+                tv_entry.setVisibility(View.VISIBLE);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toLowerCase().toString().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                        listFilter.add(list.get(i));
+                        tv_entry.setVisibility(View.GONE);
+                    }
+                }
+                if (listFilter.size() == 0) {
+                    tv_entry.setVisibility(View.VISIBLE);
+                }
+//                adapter.setOnClickListener(new IItemListPhoneListener() {
+//                    @Override
+//                    public void onClickDetail(Root root) {
+//                        dialogBottomDetail(root);
+//                    }
+//                });
+                if (danhSach_edSearch.getText().toString().trim().isEmpty()) {
+                    adapter.setData(list);
+                    tv_entry.setVisibility(View.GONE);
+                    rc_danhSachDienThoai.setAdapter(adapter);
+                } else {
+                    adapter.setData(listFilter);
+                    rc_danhSachDienThoai.setAdapter(adapter);
+                }
+            }
+        });
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
         edSearch = view.findViewById(R.id.danhSach_edSearch);
         ln_boLoc = view.findViewById(R.id.danhSach_linearBoLoc);
@@ -99,10 +147,12 @@ public class PhoneListFragment extends Fragment {
         ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
         ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
         progressBar = view.findViewById(R.id.danhSach_progressBar);
-
+        rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
+        danhSach_edSearch = view.findViewById(R.id.danhSach_edSearch);
+        tv_entry = view.findViewById(R.id.tv_entry);
     }
 
-    private void initVariable(){
+    private void initVariable() {
         list = new ArrayList<>();
         manager = new GridLayoutManager(getContext(), 2);
         rc_danhSachDienThoai.setLayoutManager(manager);
@@ -121,9 +171,12 @@ public class PhoneListFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        rc_danhSachDienThoai.setHasFixedSize(true);
+        rc_danhSachDienThoai.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_right_to_left));
         rc_danhSachDienThoai.setAdapter(adapter);
     }
-    private void action(){
+
+    private void action() {
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
             hangSanXuat = (HangSanXuat) bundle.getSerializable("idHangSanXuat"); // Lấy dữ liệu từ Bundle bằng key
@@ -134,7 +187,7 @@ public class PhoneListFragment extends Fragment {
     }
 
     //getData lên recyclerview
-    private void getData(String id){
+    private void getData(String id) {
         ApiService apiService = ApiRetrofit.getApiService();
         progressBar.setVisibility(View.VISIBLE);
 //        Call<List<ListPhone>> call = apiService.getAllChiTietTheoHang(id);
@@ -168,7 +221,7 @@ public class PhoneListFragment extends Fragment {
                     list.addAll(data);
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                    setLayoutAnimation(R.anim.layout_anim_bottom_to_up);
+//                    setLayoutAnimation(R.anim.layout_anim_bottom_to_up);
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -183,11 +236,17 @@ public class PhoneListFragment extends Fragment {
 
 
     //filter
-    private void actionFilter(){
+    private void actionFilter() {
         ln_boLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomDialogFilterBoLoc();
+            }
+        });
+        ln_sxDiemDanhGia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortDanhGia();
             }
         });
         ln_locGia.setOnClickListener(new View.OnClickListener() {
@@ -228,17 +287,47 @@ public class PhoneListFragment extends Fragment {
             }
         });
     }
+
+    private void sortDanhGia() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getDanhGiaFilter("true", hangSanXuat.get_id());
+        call.enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            }
+        });
+    }
+
     private void bottomDialogFilterBoLoc() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_boloc);
 
         dialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        LinearLayout ln_512GB , ln_128GB_256GB , ln_32GB_64GB;
+        LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoLoc_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoLoc_cv128GB_256GB);
         ln_32GB_64GB = dialog.findViewById(R.id.filterBoLoc_cv32GB_64GB);
-        LinearLayout ln4GB_6GB , ln8GB_12GB , ln16GB;
+        LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterBoLoc_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterBoLoc_cv8GB_12GB);
         ln16GB = dialog.findViewById(R.id.filterBoLoc_cv16GB);
@@ -254,7 +343,7 @@ public class PhoneListFragment extends Fragment {
         ln_512GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick512[0]){
+                if (isOnclick512[0]) {
                     ln_512GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick512[0] = false;
                 } else {
@@ -267,7 +356,7 @@ public class PhoneListFragment extends Fragment {
         ln_128GB_256GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick128_258[0]){
+                if (isOnclick128_258[0]) {
                     ln_128GB_256GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick128_258[0] = false;
                 } else {
@@ -280,7 +369,7 @@ public class PhoneListFragment extends Fragment {
         ln_32GB_64GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick32_64[0]){
+                if (isOnclick32_64[0]) {
                     ln_32GB_64GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick32_64[0] = false;
                 } else {
@@ -292,7 +381,7 @@ public class PhoneListFragment extends Fragment {
         ln4GB_6GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick4_6[0]){
+                if (isOnclick4_6[0]) {
                     ln4GB_6GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick4_6[0] = false;
                 } else {
@@ -305,7 +394,7 @@ public class PhoneListFragment extends Fragment {
         ln8GB_12GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick8_12[0]){
+                if (isOnclick8_12[0]) {
                     ln8GB_12GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick8_12[0] = false;
                 } else {
@@ -318,7 +407,7 @@ public class PhoneListFragment extends Fragment {
         ln16GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick16[0]){
+                if (isOnclick16[0]) {
                     ln16GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick16[0] = false;
                 } else {
@@ -339,12 +428,12 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 StringBuilder selectedBoNho = new StringBuilder();
                 if (isOnclick512[0]) {
-                    selectedBoNho.append("100,");
-                    selectedBoNho.append("66,");
+                    selectedBoNho.append("512,");
+                    selectedBoNho.append("10000,");
                 }
                 if (isOnclick128_258[0]) {
-                    selectedBoNho.append("12,");
                     selectedBoNho.append("128,");
+                    selectedBoNho.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedBoNho.append("32,");
@@ -352,14 +441,14 @@ public class PhoneListFragment extends Fragment {
                 }
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("69,");
+                    selectedRAMs.append("6,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
@@ -370,9 +459,7 @@ public class PhoneListFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(),selectedBoNho.toString());
+                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -395,19 +482,20 @@ public class PhoneListFragment extends Fragment {
             }
         });
     }
-    private void bottomDialogFilterGiaTien(){
+
+    private void bottomDialogFilterGiaTien() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_giatien);
 
         dialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        TextView tvMin , tvMax;
+        TextView tvMin, tvMax;
         tvMin = dialog.findViewById(R.id.filterGiaTien_tvMin);
         tvMax = dialog.findViewById(R.id.filterGiaTien_tvMax);
         DoubleValueSeekBarView doubleValueSeekBarView = dialog.findViewById(R.id.double_range_seekbar);
         final DecimalFormat[] decimalFormat = {new DecimalFormat("#,##0.##")};
-        String filterMin = String.valueOf(doubleValueSeekBarView.getMinValue()*1000000);
-        String filterMax = String.valueOf(doubleValueSeekBarView.getMaxValue()*1000000);
+        String filterMin = String.valueOf(doubleValueSeekBarView.getMinValue() * 1000000);
+        String filterMax = String.valueOf(doubleValueSeekBarView.getMaxValue() * 1000000);
         final int[] minValue = new int[1];
         final int[] maxValue = new int[1];
         try {
@@ -415,8 +503,8 @@ public class PhoneListFragment extends Fragment {
             double maxNumber = Double.parseDouble(filterMax);
             String formattedMinNumber = decimalFormat[0].format(minNumber);
             String formattedMaxNumber = decimalFormat[0].format(maxNumber);
-            tvMin.setText(""+formattedMinNumber+"đ");
-            tvMax.setText(""+formattedMaxNumber+"đ");
+            tvMin.setText("" + formattedMinNumber + "đ");
+            tvMax.setText("" + formattedMaxNumber + "đ");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -434,15 +522,15 @@ public class PhoneListFragment extends Fragment {
                 minValue[0] = min;
                 maxValue[0] = max;
                 DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-                String filterMin = String.valueOf(min*1000000);
-                String filterMax = String.valueOf(max*1000000);
+                String filterMin = String.valueOf(min * 1000000);
+                String filterMax = String.valueOf(max * 1000000);
                 try {
                     double minNumber = Double.parseDouble(filterMin);
                     double maxNumber = Double.parseDouble(filterMax);
                     String formattedMinNumber = decimalFormat.format(minNumber);
                     String formattedMaxNumber = decimalFormat.format(maxNumber);
-                    tvMin.setText(""+formattedMinNumber+"đ");
-                    tvMax.setText(""+formattedMaxNumber+"đ");
+                    tvMin.setText("" + formattedMinNumber + "đ");
+                    tvMax.setText("" + formattedMaxNumber + "đ");
 
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -458,9 +546,9 @@ public class PhoneListFragment extends Fragment {
             public void onStopTrackingTouch(@Nullable DoubleValueSeekBarView seekBar, int min, int max) {
             }
         });
-        minValue[0] = doubleValueSeekBarView.getCurrentMinValue()*1000000;
-        maxValue[0] = doubleValueSeekBarView.getCurrentMaxValue()*1000000;
-        Button btnCancel , btnConfirm;
+        minValue[0] = doubleValueSeekBarView.getCurrentMinValue() * 1000000;
+        maxValue[0] = doubleValueSeekBarView.getCurrentMaxValue() * 1000000;
+        Button btnCancel, btnConfirm;
         btnCancel = dialog.findViewById(R.id.filterGiaTien_btnCancel);
         btnConfirm = dialog.findViewById(R.id.filterGiaTien_btnConfirm);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -472,7 +560,7 @@ public class PhoneListFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0]*1000000, maxValue[0]*1000000);
+                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0] * 1000000, maxValue[0] * 1000000,hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -496,13 +584,13 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void  bottomDialogFilterBoNho(){
+    private void bottomDialogFilterBoNho() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_bonho);
 
         dialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        LinearLayout ln_512GB , ln_128GB_256GB , ln_32GB_64GB;
+        LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoNho_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoNho_cv128GB_256GB);
         ln_32GB_64GB = dialog.findViewById(R.id.filterBoNho_cv32GB_64GB);
@@ -515,7 +603,7 @@ public class PhoneListFragment extends Fragment {
         ln_512GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick512[0]){
+                if (isOnclick512[0]) {
                     ln_512GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick512[0] = false;
                 } else {
@@ -528,7 +616,7 @@ public class PhoneListFragment extends Fragment {
         ln_128GB_256GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick128_258[0]){
+                if (isOnclick128_258[0]) {
                     ln_128GB_256GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick128_258[0] = false;
                 } else {
@@ -541,7 +629,7 @@ public class PhoneListFragment extends Fragment {
         ln_32GB_64GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick32_64[0]){
+                if (isOnclick32_64[0]) {
                     ln_32GB_64GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick32_64[0] = false;
                 } else {
@@ -557,12 +645,12 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
 
                 if (isOnclick512[0]) {
-                    selectedRAMs.append("100,");
-                    selectedRAMs.append("66,");
+                    selectedRAMs.append("512,");
+                    selectedRAMs.append("10000, " );
                 }
                 if (isOnclick128_258[0]) {
-                    selectedRAMs.append("12,");
                     selectedRAMs.append("128,");
+                    selectedRAMs.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedRAMs.append("32,");
@@ -573,9 +661,7 @@ public class PhoneListFragment extends Fragment {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString());
+                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString(),hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -605,13 +691,13 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void bottomDialogFilterDlRam(){
+    private void bottomDialogFilterDlRam() {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_filter_dl_ram);
 
         dialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        LinearLayout ln4GB_6GB , ln8GB_12GB , ln16GB;
+        LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterDlRam_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterDlRam_cv8GB_12GB);
         ln16GB = dialog.findViewById(R.id.filterDlRam_cv16GB);
@@ -624,7 +710,7 @@ public class PhoneListFragment extends Fragment {
         ln4GB_6GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick4_6[0]){
+                if (isOnclick4_6[0]) {
                     ln4GB_6GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick4_6[0] = false;
                 } else {
@@ -637,7 +723,7 @@ public class PhoneListFragment extends Fragment {
         ln8GB_12GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick8_12[0]){
+                if (isOnclick8_12[0]) {
                     ln8GB_12GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick8_12[0] = false;
                 } else {
@@ -650,7 +736,7 @@ public class PhoneListFragment extends Fragment {
         ln16GB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOnclick16[0]){
+                if (isOnclick16[0]) {
                     ln16GB.setBackgroundResource(R.drawable.shape_custom);
                     isOnclick16[0] = false;
                 } else {
@@ -665,23 +751,21 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("6,");
+                    selectedRAMs.append("8,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString());
+                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString(),hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -711,13 +795,13 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void sortGiaTienCaoThap(){
+    private void sortGiaTienCaoThap() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortDown();
+        Call<List<Root>> call = apiService.getSortDown("desc", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -740,13 +824,13 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void sortGiaTienThapCao(){
+    private void sortGiaTienThapCao() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortUp();
+        Call<List<Root>> call = apiService.getSortUp("arc", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -769,13 +853,13 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void uuDaiHot(){
+    private void uuDaiHot() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getUuDaiHot();
+        Call<List<Root>> call = apiService.getUuDaiHot("true", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -798,17 +882,17 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void dialogBottomDetail(Root root){
+    private void dialogBottomDetail(Root root) {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.layout_themgio_muangay);
 
         dialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
         mySharedPreferences = new MySharedPreferences(getContext());
-        adapterDiaChi = new DiaChiNhanHangAdapter(getContext(),addressDeliveryList);
+        adapterDiaChi = new DiaChiNhanHangAdapter(getContext(), addressDeliveryList);
         addressDeliveryList = new ArrayList<>();
-        TextView tvTenDienThoai , tvSoLuong , tvSoLuongTon;
-        LinearLayout lnMinius , lnAdd;
+        TextView tvTenDienThoai, tvSoLuong, tvSoLuongTon;
+        LinearLayout lnMinius, lnAdd;
         ImageView imgClose;
         Button btnAddToCart, btnBuyNow;
         tvTenDienThoai = dialog.findViewById(R.id.dialogBottomChiTiet_tvDienThoai);
@@ -820,15 +904,15 @@ public class PhoneListFragment extends Fragment {
         btnAddToCart = dialog.findViewById(R.id.dialogBottomChiTiet_btnThemGioHang);
         btnBuyNow = dialog.findViewById(R.id.dialogBottomChiTiet_btnMuaNgay);
 
-        tvTenDienThoai.setText(""+root.getChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        tvSoLuongTon.setText("Số lượng còn hàng: "+root.getChiTietDienThoai().getSoLuong());
-        tvSoLuong.setText(""+quantity);
+        tvTenDienThoai.setText("" + root.getChiTietDienThoai().getMaDienThoai().getTenDienThoai());
+        tvSoLuongTon.setText("Số lượng còn hàng: " + root.getChiTietDienThoai().getSoLuong());
+        tvSoLuong.setText("" + quantity);
         lnMinius.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantity > 0) {
+                if (quantity > 0) {
                     quantity--;
-                    tvSoLuong.setText(""+quantity);
+                    tvSoLuong.setText("" + quantity);
                     lnMinius.setVisibility(View.VISIBLE);
                     lnAdd.setVisibility(View.VISIBLE);
                 } else {
@@ -839,9 +923,9 @@ public class PhoneListFragment extends Fragment {
         lnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantity < root.getChiTietDienThoai().getSoLuong()) {
+                if (quantity < root.getChiTietDienThoai().getSoLuong()) {
                     quantity++;
-                    tvSoLuong.setText(""+quantity);
+                    tvSoLuong.setText("" + quantity);
                     lnAdd.setVisibility(View.VISIBLE);
                     lnMinius.setVisibility(View.VISIBLE);
                 } else {
@@ -859,10 +943,11 @@ public class PhoneListFragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
-                chiTietGioHang.setSoLuong(quantity);
-                chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
+                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
+                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                    chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
+                    chiTietGioHang.setSoLuong(quantity);
+                    chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
 //                ApiRetrofit.getApiService().addGioHang(chiTietGioHang,mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
 //                    @Override
 //                    public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
@@ -882,12 +967,16 @@ public class PhoneListFragment extends Fragment {
 //                        Log.d("error", "onFailure: " + t.getMessage());
 //                    }
 //                });
-                boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
-                if (isSuccess) {
-                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
-                    quantity = 1;
-                } else {
-                    Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                    boolean isSuccess = ShoppingCartManager.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
+                    if (isSuccess) {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                        quantity = 1;
+                    } else {
+                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Intent intent = new Intent(getContext(), LoginScreen.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -900,9 +989,9 @@ public class PhoneListFragment extends Fragment {
         });
     }
 
-    private void setLayoutAnimation(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        rc_danhSachDienThoai.setLayoutAnimation(layoutAnimationController);
-    }
+//    private void setLayoutAnimation(int animResource) {
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), animResource);
+//        rc_danhSachDienThoai.setLayoutAnimation(layoutAnimationController);
+//    }
 
 }

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("../models/ChiTietDienThoai");
 require("../models/DienThoai");
 require('../models/CuaHang')
+require("../models/ChiTietHoaDon");
 const {
   getStorage,
   ref,
@@ -21,6 +22,8 @@ const DungLuong = require("../models/DungLuong");
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const DienThoai = mongoose.model("dienthoai");
 const CuaHang = mongoose.model("cuaHang");
+const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
+
 router.post("/addChiTiet", async function (req, res, next) {
   try {
     const chiTiet = new ChiTietDienThoai({
@@ -60,7 +63,7 @@ router.post("/addChiTiet", async function (req, res, next) {
 /* GET loaidichvu listing. */
 router.get("/getChiTiet", async (req, res) => {
   try {
-    const chiTiet = await ChiTietDienThoai.find()
+    const dienThoai = await ChiTietDienThoai.find()
       .populate("maMau")
       .populate("maRam")
       .populate("maDungLuong")
@@ -71,7 +74,37 @@ router.get("/getChiTiet", async (req, res) => {
           { path: "maUuDai", populate: "maCuaHang" },
         ], // Liên kết với bảng 'hangSX'
       });
-    res.json(chiTiet);
+
+    const transformedResponse = await Promise.all(
+        dienThoai.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    res.json(transformedResponse);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -1682,7 +1715,7 @@ router.get("/searchDienThoaiVaCuaHang", async (req, res) => {
             // Sắp xếp theo mã ưu đãi giảm dần
             return b.maDienThoai.maUuDai.giamGia - a.maDienThoai.maUuDai.giamGia;
           });
-
+          
     }
     if (Ram){
       const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
@@ -1739,10 +1772,131 @@ router.get("/searchDienThoaiVaCuaHang", async (req, res) => {
         .json({ message: "Đã xảy ra lỗi khi lấy danh sách điện thoại." });
   }
 });
-function calculateAverageRating(danhGias) {
-  if (danhGias.length === 0) return 0;
 
-  const totalRating = danhGias.reduce((sum, danhGia) => sum + danhGia.diemDanhGia, 0);
-  return totalRating / danhGias.length;
-}
+
+router.get("/filterDienThoaiHotNhat", async (req, res) => {
+  try {
+    const {
+      GiaMin,
+      GiaMax,
+      Ram,
+      boNho,
+      sortByPrice,
+      uuDaiHot,
+      maHangSanXuat,
+      sortDanhGia
+    } = req.query;
+    const dienThoaiDuocMuaNhieu = await ChiTietHoaDon.aggregate([
+      {
+        $group: {
+          _id: "$maChiTietDienThoai",
+          soLuong: { $sum: "$soLuong" },
+        },
+      },
+      {
+        $sort: { soLuong: -1 }, // Sắp xếp theo số lượng mua giảm dần
+      },
+    ]).exec();
+
+    // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại và danh sách đánh giá
+    const danhGiaPromises = dienThoaiDuocMuaNhieu.map(async (item) => {
+      const _id = await ChiTietDienThoai.findById(item._id)
+          .populate("maRam")
+          .populate("maDungLuong")
+          .populate("maMau")
+          .populate({
+            path: "maDienThoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          })
+          .exec();
+
+      const danhGias = await DanhGia.find({
+        idChiTietDienThoai: item._id,
+      })
+          .populate("idKhachHang")
+          .populate({
+            path: "idChiTietDienThoai",
+            populate: [
+              {
+                path: "maDienThoai",
+                model: "dienthoai",
+                populate: [
+                  { path: "maCuaHang", model: "cuaHang" },
+                  { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                  { path: "maHangSX", model: "hangSanXuat" },
+                ],
+              },
+              { path: "maMau", model: "mau" },
+              { path: "maDungLuong", model: "dungluong" },
+              { path: "maRam", model: "ram" },
+            ],
+          })
+          .exec();
+
+      const averageRating = calculateAverageRating(danhGias);
+      const dienThoaiInfo = {
+        _id,
+        danhGias,
+        tbDiemDanhGia: averageRating,
+        soLuong: item.soLuong, // Bổ sung trường soLuong vào kết quả trả về
+      };
+
+      return dienThoaiInfo;
+    });
+
+    let danhGiaResult = await Promise.all(danhGiaPromises);
+    danhGiaResult = danhGiaResult.filter(item => {
+
+      if (GiaMin && item._id.giaTien < GiaMin) return false;
+      if (GiaMax && item._id.giaTien > GiaMax) return false;
+      if (uuDaiHot === "true" && !item._id.maDienThoai.maUuDai) return false;
+
+      return true;
+    });
+
+    if (Ram){
+      const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
+      danhGiaResult = danhGiaResult.filter(item =>
+          item._id.maRam.RAM >= minRam && item._id.maRam.RAM <= maxRam
+      );
+    }
+
+    if (boNho){
+      const [minBoNho, maxBoNho] = boNho.split(",").map((value) => parseInt(value.trim()));
+      danhGiaResult = danhGiaResult.filter(item =>
+          item._id.maDungLuong.boNho >= minBoNho && item._id.maDungLuong.boNho <= maxBoNho
+      );
+    }
+
+    if (sortByPrice === "asc") {
+      danhGiaResult.sort((a, b) => a._id.giaTien - b._id.giaTien);
+    } else if (sortByPrice === "desc") {
+      danhGiaResult.sort((a, b) => b._id.giaTien - a._id.giaTien);
+    }
+    if (uuDaiHot === "true"){
+      danhGiaResult.sort((a, b) => {
+        if (a._id.maDienThoai.maUuDai && b._id.maDienThoai.maUuDai) {
+          return b._id.maDienThoai.maUuDai.giamGia - a._id.maDienThoai.maUuDai.giamGia;
+        } else if (a._id.maDienThoai.maUuDai) {
+          return -1;
+        } else if (b._id.maDienThoai.maUuDai) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+    if (sortDanhGia === "true") {
+      danhGiaResult.sort((a, b) => b.tbDiemDanhGia - a.tbDiemDanhGia);
+    }
+
+    res.status(200).json(danhGiaResult);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;

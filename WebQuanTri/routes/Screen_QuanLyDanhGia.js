@@ -37,7 +37,7 @@ router.get('/searchDanhGia', authenticateToken, async function (req, res, next) 
       sdt:req.sdt
     }
     const {tenKhachHang, sanPham, noiDung, diemDanhGia, ngayDanhGia} = req.query;
-    const danhGias = await axios.get(`${baseUrl}danhgias/searchDanhGia/${account.id}?ngayDanhGia=${formatDate(ngayDanhGia)}&diemDanhGia=${diemDanhGia}&noiDung=${noiDung}&sanPham=${sanPham}&tenKhachHang=${tenKhachHang}`);
+    const danhGias = await axios.get(`${baseUrl}danhgias/searchDanhGia/${account.id}?ngayDanhGia=${ngayDanhGia ? formatDate(ngayDanhGia) : ""}&diemDanhGia=${diemDanhGia}&noiDung=${noiDung.trim()}&sanPham=${sanPham.trim()}&tenKhachHang=${tenKhachHang.trim()}`);
 
     res.render('quanLyDanhGia',
         {

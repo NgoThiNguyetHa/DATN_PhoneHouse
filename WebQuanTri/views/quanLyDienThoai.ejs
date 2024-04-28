@@ -97,34 +97,34 @@
                             <thead>
                             <tr class="bg-secondary bg-opacity-50 text-bg-info">
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Điện thoại
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Hãng
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Màu
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Dung lượng
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     RAM
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Giá tiền
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">
                                     Số lượng
                                 </th>
-                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada;"></th>
+                                <th scope="col" class="col-1 borderColor" style="background-color: #dcdada; vertical-align: middle;"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -185,6 +185,12 @@
                                     </tr>
                                 <% } %>
 
+                            <% } %>
+
+                            <% if (data.length === 0) { %>
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">Danh sách trống</td>
+                                </tr>
                             <% } %>
                             </tbody>
                         </table>
@@ -262,7 +268,7 @@
 
   function validateInput() {
     const tenDienThoai = document.getElementById('editTenDienThoai') ? document.getElementById('editTenDienThoai').value : document.getElementById('addTenDienThoai').value;
-    const hinhAnh = document.getElementById('editHinhAnh') ? document.getElementById('editHinhAnh').files[0] : document.getElementById('addHinhAnh').files[0];
+    const hinhAnh = document.getElementById('addHinhAnh') ? document.getElementById('addHinhAnh').files[0] : null;
     const namSanXuat = document.getElementById('editNamSanXuat') ? document.getElementById('editNamSanXuat').value : document.getElementById('addNamSanXuat').value;
 
     if (!tenDienThoai) {
@@ -270,13 +276,13 @@
       return false;
     }
 
-    if (!hinhAnh) {
+    if (document.getElementById('addHinhAnh') && !hinhAnh) {
       alert('Vui lòng chọn hình ảnh');
       return false;
     }
 
-    if (namSanXuat && isNaN(namSanXuat)) {
-      alert('Năm sản xuất phải là số');
+    if (namSanXuat && isNaN(namSanXuat) && namSanXuat<0) {
+      alert('Năm sản xuất phải là số dương');
       return false;
     }
 
@@ -636,12 +642,12 @@
     contentModal += `</select>
         <div class="mb-3">
           <label for="editDiscount" class="form-label">Giá tiền:</label>
-          <input type="text" class="form-control" id="addGiaTien" name="addGiaTien"
+          <input type="number" class="form-control" id="addGiaTien" name="addGiaTien"
                  placeholder="Nhập giá tiền" required>
         </div>
         <div class="mb-3">
           <label for="editDiscount" class="form-label">Số lượng:</label>
-          <input type="text" class="form-control" id="addSoLuong" name="addSoLuong"
+          <input type="number" class="form-control" id="addSoLuong" name="addSoLuong"
                  placeholder="Nhập số lượng" required>
         </div>
         <div class="mb-3">
@@ -716,12 +722,12 @@
           </select>
           <div class="mb-3">
               <label for="editDiscount" class="form-label">Giá tiền:</label>
-              <input type="text" class="form-control" id="editGiaTien" name="editGiaTien"
+              <input type="number" class="form-control" id="editGiaTien" name="editGiaTien"
                      placeholder="Nhập giá tiền" required>
           </div>
             <div class="mb-3">
               <label for="editDiscount" class="form-label">Số lượng:</label>
-              <input type="text" class="form-control" id="editSoLuong" name="editSoLuong"
+              <input type="number" class="form-control" id="editSoLuong" name="editSoLuong"
                      placeholder="Nhập số lượng" required>
           </div>
         </form>`;
@@ -859,14 +865,14 @@
         <div class="col-md-6">
             <div class="card mb-3">
                 <div class="row g-0">
-                    <div class="col-md-4 d-flex align-items-center">
-                        <img src="${item.hinhAnh}" class="img-fluid mx-auto d-block" alt="Product Image">
+                    <div class="col-md-4 d-flex align-items-center py-2 px-1">
+                        <img src="${item.hinhAnh}" class="img-fluid mx-auto d-block" alt="Product Image" style="height: 100px; object-fit: contain;">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body py-2">
                             <strong class="card-title">${item.giaTien}</strong><br>
                             <span class="card-text">${item.maMau.tenMau}</span><br>
-                            <span class="card-text">${item.maRam.RAM}GB / ${item.maDungLuong.boNho}GB</span>
+                            <span class="card-text">${item.maRam.RAM}GB/${item.maDungLuong.boNho}GB</span>
                         </div>
                     </div>
                 </div>
@@ -903,15 +909,15 @@
   function validateChiTietInput() {
     const giaTien = document.getElementById('editGiaTien') ? document.getElementById('editGiaTien').value : document.getElementById('addGiaTien').value;
     const soLuong = document.getElementById('editSoLuong') ? document.getElementById('editSoLuong').value : document.getElementById('addSoLuong').value;
-    const hinhAnh = document.getElementById('editHinhAnh') ? document.getElementById('editHinhAnh').files[0] : document.getElementById('addHinhAnh').files[0];
+      const hinhAnh = document.getElementById('addHinhAnh') ? document.getElementById('addHinhAnh').files[0] : null;
 
     if (!giaTien) {
       alert('Vui lòng nhập giá tiền');
       return false;
     }
 
-    if (isNaN(giaTien)) {
-      alert('Giá tiền phải là số');
+    if (giaTien<0) {
+      alert('Giá tiền phải là số dương');
       return false;
     }
 
@@ -920,12 +926,12 @@
       return false;
     }
 
-    if (isNaN(soLuong)) {
-      alert('Số lượng phải là số');
+    if (soLuong<0) {
+      alert('Số lượng phải là số dương');
       return false;
     }
 
-    if (!hinhAnh) {
+    if (document.getElementById('addHinhAnh') && !hinhAnh) {
       alert('Vui lòng chọn hình ảnh');
       return false;
     }

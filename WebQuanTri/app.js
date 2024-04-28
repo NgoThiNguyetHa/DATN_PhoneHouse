@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 const cron = require('node-cron');
 const axios = require('axios');
+const socketapi = require('./socket_server');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,9 +41,11 @@ var quanLyDanhGiaScreen = require('./routes/Screen_QuanLyDanhGia')
 
 const mongoose = require('mongoose');
 const { error } = require('console');
+const http = require("http");
 
 
 var app = express();
+var server = http.createServer(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -102,7 +105,7 @@ mongoose.connect(mongoURL)
 cron.schedule('0 0 * * *', async () => {
   try {
     // Gọi API cập nhật trạng thái voucher
-    const response = await axios.put('https://datn-phonehouse.onrender.com/updateExpiredStatus');
+    const response = await axios.put('https://datn-phonehouse.onrender.com/uudais/updateExpiredStatus');
 
   } catch (error) {
   }
@@ -123,6 +126,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+socketapi.io.attach(server);
 
 module.exports = app;
 const port = process.env.PORT || 8686;

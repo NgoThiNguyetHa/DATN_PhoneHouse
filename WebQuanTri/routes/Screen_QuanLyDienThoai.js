@@ -42,12 +42,12 @@ router.get('/searchDienThoai', authenticateToken, async function(req, res, next)
     }
 
     const queryParams = new URLSearchParams({
-      tenDienThoai: req.query.tenDienThoai,
-      tenHang: req.query.tenHang,
-      tenMau: req.query.tenMau,
-      boNho: req.query.boNho,
-      RAM: req.query.RAM,
-      giaTien: req.query.giaTien
+      tenDienThoai: req.query.tenDienThoai.trim(),
+      tenHang: req.query.tenHang.trim(),
+      tenMau: req.query.tenMau.trim(),
+      boNho: req.query.boNho.trim(),
+      RAM: req.query.RAM.trim(),
+      giaTien: req.query.giaTien.trim()
     });
     // console.log("formData: ",queryParams)
     const response = await axios.get(`${baseUrl}dienthoais/searchPhones/${account.id}?${queryParams}`);

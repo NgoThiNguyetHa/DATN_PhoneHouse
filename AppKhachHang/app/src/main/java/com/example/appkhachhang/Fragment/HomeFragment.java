@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,9 +30,10 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
-    List<ChiTietDienThoai> list;
+    List<Root> list;
     List<SanPhamHot> listSPHot;
     List<HangSanXuat> listHang;
     Toolbar toolbar;
@@ -67,12 +67,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_home, container, false);
         recyclerViewSPHot = view.findViewById(R.id.ryc_sphot);
         recyclerViewSP = view.findViewById(R.id.ryc_sp);
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
@@ -99,24 +94,31 @@ public class HomeFragment extends Fragment {
 //            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //            activity.getSupportActionBar().setTitle("Home");
 //        }
+//        Log.d("zzz", "onViewCreated: "+list.size());
         sanPham();
         sanPhamHot();
         hangSanXuat();
-        Log.d("zzz", "onViewCreated: "+list.size());
+        return  view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
 
     void sanPham(){
+//        setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSP.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         getListSanPham();
-        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new IItemListPhoneListener() {
             @Override
-            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+            public void onClickDetail(Root root) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
                 DetailScreenFragment fragmentB = new DetailScreenFragment();
                 fragmentB.setArguments(bundle);
                 Intent intent = new Intent(getActivity(), DetailScreen.class);
@@ -128,6 +130,7 @@ public class HomeFragment extends Fragment {
     }
 
     void sanPhamHot(){
+//        setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewSPHot.setLayoutManager(linearLayoutManager1);
@@ -154,6 +157,7 @@ public class HomeFragment extends Fragment {
         recyclerViewHang.setLayoutManager(linearLayoutManager2);
         listHang = new ArrayList<>();
         getHangSanXuat();
+        setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
         hangSanXuatAdapter = new HangSanXuatAdapter(getContext(), listHang, new OnItemClickListenerHang() {
             @Override
             public void onItemClickHang(HangSanXuat hangSanXuat) {
@@ -180,7 +184,6 @@ public class HomeFragment extends Fragment {
                 if (sanPhamHotList != null && !sanPhamHotList.isEmpty()) {
                     listSPHot.clear();
                     listSPHot.addAll(sanPhamHotList);
-                    setLayoutAnimationSanPhamHot(R.anim.layout_anim_right_to_left);
                     for (int i = 0; i < sanPhamHotList.size(); i++) {
                         SanPhamHot sanPhamHot = sanPhamHotList.get(i);
                         if (sanPhamHot != null && sanPhamHot.getDanhGia() != null) {
@@ -213,7 +216,7 @@ public class HomeFragment extends Fragment {
                     listHang.clear();
                     listHang.addAll(response.body());
                     hangSanXuatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
+//                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
                 }else{
                     Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
@@ -229,22 +232,21 @@ public class HomeFragment extends Fragment {
 
 
     void getListSanPham(){
-        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<Root>>() {
             @Override
-            public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
                 if (response.isSuccessful()) {
                     list.clear();
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
-                    setLayoutAnimationSanPham(R.anim.layout_anim_right_to_left);
-                    Log.d("zzz240", "onViewCreated: "+list.size());
+//                    Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
+            public void onFailure(Call<List<Root>> call, Throwable t) {
 //                Log.e("errorrr", "onFailure: " + t.getMessage() );
             }
         });
@@ -287,18 +289,18 @@ public class HomeFragment extends Fragment {
         transaction.replace(R.id.frameLayout,fragment);
         transaction.commit();
     }
-    private void setLayoutAnimationSanPham(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationSanPhamHot(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
-    }
-
-    private void setLayoutAnimationHSX(int animResource){
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),animResource);
-        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
-    }
+//    private void setLayoutAnimationSanPham(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+//        recyclerViewSP.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+//    private void setLayoutAnimationSanPhamHot(int animResource){
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+//        recyclerViewSPHot.setLayoutAnimation(layoutAnimationController);
+//    }
+//
+   private void setLayoutAnimationHSX(int animResource){
+       LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
+       recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+   }
 }

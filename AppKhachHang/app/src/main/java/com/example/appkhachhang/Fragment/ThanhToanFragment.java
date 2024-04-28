@@ -2,6 +2,7 @@ package com.example.appkhachhang.Fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +10,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +31,11 @@ import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
 import com.example.appkhachhang.Api.ApiRetrofit;
+import com.example.appkhachhang.Helper.AppInfo;
+import com.example.appkhachhang.Helper.CreateOrder;
+import com.example.appkhachhang.MainActivity;
 import com.example.appkhachhang.Model.AddressDelivery;
+import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.HoaDon;
@@ -36,9 +43,13 @@ import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.example.appkhachhang.viewpager.DonXuLyFragment;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
@@ -51,12 +62,15 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 
 public class ThanhToanFragment extends Fragment {
     User user;
     TextView tvTen, tvSdt, tvGhiChu, tvDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
-
     ImageView imgDiaChi;
     LinearLayout ln_ghiChu;
     RecyclerView rc_listChon, rcDiaChiNhanHang;
@@ -65,16 +79,22 @@ public class ThanhToanFragment extends Fragment {
     Spinner spnPhuongThucThanhToan;
     List<AddressDelivery> list;
     DiaChiNhanHangAdapter adapterDiaChi;
-    String idDiaChi, selectedItem;
+    String idDiaChi, selectedItem , addressCheck;
     List<ChiTietHoaDon> chiTietHoaDons;
     MySharedPreferences mySharedPreferences;
+    ChiTietDienThoai chiTietDienThoai;
+    List<ChiTietGioHang> chiTietGioHangList;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-
+        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
     }
 
     @Override
@@ -84,7 +104,7 @@ public class ThanhToanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_thanh_toan, container, false);
         ((getActivity())).setTitle("Thanh Toán");
         initView(view);
-        getDataBundle();
+//        getDataBundle();
         initVariable(view);
         return view;
     }
@@ -94,32 +114,33 @@ public class ThanhToanFragment extends Fragment {
         tvSdt = view.findViewById(R.id.tv_sdtKhachHang);
         tvDiaChi = view.findViewById(R.id.tv_DiaChiKhachHang);
         imgDiaChi = view.findViewById(R.id.imgDiaChi);
-        rc_listChon = view.findViewById(R.id.rc_listChon);
-        tvTongTienHang = view.findViewById(R.id.tv_tongTienHang);
+        rc_listChon =view.findViewById(R.id.rc_listChon);
+        tvTongTienHang =view.findViewById(R.id.tv_tongTienHang);
         tvPhiVanChuyen = view.findViewById(R.id.tv_PhiVanChuyen);
         tvTongThanhToan = view.findViewById(R.id.tv_tongThanhToan);
         tvTongHoaDon = view.findViewById(R.id.tvTongHoaDon);
         spnPhuongThucThanhToan = view.findViewById(R.id.spn_PhuongThucThanhToan);
     }
 
-    private void getDataBundle(){
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String json = bundle.getString("chiTietGioHangList");
-            Gson gson = new Gson();
-            user = gson.fromJson(json, User.class);
-        }
-
-        SharedPreferences pref = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String user_json = pref.getString("user", "abc");
-         user = gson.fromJson(user_json, User.class);
-    }
+//    private void getDataBundle(){
+//
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            String json = bundle.getString("chiTietGioHangList");
+//            Gson gson = new Gson();
+//            user = gson.fromJson(json, User.class);
+//        }
+//
+//        SharedPreferences pref = getActivity().getSharedPreferences("user_info", MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String user_json = pref.getString("user", "abc");
+//         user = gson.fromJson(user_json, User.class);
+//    }
 
     private void initVariable(View view){
+        mySharedPreferences = new MySharedPreferences(getContext());
         list = new ArrayList<>();
-        getData(user.get_id());
+        getData(mySharedPreferences.getUserId());
         adapterDiaChi = new DiaChiNhanHangAdapter(getContext(), list);
         imgDiaChi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +165,9 @@ public class ThanhToanFragment extends Fragment {
                                 tvTen.setText(addressDelivery.getTenNguoiNhan() + " | ");
                                 tvSdt.setText(addressDelivery.getSdt());
                                 tvDiaChi.setText("Địa chỉ: " + addressDelivery.getDiaChi());
+
                                 idDiaChi = addressDelivery.get_id();
+                                addressCheck = addressDelivery.getDiaChi();
                             }
                         });
                     }
@@ -164,9 +187,21 @@ public class ThanhToanFragment extends Fragment {
         rc_listChon.setLayoutManager(linearLayoutManager);
         Intent intent = getActivity().getIntent();
         String json = intent.getStringExtra("chiTietGioHangList");
-        Gson gson1 = new Gson();
+        Gson gson = new Gson();
         Type type = new TypeToken<List<ChiTietGioHang>>() {}.getType();
-        List<ChiTietGioHang> chiTietGioHangList = gson1.fromJson(json, type);
+        chiTietGioHangList = gson.fromJson(json, type);
+        if (intent != null) {
+            String jsonChiTietDienThoai = intent.getStringExtra("chiTietDienThoai");
+            if (jsonChiTietDienThoai != null && json ==null) {
+                chiTietDienThoai = gson.fromJson(jsonChiTietDienThoai, ChiTietDienThoai.class);
+                ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
+                chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
+                chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
+                chiTietGioHang.setSoLuong(1);
+                chiTietGioHangList = new ArrayList<>();
+                chiTietGioHangList.add(chiTietGioHang);
+            }
+        }
         adapter = new DienThoaiThanhToanAdapter(chiTietGioHangList, getContext());
         rc_listChon.setAdapter(adapter);
 
@@ -175,7 +210,7 @@ public class ThanhToanFragment extends Fragment {
             tongTien += chiTietGioHangList.get(i).getGiaTien()*chiTietGioHangList.get(i).getSoLuong();
         }
 
-        int phiVanChuyen = 0;
+
         DecimalFormat decimalFormat = new DecimalFormat("#,##0");
         try {
             double tongTienGiamNumber = Double.parseDouble(String.valueOf(tongTien));
@@ -184,6 +219,8 @@ public class ThanhToanFragment extends Fragment {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+        int phiVanChuyen = 0;
+
         try {
             double tongTienGiamNumber = Double.parseDouble(String.valueOf(phiVanChuyen));
             String formattedNumber = decimalFormat.format(tongTienGiamNumber);
@@ -221,49 +258,87 @@ public class ThanhToanFragment extends Fragment {
 
             }
         });
-
         view.findViewById(R.id.btnThanhToan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> addStores = new ArrayList<>();
-                for (ChiTietGioHang item: chiTietGioHangList) {
-                    String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
+                if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")){
+                    CreateOrder orderApi = new CreateOrder();
+                    try {
+                        JSONObject data = orderApi.createOrder(String.valueOf(10000));
+                        String code = data.getString("returncode");
 
-                    if (!addStores.contains(maCuaHang)){
-                        Calendar calendar = Calendar.getInstance();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                        String formattedDate = dateFormat.format(calendar.getTime());
-                        HoaDon hoaDon = new HoaDon();
-                        hoaDon.setTongTien(String.valueOf(tongThanhToan));
-                        hoaDon.setNgayTao(formattedDate);
-                        hoaDon.setPhuongThucThanhToan(selectedItem);
-                        hoaDon.setMaKhachHang(new User(user.get_id()));
-                        hoaDon.setMaCuaHang(new Store(maCuaHang));
-                        hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
-                        hoaDon.setTrangThaiNhanHang("Đang xử lý");
-                        ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
-                            @Override
-                            public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
-                                if (response.body()!=null){
-                                    Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
-                                    chiTietHoaDons = new ArrayList<>();
-                                    String hoaDonId = response.body().get_id();
-                                    ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                                    chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
-                                    chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                    chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
-                                    chiTietHoaDons.add(chiTietHoaDon);
-                                    addChiTietHoaDon();
-                                } else {
-                                    Log.e("Error", "Response not successful");
+                        if (code.equals("1")) {
+
+                            String token = data.getString("zptranstoken");
+
+                            ZaloPaySDK.getInstance().payOrder((Activity) getContext(), token, "demozpdk://app", new PayOrderListener() {
+                                @Override
+                                public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(getContext(), "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<HoaDon> call, Throwable t) {
-                                Log.e("errorrr", "onFailure: " + t.getMessage());
-                            }
-                        });
+                                @Override
+                                public void onPaymentCanceled(String zpTransToken, String appTransID) {
+                                    Toast.makeText(getContext(), "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+                                    Toast.makeText(getContext(), "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    intent.putExtra("key", "Thanh toan thanh cong");
+//                    startActivity(intent);
+                }else{
+                    List<String> addStores = new ArrayList<>();
+                    for (ChiTietGioHang item: chiTietGioHangList) {
+                        String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
+
+                        if (!addStores.contains(maCuaHang)){
+                            Calendar calendar = Calendar.getInstance();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                            String formattedDate = dateFormat.format(calendar.getTime());
+                            HoaDon hoaDon = new HoaDon();
+                            hoaDon.setTongTien(String.valueOf(tongThanhToan));
+                            hoaDon.setNgayTao(formattedDate);
+                            hoaDon.setPhuongThucThanhToan(selectedItem);
+                            hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
+                            hoaDon.setMaCuaHang(new Store(maCuaHang));
+                            hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
+                            hoaDon.setTrangThaiNhanHang("Đang xử lý");
+                            ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
+                                @Override
+                                public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
+                                    if (response.body()!=null){
+                                        Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
+                                        chiTietHoaDons = new ArrayList<>();
+                                        String hoaDonId = response.body().get_id();
+                                        ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+                                        chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
+                                        chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
+                                        chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
+                                        chiTietHoaDons.add(chiTietHoaDon);
+                                        addChiTietHoaDon();
+                                    } else {
+                                        Log.e("Error", "Response not successful");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<HoaDon> call, Throwable t) {
+                                    Log.e("errorrr", "onFailure: " + t.getMessage());
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -276,28 +351,31 @@ public class ThanhToanFragment extends Fragment {
         call.enqueue(new Callback<List<AddressDelivery>>() {
             @Override
             public void onResponse(Call<List<AddressDelivery>> call, Response<List<AddressDelivery>> response) {
-                if (response.body()!=null) {
+                if (response.isSuccessful() && response.body() != null) {
                     list.clear();
                     list.addAll(response.body());
                     adapterDiaChi.notifyDataSetChanged();
-                    idDiaChi = list.get(0).get_id();
-                    tvTen.setText(list.get(0).getTenNguoiNhan() + " | ");
-                    tvSdt.setText(list.get(0).getSdt());
-                    tvDiaChi.setText("Địa chỉ: " + list.get(0).getDiaChi());
+                    if (!list.isEmpty()) {
+                        AddressDelivery firstAddress = list.get(0);
+                        idDiaChi = firstAddress.get_id();
+                        tvTen.setText(firstAddress.getTenNguoiNhan() + " | ");
+                        tvSdt.setText(firstAddress.getSdt());
+                        tvDiaChi.setText("Địa chỉ: " + firstAddress.getDiaChi());
+                    } else {
+                        Toast.makeText(getContext(), "Không có địa chỉ nào.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Không thể lấy danh sách địa chỉ.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<AddressDelivery>> call, Throwable t) {
-                // Handle failure
-                Log.e("mau", t.getMessage());
+                Log.e("errorrr", t.getMessage());
             }
         });
     }
     void addChiTietHoaDon() {
-        // Gọi API để thêm chi tiết hóa đơn
         mySharedPreferences = new MySharedPreferences(getContext());
         ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
             @Override
@@ -313,4 +391,6 @@ public class ThanhToanFragment extends Fragment {
             }
         });
     }
+
+
 }

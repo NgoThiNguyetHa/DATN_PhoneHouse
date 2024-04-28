@@ -1,279 +1,360 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.DetailScreenFragment"
-    android:background="#FFF">
+    android:background="#FFF"
+    tools:context=".Fragment.DetailScreenFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/detailScreen_lnBottom"
-            >
+            android:layout_above="@+id/detailScreen_lnBottom">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                android:orientation="vertical"
-                android:scrollbars="vertical"
                 android:gravity="center_vertical"
-                >
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:scrollbars="vertical">
+
                 <ImageView
                     android:id="@+id/imgAnhChiTiet"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/baseline_camera_alt_24"/>
+                    android:src="@drawable/baseline_camera_alt_24" />
+
                 <TextView
                     android:id="@+id/tv_tenSPChiTiet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textStyle="bold"
-                    android:textSize="25dp"
                     android:text="Tên điện thoại--"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/detailScreen_tvMau"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Màu"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
+                        android:background="@drawable/linear_textview"
                         android:padding="8dp"
-                        android:background="@drawable/linear_textview"/>
+                        android:text="Màu"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/detailScreen_tvRam"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ram"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:padding="8dp"
+                        android:layout_margin="5dp"
                         android:background="@drawable/linear_textview"
-                        android:layout_margin="5dp"/>
+                        android:padding="8dp"
+                        android:text="Ram"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/detailScreen_tvDungLuong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dung lượng"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
+                        android:background="@drawable/linear_textview"
                         android:padding="8dp"
-                        android:background="@drawable/linear_textview"/>
+                        android:text="Dung lượng"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/tv_giaChiTiet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
                         android:text="0đ"
-                        android:textStyle="bold"
-                        android:textColor="#FF0000"/>
+                        android:textColor="#FF0000"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
                     <View
                         android:layout_width="10dp"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
+
                     <TextView
                         android:id="@+id/tv_giaTienGoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
+                        android:layout_gravity="bottom"
                         android:text="0đ"
-                        android:textStyle="bold"
                         android:textColor="#858585"
-                        android:layout_gravity="bottom"/>
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
                     <View
                         android:layout_width="10dp"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
+
                     <TextView
                         android:id="@+id/detailScreen_tvGiamGia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13dp"
+                        android:layout_gravity="bottom"
                         android:text="0đ"
-                        android:textStyle="bold"
                         android:textColor="#4A99A8"
-                        android:layout_gravity="bottom"/>
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/rating_sao_vang"/>
+                        android:src="@drawable/rating_sao_vang" />
+
                     <TextView
                         android:id="@+id/tv_danhGia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5.0"
-                        android:textStyle="bold"
                         android:layout_margin="5dp"
-                        android:textSize="15dp"/>
+                        android:text="5.0"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tv_soLuongChiTiet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Số lượng còn"
                         android:textColor="#858585"
-                        android:textStyle="bold"
-                        android:textSize="15dp"/>
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-                <TextView
-                    android:text="Mô tả chi tiết"
+                <View
                     android:layout_width="match_parent"
-                    android:textStyle="bold"
+                    android:layout_height="1dp"
+                    android:background="#EDEBEB"
+                    android:layout_marginVertical="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:paddingRight="6dp"
+                        android:src="@drawable/icon_store" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="6dp">
+
+                        <TextView
+                            android:id="@+id/tvTenCuaHang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tên cửa hàng"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDiaChi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Địa chỉ" />
+                    </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnXemShop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Xem shop"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/xanhduong"
+                        android:background="@drawable/btn_outline"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EDEBEB"
+                    android:layout_marginVertical="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mô tả chi tiết"
                     android:textSize="16dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_moTaChiTiet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#858585"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EDEBEB"
+                    android:layout_marginVertical="10dp"/>
+
                 <TextView
                     android:id="@+id/detailScreen_tvDanhGia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đánh giá của khách hàng (0)"
                     android:textSize="16dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/detailScreen_rcDanhGia"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </ScrollView>
+
         <LinearLayout
+            android:id="@+id/detailScreen_lnBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentBottom="true"
-            android:id="@+id/detailScreen_lnBottom"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true">
+                android:orientation="horizontal">
+
                 <View
                     android:layout_width="5dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="5dp" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Số lượng"
                     android:textColor="#000000"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:padding="5dp"
-                        >
+                        android:padding="5dp">
+
                         <ImageView
                             android:id="@+id/detailScreen_imgMinus"
                             android:layout_width="0dp"
                             android:layout_height="24dp"
                             android:layout_weight="0.5"
-                            android:src="@drawable/baseline_minus_24"
-                            android:background="@drawable/button_nhan_hang"/>
+                            android:background="@drawable/button_nhan_hang"
+                            android:src="@drawable/baseline_minus_24" />
+
                         <TextView
                             android:id="@+id/detailScreen_tvSoLuong"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"
-                            android:text="1"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:gravity="center"
                             android:background="@drawable/button_nhan_hang"
-                            />
+                            android:gravity="center"
+                            android:text="1"
+                            android:textAlignment="center"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
+
                         <ImageView
                             android:id="@+id/detailScreen_imgAdd"
                             android:layout_width="0dp"
                             android:layout_height="24dp"
                             android:layout_weight="0.5"
-                            android:src="@drawable/baseline_add_24"
-                            android:background="@drawable/button_nhan_hang"/>
+                            android:background="@drawable/button_nhan_hang"
+                            android:src="@drawable/baseline_add_24" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/detailScreen_lnError"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
+
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/icones_d_eclair_rouge"/>
+                            android:src="@drawable/icones_d_eclair_rouge" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Không đủ số lượng"
                             android:textColor="#000000"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <View
                     android:layout_width="5dp"
-                    android:layout_height="5dp"/>
+                    android:layout_height="5dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true">
+                android:orientation="horizontal">
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnMuaLuon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/button_nhan_hang"
                     android:text="Mua ngay"
                     android:textColor="#000000"
-                    android:background="@drawable/button_nhan_hang"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnAddGioHang"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="#4A99A8"
                     android:text="Thêm vào giỏ hàng"
                     android:textColor="#FFFFFF"
-                    android:background="#4A99A8"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

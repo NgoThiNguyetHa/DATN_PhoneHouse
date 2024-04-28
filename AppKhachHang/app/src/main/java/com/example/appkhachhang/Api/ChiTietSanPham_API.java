@@ -1,8 +1,6 @@
 package com.example.appkhachhang.Api;
 
-import com.example.appkhachhang.Model.ChiTietDienThoai;
-import com.example.appkhachhang.Model.ChiTietGioHang;
-import com.example.appkhachhang.Model.HangSanXuat;
+
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SearchResponse;
 import com.google.gson.Gson;
@@ -28,7 +26,7 @@ public interface ChiTietSanPham_API {
             .build().create(ChiTietSanPham_API.class);
 
     @GET("getChiTiet")
-    Call<List<ChiTietDienThoai>> getChiTiet();
+    Call<List<Root>> getChiTiet();
 
     @GET("searchDienThoaiVaCuaHang")
     Call<SearchResponse> searchDienThoaiVaCuaHang (@Query("search") String search,

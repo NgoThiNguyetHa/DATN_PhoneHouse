@@ -106,23 +106,23 @@
                             <thead>
                             <tr class="bg-secondary bg-opacity-50 text-bg-info">
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">STT
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">STT
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Tên người
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Tên người
                                     dùng
                                 </th>
                                 <th scope="col" class="col-1 borderColor"
-                                    style="background-color: #dcdada; text-align: center">SĐT
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">SĐT
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Email
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Email
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Địa chỉ
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Địa chỉ
                                 </th>
                                 <th scope="col" class="col-2 borderColor"
-                                    style="background-color: #dcdada; text-align: center">Trạng
+                                    style="background-color: #dcdada; text-align: center; vertical-align: middle;">Trạng
                                     thái
                                 </th>
 
@@ -142,6 +142,11 @@
                                         <%= data[i].trangThai %>
                                     </td>
 
+                                </tr>
+                            <% } %>
+                            <% if (data.length === 0) { %>
+                                <tr>
+                                    <td colspan="8" style="text-align: center;">Danh sách trống</td>
                                 </tr>
                             <% } %>
                             </tbody>
@@ -218,15 +223,12 @@
     // Biểu thức chính quy để kiểm tra email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // Biểu thức chính quy để kiểm tra số điện thoại (10 số)
-    const sdtPattern = /^\d{10}$/;
+    const sdtPattern = /^0\d{9}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-    if (username === '' || password === '' || sdt === '' || diaChi === '' || email === '') {
+
+      if (username === '' || password === '' || sdt === '' || diaChi === '' || email === '') {
       alert('Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
-    if (password.length < 6) {
-      alert('Mật khẩu phải có ít nhất 6 ký tự');
       return;
     }
 
@@ -239,6 +241,16 @@
       alert('Số điện thoại không đúng định dạng (phải có 10 số)');
       return;
     }
+
+      if (password.length < 6) {
+          alert('Mật khẩu phải có ít nhất 6 ký tự');
+          return;
+      }
+
+      if (!passwordPattern.test(password)) {
+          alert('Mật khẩu phải bao gồm ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt');
+          return;
+      }
 
     fetch('/cuahangs/addCuaHang', {
       method: 'POST',

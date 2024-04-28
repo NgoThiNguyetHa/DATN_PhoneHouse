@@ -1,12 +1,9 @@
 package com.example.appkhachhang.Adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface.OnItemClickListenerDanhGia;
-import com.example.appkhachhang.Interface.OnItemClickListenerUpdateDanhGia;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
