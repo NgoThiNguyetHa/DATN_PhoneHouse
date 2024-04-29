@@ -1,15 +1,10 @@
 package com.example.appkhachhang;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -21,7 +16,6 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;

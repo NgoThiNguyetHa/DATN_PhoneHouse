@@ -3,10 +3,11 @@ var router = express.Router();
 const mongoose = require('mongoose');
 require('../models/HoaDon')
 require('../models/ChiTietHoaDon')
+require('../models/ThongBao')
 
 const ChiTietHoaDon = mongoose.model("chiTietHoaDon")
 const HoaDon = mongoose.model("hoaDon")
-
+const ThongBao = mongoose.model("thongbao")
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -189,6 +190,31 @@ router.put("/updateHoaDon/:id", async (req, res) => {
         { trangThaiNhanHang },
         { new: true }
     );
+    const now = new Date();
+    const timeZoneOffset = 7; // Múi giờ của Việt Nam: UTC+7
+    const thoiGianVietNam = new Date(now.getTime() + timeZoneOffset * 60 * 60 * 1000).toISOString();
+
+    if (trangThaiNhanHang === "Đã giao"){
+      const thongBaoCuaHang = new ThongBao({
+        noiDung: 'Đơn hàng đã giao thành công!',
+        thoiGian: thoiGianVietNam,
+        trangThai: 0,
+        maTaiKhoan: updatedHoaDon.maCuaHang,
+        phanQuyen: 'cuahang',
+        maHoaDon: req.params.id
+      });
+      await thongBaoCuaHang.save();
+    }else if (trangThaiNhanHang === "Đã hủy"){
+      const thongBaoCuaHang = new ThongBao({
+        noiDung: 'Đơn hàng đã hủy!',
+        thoiGian: thoiGianVietNam,
+        trangThai: 0,
+        maTaiKhoan: updatedHoaDon.maCuaHang,
+        phanQuyen: 'cuahang',
+        maHoaDon: req.params.id
+      });
+      await thongBaoCuaHang.save();
+    }
     if (!updatedHoaDon) {
       return res.status(404).json({message: "update failed"})
 

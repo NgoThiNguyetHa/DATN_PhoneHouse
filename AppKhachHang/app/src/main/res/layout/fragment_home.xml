@@ -17,20 +17,20 @@
            android:orientation="vertical">
            <androidx.cardview.widget.CardView
                android:layout_width="match_parent"
-               android:layout_height="200dp"
+               android:layout_height="150dp"
                app:cardBackgroundColor="#5FB1C1"
                android:layout_marginTop="20dp"
-               android:layout_marginLeft="20dp"
-               android:layout_marginRight="20dp"
-               app:cardCornerRadius="20dp">
+               android:layout_marginHorizontal="10dp"
+               app:cardCornerRadius="10dp">
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/imgSlider"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     app:iss_period="1000"
                     app:iss_auto_cycle="true"
                     app:iss_delay="3000"
-                    app:iss_corner_radius="20"/>
+                    app:iss_corner_radius="20"
+                    tools:ignore="MissingClass" />
            </androidx.cardview.widget.CardView>
            <androidx.cardview.widget.CardView
                android:layout_width="match_parent"

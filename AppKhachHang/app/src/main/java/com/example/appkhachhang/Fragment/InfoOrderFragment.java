@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,7 +176,7 @@ public class InfoOrderFragment extends Fragment {
                         }else{
                             total += (item.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100) * (item.getSoLuong());
                         }
-                        Log.e("soLuong", String.valueOf(item.getSoLuong()));
+//                        Log.e("soLuong", String.valueOf(item.getSoLuong()));
                     }
                     DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
                     String tongTienHang = String.valueOf(total);
