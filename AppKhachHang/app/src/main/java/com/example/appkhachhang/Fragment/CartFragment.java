@@ -254,10 +254,10 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
                     public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
                         Log.e("log update",call.toString());
                         if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(getContext(), "update không thành công", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "update không thành công", Toast.LENGTH_SHORT).show();
 
                         }
                     }

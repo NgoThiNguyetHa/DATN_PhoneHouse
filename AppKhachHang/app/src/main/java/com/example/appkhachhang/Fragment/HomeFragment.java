@@ -23,6 +23,9 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 import android.widget.ImageView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
 import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
 import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
@@ -62,6 +65,7 @@ public class HomeFragment extends Fragment {
     Toolbar toolbar;
     AppCompatActivity activity;
     MySharedPreferences mySharedPreferences;
+    ImageSlider imageSlider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +77,12 @@ public class HomeFragment extends Fragment {
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
         imgSPHot = view.findViewById(R.id.img_listSPHot);
         imgSP = view.findViewById(R.id.img_listSP);
+        imageSlider = view.findViewById(R.id.imgSlider);
+        imgSlider();
         mySharedPreferences = new MySharedPreferences(getContext());
+        if(getActivity()!= null){
+            getActivity().setTitle("Màn hình chính");
+        }
         imgSPHot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,8 +226,6 @@ public class HomeFragment extends Fragment {
                     listHang.addAll(response.body());
                     hangSanXuatAdapter.notifyDataSetChanged();
 //                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
-                }else{
-                    Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -302,5 +309,12 @@ public class HomeFragment extends Fragment {
    private void setLayoutAnimationHSX(int animResource){
        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+   }
+   void imgSlider(){
+       ArrayList<SlideModel> slideModels = new ArrayList<>();
+       slideModels.add(new SlideModel(R.drawable.banner1, ScaleTypes.FIT));
+       slideModels.add(new SlideModel(R.drawable.banner2, ScaleTypes.FIT));
+       slideModels.add(new SlideModel(R.drawable.banner3, ScaleTypes.FIT));
+       imageSlider.setImageList(slideModels, ScaleTypes.FIT);
    }
 }

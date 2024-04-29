@@ -31,6 +31,7 @@ import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
 import com.example.appkhachhang.Api.ApiRetrofit;
+import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Helper.AppInfo;
 import com.example.appkhachhang.Helper.CreateOrder;
 import com.example.appkhachhang.MainActivity;
@@ -168,6 +169,7 @@ public class ThanhToanFragment extends Fragment {
 
                                 idDiaChi = addressDelivery.get_id();
                                 addressCheck = addressDelivery.getDiaChi();
+                                Log.d("iddiachi", "onItemCheckedChanged: " + idDiaChi);
                             }
                         });
                     }
@@ -190,7 +192,6 @@ public class ThanhToanFragment extends Fragment {
         Gson gson = new Gson();
         Type type = new TypeToken<List<ChiTietGioHang>>() {}.getType();
         chiTietGioHangList = gson.fromJson(json, type);
-        if (intent != null) {
             String jsonChiTietDienThoai = intent.getStringExtra("chiTietDienThoai");
             if (jsonChiTietDienThoai != null && json ==null) {
                 chiTietDienThoai = gson.fromJson(jsonChiTietDienThoai, ChiTietDienThoai.class);
@@ -201,7 +202,7 @@ public class ThanhToanFragment extends Fragment {
                 chiTietGioHangList = new ArrayList<>();
                 chiTietGioHangList.add(chiTietGioHang);
             }
-        }
+
         adapter = new DienThoaiThanhToanAdapter(chiTietGioHangList, getContext());
         rc_listChon.setAdapter(adapter);
 
@@ -302,13 +303,12 @@ public class ThanhToanFragment extends Fragment {
                     List<String> addStores = new ArrayList<>();
                     for (ChiTietGioHang item: chiTietGioHangList) {
                         String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
-
                         if (!addStores.contains(maCuaHang)){
                             Calendar calendar = Calendar.getInstance();
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                             String formattedDate = dateFormat.format(calendar.getTime());
                             HoaDon hoaDon = new HoaDon();
-                            hoaDon.setTongTien(String.valueOf(tongThanhToan));
+                            hoaDon.setTongTien(String.valueOf(0));
                             hoaDon.setNgayTao(formattedDate);
                             hoaDon.setPhuongThucThanhToan(selectedItem);
                             hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
@@ -319,18 +319,34 @@ public class ThanhToanFragment extends Fragment {
                                 @Override
                                 public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
                                     if (response.body()!=null){
-                                        Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
+                                        String hoaDonId = response.body().getMaCuaHang().get_id();
                                         chiTietHoaDons = new ArrayList<>();
-                                        String hoaDonId = response.body().get_id();
-                                        ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                                        chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
-                                        chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                        chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
-                                        chiTietHoaDons.add(chiTietHoaDon);
-                                        addChiTietHoaDon();
-                                    } else {
-                                        Log.e("Error", "Response not successful");
-                                    }
+                                        for (ChiTietGioHang item : chiTietGioHangList) {
+                                            if(item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id().equals(hoaDonId)){
+                                                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+                                                chiTietHoaDon.setMaHoaDon(new HoaDon(response.body().get_id()));
+                                                chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
+                                                chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
+                                                chiTietHoaDons.add(chiTietHoaDon);
+                                            } else {
+                                                Log.e("Error", "Response not successful");
+                                                }
+                                            }
+                                        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
+                                            @Override
+                                            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
+                                                if (response.body()!=null){
+                                                    Log.d("themhoadon", "onResponse: " + "Thêm thành công");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
+                                                Log.e("errorrr", "onFailure: " + t.getMessage());
+                                            }
+                                        });
+                                        }
+
                                 }
 
                                 @Override
@@ -338,6 +354,7 @@ public class ThanhToanFragment extends Fragment {
                                     Log.e("errorrr", "onFailure: " + t.getMessage());
                                 }
                             });
+                            addStores.add(maCuaHang);
                         }
                     }
                 }
@@ -375,22 +392,22 @@ public class ThanhToanFragment extends Fragment {
             }
         });
     }
-    void addChiTietHoaDon() {
-        mySharedPreferences = new MySharedPreferences(getContext());
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
-            @Override
-            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
-                if (response.body()!=null){
-                    Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
-            }
-        });
-    }
+//    void addChiTietHoaDon() {
+//        mySharedPreferences = new MySharedPreferences(getContext());
+//        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
+//            @Override
+//            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
+//                if (response.body()!=null){
+//                    Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
+//                Log.e("errorrr", "onFailure: " + t.getMessage() );
+//            }
+//        });
+//    }
 
 
 }
