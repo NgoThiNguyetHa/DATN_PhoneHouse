@@ -12,32 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.ListPhoneAdapter;
 import com.example.appkhachhang.Adapter.StoreAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
-import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Interface_Adapter.IItemStoreListener;
-import com.example.appkhachhang.LoginScreen;
-import com.example.appkhachhang.Model.ChiTietDienThoai;
-import com.example.appkhachhang.Model.ChiTietGioHang;
-import com.example.appkhachhang.Model.CuaHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SearchResponse;
 import com.example.appkhachhang.Model.Store;
@@ -168,7 +159,7 @@ public class SearchFragment extends Fragment {
         searchRunnable = new Runnable() {
             @Override
             public void run() {
-                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(query, giaMin, giaMax, ram, boNho, sortByPrice, uuDaiHot, maHangSanXuat, sortDanhGia).enqueue(new Callback<SearchResponse>() {
+                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(query.trim(), giaMin, giaMax, ram, boNho, sortByPrice, uuDaiHot, maHangSanXuat, sortDanhGia).enqueue(new Callback<SearchResponse>() {
                     @Override
                     public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
@@ -260,16 +251,33 @@ public class SearchFragment extends Fragment {
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                if (response.isSuccessful()) {
-                    List<Root> data = response.body();
-                    dienThoaiList.clear();
-                    dienThoaiList.addAll(data);
-                    adapter.notifyDataSetChanged();
-                    progressDialog.dismiss();
+                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                        "" ,"", "", "",
+                        "", "", "", "true").enqueue(new Callback<SearchResponse>() {
+                    @Override
+                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            searchResponse = response.body();
+                            dienThoaiList.clear();
+                            dienThoaiList.addAll(searchResponse.getDienThoais());
+                            adapter.notifyDataSetChanged();
 
-                } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
-                }
+                            cuaHangList.clear();
+                            cuaHangList.addAll(searchResponse.getCuaHangs());
+                            storeAdapter.notifyDataSetChanged();
+
+                            progressBar.setVisibility(View.GONE);
+                            tv_entry.setVisibility(View.GONE);
+                        } else {
+                            tv_entry.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+                    }
+                });
             }
 
             @Override
@@ -421,26 +429,33 @@ public class SearchFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), "");
-                call.enqueue(new Callback<List<Root>>() {
-                    @Override
-                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                        if (response.isSuccessful()) {
-                            List<Root> data = response.body();
-                            dienThoaiList.clear();
-                            dienThoaiList.addAll(data);
-                            adapter.notifyDataSetChanged();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+               ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                       "" ,"", selectedRAMs.toString(), selectedBoNho.toString(),
+                       "", "", "", "").enqueue(new Callback<SearchResponse>() {
+                   @Override
+                   public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                       if (response.isSuccessful() && response.body() != null) {
+                           searchResponse = response.body();
+                           dienThoaiList.clear();
+                           dienThoaiList.addAll(searchResponse.getDienThoais());
+                           adapter.notifyDataSetChanged();
 
-                    @Override
-                    public void onFailure(Call<List<Root>> call, Throwable t) {
-                        Log.e("filter bộ nhớ", t.getLocalizedMessage());
-                    }
-                });
+                           cuaHangList.clear();
+                           cuaHangList.addAll(searchResponse.getCuaHangs());
+                           storeAdapter.notifyDataSetChanged();
+
+                           progressBar.setVisibility(View.GONE);
+                           tv_entry.setVisibility(View.GONE);
+                       } else {
+                           tv_entry.setVisibility(View.VISIBLE);
+                       }
+                   }
+
+                   @Override
+                   public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+                   }
+               });
             }
         });
     }
@@ -522,24 +537,31 @@ public class SearchFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0] * 1000000, maxValue[0] * 1000000, "");
-                call.enqueue(new Callback<List<Root>>() {
+                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                        String.valueOf(minValue[0] * 1000000),String.valueOf(maxValue[0] * 1000000), "", "",
+                        "", "", "", "").enqueue(new Callback<SearchResponse>() {
                     @Override
-                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                        if (response.isSuccessful()) {
-                            List<Root> data = response.body();
+                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            searchResponse = response.body();
                             dienThoaiList.clear();
-                            dienThoaiList.addAll(data);
+                            dienThoaiList.addAll(searchResponse.getDienThoais());
                             adapter.notifyDataSetChanged();
-                            dialog.dismiss();
+
+                            cuaHangList.clear();
+                            cuaHangList.addAll(searchResponse.getCuaHangs());
+                            storeAdapter.notifyDataSetChanged();
+
+                            progressBar.setVisibility(View.GONE);
+                            tv_entry.setVisibility(View.GONE);
                         } else {
-                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                            tv_entry.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Root>> call, Throwable t) {
-                        Log.e("filter gia tien", t.getLocalizedMessage());
+                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+
                     }
                 });
             }
@@ -551,7 +573,6 @@ public class SearchFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_bonho);
 
         dialog.show();
-        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoNho_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoNho_cv128GB_256GB);
@@ -604,44 +625,51 @@ public class SearchFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuilder selectedRAMs = new StringBuilder();
+                StringBuilder selectedBoNho = new StringBuilder();
 
                 if (isOnclick512[0]) {
-                    selectedRAMs.append("512,");
-                    selectedRAMs.append("10000, " );
+                    selectedBoNho.append("512,");
+                    selectedBoNho.append("10000, " );
                 }
                 if (isOnclick128_258[0]) {
-                    selectedRAMs.append("128,");
-                    selectedRAMs.append("256,");
+                    selectedBoNho.append("128,");
+                    selectedBoNho.append("256,");
                 }
                 if (isOnclick32_64[0]) {
-                    selectedRAMs.append("32,");
-                    selectedRAMs.append("64,");
+                    selectedBoNho.append("32,");
+                    selectedBoNho.append("64,");
                 }
 
-                if (selectedRAMs.length() > 0) {
-                    selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
+                if (selectedBoNho.length() > 0) {
+                    selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
 
-                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString(), "");
-                call.enqueue(new Callback<List<Root>>() {
+                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                        "","", "", selectedBoNho.toString(),
+                        "", "", "", "").enqueue(new Callback<SearchResponse>() {
                     @Override
-                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                        if (response.isSuccessful()) {
-                            List<Root> data = response.body();
+                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            searchResponse = response.body();
                             dienThoaiList.clear();
-                            dienThoaiList.addAll(data);
+                            dienThoaiList.addAll(searchResponse.getDienThoais());
                             adapter.notifyDataSetChanged();
-                            dialog.dismiss();
+
+                            cuaHangList.clear();
+                            cuaHangList.addAll(searchResponse.getCuaHangs());
+                            storeAdapter.notifyDataSetChanged();
+
+                            progressBar.setVisibility(View.GONE);
+                            tv_entry.setVisibility(View.GONE);
                         } else {
-                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                            tv_entry.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Root>> call, Throwable t) {
-                        Log.e("filter bộ nhớ", t.getLocalizedMessage());
+                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+
                     }
                 });
             }
@@ -728,24 +756,31 @@ public class SearchFragment extends Fragment {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString(), "");
-                call.enqueue(new Callback<List<Root>>() {
+                ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                        "","", selectedRAMs.toString(), "",
+                        "", "", "", "").enqueue(new Callback<SearchResponse>() {
                     @Override
-                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                        if (response.isSuccessful()) {
-                            List<Root> data = response.body();
+                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            searchResponse = response.body();
                             dienThoaiList.clear();
-                            dienThoaiList.addAll(data);
+                            dienThoaiList.addAll(searchResponse.getDienThoais());
                             adapter.notifyDataSetChanged();
-                            dialog.dismiss();
+
+                            cuaHangList.clear();
+                            cuaHangList.addAll(searchResponse.getCuaHangs());
+                            storeAdapter.notifyDataSetChanged();
+
+                            progressBar.setVisibility(View.GONE);
+                            tv_entry.setVisibility(View.GONE);
                         } else {
-                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                            tv_entry.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Root>> call, Throwable t) {
-                        Log.e("filter dung luong ram", t.getLocalizedMessage());
+                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+
                     }
                 });
             }
@@ -763,26 +798,31 @@ public class SearchFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortDown("desc", "");
-        call.enqueue(new Callback<List<Root>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                "","", "", "",
+                "desc", "", "", "").enqueue(new Callback<SearchResponse>() {
             @Override
-            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                if (response.isSuccessful()) {
-                    List<Root> data = response.body();
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    searchResponse = response.body();
                     dienThoaiList.clear();
-                    dienThoaiList.addAll(data);
+                    dienThoaiList.addAll(searchResponse.getDienThoais());
                     adapter.notifyDataSetChanged();
-                    progressDialog.dismiss();
 
+                    cuaHangList.clear();
+                    cuaHangList.addAll(searchResponse.getCuaHangs());
+                    storeAdapter.notifyDataSetChanged();
+
+                    progressBar.setVisibility(View.GONE);
+                    tv_entry.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    tv_entry.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Root>> call, Throwable t) {
-                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
             }
         });
     }
@@ -792,26 +832,31 @@ public class SearchFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortUp("arc", "");
-        call.enqueue(new Callback<List<Root>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                "","", "", "",
+                "asc", "", "", "").enqueue(new Callback<SearchResponse>() {
             @Override
-            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                if (response.isSuccessful()) {
-                    List<Root> data = response.body();
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    searchResponse = response.body();
                     dienThoaiList.clear();
-                    dienThoaiList.addAll(data);
+                    dienThoaiList.addAll(searchResponse.getDienThoais());
                     adapter.notifyDataSetChanged();
-                    progressDialog.dismiss();
 
+                    cuaHangList.clear();
+                    cuaHangList.addAll(searchResponse.getCuaHangs());
+                    storeAdapter.notifyDataSetChanged();
+
+                    progressBar.setVisibility(View.GONE);
+                    tv_entry.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    tv_entry.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Root>> call, Throwable t) {
-                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
             }
         });
     }
@@ -821,26 +866,31 @@ public class SearchFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getUuDaiHot("true", "");
-        call.enqueue(new Callback<List<Root>>() {
+        ChiTietSanPham_API.chiTietSanPhamApi.searchDienThoaiVaCuaHang(edSearch.getText().toString().trim(),
+                "","", "", "",
+                "", "true", "", "").enqueue(new Callback<SearchResponse>() {
             @Override
-            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                if (response.isSuccessful()) {
-                    List<Root> data = response.body();
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    searchResponse = response.body();
                     dienThoaiList.clear();
-                    dienThoaiList.addAll(data);
+                    dienThoaiList.addAll(searchResponse.getDienThoais());
                     adapter.notifyDataSetChanged();
-                    progressDialog.dismiss();
 
+                    cuaHangList.clear();
+                    cuaHangList.addAll(searchResponse.getCuaHangs());
+                    storeAdapter.notifyDataSetChanged();
+
+                    progressBar.setVisibility(View.GONE);
+                    tv_entry.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                    tv_entry.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Root>> call, Throwable t) {
-                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
             }
         });
     }

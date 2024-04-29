@@ -135,8 +135,40 @@ public interface ApiService {
     @PUT("/chitietgiohangs/updateLoadListChiTietGioHang/{id}")
     Call<List<ChiTietGioHang>> updateListChiTietGioHang(@Path("id") String id,@Body List<ChiTietGioHang> chiTietGioHang);
 
-    @GET("chitietdienthoais/filterChiTietDienThoai")
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
     Call<List<SanPhamHot>> getFilterGiaTienSPHot(@Query("GiaMin") int min, @Query("GiaMax") int max);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterGiaTienSPHot(@Query("GiaMin") int min, @Query("GiaMax") int max, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //filter bộ nhớ
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterBoNhoSPHot(@Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //filter dung lượng ram
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterDlRamSPHot(@Query("Ram") String Ram, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //sắp xếp giá cao - thấp
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getSortDownSPHot(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
+    //sắp xếp giá thấp - cao
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getSortUpSPHot(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
+
+    //ưu đãi hot
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getUuDaiHotSPHot(@Query("uuDaiHot") String uuDaiHot,@Query("maHangSanXuat") String maHangSanXuat);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getBoLocFilterSPHot(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //get list đánh giá theo chi tiết
+    @GET("danhgias/getDanhGia/{id}")
+    Call<List<DanhGia>> getListDanhGiaTheoChiTietSPHot(@Path("id") String id);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getDanhGiaFilterSPHot(@Query("sortDanhGia") String sortDanhGia,@Query("id") String id);
 
     //get thông báo
     @GET("thongbao/getThongBao/{phanQuyen}/{id}")

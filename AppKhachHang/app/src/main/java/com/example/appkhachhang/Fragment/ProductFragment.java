@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,7 +35,6 @@ import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
-import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DetailScreen;
@@ -66,7 +64,6 @@ public class ProductFragment extends Fragment {
     ProgressDialog progressDialog;
     ProgressBar progressBar;
     MySharedPreferences mySharedPreferences;
-    int quantity = 0; // Khởi tạo quantity với giá trị ban đầu là 0
     List<Root> list;
     ListPhoneAdapter adapter;
 
@@ -281,6 +278,41 @@ public class ProductFragment extends Fragment {
                 uuDaiHot();
             }
         });
+        ln_sxDiemDanhGia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortDanhGia();
+            }
+        });
+    }
+
+    private void sortDanhGia() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getDanhGiaFilter("true", "");
+        call.enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            }
+        });
     }
 
     private void bottomDialogFilterBoLoc() {
@@ -288,6 +320,7 @@ public class ProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_boloc);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoLoc_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoLoc_cv128GB_256GB);
@@ -299,7 +332,6 @@ public class ProductFragment extends Fragment {
         Button btnCancel, btnConfirm;
         btnCancel = dialog.findViewById(R.id.filterBoLoc_btnCancel);
         btnConfirm = dialog.findViewById(R.id.filterBoLoc_btnConfirm);
-        ApiService apiService = ApiRetrofit.getApiService();
         final boolean[] isOnclick512 = {false};
         final boolean[] isOnclick128_258 = {false};
         final boolean[] isOnclick32_64 = {false};
@@ -394,12 +426,12 @@ public class ProductFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 StringBuilder selectedBoNho = new StringBuilder();
                 if (isOnclick512[0]) {
-                    selectedBoNho.append("100,");
-                    selectedBoNho.append("66,");
+                    selectedBoNho.append("512,");
+                    selectedBoNho.append("10000,");
                 }
                 if (isOnclick128_258[0]) {
-                    selectedBoNho.append("12,");
                     selectedBoNho.append("128,");
+                    selectedBoNho.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedBoNho.append("32,");
@@ -407,14 +439,14 @@ public class ProductFragment extends Fragment {
                 }
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("69,");
+                    selectedRAMs.append("6,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
@@ -425,7 +457,26 @@ public class ProductFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
+                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), "");
+                call.enqueue(new Callback<List<Root>>() {
+                    @Override
+                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                        if (response.isSuccessful()) {
+                            List<Root> data = response.body();
+                            list.clear();
+                            list.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Root>> call, Throwable t) {
+                        Log.e("filter bộ nhớ", t.getLocalizedMessage());
+                    }
+                });
             }
         });
     }
@@ -435,6 +486,7 @@ public class ProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_giatien);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         TextView tvMin, tvMax;
         tvMin = dialog.findViewById(R.id.filterGiaTien_tvMin);
         tvMax = dialog.findViewById(R.id.filterGiaTien_tvMax);
@@ -506,7 +558,26 @@ public class ProductFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0] * 1000000, maxValue[0] * 1000000, "");
+                call.enqueue(new Callback<List<Root>>() {
+                    @Override
+                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                        if (response.isSuccessful()) {
+                            List<Root> data = response.body();
+                            list.clear();
+                            list.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<Root>> call, Throwable t) {
+                        Log.e("filter gia tien", t.getLocalizedMessage());
+                    }
+                });
             }
         });
     }
@@ -516,6 +587,7 @@ public class ProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_bonho);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln_512GB, ln_128GB_256GB, ln_32GB_64GB;
         ln_512GB = dialog.findViewById(R.id.filterBoNho_cv512GB);
         ln_128GB_256GB = dialog.findViewById(R.id.filterBoNho_cv128GB_256GB);
@@ -571,12 +643,12 @@ public class ProductFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
 
                 if (isOnclick512[0]) {
-                    selectedRAMs.append("100,");
-                    selectedRAMs.append("66,");
+                    selectedRAMs.append("512,");
+                    selectedRAMs.append("10000, " );
                 }
                 if (isOnclick128_258[0]) {
-                    selectedRAMs.append("12,");
                     selectedRAMs.append("128,");
+                    selectedRAMs.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedRAMs.append("32,");
@@ -587,7 +659,26 @@ public class ProductFragment extends Fragment {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
+                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString(), "");
+                call.enqueue(new Callback<List<Root>>() {
+                    @Override
+                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                        if (response.isSuccessful()) {
+                            List<Root> data = response.body();
+                            list.clear();
+                            list.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Root>> call, Throwable t) {
+                        Log.e("filter bộ nhớ", t.getLocalizedMessage());
+                    }
+                });
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -603,6 +694,7 @@ public class ProductFragment extends Fragment {
         dialog.setContentView(R.layout.layout_filter_dl_ram);
 
         dialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
         LinearLayout ln4GB_6GB, ln8GB_12GB, ln16GB;
         ln4GB_6GB = dialog.findViewById(R.id.filterDlRam_cv4GB_6GB);
         ln8GB_12GB = dialog.findViewById(R.id.filterDlRam_cv8GB_12GB);
@@ -657,21 +749,40 @@ public class ProductFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("6,");
+                    selectedRAMs.append("8,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
+                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString(), "");
+                call.enqueue(new Callback<List<Root>>() {
+                    @Override
+                    public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                        if (response.isSuccessful()) {
+                            List<Root> data = response.body();
+                            list.clear();
+                            list.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Root>> call, Throwable t) {
+                        Log.e("filter dung luong ram", t.getLocalizedMessage());
+                    }
+                });
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -687,6 +798,28 @@ public class ProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getSortDown("desc", "");
+        call.enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            }
+        });
     }
 
     private void sortGiaTienThapCao() {
@@ -694,6 +827,28 @@ public class ProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getSortUp("arc", "");
+        call.enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
+            }
+        });
     }
 
     private void uuDaiHot() {
@@ -701,100 +856,26 @@ public class ProductFragment extends Fragment {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-    }
-
-    private void dialogBottomDetail(Root root) {
-        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-        dialog.setContentView(R.layout.layout_themgio_muangay);
-
-        dialog.show();
-        mySharedPreferences = new MySharedPreferences(getContext());
-//        adapterDiaChi = new DiaChiNhanHangAdapter(getContext(), addressDeliveryList);
-//        addressDeliveryList = new ArrayList<>();
-        TextView tvTenDienThoai, tvSoLuong, tvSoLuongTon;
-        LinearLayout lnMinius, lnAdd;
-        ImageView imgClose;
-        Button btnAddToCart, btnBuyNow;
-        tvTenDienThoai = dialog.findViewById(R.id.dialogBottomChiTiet_tvDienThoai);
-        tvSoLuong = dialog.findViewById(R.id.dialogBottomChiTiet_tvSoLuong);
-        tvSoLuongTon = dialog.findViewById(R.id.dialogBottomChiTiet_tvSoLuongTon);
-        lnMinius = dialog.findViewById(R.id.dialogBottomChiTiet_btnMinius);
-        lnAdd = dialog.findViewById(R.id.dialogBottomChiTiet_lnAdd);
-        imgClose = dialog.findViewById(R.id.dialogBottomChiTiet_imgClose);
-        btnAddToCart = dialog.findViewById(R.id.dialogBottomChiTiet_btnThemGioHang);
-        btnBuyNow = dialog.findViewById(R.id.dialogBottomChiTiet_btnMuaNgay);
-
-        tvTenDienThoai.setText("" + root.getChiTietDienThoai().getMaDienThoai().getTenDienThoai());
-        tvSoLuongTon.setText("Số lượng còn hàng: " + root.getChiTietDienThoai().getSoLuong());
-
-        lnMinius.setOnClickListener(new View.OnClickListener() {
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getUuDaiHot("true", "");
+        call.enqueue(new Callback<List<Root>>() {
             @Override
-            public void onClick(View v) {
-                if (quantity > 0) {
-                    quantity--;
-                    tvSoLuong.setText("" + quantity);
-                    lnMinius.setVisibility(View.VISIBLE);
-                    lnAdd.setVisibility(View.VISIBLE);
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
                 } else {
-                    lnMinius.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
-        lnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (quantity < root.getChiTietDienThoai().getSoLuong()) {
-                    quantity++;
-                    tvSoLuong.setText("" + quantity);
-                    lnAdd.setVisibility(View.VISIBLE);
-                    lnMinius.setVisibility(View.VISIBLE);
-                } else {
-                    lnAdd.setVisibility(View.GONE);
-                }
-            }
-        });
-        btnBuyNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
 
-            }
-        });
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
-                    chiTietGioHang.setMaChiTietDienThoai(root.getChiTietDienThoai());
-                    chiTietGioHang.setSoLuong(quantity);
-                    chiTietGioHang.setGiaTien(root.getChiTietDienThoai().getGiaTien());
-                    ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
-                        @Override
-                        public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            } else {
-                                Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
-                            Log.d("error", "onFailure: " + t.getMessage());
-                        }
-                    });
-                } else {
-                    Intent intent = new Intent(getContext(), LoginScreen.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
             }
         });
     }

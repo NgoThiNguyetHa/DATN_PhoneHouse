@@ -51,6 +51,11 @@ dependencies {
         "include" to listOf("*.aar", "*.jar")
     )))
     implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+        "include" to listOf("*.aar", "*.jar"),
+
+    )))
 
 
     testImplementation("junit:junit:4.13.2")
@@ -75,6 +80,6 @@ dependencies {
 
     implementation ("com.github.MohammedAlaaMorsi:RangeSeekBar:1.0.6")
 
-
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
 
 }
