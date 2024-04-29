@@ -4,24 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="15dp"
+
     android:orientation="vertical"
     tools:context=".FeedbackScreen">
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/feedBack_toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        />
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginHorizontal="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp">
+            android:paddingVertical="10dp"
+            >
 
             <androidx.cardview.widget.CardView
                 android:layout_width="60dp"
@@ -34,7 +40,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:gravity="center"
+                    >
 
                     <ImageView
                         android:id="@+id/imgDienThoaiDG"
@@ -47,7 +54,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/bill_item_tvDienThoaiDG"
@@ -101,13 +109,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="15dp"
-        android:background="#989595" />
+        android:background="#C5C0C0" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -150,14 +159,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="#989595" />
+        android:background="#C5C0C0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Đánh giá sản phẩm"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_marginHorizontal="15dp"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -172,7 +182,8 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:inputType="textMultiLine"
-            android:lines="6" />
+            android:lines="6"
+            android:layout_marginHorizontal="15dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,13 +192,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thêm ảnh"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:layout_marginHorizontal="15dp"/>
 
     <ImageView
         android:id="@+id/img_anh_danh_gia"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/baseline_camera_alt_24" />
+        android:src="@drawable/baseline_camera_alt_24"
+        android:layout_marginHorizontal="15dp"/>
 
     <Button
         android:id="@+id/btnFeedback"
@@ -196,7 +209,8 @@
         android:layout_gravity="end"
         android:layout_marginTop="20dp"
         android:backgroundTint="#5FB1C1"
-        android:text="Gửi" />
+        android:text="Gửi"
+        android:layout_marginHorizontal="15dp"/>
 
 
 </LinearLayout>
