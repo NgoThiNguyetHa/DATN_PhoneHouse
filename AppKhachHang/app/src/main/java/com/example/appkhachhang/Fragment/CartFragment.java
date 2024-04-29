@@ -4,7 +4,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,23 +26,16 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.GioHangAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
-import com.example.appkhachhang.DBHelper.ShoppingCartManager;
 import com.example.appkhachhang.Interface.OnClickListenerGioHang;
 import com.example.appkhachhang.Interface_Adapter.IItemDetailCartListener;
-import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.ThanhToanActivity;
-import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Types;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -245,19 +237,19 @@ public class CartFragment extends Fragment implements OnClickListenerGioHang {
         CartSharedPreferences cartSharedPreferences = new CartSharedPreferences(getContext());
         cartList = cartSharedPreferences.getChiTietGioHangForId(getContext(), mySharedPreferences.getUserId());
         if (cartList != null) {
-            Log.e("list", String.valueOf(cartList));
+//            Log.e("list", String.valueOf(cartList));
             if (!cartList.isEmpty()) {
-                Log.e("list", String.valueOf(cartList.size()));
+//                Log.e("list", String.valueOf(cartList.size()));
                 Call<List<ChiTietGioHang>> call = apiService.updateListChiTietGioHang(mySharedPreferences.getUserId(), cartList);
                 call.enqueue(new Callback<List<ChiTietGioHang>>() {
                     @Override
                     public void onResponse(Call<List<ChiTietGioHang>> call, Response<List<ChiTietGioHang>> response) {
-                        Log.e("log update",call.toString());
+//                        Log.e("log update",call.toString());
                         if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "update thành công", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(getContext(), "update không thành công", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "update không thành công", Toast.LENGTH_SHORT).show();
 
                         }
                     }
