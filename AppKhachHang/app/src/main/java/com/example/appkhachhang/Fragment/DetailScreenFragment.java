@@ -302,7 +302,7 @@ public class DetailScreenFragment extends Fragment {
                             @Override
                             public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                     CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
                                     boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
                                     if (isSuccess) {

@@ -77,7 +77,7 @@ router.post('/addChiTietHoaDon/:id', async function(req, res, next) {
         ],
       },
     ]);
-
+    console.log(populatedChiTietHoaDonList);
     res.status(200).send(populatedChiTietHoaDonList);
   } catch (err) {
     console.log(err);

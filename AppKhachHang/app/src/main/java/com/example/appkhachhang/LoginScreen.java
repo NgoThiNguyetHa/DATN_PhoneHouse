@@ -101,9 +101,6 @@ public class LoginScreen extends AppCompatActivity {
             } else if (Email.equals(user.getEmail())&&!Password.equals(user.getPassword())) {
                 edPassword.setError("Password invalid");
                 return;
-            } else if (Password.length()<6||Password.length()>8) {
-                edPassword.setError("Password giới hạn từ 6 đến 8 ký tự");
-                return;
             } else if (!isValidEmail(Email)) {
                 edEmail.setError("Email không hợp lệ");
                 return;
@@ -157,12 +154,12 @@ public class LoginScreen extends AppCompatActivity {
     }
     private boolean isStrongPassword(String password) {
         // Kiểm tra xem mật khẩu có null hoặc độ dài không đủ không
-        if (password == null || password.length() < 8) {
-            return false;
-        }
+//        if (password == null || password.length() < 8) {
+//            return false;
+//        }
 
         // Kiểm tra xem mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt không
-        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
         return password.matches(passwordPattern);
     }
 
