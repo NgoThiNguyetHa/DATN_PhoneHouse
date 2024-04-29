@@ -319,13 +319,18 @@ public class ThanhToanFragment extends Fragment {
                                 @Override
                                 public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
                                     if (response.body()!=null){
-                                        Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getContext(), "Thêm hóa đơn thành công", Toast.LENGTH_SHORT).show();
                                         chiTietHoaDons = new ArrayList<>();
                                         String hoaDonId = response.body().get_id();
                                         ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
                                         chiTietHoaDon.setMaHoaDon(new HoaDon(hoaDonId));
                                         chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
                                         chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
+                                        if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() != null){
+                                            chiTietHoaDon.setGiaTien(String.valueOf((item.getSoLuong() *Math.round( item.getMaChiTietDienThoai().getGiaTien() * (100-Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()))/100)) ));
+                                        }else {
+                                            chiTietHoaDon.setGiaTien(String.valueOf(item.getSoLuong() * item.getMaChiTietDienThoai().getGiaTien()));
+                                        }
                                         chiTietHoaDons.add(chiTietHoaDon);
                                         addChiTietHoaDon();
                                     } else {
@@ -377,19 +382,36 @@ public class ThanhToanFragment extends Fragment {
     }
     void addChiTietHoaDon() {
         mySharedPreferences = new MySharedPreferences(getContext());
-        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
+        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body()!=null){
-                    Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
+                    Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
+                    if (response.body().equals("Đặt hàng thành công")){
+                        //chuyển màn hình
+                        Log.d("zzz", "onResponse: ");
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
-                Log.e("errorrr", "onFailure: " + t.getMessage() );
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("themHoaDon", "onResponse: " + t.getMessage());
             }
         });
+//        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<List<ChiTietHoaDon>>() {
+//            @Override
+//            public void onResponse(Call<List<ChiTietHoaDon>> call, Response<List<ChiTietHoaDon>> response) {
+//                if (response.body()!=null){
+//                    Log.d("themHoaDon", "onResponse: " + "Thêm thành công");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ChiTietHoaDon>> call, Throwable t) {
+//                Log.e("errorrr", "onFailure: " + t.getMessage() );
+//            }
+//        });
     }
 
 

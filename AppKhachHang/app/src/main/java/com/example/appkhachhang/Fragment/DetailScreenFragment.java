@@ -289,7 +289,7 @@ public class DetailScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    if (quantity < chiTietDienThoai.getSoLuong()) {
+                    if (quantity <= chiTietDienThoai.getSoLuong()) {
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);

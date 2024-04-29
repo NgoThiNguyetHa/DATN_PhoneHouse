@@ -4,6 +4,7 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.HoaDon;
+import com.example.appkhachhang.Model.Notification;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.Model.ThongTinDonHang;
@@ -53,7 +54,7 @@ public interface ApiService {
     Call<HoaDon> addHoaDon(@Body HoaDon hoaDon);
 
     @POST("/chitiethoadons/addChiTietHoaDon/{id}")
-    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
+    Call<String> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
 
     @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
     Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
@@ -136,5 +137,19 @@ public interface ApiService {
 
     @GET("chitietdienthoais/filterChiTietDienThoai")
     Call<List<SanPhamHot>> getFilterGiaTienSPHot(@Query("GiaMin") int min, @Query("GiaMax") int max);
+
+    //get thông báo
+    @GET("thongbao/getThongBao/{phanQuyen}/{id}")
+    Call<List<Notification>> getThongBao(@Path("phanQuyen")String phanQuyen,
+                                                    @Path("id")String id);
+
+    //update trạng thái đọc của thông báo
+    @PUT("thongbao/updateTrangThaiThongBao/{id}")
+    Call<String> updateThongBao(@Path("id") String id, @Body Notification notification);
+
+    //đọc tất cả thông báo
+    @PUT("thongbao/updateAll/{phanQuyen}/{id}")
+    Call<String> updateAllThongBao(@Path("phanQuyen")String phanQuyen,
+                                @Path("id")String id);
 }
 
