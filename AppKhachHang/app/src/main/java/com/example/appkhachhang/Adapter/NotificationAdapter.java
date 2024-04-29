@@ -51,6 +51,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     int color = Color.parseColor("#D0dde4");
     if (notification.getTrangThai().equals("0")){
       holder.item_mLinearThongBao.setBackgroundColor(color);
+    }else {
+      holder.item_mLinearThongBao.setBackgroundColor(Color.TRANSPARENT);
     }
     holder.tvTieuDe.setText(notification.getNoiDung());
 
