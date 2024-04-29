@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.appkhachhang.Fragment.BillOrderFragment;
-import com.example.appkhachhang.Fragment.HomeFragment;
-import com.example.appkhachhang.viewpager.DonDaGiaoFragment;
-import com.example.appkhachhang.viewpager.DonHuyFragment;
-import com.example.appkhachhang.viewpager.DonXuLyFragment;
+import com.example.appkhachhang.Fragment.StoreDetailFragment;
+import com.example.appkhachhang.StoreDetailViewPager.SanPhamCuaHangFragment;
+import com.example.appkhachhang.StoreDetailViewPager.ThongTinCuaHangFragment;
+import com.example.appkhachhang.StoreDetailViewPager.TrangChuFragment;
 
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+public class StoreViewPagerAdapter extends FragmentStatePagerAdapter {
+    public StoreViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 
@@ -23,13 +22,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new DonXuLyFragment();
+                return new TrangChuFragment();
             case 1:
-                return new DonDaGiaoFragment();
+                return new SanPhamCuaHangFragment();
             case 2:
-                return new DonHuyFragment();
+                return new ThongTinCuaHangFragment();
         }
-        return new BillOrderFragment();
+        return new StoreDetailFragment();
     }
 
     @Override
@@ -43,13 +42,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         String title = "";
         switch (position){
             case 0:
-                title = "Đang Xử Lý";
+                title = "Trang Chủ";
                 break;
             case 1:
-                title = "Đã Giao";
+                title = "Tất Cả Sản Phẩm";
                 break;
             case 2:
-                title = "Đã Hủy";
+                title = "Hồ Sơ Cửa Hàng";
                 break;
         }
         return title;

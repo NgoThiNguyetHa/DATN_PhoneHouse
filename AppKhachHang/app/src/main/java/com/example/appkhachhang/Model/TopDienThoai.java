@@ -2,11 +2,11 @@ package com.example.appkhachhang.Model;
 
 import java.util.List;
 
-public class Root {
+public class TopDienThoai {
     private ChiTietDienThoai chiTietDienThoai;
+    private int soLuongBan;
     private List<DanhGia> danhGias;
-
-    private float tbDiemDanhGia;
+    private int tbDiemDanhGia;
 
     public ChiTietDienThoai getChiTietDienThoai() {
         return chiTietDienThoai;
@@ -24,11 +24,19 @@ public class Root {
         this.danhGias = danhGias;
     }
 
-    public float getTbDiemDanhGia() {
+    public int getSoLuongBan() {
+        return soLuongBan;
+    }
+
+    public void setSoLuongBan(int soLuongBan) {
+        this.soLuongBan = soLuongBan;
+    }
+
+    public int getTbDiemDanhGia() {
         return tbDiemDanhGia;
     }
 
-    public void setTbDiemDanhGia(float tbDiemDanhGia) {
+    public void setTbDiemDanhGia(int tbDiemDanhGia) {
         this.tbDiemDanhGia = tbDiemDanhGia;
     }
 }

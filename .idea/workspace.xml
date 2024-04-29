@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/socket_server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nodemon/bin/nodemon.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nopt/bin/nopt.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/nopt/examples/my-program.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/node_modules/touch/bin/nodetouch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Config/MomoPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +142,7 @@
       <workItem from="1713987331830" duration="1127000" />
       <workItem from="1714031797752" duration="1254000" />
       <workItem from="1714033753692" duration="2198000" />
+      <workItem from="1714041025445" duration="102000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />

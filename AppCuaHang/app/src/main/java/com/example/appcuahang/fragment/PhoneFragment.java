@@ -111,6 +111,7 @@ public class PhoneFragment extends Fragment {
     String idSpMau, idSpRam, idSpDungLuong;
     int position;
     ProgressDialog progressDialog;
+    String strMoTa = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -355,7 +356,11 @@ public class PhoneFragment extends Fragment {
                     String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
                     String strNamSX = edNamSX.getText().toString().trim();
                     String strBaoHanh = edBaoHanh.getText().toString().trim();
-                    String strMoTa = edMoTa.getText().toString().trim();
+                    if (edMoTa.getText().toString().isEmpty() || edMoTa.getText().toString().equals("")){
+                        strMoTa = "";
+                    }else{
+                        strMoTa = edMoTa.getText().toString().trim();
+                    }
                     ApiService apiService = ApiRetrofit.getApiService();
 
                     //upload ảnh lên firebase
@@ -523,7 +528,11 @@ public class PhoneFragment extends Fragment {
                     String strDoPhanGiai = edDoPhanGiai.getText().toString().trim();
                     String strNamSX = edNamSX.getText().toString().trim();
                     String strBaoHanh = edBaoHanh.getText().toString().trim();
-                    String strMoTa = edMoTa.getText().toString().trim();
+                    if (edMoTa.getText().toString().isEmpty() || edMoTa.getText().toString().equals("")){
+                        strMoTa = "";
+                    }else{
+                        strMoTa = edMoTa.getText().toString().trim();
+                    }
                     ApiService apiService = ApiRetrofit.getApiService();
                     //upload ảnh lên firebase
                     if (imageUri != null) {
@@ -644,6 +653,12 @@ public class PhoneFragment extends Fragment {
                 if (checkValidateDetailPhone()){
                     Integer strSoLuong = Integer.parseInt("" + edSoLuong.getText().toString());
                     Integer strGiaTien = Integer.parseInt("" + edGiaTien.getText().toString());
+                    if (strSoLuong.toString().trim().charAt(0) == '0') {
+                        edSoLuong.setText(" " + edSoLuong.getText().toString().trim().substring(1));
+                    }
+                    if (strGiaTien.toString().trim().charAt(0) == '0') {
+                        edGiaTien.setText(" " + edGiaTien.getText().toString().trim().substring(1));
+                    }
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
                         progressDialog.setMessage("Loading...");
@@ -855,44 +870,44 @@ public class PhoneFragment extends Fragment {
     }
 
     private boolean checkValidatePhone(){
-        if (edTenDienThoai.getText().toString().isEmpty()){
+        if (edTenDienThoai.getText().toString().trim().isEmpty()){
             edTenDienThoai.setError("Yêu cầu không để trống!!");
             return false;
-        }else if (edKichThuoc.getText().toString().isEmpty()){
+        }else if (edKichThuoc.getText().toString().trim().isEmpty()){
             edKichThuoc.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edCongNgheManHinh.getText().toString().isEmpty()){
+        else if (edCongNgheManHinh.getText().toString().trim().isEmpty()){
             edCongNgheManHinh.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edCamera.getText().toString().isEmpty()){
+        else if (edCamera.getText().toString().trim().isEmpty()){
             edCamera.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edCPU.getText().toString().isEmpty()){
+        else if (edCPU.getText().toString().trim().isEmpty()){
             edCPU.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edPin.getText().toString().isEmpty()){
+        else if (edPin.getText().toString().trim().isEmpty()){
             edPin.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edHeDieuHanh.getText().toString().isEmpty()){
+        else if (edHeDieuHanh.getText().toString().trim().isEmpty()){
             edHeDieuHanh.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edDoPhanGiai.getText().toString().isEmpty()){
+        else if (edDoPhanGiai.getText().toString().trim().isEmpty()){
             edDoPhanGiai.setError("Yêu cầu không để trống!!");
             return false;
-        }else if (edNamSX.getText().toString().isEmpty()){
+        }else if (edNamSX.getText().toString().trim().isEmpty()){
             edNamSX.setError("Yêu cầu không để trống!!");
             return false;
         }
-        else if (edBaoHanh.getText().toString().isEmpty()){
+        else if (edBaoHanh.getText().toString().trim().isEmpty()){
             edBaoHanh.setError("Yêu cầu không để trống!!");
             return false;
-        }else if (edMoTa.getText().toString().isEmpty()){
+        }else if (edMoTa.getText().toString().trim().isEmpty()){
             edMoTa.setError("Yêu cầu không để trống!!");
             return false;
         }
@@ -900,16 +915,16 @@ public class PhoneFragment extends Fragment {
     }
 
     private boolean checkValidateDetailPhone(){
-        if (edSoLuong.getText().toString().isEmpty()) {
+        if (edSoLuong.getText().toString().trim().isEmpty()) {
             edSoLuong.setError("Yêu cầu không được để trống!!");
             return false;
-        } else if (!Pattern.matches("\\d+", edSoLuong.getText().toString())) {
+        } else if (!Pattern.matches("\\d+", edSoLuong.getText().toString().trim())) {
             edSoLuong.setError("Yêu cầu nhập số lượng phải là số!!");
             return false;
-        }else if (edGiaTien.getText().toString().isEmpty()) {
+        }else if (edGiaTien.getText().toString().trim().isEmpty()) {
             edGiaTien.setError("Yêu cầu không được để trống!!");
             return false;
-        }else if (!Pattern.matches("\\d+", edGiaTien.getText().toString())) {
+        }else if (!Pattern.matches("\\d+", edGiaTien.getText().toString().trim())) {
             edGiaTien.setError("Yêu cầu nhập giá tiền phải là số!!");
             return false;
         }

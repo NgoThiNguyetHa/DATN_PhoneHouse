@@ -70,6 +70,14 @@ dependencies {
 
     implementation ("com.github.MohammedAlaaMorsi:RangeSeekBar:1.0.6")
 
+    implementation ("com.github.momo-wallet:mobile-sdk:1.0.7")
+
+    //circle image
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //barchart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
 
 }

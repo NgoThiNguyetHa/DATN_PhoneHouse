@@ -272,4 +272,84 @@ router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+//tim theo diem danh gia
+router.get("/getDiemDanhGiaTheoCuaHang/:id/:diemDanhGia", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const diemDanhGia = parseInt(req.params.diemDanhGia); // Lấy giá trị điểm đánh giá từ tham số đường dẫn và chuyển thành số nguyên
+
+    const danhGia = await DanhGia.find()
+      .populate("idKhachHang")
+      .populate({
+        path: "idChiTietDienThoai",
+
+        populate: [
+          {
+            path: "maDienThoai",
+            model: "dienthoai",
+            populate: [
+              {
+                path: "maCuaHang",
+                model: "cuaHang",
+                match: { _id: idCuaHang },
+              },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          },
+          { path: "maMau", model: "mau" },
+          { path: "maDungLuong", model: "dungluong" },
+          { path: "maRam", model: "ram" },
+        ],
+      });
+
+    // Lọc danh sách đánh giá theo điểm đánh giá
+    const filteredDanhGia = danhGia.filter(
+      (item) =>
+        item.idChiTietDienThoai.maDienThoai.maCuaHang !== null &&
+        item.diemDanhGia === diemDanhGia
+    );
+
+    res.json(filteredDanhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+//danh gia hinh anh
+router.get("/getDanhGiaHinhAnhTheoCuaHang/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const danhGia = await DanhGia.find()
+      .populate("idKhachHang")
+      .populate({
+        path: "idChiTietDienThoai",
+        populate: [
+          {
+            path: "maDienThoai",
+            model: "dienthoai",
+            populate: [
+              {
+                path: "maCuaHang",
+                model: "cuaHang",
+                match: { _id: idCuaHang },
+              },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          },
+          { path: "maMau", model: "mau" },
+          { path: "maDungLuong", model: "dungluong" },
+          { path: "maRam", model: "ram" },
+        ],
+      });
+
+    // Lọc danh sách các đánh giá có hình ảnh không trống
+    const filteredDanhGia = danhGia.filter((item) => item.hinhAnh !== "");
+
+    res.json(filteredDanhGia);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;

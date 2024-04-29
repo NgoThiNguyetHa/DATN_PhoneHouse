@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StoreDetailViewPager.TrangChuFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quảng cáo"
+                android:textStyle="bold"
+                android:layout_margin="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Điện thoại bán chạy nhất"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:textSize="16dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Xem tất cả"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:textColor="#1A5183"
+                    android:textAlignment="textEnd"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trangChu_rcBanChayNhat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Khuyến mãi"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:textSize="16dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Xem tất cả"
+                    android:textStyle="bold"
+                    android:layout_margin="10dp"
+                    android:textColor="#1A5183"
+                    android:textAlignment="textEnd"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trangChu_rcKhuyenMai"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

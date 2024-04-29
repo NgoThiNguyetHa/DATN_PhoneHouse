@@ -114,7 +114,8 @@ public class UuDaiFragment extends Fragment {
                           updateData(idUuDai);
                     }
                     @Override
-                    public void selectUuDai(String idUuDai) {
+                    public void selectUuDai(String idUuDai, boolean isChecked) {
+
                     }
                 });
                 if(uuDai_edSearch.getText().toString().trim().isEmpty()){
@@ -157,7 +158,7 @@ public class UuDaiFragment extends Fragment {
             }
 
             @Override
-            public void selectUuDai(String idUuDai) {
+            public void selectUuDai(String idUuDai, boolean isChecked) {
 
             }
         });

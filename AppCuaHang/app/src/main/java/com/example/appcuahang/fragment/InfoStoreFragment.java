@@ -204,6 +204,9 @@ public class InfoStoreFragment extends Fragment {
                 }else if (!newPass.matches(passwordPattern)) {
                     edNewPass.setError("Mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt!!");
                     return;
+                }else if (!newPass.equals(oldPass)) {
+                    edConfirmPass.setError("Yêu cầu không được trùng mật khẩu cũ!!");
+                    return;
                 }
                 else if (!newPass.equals(confirmPass)) {
                     edConfirmPass.setError("Mật khẩu không trùng khớp");
@@ -241,22 +244,22 @@ public class InfoStoreFragment extends Fragment {
 
     private boolean validate(){
         String phonePattern = "^0\\d{9}$";
-        if (edUsername.getText().toString().isEmpty()){
+        if (edUsername.getText().toString().trim().isEmpty()){
             edUsername.setError("Username không được để trống!!");
             return false;
-        }else if (edEmail.getText().toString().isEmpty()){
+        }else if (edEmail.getText().toString().trim().isEmpty()){
             edEmail.setError("Email không được để trống!!");
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(edEmail.getText().toString()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(edEmail.getText().toString().trim()).matches()) {
             edEmail.setError("Email không đúng định dạng!!");
             return false;
-        } else if (edAddress.getText().toString().isEmpty()){
+        } else if (edAddress.getText().toString().trim().isEmpty()){
             edAddress.setError("Địa chỉ không được để trống!!");
             return false;
-        }else if (edPhone.getText().toString().isEmpty()){
+        }else if (edPhone.getText().toString().trim().isEmpty()){
             edPhone.setError("Số điện thoại không được để trống!!");
             return false;
-        }else if (!edPhone.getText().toString().matches(phonePattern)){
+        }else if (!edPhone.getText().toString().trim().matches(phonePattern)){
             edPhone.setError("Số điện thoại không hợp lệ!!");
             return false;
         }
