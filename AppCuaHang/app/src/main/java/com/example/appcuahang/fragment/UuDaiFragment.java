@@ -94,7 +94,7 @@ public class UuDaiFragment extends Fragment {
                 tv_entry.setVisibility(View.VISIBLE);
 
                 for(int i = 0; i < list.size(); i++){
-                    if((list.get(i).getGiamGia().toString().contains(uuDai_edSearch.getText().toString()) ||
+                    if((list.get(i).getGiamGia().toString().trim().contains(uuDai_edSearch.getText().toString().trim()) ||
                             list.get(i).getTrangThai().toString().toLowerCase().contains(uuDai_edSearch.getText().toString().toLowerCase())) &&
                             uuDai_edSearch.getText().length() != 0 ){
                         listFilter.add(list.get(i));
