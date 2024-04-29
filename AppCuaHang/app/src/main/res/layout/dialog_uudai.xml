@@ -38,7 +38,7 @@
                 android:id="@+id/dl_uuDai_edGiamGia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Giảm giá" />
+                android:hint="Giảm giá*" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/calendar"
-                android:hint="Thời gian" />
+                android:hint="Thời gian*" />
         </com.google.android.material.textfield.TextInputLayout>
 
 

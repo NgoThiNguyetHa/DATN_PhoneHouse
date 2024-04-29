@@ -89,7 +89,7 @@ public class DungLuongFragament extends Fragment {
                 listFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getBoNho().toString().contains(dungLuong_edSearch.getText().toString()) && dungLuong_edSearch.getText().length() != 0) {
+                    if (list.get(i).getBoNho().toString().trim().contains(dungLuong_edSearch.getText().toString().trim()) && dungLuong_edSearch.getText().length() != 0) {
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
                     }

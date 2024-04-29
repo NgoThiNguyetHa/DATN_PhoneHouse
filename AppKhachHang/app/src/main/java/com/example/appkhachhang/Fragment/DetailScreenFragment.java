@@ -10,7 +10,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,8 +29,6 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.DanhGiaAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
-import com.example.appkhachhang.DBHelper.ShoppingCartManager;
-import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
@@ -39,7 +36,6 @@ import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.ShopActivity;
 import com.example.appkhachhang.ThanhToanActivity;
-import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.gson.Gson;
@@ -289,15 +285,16 @@ public class DetailScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    if (quantity < chiTietDienThoai.getSoLuong()) {
+                    if (quantity <= chiTietDienThoai.getSoLuong()) {
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);
                         if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null) {
                             chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
                         } else {
-                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - Math.round(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
                         }
+
                         ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
                             @Override
                             public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
@@ -345,8 +342,9 @@ public class DetailScreenFragment extends Fragment {
                         if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null) {
                             chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
                         } else {
-                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - Math.round(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
                         }
+
                         listChon.add(chiTietGioHang);
                         Gson gson = new Gson();
                         Bundle bundle = new Bundle();

@@ -60,7 +60,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
               populate: { path: "maKhachHang", model: "khachhang" }
             }
           ]);
-      console.log("populatedChiTiet", populatedChiTiet);
+      // console.log("populatedChiTiet", populatedChiTiet);
       return res.send(populatedChiTiet);
     } else {
       // Nếu chưa tồn tại, tạo mới chi tiết giỏ hàng
@@ -70,7 +70,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
         maChiTietDienThoai: req.body.maChiTietDienThoai,
         maGioHang: gioHang._id,
       });
-    console.log("chiTietGioHang", chiTietGioHang);
+    // console.log("chiTietGioHang", chiTietGioHang);
     // Lưu chi tiết giỏ hàng
 
     const savedChiTietGioHang = await chiTietGioHang.save();
@@ -98,7 +98,7 @@ router.post('/addChiTietGioHang/:idKhachHang', async function(req, res, next) {
         populate: { path: "maKhachHang", model: "khachhang" },
       });;
     // Trả về kết quả
-    console.log("add chi tiet", chiTietGioHang);
+    // console.log("add chi tiet", chiTietGioHang);
     res.send(populateChiTietGioHang);
     }
   } catch (err) {
@@ -218,7 +218,7 @@ router.put("/updateLoadListChiTietGioHang/:id", async (req, res) => {
         { soLuong: chiTiet.soLuong },
         { new: true }
       );
-      console.log("chiTiet: ", updatedChiTiet);
+      // console.log("chiTiet: ", updatedChiTiet);
       return updatedChiTiet;
     });
 
