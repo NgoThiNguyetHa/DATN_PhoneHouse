@@ -1,11 +1,15 @@
 package com.example.appkhachhang;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,15 +37,31 @@ public class HistoryBuy extends AppCompatActivity {
 
     HistoryBuyAdapter adapter;
     List<ChiTietHoaDon> list = new ArrayList<>();
+    Toolbar toolbar;
 
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_buy);
         rc_HistoryBuy = findViewById(R.id.rc_HistoryBuy);
+        toolbar = findViewById(R.id.historyBuy_toolBar);
+        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
+//        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
+        getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
+
+        toolbar.setTitle("Lịch sử mua hàng");
+        setSupportActionBar(toolbar);
         getData();
+
 
 
     }
@@ -86,5 +106,13 @@ public class HistoryBuy extends AppCompatActivity {
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         getCTHDTheoLichSu(mySharedPreferences.getUserId());
     }
-
+    private Drawable resizeDrawable(Drawable drawable, int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(getResources(), resizedBitmap);
+    }
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

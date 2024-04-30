@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +45,13 @@ public class InformationScreen extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
+//        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
+        getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
+
         toolbar.setTitle("Thông tin người dùng");
+        setSupportActionBar(toolbar);
 
 
 
@@ -67,6 +76,7 @@ public class InformationScreen extends AppCompatActivity {
                             MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
                             sharedPreferences.saveUserData( user.get_id(), user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
                             Toast.makeText(InformationScreen.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
 
@@ -82,5 +92,10 @@ public class InformationScreen extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+    private Drawable resizeDrawable(Drawable drawable, int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(getResources(), resizedBitmap);
     }
 }
