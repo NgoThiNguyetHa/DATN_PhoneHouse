@@ -98,7 +98,7 @@ public class RamFragment extends Fragment {
                 listFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for(int i = 0; i< list.size(); i++){
-                    if(list.get(i).getRAM().toString().contains(ram_edSearch.getText().toString()) && ram_edSearch.getText().length() != 0){
+                    if(list.get(i).getRAM().toString().trim().contains(ram_edSearch.getText().toString().trim()) && ram_edSearch.getText().length() != 0){
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
                     }
@@ -232,6 +232,7 @@ public class RamFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_ram_imageView);
 
         tvTitle.setText("Dialog Thêm Ram");
+        btnSave.setText("Thêm mới");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
