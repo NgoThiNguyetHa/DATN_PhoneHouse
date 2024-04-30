@@ -39,21 +39,26 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation ("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-storage:20.3.0")
-    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
+    //implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
     //zalo
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
+//    implementation(fileTree(mapOf(
+//        "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+//        "include" to listOf("*.aar", "*.jar")
+//    )))
+//    implementation(fileTree(mapOf(
+//        "dir" to "D:\\ZaloPay",
+//        "include" to listOf("*.aar", "*.jar")
+//    )))
+//    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
+//    implementation(fileTree(mapOf(
+//        "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+//        "include" to listOf("*.aar", "*.jar"),
+
+    //)))
     implementation(fileTree(mapOf(
-        "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+        "dir" to "/Users/yenyen/Desktop/DATN_PhoneHouse/AppKhachHang/app/libs",
         "include" to listOf("*.aar", "*.jar")
-    )))
-    implementation(fileTree(mapOf(
-        "dir" to "D:\\ZaloPay",
-        "include" to listOf("*.aar", "*.jar")
-    )))
-    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
-    implementation(fileTree(mapOf(
-        "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
-        "include" to listOf("*.aar", "*.jar"),
 
     )))
 

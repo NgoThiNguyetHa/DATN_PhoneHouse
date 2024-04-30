@@ -121,7 +121,7 @@ public class HotProductFragment extends Fragment {
                 listSPHotFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < listSPHot.size(); i++) {
-                    if (listSPHot.get(i).get_id().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(edSearch.getText().toString().toLowerCase()) && edSearch.getText().length() != 0) {
+                    if (listSPHot.get(i).get_id().getMaDienThoai().getTenDienThoai().toString().trim().toLowerCase().contains(edSearch.getText().toString().trim().toLowerCase()) && edSearch.getText().length() != 0) {
                         listSPHotFilter.add(listSPHot.get(i));
                         tv_entry.setVisibility(View.GONE);
 
