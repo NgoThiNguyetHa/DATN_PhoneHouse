@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -122,15 +121,15 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
         if (soLuongDanhGia != 0) {
             diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
         }
-        String toastMessage = "Tổng điểm đánh giá: " + tongDiemDanhGia + "\nĐiểm trung bình: " + diemTrungBinh;
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        String toastMessage = "Tổng điểm đánh giá: " + tongDiemDanhGia + "\nĐiểm trung bình: " + diemTrungBinh;
+//
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
         holder.rbDiemDanhGia.setRating(diemTrungBinh);
         Drawable drawable = holder.rbDiemDanhGia.getProgressDrawable();
         drawable.setColorFilter(Color.parseColor("#ffbd00"), PorterDuff.Mode.SRC_ATOP);

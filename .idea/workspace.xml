@@ -4,20 +4,35 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="notification">
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Interface/OnItemClickListenerUpdateDanhGia.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/baseline_edit_note_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/dialog_update_feedback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/HotProductAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/HotProductAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ViewFeedbackAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ViewFeedbackAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/FeedbackAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/FeedbackAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/SearchFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/SearchFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_view_feedback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_view_feedback.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,6 +167,10 @@
       <workItem from="1714031797752" duration="1254000" />
       <workItem from="1714033753692" duration="2198000" />
       <workItem from="1714107016444" duration="18744000" />
+      <workItem from="1714225307892" duration="6091000" />
+      <workItem from="1714265556795" duration="16478000" />
+      <workItem from="1714314916590" duration="15525000" />
+      <workItem from="1714365583784" duration="1664000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -377,7 +396,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714032836254</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="notification">
+      <option name="closed" value="true" />
+      <created>1714365644430</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1714365644430</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,6 +446,7 @@
     <MESSAGE value="validate web" />
     <MESSAGE value="fix title toolbar" />
     <MESSAGE value="pull from dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
+    <MESSAGE value="notification" />
+    <option name="LAST_COMMIT_MESSAGE" value="notification" />
   </component>
 </project>

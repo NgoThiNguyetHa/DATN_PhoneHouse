@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appkhachhang.Interface.OnItemClickListenerDanhGia;
 import com.example.appkhachhang.Interface.OnItemClickListenerUpdateDanhGia;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;

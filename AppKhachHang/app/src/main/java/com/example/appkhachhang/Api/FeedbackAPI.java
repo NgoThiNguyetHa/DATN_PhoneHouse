@@ -1,8 +1,6 @@
 package com.example.appkhachhang.Api;
 
-import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.DanhGia;
-import com.example.appkhachhang.Model.User;
 
 import java.util.List;
 

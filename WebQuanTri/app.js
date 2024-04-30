@@ -26,6 +26,7 @@ var khachHangAPI = require('./routes/KhachHangAPI');
 var chiTietDienThoaiRouter = require('./routes/ChiTietDienThoaiApi')
 var danhGiaRouter = require('./routes/DanhGiaApi')
 var thongKe = require('./routes/ThongKeAPI')
+var thongBao = require('./routes/ThongBaoAPI')
 
 // screen
 var dangNhapScreen = require('./routes/Screen_DangNhap')
@@ -75,6 +76,7 @@ app.use('/khachhangs',khachHangAPI)
 app.use('/chitietdienthoais',chiTietDienThoaiRouter)
 app.use('/danhgias',danhGiaRouter)
 app.use('/thongke',thongKe)
+app.use('/thongbao',thongBao)
 
 //screen
 app.use('/dangNhapW', dangNhapScreen)
