@@ -120,7 +120,7 @@ public class RegisterScreen extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                         } else {
                             // If sign in fails, display a message to the user.
-                            edEmail.setError("Email đã tồn tại");
+                            edEmail.setError("Email đã tồn tại, vui lòng nhập email khác");
                         }
                     }
 
@@ -134,23 +134,24 @@ public class RegisterScreen extends AppCompatActivity {
     boolean validate(){
         String Email = edEmail.getText().toString().trim();
         String Password = edMatkhau.getText().toString().trim();
-
+        String hoTen = edHoten.getText().toString().trim() ;
+        String chuoiChu = "a-zA-Z";
 //        String emailPattern = "[a-zA-Z0-9._+-]+@[a-zA-Z0-9_-]+\\.+[a-z]+";
 ////        String emailPattern1 = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|([a-zA-Z0-9\\-]+\\.([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}))$";
 //        String emailPattern1 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
 //                "fpt\\.edu\\.vn$";
         String emailPattern1 =  "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.){1,2}[a-zA-Z]{2,7}$";
         if (Email.isEmpty()){
-            edEmail.setError("Email invalid");
+            edEmail.setError("Email không được bỏ trống");
             return false;
         } else if (Password.isEmpty()) {
-            edMatkhau.setError("Password invalid");
+            edMatkhau.setError("Mật khẩu không được bỏ trống");
             return false;
         }  else if (!Email.matches(emailPattern1)) {
             edEmail.setError("Email không hợp lệ");
             return false;
         } else if (!isStrongPassword(Password)) {
-            edMatkhau.setError("Mật khẩu phải có chữ cái viết hoa và có kí tự đặc biệt");
+            edMatkhau.setError("Mật khẩu phải có chữ cái viết hoa, số và có kí tự đặc biệt");
             return false;
         }  else if (Password.length()<6) {
             edMatkhau.setError("Password tối thiểu 6 ký tự");
@@ -161,7 +162,17 @@ public class RegisterScreen extends AppCompatActivity {
         }else if(edHoten.getText().toString().trim().isEmpty()){
             edHoten.setError("Bạn phải nhập họ tên");
             return false;
-        }else if(edSdt.getText().toString().trim().isEmpty()){
+//        }else if (!hoTen.matches("[a-zA-Z]+")){
+//            edHoten.setError("Họ và tên phải là chữ");
+//            return false;
+        } else if (!hoTen.matches("\\p{L}+")){
+            edHoten.setError("Họ và tên phải là chữ");
+            return false;
+        }
+        else if (edMatkhau.getText().toString().trim().matches("\\p{L}+")) {
+            edSdt.setError("Số điện thoại phải là số");
+            return false;
+        } else if(edSdt.getText().toString().trim().isEmpty()){
             edSdt.setError("Bạn phải nhập số điện thoại");
             return false;
         }else if(edSdt.getText().toString().trim().length()<1
@@ -232,7 +243,7 @@ public class RegisterScreen extends AppCompatActivity {
         }
 
         // Kiểm tra xem mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt không
-        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
         return password.matches(passwordPattern);
     }
     private boolean isValidEmail(String email) {

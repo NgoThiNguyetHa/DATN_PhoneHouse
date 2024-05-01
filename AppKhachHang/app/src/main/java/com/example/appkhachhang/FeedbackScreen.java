@@ -88,19 +88,31 @@ public class FeedbackScreen extends AppCompatActivity {
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         toolbar = findViewById(R.id.feedBack_toolBar);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Đánh giá của tôi");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+//        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onBackPressed();
+//            }
+//        });
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
 //        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
-        toolbar.setTitle("Đánh giá của tôi");
-        setSupportActionBar(toolbar);
+//        toolbar.setTitle("Đánh giá của tôi");
+//        setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
         DanhGia danhGia = (DanhGia) bundle.getSerializable("updateDanhGia");
