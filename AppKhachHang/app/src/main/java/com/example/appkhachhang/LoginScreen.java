@@ -80,10 +80,10 @@ public class LoginScreen extends AppCompatActivity {
         for (User user: list) {
             String emailPattern = "^[a-zA-Z][a-zA-Z0-9\\-_]+@[a-zA-Z]+(\\.[a-zA-Z]+){1,3}$";
             if (Email.isEmpty()){
-                edEmail.setError("Email invalid");
+                edEmail.setError("Email không được để trống");
                 return;
             } else if (Password.isEmpty()) {
-                edPassword.setError("Password invalid");
+                edPassword.setError("Password không được để trống");
                 return;
             }  else if (!Email.matches(emailPattern)) {
                 edEmail.setError("Email không hợp lệ");
@@ -92,7 +92,7 @@ public class LoginScreen extends AppCompatActivity {
                 edPassword.setError("Sai format, vui lòng nhập lại");
                 return;
             } else if (Email.equals(user.getEmail())&&!Password.equals(user.getPassword())) {
-                edPassword.setError("Password invalid");
+                edPassword.setError("Password không đúng");
                 return;
             } else if (!isValidEmail(Email)) {
                 edEmail.setError("Email không hợp lệ");

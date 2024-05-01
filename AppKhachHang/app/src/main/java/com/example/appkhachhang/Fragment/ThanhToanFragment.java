@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -148,7 +149,7 @@ public class ThanhToanFragment extends Fragment {
     mySharedPreferences = new MySharedPreferences(getContext());
     list = new ArrayList<>();
     getData(mySharedPreferences.getUserId());
-    adapterSpinnerDiaChi = new AdapterSpinnerDiaChi(getContext(), android.R.layout.simple_spinner_dropdown_item, list);
+    adapterSpinnerDiaChi = new AdapterSpinnerDiaChi(getContext(),R.layout.item_selected_diachi, list);
     spnDiaChi.setAdapter(adapterSpinnerDiaChi);
     spnDiaChi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -519,7 +520,7 @@ public class ThanhToanFragment extends Fragment {
   private boolean Validate(){
     String usernamePattern = "^[\\p{L}\\s]+$";
     String phonePattern = "^0\\d{9}$";
-    String kyTuDacBiet = "^[a-zA-Z0-9 ]*$";
+    String pattern = "^[\\p{L}0-9\\s\\-_]+$";
 
     if(edTenNguoiNhan.getText().toString().isEmpty()){
       edTenNguoiNhan.setError("Không được để trống!!");
@@ -534,25 +535,25 @@ public class ThanhToanFragment extends Fragment {
       edSDT.setError("Số điện thoại không hợp lệ!!");
       return false;
     } else if(dl_edDiaChiChiTiet.getText().toString().isEmpty()){
-      dl_edDiaChiChiTiet.setError("Không được để trống!!");
+      dl_edDiaChiChiTiet.setError("Địa chỉ không được để trống!!");
       return false;
     } else if(dl_edPhuongXa.getText().toString().isEmpty()){
-      dl_edPhuongXa.setError("Không được để trống!!");
+      dl_edPhuongXa.setError("Phường xã không được để trống!!");
       return false;
-    } else if(!dl_edPhuongXa.getText().toString().trim().matches(kyTuDacBiet)){
-      dl_edPhuongXa.setError("Không chứa ký tự đặc biệt!!");
+    } else if(!dl_edPhuongXa.getText().toString().trim().matches(pattern)){
+      dl_edPhuongXa.setError("Phường xã không được nhập ký tự đặc biệt!!");
       return false;
     } else if(dl_edQuanHuyen.getText().toString().isEmpty()){
-      dl_edQuanHuyen.setError("Không được để trống!!");
+      dl_edQuanHuyen.setError("Quận huyện không được để trống!!");
       return false;
-    } else if(!dl_edQuanHuyen.getText().toString().trim().matches(kyTuDacBiet)){
-      dl_edQuanHuyen.setError("Không chứa ký tự đặc biệt!!");
+    } else if(!dl_edQuanHuyen.getText().toString().trim().matches(pattern)){
+      dl_edQuanHuyen.setError("Quận huyện không được chứa ký tự đặc biệt!!");
       return false;
     } else if(dl_edTinhThanhPho.getText().toString().isEmpty()){
-      dl_edTinhThanhPho.setError("Không được để trống!!");
+      dl_edTinhThanhPho.setError("Tỉnh, thành phố không được để trống!!");
       return false;
-    }else if(!dl_edTinhThanhPho.getText().toString().trim().matches(kyTuDacBiet)){
-      dl_edTinhThanhPho.setError("Không chứa ký tự đặc biệt!!");
+    }else if(!dl_edTinhThanhPho.getText().toString().trim().matches(pattern)){
+      dl_edTinhThanhPho.setError("Tỉnh, thành phố không được chứa ký tự đặc biệt!!");
       return false;
     }
     return true;
