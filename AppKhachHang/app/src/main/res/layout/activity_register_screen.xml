@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".RegisterScreen"
     >
 <LinearLayout
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:shadowColor="#5FB1C1"
-        android:text="Create an\naccount"
+        android:text="Đăng ký tài khoản"
         android:textColor="#5FB1C1"
         android:textColorHint="#e1e1e1"
         android:textSize="30dp"
@@ -28,9 +28,9 @@
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:hint="Email*"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -40,13 +40,18 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
+        android:id="@+id/textMatKhau"
         app:passwordToggleEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
+        android:hint="Mật khẩu*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        app:helperText=""
+        app:helperTextTextColor="#009688"
+        app:counterEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,7 +66,7 @@
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ và tên"
+        android:hint="Họ và tên*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >
@@ -76,7 +81,7 @@
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:hint="Số điện thoại*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >
@@ -96,6 +101,7 @@
         android:layout_marginLeft="30dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
+
         />
 
     <TextView
@@ -110,6 +116,7 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         />
     <Button
         android:id="@+id/btnDangky"
@@ -118,6 +125,7 @@
         android:backgroundTint="#5FB1C1"
         android:text="Đăng Ký"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         />
 </LinearLayout>
 
