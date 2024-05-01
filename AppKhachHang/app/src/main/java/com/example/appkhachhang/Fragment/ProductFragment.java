@@ -119,7 +119,7 @@ public class ProductFragment extends Fragment {
 
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toString().trim().toLowerCase().contains(danhSach_edSearch.getText().toString().trim().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
 
