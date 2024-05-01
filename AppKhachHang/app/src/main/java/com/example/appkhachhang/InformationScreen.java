@@ -60,7 +60,6 @@ public class InformationScreen extends AppCompatActivity {
         edSdtHS.setText(mySharedPreferences.getPhone());
         edDiachiHS.setText(mySharedPreferences.getAddress());
 
-
         btnSaveHS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,11 +107,20 @@ public class InformationScreen extends AppCompatActivity {
         if (!hoTen.matches("\\p{L}+")) {
             edHotenHS.setError("Họ và tên phải là chữ");
             return false;
+        } else if (hoTen.isEmpty()) {
+            edHotenHS.setError("Họ tên ko được bỏ trống");
+            return false;
         } else if (sdt.matches("\\p{L}+")) {
             edSdtHS.setError("Số điện thoại phải là số");
             return false;
+        } else if (sdt.isEmpty()) {
+            edSdtHS.setError("Số điện thoại không được bỏ trống");
+            return false;
         } else if (sdt.length() < 10) {
             edSdtHS.setError("Số điện thoại không hợp lệ");
+            return false;
+        } else if (edDiachiHS.getText().toString().trim().isEmpty()) {
+            edDiachiHS.setError("Bạn phải nhập địa chỉ");
             return false;
         }
         return true;

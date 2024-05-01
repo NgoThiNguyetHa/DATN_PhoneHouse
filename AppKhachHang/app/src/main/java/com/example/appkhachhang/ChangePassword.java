@@ -190,8 +190,6 @@ public class ChangePassword extends AppCompatActivity {
 //                });
             }
         });
-
-
     }
     public void onBackPressed() {
         super.onBackPressed();
