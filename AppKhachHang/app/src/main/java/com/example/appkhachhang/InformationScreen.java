@@ -28,6 +28,7 @@ public class InformationScreen extends AppCompatActivity {
 
     Toolbar toolbar;
     MySharedPreferences mySharedPreferences;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +55,29 @@ public class InformationScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         edHotenHS.setText(mySharedPreferences.getUserName());
         edSdtHS.setText(mySharedPreferences.getPhone());
         edDiachiHS.setText(mySharedPreferences.getAddress());
 
 
-
         btnSaveHS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String hoTen = edHotenHS.getText().toString().trim();
-               String sdt = edSdtHS.getText().toString().trim();
-               String diaChi = edDiachiHS.getText().toString().trim();
-                User_API.userApi.editKhachHang(mySharedPreferences.getUserId(), new User(mySharedPreferences.getUserId(),diaChi,hoTen,mySharedPreferences.getPassword(),mySharedPreferences.getEmail(),sdt)).enqueue(new Callback<User>() {
+                String hoTen = edHotenHS.getText().toString().trim();
+                String sdt = edSdtHS.getText().toString().trim();
+                String diaChi = edDiachiHS.getText().toString().trim();
+                User_API.userApi.editKhachHang(mySharedPreferences.getUserId(), new User(mySharedPreferences.getUserId(), diaChi, hoTen, mySharedPreferences.getPassword(), mySharedPreferences.getEmail(), sdt)).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        if(response!= null){
-                            User user = response.body();
-                            MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
-                            sharedPreferences.saveUserData( user.get_id(), user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
-                            Toast.makeText(InformationScreen.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                            finish();
+                        if (validate() == true) {
+                            if (response != null) {
+                                User user = response.body();
+                                MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
+                                sharedPreferences.saveUserData(user.get_id(), user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt(), user.getDiaChi());
+                                Toast.makeText(InformationScreen.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
                     }
 
@@ -89,13 +90,31 @@ public class InformationScreen extends AppCompatActivity {
             }
         });
     }
+
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
+
     private Drawable resizeDrawable(Drawable drawable, int width, int height) {
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
         return new BitmapDrawable(getResources(), resizedBitmap);
+    }
+
+    boolean validate() {
+        String hoTen = edHotenHS.getText().toString().trim();
+        String sdt = edSdtHS.getText().toString().trim();
+        if (!hoTen.matches("\\p{L}+")) {
+            edHotenHS.setError("Họ và tên phải là chữ");
+            return false;
+        } else if (sdt.matches("\\p{L}+")) {
+            edSdtHS.setError("Số điện thoại phải là số");
+            return false;
+        } else if (sdt.length() < 10) {
+            edSdtHS.setError("Số điện thoại không hợp lệ");
+            return false;
+        }
+        return true;
     }
 }
