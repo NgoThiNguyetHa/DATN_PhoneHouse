@@ -170,24 +170,23 @@ public class InfoOrderFragment extends Fragment {
                     list.clear();
                     list.addAll(hoaDonList);
                     long total = 0;
-                    for (ThongTinDonHang item : hoaDonList) {
-                        if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-                            total += (item.getMaChiTietDienThoai().getGiaTien()  * (item.getSoLuong()));
-                        }else{
-                            total += (item.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100) * (item.getSoLuong());
-                        }
-//                        Log.e("soLuong", String.valueOf(item.getSoLuong()));
-                    }
+//                    for (ThongTinDonHang item : hoaDonList) {
+//                        if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
+//                            total += (item.getMaChiTietDienThoai().getGiaTien()  * (item.getSoLuong()));
+//                        }else{
+//                            total += (item.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100) * (item.getSoLuong());
+//                        }
+////                        Log.e("soLuong", String.valueOf(item.getSoLuong()));
+//                    }
                     DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
-                    String tongTienHang = String.valueOf(total);
                     try {
-                        double tongTienNumber = Double.parseDouble(tongTienHang);
+                        int tongTienNumber = Integer.parseInt(hoaDon.getTongTien());
                         String formattedNumber = decimalFormat.format(tongTienNumber);
                         tvTongTienHang.setText(""+formattedNumber+"₫");
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-                    long thanhTien = total + tienPhiVanChuyen;
+                    int thanhTien = Integer.parseInt(hoaDon.getTongTien()) + tienPhiVanChuyen;
                     String tongThanhTien = String.valueOf(thanhTien);
                     try {
                         double tongTienNumber = Double.parseDouble(tongThanhTien);

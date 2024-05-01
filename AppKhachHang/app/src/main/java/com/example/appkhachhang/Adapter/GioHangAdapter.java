@@ -103,8 +103,6 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.ViewHold
                 iItemDetailCartListener.onClickRemoveItem(item);
             }
         });
-
-
         holder.tvSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
