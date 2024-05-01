@@ -19,7 +19,8 @@ router.post('/addKhachHang', async (req, res, next) => {
       password: password,
       email: email,
       diaChi: diaChi,
-      sdt: sdt
+      sdt: sdt,
+      token: ""
     });
     if (!username || !password || !email || !sdt) {
       const errorMessage = "Vui lòng nhập đủ thông tin";
@@ -86,7 +87,7 @@ router.post('/dangNhapKhachHang', async (req, res) => {
     return res.status(200).json({successMessage: 'Đăng nhập thành công.', khachHang});
   } catch (error) {
     console.error(error);
-    res.status(500).json({errorMessage: 'Lỗi server.'});  
+    res.status(500).json({errorMessage: 'Lỗi server.'});
   }
 });
 
@@ -185,4 +186,26 @@ router.post('/editKhachHang/:id', async (req, res, next) => {
   }
 });
 
+router.put("/updateToken/:id", async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    const updated = await KhachHang.findByIdAndUpdate(
+        req.params.id,
+        { token },
+        { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json("update failed")
+
+    } else {
+      return res.status(200).json( "update successful")
+
+    }
+  } catch (err) {
+    console.log("errr: ", err)
+    return res.status(500).json({message: err.message})
+  }
+})
 module.exports = router;

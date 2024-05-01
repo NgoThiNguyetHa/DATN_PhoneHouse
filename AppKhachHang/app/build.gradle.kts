@@ -81,5 +81,5 @@ dependencies {
     implementation ("com.github.MohammedAlaaMorsi:RangeSeekBar:1.0.6")
 
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
-
+    implementation ("com.google.firebase:firebase-messaging:20.2.1")
 }
