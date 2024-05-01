@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -141,6 +143,7 @@ public class RegisterScreen extends AppCompatActivity {
 //        String emailPattern1 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
 //                "fpt\\.edu\\.vn$";
         String emailPattern1 =  "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.){1,2}[a-zA-Z]{2,7}$";
+
         if (Email.isEmpty()){
             edEmail.setError("Email không được bỏ trống");
             return false;
@@ -155,6 +158,7 @@ public class RegisterScreen extends AppCompatActivity {
             return false;
         }  else if (Password.length()<6) {
             edMatkhau.setError("Password tối thiểu 6 ký tự");
+
             return false;
         } else if (!isValidEmail(Email)) {
             edEmail.setError("Email không hợp lệ");
