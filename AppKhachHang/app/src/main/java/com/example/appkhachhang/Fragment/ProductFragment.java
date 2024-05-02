@@ -1,5 +1,6 @@
 package com.example.appkhachhang.Fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,12 +86,12 @@ public class ProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        ((Activity) getContext()).setTitle("Danh Sách Điện Thoại");
+        ((Activity) getContext()).setTitle("Danh Sách Điện Thoại");
         initView(view);
         actionFilter();
-        if (getActivity() != null) {
-            getActivity().setTitle("Danh sách sản phẩm");
-        }
+//        if (getActivity() != null) {
+//            getActivity().setTitle("Danh sách sản phẩm");
+//        }
         sanPham();
         listFilter = new ArrayList<>();
 
@@ -120,7 +121,7 @@ public class ProductFragment extends Fragment {
 
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(danhSach_edSearch.getText().toString().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
+                    if (list.get(i).getChiTietDienThoai().getMaDienThoai().getTenDienThoai().toString().trim().toLowerCase().contains(danhSach_edSearch.getText().toString().trim().toLowerCase()) && danhSach_edSearch.getText().length() != 0) {
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
 
@@ -884,7 +885,7 @@ public class ProductFragment extends Fragment {
     private void replaceFragment(Fragment fragment) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout, fragment);
+        transaction.replace(R.id.danhSach_frameLayout, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

@@ -30,6 +30,12 @@
             android:name=".activity.MomoActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.ProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HotProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ZalopayActivity"
             android:exported="false" />
         <activity

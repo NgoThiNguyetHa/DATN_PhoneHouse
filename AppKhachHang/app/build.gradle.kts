@@ -42,20 +42,29 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
     //zalo
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
-    implementation(fileTree(mapOf(
-        "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
-        "include" to listOf("*.aar", "*.jar")
-    )))
-    implementation(fileTree(mapOf(
-        "dir" to "D:\\ZaloPay",
-        "include" to listOf("*.aar", "*.jar")
-    )))
+//    implementation(fileTree(mapOf(
+//        "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+//        "include" to listOf("*.aar", "*.jar")
+//    )))
+//    implementation(fileTree(mapOf(
+//        "dir" to "D:\\ZaloPay",
+//        "include" to listOf("*.aar", "*.jar")
+//    )))
     implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
     implementation(fileTree(mapOf(
         "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
         "include" to listOf("*.aar", "*.jar"),
-
     )))
+    implementation(fileTree(mapOf(
+        "dir" to "/Users/yenyen/Desktop/DATN_PhoneHouse/AppKhachHang/app/libs",
+        "include" to listOf("*.aar", "*.jar")
+    )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\\\ZaloPay",
+        "include" to listOf("*.aar", "*.jar")
+    )))
+    implementation("androidx.activity:activity:1.8.0")
+
 
 
     testImplementation("junit:junit:4.13.2")

@@ -5,21 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformationScreen"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/information_toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        />
+        android:background="#FFF"/>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/edituser" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ tên"
+        android:hint="Họ và tên*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -34,7 +40,7 @@
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:hint="Số điện thoại*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >
@@ -50,7 +56,7 @@
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Địa chỉ"
+        android:hint="Địa chỉ*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         >

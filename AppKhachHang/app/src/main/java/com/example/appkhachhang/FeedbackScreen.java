@@ -87,18 +87,22 @@ public class FeedbackScreen extends AppCompatActivity {
         btnFeedback = findViewById(R.id.btnFeedback);
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         toolbar = findViewById(R.id.feedBack_toolBar);
+        toolbar.setTitle("Đánh giá");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
 //        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
-        toolbar.setTitle("Đánh giá của tôi");
+
+//        toolbar.setTitle("Đánh giá của tôi");
+//        setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
         DanhGia danhGia = (DanhGia) bundle.getSerializable("updateDanhGia");
@@ -294,9 +298,15 @@ public class FeedbackScreen extends AppCompatActivity {
             bill_item_tvDienThoaiDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getTenDienThoai());
             bill_item_tvMauDG.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaMau().getTenMau());
             bill_item_tvSoLuongDG.setText("x" + chiTietHoaDon.getSoLuong());
-            bill_item_tvTongTienDG.setText("Tổng tiền: " + chiTietHoaDon.getGiaTien());
-            Picasso.get().load(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getHinhAnh()).into(imgDienThoaiDG);
-
+            Picasso.get().load(chiTietHoaDon.getMaChiTietDienThoai().getHinhAnh()).into(imgDienThoaiDG);
+            DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
+            try {
+                double tongTienGiamNumber = Double.parseDouble(chiTietHoaDon.getGiaTien() + "");
+                String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+                bill_item_tvTongTienDG.setText("Tổng tiền: "+formattedNumber + "₫");
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
 
             img_sao_xam_1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -405,6 +415,8 @@ public class FeedbackScreen extends AppCompatActivity {
                                                 public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                                     if (response.isSuccessful()) {
                                                         Toast.makeText(FeedbackScreen.this, "đã đánh giá", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
+                                                        startActivity(intent);
                                                     }
                                                 }
 

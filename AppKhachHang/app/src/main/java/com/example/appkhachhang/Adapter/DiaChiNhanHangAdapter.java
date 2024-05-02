@@ -73,7 +73,6 @@ public class DiaChiNhanHangAdapter extends RecyclerView.Adapter<DiaChiNhanHangAd
         TextView tvTen, tvSdt, tvDiaChi;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            rdo_diaChi = itemView.findViewById(R.id.rdo_diaChi);
             tvTen = itemView.findViewById(R.id.tvHoTenKhachHang);
             tvSdt = itemView.findViewById(R.id.tvSoDienThoai);
             tvDiaChi = itemView.findViewById(R.id.tvDiaChiNhanHang);

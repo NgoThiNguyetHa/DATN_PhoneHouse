@@ -28,7 +28,7 @@ public interface ApiService {
     Call<List<ChiTietGioHang>> getListGioHang(@Path("id") String id);
 
     @POST("/chitietgiohangs/addChiTietGioHang/{idKhachHang}")
-    Call<ChiTietGioHang> addGioHang(@Body ChiTietGioHang chiTietGioHang, @Path("idKhachHang") String idKhachHang);
+    Call<String> addGioHang(@Body ChiTietGioHang chiTietGioHang, @Path("idKhachHang") String idKhachHang);
 
     @DELETE("/chitietgiohangs/deleteChiTietGioHang/{id}")
     Call<ChiTietGioHang> deleteGioHang(@Path("id") String id);

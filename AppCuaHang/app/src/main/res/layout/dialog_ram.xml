@@ -38,14 +38,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="RAM"/>
+                android:hint="RAM*"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/dl_ram_btnSave"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="SAVE"
+            android:text="Cập nhật"
             android:layout_margin="10dp"/>
     </LinearLayout>
 

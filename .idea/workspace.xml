@@ -4,124 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="pull from dev">
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/NotificationAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Interface/OnItemClickListenerNotification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Interface/OnItemClickListenerUpdateDanhGia.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/activity/CartActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/banner3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/baseline_edit_note_24.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/dialog_bg_sale.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/drawable/icon_app.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_cart.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/dialog_update_feedback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_notification.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/models/ThongBao.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebQuanTri/routes/ThongBaoAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/activity/ManHinhDangNhap.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/activity/ManHinhDangNhap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/BrandFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/BrandFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ChiTietDienThoaiFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ClientFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ClientFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/DungLuongFragament.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/DungLuongFragament.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/InfoStoreFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/InfoStoreFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/MauFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/MauFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/PhoneFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/PhoneFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/RamFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/RamFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ReviewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/ReviewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/java/com/example/appcuahang/fragment/UuDaiFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_dungluong.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_dungluong.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_uudai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppCuaHang/app/src/main/res/layout/dialog_uudai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/ic_launcher-playstore.png" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/ic_launcher-playstore.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ChiTietDienThoatAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ChiTietDienThoatAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/HotProductAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/HotProductAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ListPhoneAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ListPhoneAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/SanPhamHotAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/SanPhamHotAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/TopDienThoaiAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/TopDienThoaiAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/TopKhuyenMaiAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/TopKhuyenMaiAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ViewFeedbackAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Adapter/ViewFeedbackAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/Address_API.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ChiTietSanPham_API.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/FeedbackAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/FeedbackAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/CartFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/HotProductFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/InfoOrderFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/InfoOrderFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/NotificationFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/NotificationFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/PhoneListFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ProductFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/SearchFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/SearchFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/StoreDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/StoreDetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/ThanhToanFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/SanPhamHot.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/SanPhamHot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/TopDienThoai.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Model/TopDienThoai.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/SanPhamCuaHangFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/SanPhamCuaHangFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/ThongTinCuaHangFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/ThongTinCuaHangFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/TrangChuFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/StoreDetailViewPager/TrangChuFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_notification.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_notification.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_store_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_store_detail.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_thong_tin_cua_hang.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_thong_tin_cua_hang.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_trang_chu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_trang_chu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_danh_sach_dien_thoai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_danh_sach_dien_thoai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_danh_sach_dien_thoai_hot.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_danh_sach_dien_thoai_hot.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_san_pham.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_san_pham.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_top10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_top10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_top_khuyen_mai.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_top_khuyen_mai.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_view_feedback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/item_view_feedback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/values/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/values/ic_launcher_background.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietDienThoaiApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietHoaDonAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/DanhGiaApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/HoaDonAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_CuaHangLienKet.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_CuaHangLienKet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDanhGia.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDienThoai.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDienThoai.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyDonHang.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyHangSX.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyHangSX.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyUuDai.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/Screen_QuanLyUuDai.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ThongKeAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/UuDaiRoutersAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/cuaHangLienKet.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/cuaHangLienKet.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/doiMatKhau.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/doiMatKhau.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDanhGia.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDienThoai.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyDonHang.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyHangSanXuat.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/views/quanLyUuDai.ejs" afterDir="false" />
-    </list>
+    <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="notification" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -161,7 +44,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/NgoThiNguyetHa/DATN_PhoneHouse.git&quot;,
-    &quot;accountId&quot;: &quot;2d0b1698-3d03-40df-980f-9017bdfaa89f&quot;
+    &quot;accountId&quot;: &quot;348f588e-f50c-4b03-9218-ae039e4b68de&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -181,7 +64,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging hantn&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hantnph28876&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/FPT_Polytechnic/DATN/DATN_PhoneHouse&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -204,7 +87,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
+        <option value="bundled-js-predefined-1d06a55b98c1-2e7d6887c066-JavaScript-WS-241.15989.47" />
       </set>
     </attachedChunks>
   </component>
@@ -259,10 +142,7 @@
       <workItem from="1714265556795" duration="16478000" />
       <workItem from="1714314916590" duration="15525000" />
       <workItem from="1714365583784" duration="1664000" />
-      <workItem from="1714594548958" duration="70000" />
-      <workItem from="1714594634532" duration="103000" />
-      <workItem from="1714595178954" duration="1985000" />
-      <workItem from="1714638463574" duration="1421000" />
+      <workItem from="1714620543168" duration="2199000" />
     </task>
     <task id="LOCAL-00001" summary="pull from dev">
       <option name="closed" value="true" />
@@ -514,6 +394,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="login in website" />
     <MESSAGE value="navigation web" />
     <MESSAGE value="API getKhachHangTheoCuaHang" />
     <MESSAGE value="sửa API" />
@@ -536,9 +417,8 @@
     <MESSAGE value="fix api cập nhật ưu đãi hàng ngày, web màn quản lý đánh giá" />
     <MESSAGE value="validate web" />
     <MESSAGE value="fix title toolbar" />
-    <MESSAGE value="notification" />
-    <MESSAGE value="thanh toan momo, sp trong cua hang" />
     <MESSAGE value="pull from dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="pull from dev" />
+    <MESSAGE value="notification" />
+    <option name="LAST_COMMIT_MESSAGE" value="notification" />
   </component>
 </project>

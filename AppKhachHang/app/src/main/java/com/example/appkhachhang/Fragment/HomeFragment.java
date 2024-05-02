@@ -46,6 +46,8 @@ import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
 import com.example.appkhachhang.activity.MomoActivity;
+import com.example.appkhachhang.activity.HotProductActivity;
+import com.example.appkhachhang.activity.ProductActivity;
 import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
@@ -90,13 +92,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Xử lý khi click vào ảnh sản phẩm hot
-                replaceFragment(new HotProductFragment());
+//                replaceFragment(new HotProductFragment());
+                startActivity(new Intent(getContext(), HotProductActivity.class));
             }
         });
         imgSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new ProductFragment());
+                startActivity(new Intent(getContext(), ProductActivity.class));
+//                replaceFragment(new ProductFragment());
             }
         });
 //        toolbar = view.findViewById(R.id.main_toolBar);
@@ -190,7 +194,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
                 List<SanPhamHot> sanPhamHotList = response.body();
-                Log.d("san pham hot", response.body().toString());
                 listSPHot.clear();
                 listSPHot.addAll(sanPhamHotList);
                 sanPhamHotAdapter.notifyDataSetChanged();
@@ -247,11 +250,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("san pham list", response.body().toString());
                     list.clear();
                     list.addAll(response.body());
                     chiTietDienThoatAdapter.notifyDataSetChanged();
-
 //                    Log.d("zzz240", "onViewCreated: "+list.size());
                 }else{
                     Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();

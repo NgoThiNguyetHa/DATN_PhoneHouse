@@ -95,7 +95,7 @@ public class MauFragment extends Fragment {
                 listFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for(int i = 0; i< list.size(); i++){
-                    if(list.get(i).getTenMau().toString().toLowerCase().contains(mau_edSearch.getText().toString().toLowerCase()) && mau_edSearch.getText().length() != 0){
+                    if(list.get(i).getTenMau().toString().trim().toLowerCase().contains(mau_edSearch.getText().toString().trim().toLowerCase()) && mau_edSearch.getText().length() != 0){
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
                     }
@@ -230,6 +230,7 @@ public class MauFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
 
         tvTitle.setText("Dialog Thêm Màu");
+        btnSave.setText("Thêm mới");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
