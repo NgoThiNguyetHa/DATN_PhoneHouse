@@ -38,6 +38,7 @@ import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -904,7 +905,9 @@ public class ProductFragment extends Fragment {
         mySharedPreferences = new MySharedPreferences(getContext());
         if (item.getItemId() == R.id.gioHang) {
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                replaceFragment(new CartFragment());
+//                replaceFragment(new CartFragment());
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
             } else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);

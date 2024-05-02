@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class DungLuongFragament extends Fragment {
     EditText edDungLuong;
     TextView tv_entry;
     TextInputEditText dungLuong_edSearch;
+    ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -218,6 +220,10 @@ public class DungLuongFragament extends Fragment {
             @Override
             public void onClick(View v) {
                 if (ValidateUpdate(dungLuong)) {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Number tenDL = Integer.parseInt(edDungLuong.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
                     Call<DungLuong> call = apiDungLuongService.putDungLuong(dungLuong.get_id(), new DungLuong(tenDL));
@@ -228,6 +234,7 @@ public class DungLuongFragament extends Fragment {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 getData();
                                 dialog.dismiss();
+                                progressDialog.dismiss();
                             }
                         }
 
@@ -290,6 +297,10 @@ public class DungLuongFragament extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Validate()) {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Number tenDungLuong = Integer.parseInt(edDungLuong.getText().toString().trim());
                     ApiDungLuongService apiDungLuongService = ApiRetrofit.getApiDungLuongService();
                     Call<DungLuong> call = apiDungLuongService.postDungLuong(new DungLuong(tenDungLuong));
@@ -300,6 +311,7 @@ public class DungLuongFragament extends Fragment {
                                 Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                 getData();
                                 dialog.dismiss();
+                                progressDialog.dismiss();
                             }
                         }
 

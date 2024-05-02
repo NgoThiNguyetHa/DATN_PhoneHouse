@@ -766,66 +766,6 @@ router.get("/tongDonHuy/:maCuaHang", async (req, res) => {
   }
 });
 
-// router.get("/top-products/:maCuaHang", async (req, res) => {
-//   const { maCuaHang } = req.params;
-//   // const maCuaHangID = maCuaHang.split("=")[1];
-
-//   try {
-//     const hoaDons = await HoaDon.find({ maCuaHang: maCuaHang });
-
-//     const soldProducts = new Map();
-
-//     for (const hoaDon of hoaDons) {
-//       const chiTietHoaDons = await ChiTietHoaDon.find({ maHoaDon: hoaDon._id });
-
-//       for (const chiTietHoaDon of chiTietHoaDons) {
-//         const { soLuong, maChiTietDienThoai } = chiTietHoaDon;
-//         const chiTietDienThoai = await ChiTietDienThoai.findById(
-//           maChiTietDienThoai
-//         );
-
-//         if (!soldProducts.has(chiTietDienThoai.maDienThoai)) {
-//           soldProducts.set(chiTietDienThoai.maDienThoai, soLuong);
-//         } else {
-//           soldProducts.set(
-//             chiTietDienThoai.maDienThoai,
-//             soldProducts.get(chiTietDienThoai.maDienThoai) + soLuong
-//           );
-//         }
-//       }
-//     }
-
-//     const sortedProducts = [...soldProducts.entries()].sort(
-//       (a, b) => b[1] - a[1]
-//     );
-//     const topProducts = sortedProducts.slice(0, 10);
-
-//     const topProductsDetails = [];
-
-//     for (const [maDienThoai, soLuongBan] of topProducts) {
-//       const productDetail = await DienThoai.findById(maDienThoai);
-//       const tenDienThoai = productDetail.tenDienThoai;
-//       // Truy vấn thông tin chi tiết điện thoại
-//       const chiTietDienThoai = await ChiTietDienThoai.findOne({
-//         maDienThoai: maDienThoai,
-//       });
-
-//       // Lấy thông tin bạn cần
-//       const { giaTien, hinhAnh } = chiTietDienThoai;
-
-//       topProductsDetails.push({
-//         tenDienThoai,
-//         giaTien,
-//         hinhAnh,
-//         soLuongBan,
-//       });
-//     }
-
-//     res.json(topProductsDetails);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
 
 router.get("/top-products/:maCuaHang", async (req, res) => {
   const { maCuaHang } = req.params;
@@ -912,5 +852,169 @@ router.get("/top-products/:maCuaHang", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+router.get("/CH-top-product/:maCuaHang", async (req, res) => {
+  const { maCuaHang } = req.params;
+
+  try {
+    const hoaDons = await HoaDon.find({
+      trangThaiNhanHang: "Đã giao",
+      maCuaHang: maCuaHang,
+    });
+
+    const soldProducts = new Map();
+
+    for (const hoaDon of hoaDons) {
+      const chiTietHoaDons = await ChiTietHoaDon.find({
+        maHoaDon: hoaDon._id,
+      });
+
+      for (const chiTietHoaDon of chiTietHoaDons) {
+        const { soLuong, maChiTietDienThoai } = chiTietHoaDon;
+        const chiTietDienThoai = await ChiTietDienThoai.findById(
+          maChiTietDienThoai
+        );
+
+        if (!soldProducts.has(chiTietDienThoai.maDienThoai)) {
+          soldProducts.set(chiTietDienThoai.maDienThoai, soLuong);
+        } else {
+          soldProducts.set(
+            chiTietDienThoai.maDienThoai,
+            soldProducts.get(chiTietDienThoai.maDienThoai) + soLuong
+          );
+        }
+      }
+    }
+
+    const sortedProducts = [...soldProducts.entries()].sort(
+      (a, b) => b[1] - a[1]
+    );
+    const topProducts = sortedProducts.slice(0, 10);
+
+    const topProductsDetails = [];
+
+    for (const [maDienThoai, soLuongBan] of topProducts) {
+      const productDetail = await DienThoai.findById(maDienThoai);
+      const tenDienThoai = productDetail.tenDienThoai;
+      const chiTietDienThoai = await ChiTietDienThoai.findOne({
+        maDienThoai: maDienThoai,
+      });
+      const { giaTien, hinhAnh } = chiTietDienThoai;
+
+      topProductsDetails.push({
+        tenDienThoai,
+        giaTien,
+        hinhAnh,
+        soLuongBan,
+      });
+    }
+
+    res.json(topProductsDetails);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//top san pham có lượt đánh giá
+router.get("/topDienThoai/:maCuaHang", async (req, res) => {
+  const { maCuaHang } = req.params;
+
+  try {
+    const hoaDons = await HoaDon.find({
+      trangThaiNhanHang: "Đã giao",
+      maCuaHang: maCuaHang,
+    });
+
+    const soldProducts = new Map();
+
+    for (const hoaDon of hoaDons) {
+      const chiTietHoaDons = await ChiTietHoaDon.find({
+        maHoaDon: hoaDon._id,
+      });
+
+      for (const chiTietHoaDon of chiTietHoaDons) {
+        const { soLuong, maChiTietDienThoai } = chiTietHoaDon;
+        const chiTietDienThoai = await ChiTietDienThoai.findById(
+          maChiTietDienThoai
+        )
+
+        if (!soldProducts.has(chiTietDienThoai.maDienThoai)) {
+          soldProducts.set(chiTietDienThoai.maDienThoai, soLuong);
+        } else {
+          soldProducts.set(
+            chiTietDienThoai.maDienThoai,
+            soldProducts.get(chiTietDienThoai.maDienThoai) + soLuong
+          );
+        }
+      }
+    }
+
+    const sortedProducts = [...soldProducts.entries()].sort(
+      (a, b) => b[1] - a[1]
+    );
+    const topProducts = sortedProducts.slice(0, 10);
+
+    const topProductsDetails = [];
+
+    for (const [maDienThoai, soLuongBan] of topProducts) {
+      const productDetail = await DienThoai.findById(maDienThoai);
+      const tenDienThoai = productDetail.tenDienThoai;
+      const chiTietDienThoai = await ChiTietDienThoai.findOne({
+        maDienThoai: maDienThoai,
+      })
+        .populate("maRam")
+        .populate("maDungLuong")
+        .populate("maMau")
+        .populate({
+          path: "maDienThoai",
+          populate: [
+            { path: "maCuaHang", model: "cuaHang" },
+            { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+            { path: "maHangSX", model: "hangSanXuat" },
+          ],
+        });;
+      const { giaTien, hinhAnh } = chiTietDienThoai;
+
+      // Tìm danh sách đánh giá theo idChiTietDienThoai
+      const danhGiaList = await DanhGia.find({
+        idChiTietDienThoai: chiTietDienThoai._id,
+      })
+        .populate("idKhachHang")
+        .populate({
+          path: "idChiTietDienThoai",
+          populate: [
+            {
+              path: "maDienThoai",
+              model: "dienthoai",
+              populate: [
+                { path: "maCuaHang", model: "cuaHang" },
+                { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                { path: "maHangSX", model: "hangSanXuat" },
+              ],
+            },
+            { path: "maMau", model: "mau" },
+            { path: "maDungLuong", model: "dungluong" },
+            { path: "maRam", model: "ram" },
+          ],
+        });;
+
+      topProductsDetails.push({
+        // tenDienThoai,
+        // giaTien,
+        // hinhAnh,
+        chiTietDienThoai,
+        soLuongBan,
+        danhGias: danhGiaList, // Gắn danh sách đánh giá vào chi tiết sản phẩm
+      });
+    }
+
+    res.json(topProductsDetails);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 module.exports = router;

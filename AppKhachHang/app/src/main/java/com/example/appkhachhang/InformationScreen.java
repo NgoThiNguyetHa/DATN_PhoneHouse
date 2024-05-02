@@ -102,13 +102,14 @@ public class InformationScreen extends AppCompatActivity {
     boolean validate() {
         String hoTen = edHotenHS.getText().toString().trim();
         String sdt = edSdtHS.getText().toString().trim();
-        if (!hoTen.matches("\\p{L}+")) {
-            edHotenHS.setError("Họ và tên phải là chữ");
-            return false;
-        } else if (hoTen.isEmpty()) {
+         if (hoTen.isEmpty()) {
             edHotenHS.setError("Họ tên ko được bỏ trống");
             return false;
-        } else if (!sdt.matches("^0\\d{9}$")) {
+        }
+        else if (!hoTen.matches("\\p{L}+")) {
+            edHotenHS.setError("Họ và tên phải là chữ");
+            return false;
+        }  else if (!sdt.matches("^0\\d{9}$")) {
             edSdtHS.setError("Số điện thoại phải là số");
             return false;
         } else if (sdt.isEmpty()) {

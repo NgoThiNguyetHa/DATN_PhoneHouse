@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ public class HangSanXuatAdapter extends RecyclerView.Adapter<HangSanXuatAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull HangSanXuatAdapter.ViewHolder holder, int position) {
+        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
+        holder.itemView.startAnimation(animation);
         HangSanXuat hangSanXuat = list.get(position);
         String fullCoverImgUrl = hangSanXuat.getHinhAnh();
         Picasso.get().load(fullCoverImgUrl).into(holder.imgHang);

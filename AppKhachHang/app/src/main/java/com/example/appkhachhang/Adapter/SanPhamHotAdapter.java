@@ -2,11 +2,18 @@ package com.example.appkhachhang.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.media.Rating;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +31,7 @@ import java.util.List;
 public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.ViewHolder> {
     private Context context;
     private List<SanPhamHot> list;
+    private List<DanhGia> danhGiaList;
     private final OnItemClickListenerSanPhamHot onItemClickListenerSanPhamHot;
 
     public SanPhamHotAdapter(Context context, List<SanPhamHot> list, OnItemClickListenerSanPhamHot onItemClickListenerSanPhamHot) {
@@ -42,7 +50,6 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull SanPhamHotAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SanPhamHot sanPhamHot = list.get(position);
-        List<DanhGia> iconList = sanPhamHot.getDanhGia();
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -62,8 +69,9 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
 //            holder.tv_giaTienGoc.setVisibility(View.GONE);
             holder.tv_giaTienGoc.setText("");
             holder.tv_giamGia.setText("");
+            holder.bg_giamGia.setVisibility(View.GONE);
         }else {
-            holder.tv_giamGia.setText("Giảm "+sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia() + "%");
+            holder.tv_giamGia.setText(""+sanPhamHot.get_id().getMaDienThoai().getMaUuDai().getGiamGia() + "%");
             holder.tv_giaTienGoc.setText("" + sanPhamHot.get_id().getGiaTien());
             DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
             String tongTien = String.valueOf(sanPhamHot.get_id().getGiaTien());
@@ -100,19 +108,21 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         });
         holder.tvSoLuongDaBan.setVisibility(View.VISIBLE);
         holder.tvSoLuongDaBan.setText("Đã bán "+sanPhamHot.getSoLuong());
-//        List<DanhGia> danhGiaList = sanPhamHot.getDanhGia();
-//        if (danhGiaList != null) {
-//            for (int i = 0; i < danhGiaList.size(); i++) {
-//                DanhGia danhGia = danhGiaList.get(i);
-//                // Xử lý thông tin đánh giá ở đây
-//                Log.e("list danh giá ", String.valueOf(danhGia.getDiemDanhGia()));
-//                holder.tv_danhGia.setText(""+danhGia.getDiemDanhGia());
-//            }
-//        } else {
-//            Log.e("list danh giá ", "Danh sách đánh giá trống");
-//            holder.tv_danhGia.setText(""+5);
-//        }
 
+
+        int tongDiemDanhGia = 0;
+        danhGiaList = sanPhamHot.getDanhGia();
+        for (int i = 0; i < sanPhamHot.getDanhGia().size(); i++) {
+            tongDiemDanhGia += sanPhamHot.getDanhGia().get(i).getDiemDanhGia();
+        }
+        int soLuongDanhGia = sanPhamHot.getDanhGia().size();
+        float diemTrungBinh = 0;
+        if (soLuongDanhGia != 0) {
+            diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
+        }
+        holder.rbRating.setRating(diemTrungBinh);
+        Drawable drawable = holder.rbRating.getProgressDrawable();
+        drawable.setColorFilter(Color.parseColor("#ffbd00"), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
@@ -125,28 +135,19 @@ public class SanPhamHotAdapter extends RecyclerView.Adapter<SanPhamHotAdapter.Vi
         private TextView tvTenSanPham , tv_danhGia , tv_giaTienGoc , tv_giamGia ;
         private TextView tvGiaSanPham;
         private TextView tvSoLuongDaBan;
+        LinearLayout bg_giamGia;
+        RatingBar rbRating;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgSanPham = itemView.findViewById(R.id.img_SanPham);
             tvTenSanPham = itemView.findViewById(R.id.tv_tenSanPham);
             tvGiaSanPham = itemView.findViewById(R.id.tv_giaSanPham);
-            tv_danhGia = itemView.findViewById(R.id.tv_danhGia);
             tv_giaTienGoc = itemView.findViewById(R.id.tv_giaTienGoc);
             tv_giamGia = itemView.findViewById(R.id.tv_giamGia);
+            bg_giamGia = itemView.findViewById(R.id.bg_giamGia);
+            rbRating = itemView.findViewById(R.id.item_rbDiemDanhGia);
             tvSoLuongDaBan = itemView.findViewById(R.id.tv_Custom);
-//            itemSPHot_imageCart = itemView.findViewById(R.id.itemSPHot_imageCart);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if (onItemClickListenerSanPhamHot!=null){
-//                        int pos = getAdapterPosition();
-//                        if (pos!=RecyclerView.NO_POSITION){
-//                            onItemClickListenerSanPhamHot.onItemClickSPHot(pos);
-//                        }
-//                    }
-//                }
-//            });
         }
     }
 }
