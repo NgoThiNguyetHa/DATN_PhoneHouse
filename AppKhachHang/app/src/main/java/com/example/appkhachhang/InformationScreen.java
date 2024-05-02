@@ -178,7 +178,7 @@ public class InformationScreen extends AppCompatActivity {
             textHoTen.setHelperText("");
             return false;
         }  else if (!sdt.matches("^0\\d{9}$")) {
-            textSdt.setError("Số điện thoại phải là số");
+            textSdt.setError("Số điện thoại không hợp lệ");
             textSdt.setHelperText("");
             return false;
         } else if (sdt.isEmpty()) {
