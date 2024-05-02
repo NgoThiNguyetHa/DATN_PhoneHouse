@@ -167,7 +167,7 @@ public class ChangePassword extends AppCompatActivity {
                     textOldPass.setError("Sai mật khẩu cũ");
                     textOldPass.setHelperText("");
                 } else if (!isStrongPassword(edPassNew.getText().toString().trim())) {
-                    textNewPass.setError("Mật khẩu mới phải có chữ cái viết hoa và có kí tự đặc biệt");
+                    textNewPass.setError("Mật khẩu mới phải có chữ cái viết hoa, số và có kí tự đặc biệt");
                     textNewPass.setHelperText("");
                 } else if (!edPassAgain.getText().toString().trim().equals(edPassNew.getText().toString().trim())) {
                     textPassAgain.setError("Mật khẩu nhập lại không trùng khớp");
