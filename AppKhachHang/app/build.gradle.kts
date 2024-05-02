@@ -63,6 +63,7 @@ dependencies {
         "dir" to "D:\\\\ZaloPay",
         "include" to listOf("*.aar", "*.jar")
     )))
+    implementation("androidx.activity:activity:1.8.0")
 
 
 
