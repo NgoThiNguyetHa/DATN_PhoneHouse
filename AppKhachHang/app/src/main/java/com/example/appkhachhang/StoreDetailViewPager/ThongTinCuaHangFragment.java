@@ -78,8 +78,8 @@ public class ThongTinCuaHangFragment extends Fragment {
     }
 
     private void initView(View view){
-        tvTiLeHuy = view.findViewById(R.id.ttCuaHang_tvTiLeHuyDon);
-        tvTiLeThanhCong = view.findViewById(R.id.ttCuaHang_tvTiLeThanhCong);
+//        tvTiLeHuy = view.findViewById(R.id.ttCuaHang_tvTiLeHuyDon);
+//        tvTiLeThanhCong = view.findViewById(R.id.ttCuaHang_tvTiLeThanhCong);
         tvSoLuongSanPham = view.findViewById(R.id.ttCuaHang_tvSoLuongSanPham);
         tvSoLuongDanhGia = view.findViewById(R.id.ttCuaHang_tvSoLuongDanhGia);
         tvEmail = view.findViewById(R.id.ttCuaHang_tvEmail);
@@ -168,8 +168,11 @@ public class ThongTinCuaHangFragment extends Fragment {
                         diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
                     }
                     barChart(list.size(),countByRating);
-                    tvDanhGia.setText(""+(diemTrungBinh));
-                    tvSoLuongDanhGia.setText(""+(diemTrungBinh) + "/5" + " (" + list.size() + "+)" );
+                    String formattedNumber = String.format("%.1f", diemTrungBinh);
+//                    float roundedNumber = Float.parseFloat(formattedNumber);
+                    tvDanhGia.setText(""+(formattedNumber));
+
+                    tvSoLuongDanhGia.setText(""+(formattedNumber) + "/5" + " (" + list.size() + "+)" );
 
 
                 } else {

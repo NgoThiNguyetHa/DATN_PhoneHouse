@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class UuDaiFragment extends Fragment {
     TextView tv_entry;
     MySharedPreferences mySharedPreferences;
     private String id;
+    ProgressDialog progressDialog;
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
@@ -94,7 +96,7 @@ public class UuDaiFragment extends Fragment {
                 tv_entry.setVisibility(View.VISIBLE);
 
                 for(int i = 0; i < list.size(); i++){
-                    if((list.get(i).getGiamGia().toString().contains(uuDai_edSearch.getText().toString()) ||
+                    if((list.get(i).getGiamGia().toString().trim().contains(uuDai_edSearch.getText().toString().trim()) ||
                             list.get(i).getTrangThai().toString().toLowerCase().contains(uuDai_edSearch.getText().toString().toLowerCase())) &&
                             uuDai_edSearch.getText().length() != 0 ){
                         listFilter.add(list.get(i));
@@ -232,7 +234,10 @@ public class UuDaiFragment extends Fragment {
             public void onClick(View view) {
 
                 if(Validate()){
-
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     String giamGia = edGiamGia.getText().toString().trim();
                     String thoiGian = edThoiGian.getText().toString().trim();
                     String trangThai;
@@ -253,6 +258,7 @@ public class UuDaiFragment extends Fragment {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 getData(mySharedPreferences.getUserId());
                                 dialog.dismiss();
+                                progressDialog.dismiss();
                             }
                         }
 
@@ -320,6 +326,10 @@ public class UuDaiFragment extends Fragment {
           @Override
           public void onClick(View view) {
            if(Validate()){
+               progressDialog = new ProgressDialog(getContext());
+               progressDialog.setMessage("Vui Lòng Chờ...");
+               progressDialog.setCancelable(false);
+               progressDialog.show();
                String giamGia = edGiamGia.getText().toString().trim();
                String thoiGian = edThoiGian.getText().toString().trim();
                String trangThai;
@@ -340,6 +350,7 @@ public class UuDaiFragment extends Fragment {
                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                getData(mySharedPreferences.getUserId());
                                dialog.dismiss();
+                               progressDialog.dismiss();
                            }
                        }
                        @Override

@@ -39,4 +39,14 @@ public class TopDienThoai {
     public void setTbDiemDanhGia(int tbDiemDanhGia) {
         this.tbDiemDanhGia = tbDiemDanhGia;
     }
+
+    @Override
+    public String toString() {
+        return "TopDienThoai{" +
+                "chiTietDienThoai=" + chiTietDienThoai +
+                ", soLuongBan=" + soLuongBan +
+                ", danhGias=" + danhGias +
+                ", tbDiemDanhGia=" + tbDiemDanhGia +
+                '}';
+    }
 }

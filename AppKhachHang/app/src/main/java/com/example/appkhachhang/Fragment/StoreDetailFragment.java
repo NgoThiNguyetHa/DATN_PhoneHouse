@@ -130,10 +130,12 @@ public class StoreDetailFragment extends Fragment {
                     float diemTrungBinh = 0;
                     if (soLuongDanhGia != 0) {
                         diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
+                        String formattedNumber = String.format("%.1f", diemTrungBinh);
+//                        float roundedNumber = Float.parseFloat(""+formattedNumber);
+                        tvDanhGia.setText(""+(formattedNumber) + "/5");
+                    }else{
+                        tvDanhGia.setText("0/5");
                     }
-                    tvDanhGia.setText(""+(diemTrungBinh) + "/5");
-
-
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }

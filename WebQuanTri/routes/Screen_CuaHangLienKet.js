@@ -41,11 +41,11 @@ router.get('/searchCuaHang', authenticateToken, async function(req, res, next) {
     }
 
     const queryParams = new URLSearchParams({
-      trangThai: req.query.trangThai,
-      diaChi: req.query.diaChi,
-      username: req.query.username,
-      email: req.query.email,
-      sdt: req.query.sdt
+      trangThai: req.query.trangThai.trim(),
+      diaChi: req.query.diaChi.trim(),
+      username: req.query.username.trim(),
+      email: req.query.email.trim(),
+      sdt: req.query.sdt.trim()
     });
     // console.log("formData: ",queryParams)
     const response = await axios.get(`${baseUrl}cuahangs/searchCuaHang/${account.id}?${queryParams}`);

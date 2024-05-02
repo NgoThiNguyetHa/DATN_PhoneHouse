@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class RamFragment extends Fragment {
     EditText edTenRam;
     TextView tv_entry;
     TextInputEditText ram_edSearch;
-
+    ProgressDialog progressDialog;
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
@@ -237,7 +238,10 @@ public class RamFragment extends Fragment {
             public void onClick(View v) {
                 if(Validate()){
 
-
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                 Number tenRam = Integer.parseInt(edTenRam.getText().toString().trim());
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
                 Call<Ram> call = apiRamService.postRam(new Ram(tenRam));
@@ -248,6 +252,7 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
 
@@ -303,7 +308,10 @@ public class RamFragment extends Fragment {
             public void onClick(View v) {
                 if(ValidateUpdate(ram)){
 
-
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                 Number tenram = Integer.parseInt(edTenRam.getText().toString().trim());
                 ApiRamService apiRamService = ApiRetrofit.getApiRamService();
                 Call<Ram> call = apiRamService.putRam(ram.get_id(), new Ram(tenram));
@@ -314,6 +322,7 @@ public class RamFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
 

@@ -66,7 +66,7 @@ public class TopKhuyenMaiAdapter extends RecyclerView.Adapter<TopKhuyenMaiAdapte
             holder.tvSale.setText("");
             holder.tvSale.setBackgroundColor(Color.WHITE);
         } else {
-            holder.tvSale.setText("Sale " + item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia() + "%");
+            holder.tvSale.setText("" + item.getChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia() + "%");
         }
         //rating danh gia
         int tongDiemDanhGia = 0;
@@ -157,7 +157,6 @@ public class TopKhuyenMaiAdapter extends RecyclerView.Adapter<TopKhuyenMaiAdapte
             tvGiaTienGiam = itemView.findViewById(R.id.itemListPhone_tvGiaTienGiam);
             tvGiaTienGoc = itemView.findViewById(R.id.itemListPhone_tvGiaTienGoc);
             rbDiemDanhGia = itemView.findViewById(R.id.itemListPhone_rbDiemDanhGia);
-            imgCart = itemView.findViewById(R.id.itemListPhone_imgCart);
             imgPhone = itemView.findViewById(R.id.itemListPhone_imgDienThoai);
         }
     }

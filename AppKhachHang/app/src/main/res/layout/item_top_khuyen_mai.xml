@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp"
@@ -10,99 +10,120 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         >
-        <ImageView
-            android:id="@+id/itemListPhone_imgDienThoai"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/img_3"
-           />
-        <TextView
-            android:id="@+id/itemListPhone_tvTenDienThoai"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tên điện thoại----"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:maxLength="16"
-            android:layout_below="@+id/itemListPhone_imgDienThoai"
-            />
-        <LinearLayout
-            android:id="@+id/itemListPhone_RamDLMau"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_below="@+id/itemListPhone_tvTenDienThoai"
-            >
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/itemListPhone_lnGiaTien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_below="@+id/itemListPhone_RamDLMau"
-            >
-            <TextView
-                android:id="@+id/itemListPhone_tvGiaTienGiam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="19.999.999đ"
-                android:textStyle="bold"
-                android:textColor="#FF0000"
-                android:textSize="13dp"
-                />
-            <View
-                android:layout_width="5dp"
-                android:layout_height="0dp"/>
-            <TextView
-                android:id="@+id/itemListPhone_tvGiaTienGoc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="19.999.999đ"
-                android:textStyle="bold"
-                android:textColor="#7B7B7B"
-                android:textSize="13dp" />
-            <View
-                android:layout_width="5dp"
-                android:layout_height="0dp"/>
-            <TextView
-                android:id="@+id/itemListPhone_tvSale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sale 0%"
-                android:textStyle="bold"
-                android:textColor="#2196F3"
-                android:textSize="13dp"
-                android:gravity="center"
-                />
-        </LinearLayout>
         <RelativeLayout
+            android:id="@+id/top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemListPhone_lnGiaTien"
             >
-            <RatingBar
-                android:id="@+id/itemListPhone_rbDiemDanhGia"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:backgroundTint="#ffbd00"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressTint="#ffbd00"
-                android:rating="0"
-                android:secondaryProgressTint="@android:color/black"
-                android:stepSize="1" />
+
+            <ImageView
+                android:id="@+id/itemListPhone_imgDienThoai"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:padding="5dp"
+                android:src="@drawable/img_3" />
+            <LinearLayout
+                android:id="@+id/bg_giamGia"
+                android:layout_width="30dp"
+                android:layout_height="33dp"
+                android:background="@drawable/dialog_bg_sale"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/itemListPhone_tvSale"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=" 0%"
+                    android:textColor="#fff"
+                    android:textSize="13dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_below="@id/top"
+            >
+            <TextView
+                android:id="@+id/itemListPhone_tvTenDienThoai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên điện thoại----"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:maxLines="1"
+                android:layout_below="@+id/top"
+                />
+            <LinearLayout
+                android:id="@+id/itemListPhone_RamDLMau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@+id/itemListPhone_tvTenDienThoai"
+                >
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/itemListPhone_lnGiaTien"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/itemListPhone_RamDLMau"
+                >
+                <TextView
+                    android:id="@+id/itemListPhone_tvGiaTienGiam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19.999.999đ"
+                    android:textStyle="bold"
+                    android:textColor="#FF0000"
+                    android:textSize="13dp"
+                    android:padding="5dp"
+                    />
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="0dp"/>
+                <TextView
+                    android:id="@+id/itemListPhone_tvGiaTienGoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19.999.999đ"
+                    android:textStyle="bold"
+                    android:textColor="#7B7B7B"
+                    android:textSize="13dp" />
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="0dp"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemListPhone_lnGiaTien"
+                >
+                <RatingBar
+                    android:id="@+id/itemListPhone_rbDiemDanhGia"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:backgroundTint="#ffbd00"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="#ffbd00"
+                    android:rating="0"
+                    android:secondaryProgressTint="@android:color/black"
+                    android:stepSize="1" />
+            </RelativeLayout>
+        </LinearLayout>
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

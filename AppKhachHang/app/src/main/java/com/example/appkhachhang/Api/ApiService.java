@@ -4,7 +4,9 @@ import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.HoaDon;
+import com.example.appkhachhang.Model.Notification;
 import com.example.appkhachhang.Model.Root;
+import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.Model.ThongTinDonHang;
 import com.example.appkhachhang.Model.TopDienThoai;
 
@@ -53,7 +55,7 @@ public interface ApiService {
     Call<HoaDon> addHoaDon(@Body HoaDon hoaDon);
 
     @POST("/chitiethoadons/addChiTietHoaDon/{id}")
-    Call<List<ChiTietHoaDon>> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
+    Call<String> addChiTietHoaDon(@Body List<ChiTietHoaDon> chiTietHoaDons, @Path("id") String id);
 
     @GET("chitiethoadons/getChiTietHoaDonTheoLichSuMuaHang/{maKhachHang}")
     Call<List<ChiTietHoaDon>> getCTHDTheoLichSu(@Path("maKhachHang") String maKhachHang);
@@ -97,39 +99,91 @@ public interface ApiService {
 //    Call<List<ListPhone>> getUuDaiHot();
 
     //filter giá tiền
-    @GET("chitietdienthoais/filterGiaChiTietDienThoai")
-    Call<List<Root>> getFilterGiaTien(@Query("GiaMin") int min, @Query("GiaMax") int max);
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getFilterGiaTien(@Query("GiaMin") int min, @Query("GiaMax") int max, @Query("maHangSanXuat") String maHangSanXuat);
 
     //filter bộ nhớ
-    @GET("chitietdienthoais/filterBoNhoChiTietDienThoai")
-    Call<List<Root>> getFilterBoNho(@Query("boNho") String boNho);
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getFilterBoNho(@Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
 
     //filter dung lượng ram
-    @GET("chitietdienthoais/filterRamChiTietDienThoai")
-    Call<List<Root>> getFilterDlRam(@Query("Ram") String Ram);
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getFilterDlRam(@Query("Ram") String Ram, @Query("maHangSanXuat") String maHangSanXuat);
 
     //sắp xếp giá cao - thấp
-    @GET("chitietdienthoais/sapxepGiaCao-Thap")
-    Call<List<Root>> getSortDown();
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getSortDown(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
     //sắp xếp giá thấp - cao
-    @GET("chitietdienthoais/sapxepGiaThap-Cao")
-    Call<List<Root>> getSortUp();
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getSortUp(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
 
     //ưu đãi hot
-    @GET("chitietdienthoais/uuDaiHot")
-    Call<List<Root>> getUuDaiHot();
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getUuDaiHot(@Query("uuDaiHot") String uuDaiHot,@Query("maHangSanXuat") String maHangSanXuat);
 
-    @GET("chitietdienthoais/filterDienThoai")
-    Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho);
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
 
     //get list đánh giá theo chi tiết
     @GET("danhgias/getDanhGia/{id}")
     Call<List<DanhGia>> getListDanhGiaTheoChiTiet(@Path("id") String id);
 
+    @GET("chitietdienthoais/filterChiTietDienThoai")
+    Call<List<Root>> getDanhGiaFilter(@Query("sortDanhGia") String sortDanhGia,@Query("id") String id);
+
 
     //reload 1 list
     @PUT("/chitietgiohangs/updateLoadListChiTietGioHang/{id}")
     Call<List<ChiTietGioHang>> updateListChiTietGioHang(@Path("id") String id,@Body List<ChiTietGioHang> chiTietGioHang);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterGiaTienSPHot(@Query("GiaMin") int min, @Query("GiaMax") int max);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterGiaTienSPHot(@Query("GiaMin") int min, @Query("GiaMax") int max, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //filter bộ nhớ
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterBoNhoSPHot(@Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //filter dung lượng ram
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getFilterDlRamSPHot(@Query("Ram") String Ram, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //sắp xếp giá cao - thấp
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getSortDownSPHot(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
+    //sắp xếp giá thấp - cao
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getSortUpSPHot(@Query("sortByPrice") String sortByPrice, @Query("maHangSanXuat") String maHangSanXuat );
+
+    //ưu đãi hot
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getUuDaiHotSPHot(@Query("uuDaiHot") String uuDaiHot,@Query("maHangSanXuat") String maHangSanXuat);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getBoLocFilterSPHot(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+
+    //get list đánh giá theo chi tiết
+    @GET("danhgias/getDanhGia/{id}")
+    Call<List<DanhGia>> getListDanhGiaTheoChiTietSPHot(@Path("id") String id);
+
+    @GET("chitietdienthoais/filterDienThoaiHotNhat")
+    Call<List<SanPhamHot>> getDanhGiaFilterSPHot(@Query("sortDanhGia") String sortDanhGia,@Query("id") String id);
+
+    //get thông báo
+    @GET("thongbao/getThongBao/{phanQuyen}/{id}")
+    Call<List<Notification>> getThongBao(@Path("phanQuyen")String phanQuyen,
+                                                    @Path("id")String id);
+
+    //update trạng thái đọc của thông báo
+    @PUT("thongbao/updateTrangThaiThongBao/{id}")
+    Call<String> updateThongBao(@Path("id") String id, @Body Notification notification);
+
+    //đọc tất cả thông báo
+    @PUT("thongbao/updateAll/{phanQuyen}/{id}")
+    Call<String> updateAllThongBao(@Path("phanQuyen")String phanQuyen,
+                                @Path("id")String id);
 
 
     //get top 10 ban chay
@@ -160,5 +214,12 @@ public interface ApiService {
     //get danh gia hinh anh
     @GET("danhgias/getDanhGiaHinhAnhTheoCuaHang/{id}")
     Call<List<DanhGia>> getDanhGiaHinhAnhTheoCuaHang(@Path("id") String id);
+
+    //sap xep giaTien cao - thap cuaHang
+    @GET("chitietdienthoais/getSapXepTangChiTietDienThoaiTheoCuaHang/{id}")
+    Call<List<Root>> getSapXepGiaTangCuaHang(@Path("id") String id);
+    //sap xep giaTien thap - cao cuaHang
+    @GET("chitietdienthoais/getSapXepGiamChiTietDienThoaiTheoCuaHang/{id}")
+    Call<List<Root>> getSapXepGiaGiamCuaHang(@Path("id") String id);
 }
 

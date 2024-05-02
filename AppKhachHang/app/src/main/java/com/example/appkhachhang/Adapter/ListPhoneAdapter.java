@@ -128,11 +128,12 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
 
         Root item = list.get(position);
         String tenDienThoai = item.getChiTietDienThoai().getMaDienThoai().getTenDienThoai();
-        if (tenDienThoai.length() > 10) {
-            holder.tvTenDienThoai.setText("Điện thoại " + tenDienThoai );
-        } else {
-            holder.tvTenDienThoai.setText("Điện thoại " + tenDienThoai +"\n");
-        }
+//        if (tenDienThoai.length() > 10) {
+//            holder.tvTenDienThoai.setText("Điện thoại " + tenDienThoai );
+//        } else {
+//            holder.tvTenDienThoai.setText("Điện thoại " + tenDienThoai +"\n");
+//        }
+        holder.tvTenDienThoai.setText("Điện thoại " + tenDienThoai );
         holder.tvMau.setText(""+item.getChiTietDienThoai().getMaMau().getTenMau());
 
         holder.tvRam.setText(""+item.getChiTietDienThoai().getMaRam().getRAM() +" GB");
@@ -235,7 +236,6 @@ public class ListPhoneAdapter extends RecyclerView.Adapter<ListPhoneAdapter.View
             tvGiaTienGiam = itemView.findViewById(R.id.itemListPhone_tvGiaTienGiam);
             tvGiaTienGoc = itemView.findViewById(R.id.itemListPhone_tvGiaTienGoc);
             rbDiemDanhGia = itemView.findViewById(R.id.itemListPhone_rbDiemDanhGia);
-            imgCart = itemView.findViewById(R.id.itemListPhone_imgCart);
             imgPhone = itemView.findViewById(R.id.itemListPhone_imgDienThoai);
         }
     }

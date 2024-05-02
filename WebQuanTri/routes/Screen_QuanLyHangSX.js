@@ -48,10 +48,10 @@ router.get('/searchThongSo', authenticateToken, async function (req, res, next) 
     }
     const {tenMau, tenHang, boNho, RAM} = req.query;
     // Gọi API để lấy danh sách hóa đơn dựa trên mã cửa hàng
-    const hangSX = await axios.get(`${baseUrl}hangsanxuats/searchHangSanXuat?tenHang=${tenHang}`);
-    const mau = await axios.get(`${baseUrl}maus/searchMau?tenMau=${tenMau}`);
-    const dungLuong = await axios.get(`${baseUrl}dungluongs/searchDungLuong?boNho=${boNho}`);
-    const ram = await axios.get(`${baseUrl}rams/searchRAM?RAM=${RAM}`);
+    const hangSX = await axios.get(`${baseUrl}hangsanxuats/searchHangSanXuat?tenHang=${tenHang.trim()}`);
+    const mau = await axios.get(`${baseUrl}maus/searchMau?tenMau=${tenMau.trim()}`);
+    const dungLuong = await axios.get(`${baseUrl}dungluongs/searchDungLuong?boNho=${boNho.trim()}`);
+    const ram = await axios.get(`${baseUrl}rams/searchRAM?RAM=${RAM.trim()}`);
 
     res.render('quanLyHangSanXuat',
         {

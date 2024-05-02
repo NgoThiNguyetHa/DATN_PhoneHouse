@@ -115,7 +115,6 @@ public class ChiTietDienThoaiFragment extends Fragment {
     ProgressDialog progressDialog;
     List<Phone> phoneList;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -362,7 +361,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                     }
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);

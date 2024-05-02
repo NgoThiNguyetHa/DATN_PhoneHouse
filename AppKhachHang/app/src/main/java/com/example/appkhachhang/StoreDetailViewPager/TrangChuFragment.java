@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,12 +96,6 @@ public class TrangChuFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        adapter.setOnClickListener(new IItemListPhoneListener() {
-            @Override
-            public void onClickDetail(Root root) {
-//
-            }
-        });
         rc_dienThoai_khuyen_mai.setAdapter(adapter);
     }
     private void getDataBundle(){
@@ -122,6 +117,7 @@ public class TrangChuFragment extends Fragment {
                     List<TopDienThoai> data = response.body();
                     topDienThoaiList.clear();
                     topDienThoaiList.addAll(data);
+                    Log.e("topdienthoai",response.body().toString());
                     adapterTop.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();

@@ -2,32 +2,34 @@ package com.example.appkhachhang.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
-import com.example.appkhachhang.activity.DetailScreen;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.ViewHolder> {
     private Context context;
     private List<SanPhamHot> list;
+    List<DanhGia> danhGiaList = new ArrayList<>();
     private final OnItemClickListenerSanPhamHot onItemClickListenerSanPhamHot;
 
 
@@ -107,6 +109,30 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+
+        //rating danh gia
+        int tongDiemDanhGia = 0;
+        danhGiaList = sanPhamHot.getDanhGia();
+        for (int i = 0; i < sanPhamHot.getDanhGia().size(); i++) {
+            tongDiemDanhGia += sanPhamHot.getDanhGia().get(i).getDiemDanhGia();
+        }
+        int soLuongDanhGia = sanPhamHot.getDanhGia().size();
+        float diemTrungBinh = 0;
+        if (soLuongDanhGia != 0) {
+            diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
+        }
+//        String toastMessage = "Tổng điểm đánh giá: " + tongDiemDanhGia + "\nĐiểm trung bình: " + diemTrungBinh;
+//
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+        holder.rbDiemDanhGia.setRating(diemTrungBinh);
+        Drawable drawable = holder.rbDiemDanhGia.getProgressDrawable();
+        drawable.setColorFilter(Color.parseColor("#ffbd00"), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
@@ -118,6 +144,7 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
         private ImageView imgSanPham, imgCart;
         private TextView tvTenSanPham, tvMau, tvRam, tvDungLuong, tvSale;
         private TextView tvGiaSanPham, tvGisSPGoc;
+        RatingBar rbDiemDanhGia;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -130,6 +157,7 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
             tvRam = itemView.findViewById(R.id.itemListPhoneHot_tvRam);
             tvDungLuong = itemView.findViewById(R.id.itemListPhoneHot_tvDungLuong);
             tvSale = itemView.findViewById(R.id.itemListPhoneHot_tvSale);
+            rbDiemDanhGia = itemView.findViewById(R.id.itemListPhoneHot_rbDiemDanhGia);
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {

@@ -1,6 +1,7 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,16 +30,14 @@ import android.widget.Toast;
 import com.example.appkhachhang.Adapter.DanhGiaAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
-import com.example.appkhachhang.DBHelper.ShoppingCartManager;
-import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.ShopActivity;
 import com.example.appkhachhang.ThanhToanActivity;
-import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.CartSharedPreferences;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.gson.Gson;
@@ -71,6 +69,7 @@ public class DetailScreenFragment extends Fragment {
     MySharedPreferences mySharedPreferences;
     AppCompatButton btnXemShop;
     List<ChiTietGioHang> listChon;
+    ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,7 +127,8 @@ public class DetailScreenFragment extends Fragment {
     private void getDataBundle() {
         Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle != null) {
-            chiTietDienThoai = (ChiTietDienThoai) bundle.getSerializable("idChiTietDienThoai"); // Lấy dữ liệu từ Bundle bằng key
+            chiTietDienThoai = (ChiTietDienThoai) bundle.getSerializable("idChiTietDienThoai");// Lấy dữ liệu từ Bundle bằng key
+            Log.e("abcabcabc", "getDataBundle: " + chiTietDienThoai.getMaDienThoai() );
             getData(chiTietDienThoai.get_id());
             setTextData(chiTietDienThoai);
             actionAddToCartAndBuyNow(chiTietDienThoai);
@@ -288,25 +288,31 @@ public class DetailScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    if (quantity < chiTietDienThoai.getSoLuong()) {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    if (quantity <= chiTietDienThoai.getSoLuong()) {
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);
                         if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null) {
                             chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
                         } else {
-                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - Math.round(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
                         }
+
                         ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
                             @Override
                             public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                                     CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
                                     boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
                                     if (isSuccess) {
                                         Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
                                         quantity = 1;
+                                        progressDialog.dismiss();
                                     } else {
                                         Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
                                     }
@@ -338,14 +344,19 @@ public class DetailScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
                     if (quantity < chiTietDienThoai.getSoLuong()) {
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Vui Lòng Chờ...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);
                         if (chiTietDienThoai.getMaDienThoai().getMaUuDai() == null) {
                             chiTietGioHang.setGiaTien(chiTietDienThoai.getGiaTien());
                         } else {
-                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - (chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
+                            chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - Math.round(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
                         }
+
                         listChon.add(chiTietGioHang);
                         Gson gson = new Gson();
                         Bundle bundle = new Bundle();
@@ -356,6 +367,7 @@ public class DetailScreenFragment extends Fragment {
                         Intent intent = new Intent(getContext(), ThanhToanActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
+                        progressDialog.dismiss();
                     } else {
                         lnError.setVisibility(View.VISIBLE);
                         return;
@@ -385,10 +397,12 @@ public class DetailScreenFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang) {
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.detailScreen_frameLayout, new CartFragment());
-                transaction.commit();
+//                FragmentManager manager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction transaction = manager.beginTransaction();
+//                transaction.replace(R.id.detailScreen_frameLayout, new CartFragment());
+//                transaction.commit();
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
             } else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);

@@ -243,6 +243,12 @@ public class PhoneListFragment extends Fragment {
                 bottomDialogFilterBoLoc();
             }
         });
+        ln_sxDiemDanhGia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sortDanhGia();
+            }
+        });
         ln_locGia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,6 +284,35 @@ public class PhoneListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 uuDaiHot();
+            }
+        });
+    }
+
+    private void sortDanhGia() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Vui Lòng Chờ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<Root>> call = apiService.getDanhGiaFilter("true", hangSanXuat.get_id());
+        call.enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    List<Root> data = response.body();
+                    list.clear();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+                Log.e("filter dung luong ram", t.getLocalizedMessage());
             }
         });
     }
@@ -393,12 +428,12 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 StringBuilder selectedBoNho = new StringBuilder();
                 if (isOnclick512[0]) {
-                    selectedBoNho.append("100,");
-                    selectedBoNho.append("66,");
+                    selectedBoNho.append("512,");
+                    selectedBoNho.append("10000,");
                 }
                 if (isOnclick128_258[0]) {
-                    selectedBoNho.append("12,");
                     selectedBoNho.append("128,");
+                    selectedBoNho.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedBoNho.append("32,");
@@ -406,14 +441,14 @@ public class PhoneListFragment extends Fragment {
                 }
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("69,");
+                    selectedRAMs.append("6,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
@@ -424,9 +459,7 @@ public class PhoneListFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString());
+                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -527,7 +560,7 @@ public class PhoneListFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0] * 1000000, maxValue[0] * 1000000);
+                Call<List<Root>> call = apiService.getFilterGiaTien(minValue[0] * 1000000, maxValue[0] * 1000000,hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -612,12 +645,12 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
 
                 if (isOnclick512[0]) {
-                    selectedRAMs.append("100,");
-                    selectedRAMs.append("66,");
+                    selectedRAMs.append("512,");
+                    selectedRAMs.append("10000, " );
                 }
                 if (isOnclick128_258[0]) {
-                    selectedRAMs.append("12,");
                     selectedRAMs.append("128,");
+                    selectedRAMs.append("256,");
                 }
                 if (isOnclick32_64[0]) {
                     selectedRAMs.append("32,");
@@ -628,9 +661,7 @@ public class PhoneListFragment extends Fragment {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString());
+                Call<List<Root>> call = apiService.getFilterBoNho(selectedRAMs.toString(),hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -720,23 +751,21 @@ public class PhoneListFragment extends Fragment {
                 StringBuilder selectedRAMs = new StringBuilder();
                 if (isOnclick4_6[0]) {
                     selectedRAMs.append("4,");
-                    selectedRAMs.append("6,");
+                    selectedRAMs.append("8,");
                 }
                 if (isOnclick8_12[0]) {
                     selectedRAMs.append("8,");
                     selectedRAMs.append("12,");
                 }
                 if (isOnclick16[0]) {
-                    selectedRAMs.append("50,");
+                    selectedRAMs.append("16,");
                 }
 
                 if (selectedRAMs.length() > 0) {
                     selectedRAMs.deleteCharAt(selectedRAMs.length() - 1);
                 }
 
-                Toast.makeText(getContext(), "Selected RAMs: " + selectedRAMs.toString(), Toast.LENGTH_SHORT).show();
-
-                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString());
+                Call<List<Root>> call = apiService.getFilterDlRam(selectedRAMs.toString(),hangSanXuat.get_id());
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -772,7 +801,7 @@ public class PhoneListFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortDown();
+        Call<List<Root>> call = apiService.getSortDown("desc", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -797,11 +826,11 @@ public class PhoneListFragment extends Fragment {
 
     private void sortGiaTienThapCao() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortUp();
+        Call<List<Root>> call = apiService.getSortUp("arc", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -826,11 +855,11 @@ public class PhoneListFragment extends Fragment {
 
     private void uuDaiHot() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getUuDaiHot();
+        Call<List<Root>> call = apiService.getUuDaiHot("true", hangSanXuat.get_id());
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {

@@ -366,7 +366,7 @@ public class PhoneFragment extends Fragment {
                     //upload ảnh lên firebase
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
 
@@ -537,7 +537,7 @@ public class PhoneFragment extends Fragment {
                     //upload ảnh lên firebase
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
@@ -661,7 +661,7 @@ public class PhoneFragment extends Fragment {
                     }
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);

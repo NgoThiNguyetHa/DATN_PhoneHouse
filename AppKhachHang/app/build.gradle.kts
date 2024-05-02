@@ -46,6 +46,16 @@ dependencies {
         "dir" to "D:\\PhoneHouse_DoAnTotNghiep\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
         "include" to listOf("*.aar", "*.jar")
     )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\ZaloPay",
+        "include" to listOf("*.aar", "*.jar")
+    )))
+    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
+        "include" to listOf("*.aar", "*.jar"),
+
+    )))
 
 
     testImplementation("junit:junit:4.13.2")
@@ -70,6 +80,7 @@ dependencies {
 
     implementation ("com.github.MohammedAlaaMorsi:RangeSeekBar:1.0.6")
 
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation ("com.github.momo-wallet:mobile-sdk:1.0.7")
 
     //circle image
@@ -77,7 +88,7 @@ dependencies {
 
     //barchart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
+//    implementation ("com.github.Inconnu08:android-ratingreviews:1.2.0")
 
 
 }

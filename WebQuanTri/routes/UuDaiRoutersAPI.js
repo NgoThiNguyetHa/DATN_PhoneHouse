@@ -11,7 +11,7 @@ const UuDai = mongoose.model("uudai")
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/addUuDai',async function (req, res, next) {
+router.post('/addUuDai', async function (req, res, next) {
   try {
     const uudai = new UuDai({
       giamGia: req.body.giamGia,
@@ -90,25 +90,25 @@ router.put('/updateExpiredStatus', async (req, res) => {
       {
         $match: {
           $and: [
-            { trangThai: "Hoạt động" },
-            { ngayHetHanDate: { $lt: currentDate } }
+            {trangThai: "Hoạt động"},
+            {ngayHetHanDate: {$lt: currentDate}}
           ]
         }
       }
     ])
     for (const voucher of expiredVouchers) {
-      await UuDai.findByIdAndUpdate(voucher._id, { trangThai: 'Không hoạt động' }, {new: true});
-      const productsWithExpiredVoucher = await DienThoai.find({ maUuDai: voucher._id });
+      await UuDai.findByIdAndUpdate(voucher._id, {trangThai: 'Không hoạt động'}, {new: true});
+      const productsWithExpiredVoucher = await DienThoai.find({maUuDai: voucher._id});
 
       // Cập nhật lại trường uuDai cho các sản phẩm đó
       for (const product of productsWithExpiredVoucher) {
-        await DienThoai.findByIdAndUpdate(product._id, { maUuDai: null }, { new: true });
+        await DienThoai.findByIdAndUpdate(product._id, {maUuDai: null}, {new: true});
       }
     }
 
-    res.status(200).json({ message: 'Cập nhật trạng thái voucher thành công' });
+    res.status(200).json({message: 'Cập nhật trạng thái voucher thành công'});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
@@ -125,17 +125,16 @@ router.get('/getUuDai-Active/:id', async (req, res) => {
 router.get('/searchUuDaiByDiscount/:id', async (req, res) => {
   try {
     const idCuaHang = req.params.id
-    const { minDiscount, maxDiscount, trangThai } = req.query;
+    const {maxDiscount, trangThai} = req.query;
 
-    const uudai = await UuDai.find({
-      giamGia: { $gte: parseFloat(minDiscount), $lte: parseFloat(maxDiscount) },
-      maCuaHang: idCuaHang,
-      trangThai: trangThai
-    }).populate("maCuaHang");
+    let uudai = await UuDai.find({maCuaHang: idCuaHang}).populate("maCuaHang");
+    uudai = uudai.filter((item) =>
+        (!maxDiscount || item.giamGia.trim().toLowerCase().includes(maxDiscount.toLowerCase())) &&
+        (!trangThai || item.trangThai === trangThai))
 
     res.json(uudai);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 })
 

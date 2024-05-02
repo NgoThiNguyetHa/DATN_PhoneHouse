@@ -1005,7 +1005,7 @@ router.get("/topDienThoai/:maCuaHang", async (req, res) => {
         // hinhAnh,
         chiTietDienThoai,
         soLuongBan,
-        danhGia: danhGiaList, // Gắn danh sách đánh giá vào chi tiết sản phẩm
+        danhGias: danhGiaList, // Gắn danh sách đánh giá vào chi tiết sản phẩm
       });
     }
 

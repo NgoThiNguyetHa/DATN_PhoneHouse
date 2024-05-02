@@ -1,6 +1,5 @@
 package com.example.appkhachhang.Api;
 
-import com.example.appkhachhang.Model.AddressDelivery;
 import com.example.appkhachhang.Model.DanhGia;
 
 import java.util.List;
@@ -9,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface FeedbackAPI {
@@ -17,4 +17,8 @@ public interface FeedbackAPI {
 
     @GET("danhgias/getDanhGiaTheoKhachHang/{id}")
     Call<List<DanhGia>> getDanhGia(@Path("id") String id);
+
+    @PUT("danhgias/updateDanhGia/{id}")
+    Call<DanhGia> update(@Path("id") String id,
+                            @Body DanhGia danhGia);
 }

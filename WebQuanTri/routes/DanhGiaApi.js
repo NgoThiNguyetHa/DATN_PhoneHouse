@@ -208,7 +208,6 @@ router.get('/getDanhGiaTheoCuaHang/:id', async (req,res) => {
 router.get('/searchDanhGia/:id', async (req, res) => {
   try {
     const { tenKhachHang, sanPham, noiDung, diemDanhGia, ngayDanhGia } = req.query;
-
     const idCuaHang = req.params.id;
     let danhGia = await DanhGia.find()
         .populate("idKhachHang")
@@ -238,7 +237,6 @@ router.get('/searchDanhGia/:id', async (req, res) => {
             (!diemDanhGia || item.diemDanhGia === parseInt(diemDanhGia)) &&
             (!ngayDanhGia || item.ngayTao.trim().toLowerCase() === ngayDanhGia.toLowerCase())
     );
-
     res.json(danhGia);
   } catch (error) {
     res.status(500).json({ error: error.message });

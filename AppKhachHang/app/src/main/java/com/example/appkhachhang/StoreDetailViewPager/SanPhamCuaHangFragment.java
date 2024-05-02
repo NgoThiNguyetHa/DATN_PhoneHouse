@@ -24,14 +24,17 @@ import com.example.appkhachhang.Adapter.TopDienThoaiAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.HangSanXuat_API;
+import com.example.appkhachhang.Fragment.DetailScreenFragment;
 import com.example.appkhachhang.Fragment.PhoneListFragment;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.Model.TopDienThoai;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
+import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -103,6 +106,18 @@ public class SanPhamCuaHangFragment extends Fragment {
         rcSanPham.setLayoutManager(gridLayoutManager);
         listPhoneAdapter = new ListPhoneAdapter(getContext());
         listPhoneAdapter.setData(list);
+        listPhoneAdapter.setOnClickListener(new IItemListPhoneListener() {
+            @Override
+            public void onClickDetail(Root root) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
+                DetailScreenFragment fragmentB = new DetailScreenFragment();
+                fragmentB.setArguments(bundle);
+                Intent intent = new Intent(getActivity(), DetailScreen.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         rcSanPham.setAdapter(listPhoneAdapter);
 
 
@@ -209,7 +224,7 @@ public class SanPhamCuaHangFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortDownTheoCuaHang(id);
+        Call<List<Root>> call = apiService.getSapXepGiaGiamCuaHang(id);
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
@@ -238,7 +253,7 @@ public class SanPhamCuaHangFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
-        Call<List<Root>> call = apiService.getSortUTheoCuaHang(id);
+        Call<List<Root>> call = apiService.getSapXepGiaTangCuaHang(id);
         call.enqueue(new Callback<List<Root>>() {
             @Override
             public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {

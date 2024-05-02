@@ -24,6 +24,9 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 import android.widget.ImageView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.appkhachhang.Adapter.HangSanXuatAdapter;
 import com.example.appkhachhang.Adapter.ChiTietDienThoatAdapter;
 import com.example.appkhachhang.Adapter.SanPhamHotAdapter;
@@ -31,9 +34,11 @@ import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Api.HangSanXuat_API;
 import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
+import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.Model.Root;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
-import com.example.appkhachhang.Interface.OnItemClickListenerSanPham;
 import com.example.appkhachhang.LoginScreen;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.HangSanXuat;
@@ -42,7 +47,6 @@ import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
 import com.example.appkhachhang.activity.MomoActivity;
 import com.example.appkhachhang.activity.SearchActivity;
-import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
 import java.util.ArrayList;
@@ -58,12 +62,13 @@ public class HomeFragment extends Fragment {
     ChiTietDienThoatAdapter chiTietDienThoatAdapter;
     SanPhamHotAdapter sanPhamHotAdapter;
     HangSanXuatAdapter hangSanXuatAdapter;
-    List<ChiTietDienThoai> list;
+    List<Root> list;
     List<SanPhamHot> listSPHot;
     List<HangSanXuat> listHang;
     Toolbar toolbar;
     AppCompatActivity activity;
     MySharedPreferences mySharedPreferences;
+    ImageSlider imageSlider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +80,12 @@ public class HomeFragment extends Fragment {
         recyclerViewHang = view.findViewById(R.id.ryc_hang);
         imgSPHot = view.findViewById(R.id.img_listSPHot);
         imgSP = view.findViewById(R.id.img_listSP);
+        imageSlider = view.findViewById(R.id.imgSlider);
+        imgSlider();
         mySharedPreferences = new MySharedPreferences(getContext());
+        if(getActivity()!= null){
+            getActivity().setTitle("Màn hình chính");
+        }
         imgSPHot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,11 +126,11 @@ public class HomeFragment extends Fragment {
         recyclerViewSP.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         getListSanPham();
-        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new OnItemClickListenerSanPham() {
+        chiTietDienThoatAdapter = new ChiTietDienThoatAdapter(getContext(), list, new IItemListPhoneListener() {
             @Override
-            public void onItemClickSP(ChiTietDienThoai chiTietDienThoai) {
+            public void onClickDetail(Root root) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("idChiTietDienThoai", chiTietDienThoai);
+                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
                 DetailScreenFragment fragmentB = new DetailScreenFragment();
                 fragmentB.setArguments(bundle);
                 Intent intent = new Intent(getActivity(), DetailScreen.class);
@@ -180,6 +190,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<SanPhamHot>> call, Response<List<SanPhamHot>> response) {
                 List<SanPhamHot> sanPhamHotList = response.body();
+                Log.d("san pham hot", response.body().toString());
                 listSPHot.clear();
                 listSPHot.addAll(sanPhamHotList);
                 sanPhamHotAdapter.notifyDataSetChanged();
@@ -219,8 +230,6 @@ public class HomeFragment extends Fragment {
                     listHang.addAll(response.body());
                     hangSanXuatAdapter.notifyDataSetChanged();
 //                    setLayoutAnimationHSX(R.anim.layout_anim_right_to_left);
-                }else{
-                    Toast.makeText(activity, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -234,24 +243,26 @@ public class HomeFragment extends Fragment {
 
 
     void getListSanPham(){
-//        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<ChiTietDienThoai>>() {
-//            @Override
-//            public void onResponse(Call<List<ChiTietDienThoai>> call, Response<List<ChiTietDienThoai>> response) {
-//                if (response.isSuccessful()) {
-//                    list.clear();
-//                    list.addAll(response.body());
-//                    chiTietDienThoatAdapter.notifyDataSetChanged();
+        ChiTietSanPham_API.chiTietSanPhamApi.getChiTiet().enqueue(new Callback<List<Root>>() {
+            @Override
+            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("san pham list", response.body().toString());
+                    list.clear();
+                    list.addAll(response.body());
+                    chiTietDienThoatAdapter.notifyDataSetChanged();
+
 //                    Log.d("zzz240", "onViewCreated: "+list.size());
-//                }else{
-//                    Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ChiTietDienThoai>> call, Throwable t) {
-////                Log.e("errorrr", "onFailure: " + t.getMessage() );
-//            }
-//        });
+                }else{
+                    Toast.makeText(activity, "khong co du lieu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Root>> call, Throwable t) {
+//                Log.e("errorrr", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
 
@@ -270,7 +281,9 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                replaceFragment(new CartFragment());
+//                replaceFragment(new CartFragment());
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
             }else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
@@ -308,5 +321,12 @@ public class HomeFragment extends Fragment {
    private void setLayoutAnimationHSX(int animResource){
        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getActivity(),animResource);
        recyclerViewHang.setLayoutAnimation(layoutAnimationController);
+   }
+   void imgSlider(){
+       ArrayList<SlideModel> slideModels = new ArrayList<>();
+       slideModels.add(new SlideModel(R.drawable.banner1, ScaleTypes.FIT));
+       slideModels.add(new SlideModel(R.drawable.banner2, ScaleTypes.FIT));
+       slideModels.add(new SlideModel(R.drawable.banner3, ScaleTypes.FIT));
+       imageSlider.setImageList(slideModels, ScaleTypes.FIT);
    }
 }

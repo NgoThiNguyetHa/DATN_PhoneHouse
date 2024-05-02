@@ -3,6 +3,7 @@ package com.example.appcuahang.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class InfoStoreFragment extends Fragment {
     EditText edAddress ;
     EditText edEmail ;
     EditText edPhone ;
-
+    ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +122,10 @@ public class InfoStoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (validate()){
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     String username = edUsername.getText().toString().trim();
                     String address = edAddress.getText().toString().trim();
                     String email = edEmail.getText().toString().trim();
@@ -133,6 +138,7 @@ public class InfoStoreFragment extends Fragment {
                             if (response.isSuccessful()) {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
+                                progressDialog.dismiss();
                             } else {
                                 Toast.makeText(getContext(), "Cập nhập thất bại", Toast.LENGTH_SHORT).show();
                             }
@@ -212,6 +218,10 @@ public class InfoStoreFragment extends Fragment {
                     edConfirmPass.setError("Mật khẩu không trùng khớp");
                     return;
                 } else {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     ApiService apiService = ApiRetrofit.getApiService();
                     Call<Store> call = apiService.putCuaHang(mySharedPreferences.getUserId(), new Store(newPass,mySharedPreferences.getEmail()));
                     call.enqueue(new Callback<Store>() {
@@ -220,6 +230,7 @@ public class InfoStoreFragment extends Fragment {
                             if (response.isSuccessful()) {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
+                                progressDialog.dismiss();
                             } else {
                                 Toast.makeText(getContext(), "Cập nhập thất bại", Toast.LENGTH_SHORT).show();
                             }

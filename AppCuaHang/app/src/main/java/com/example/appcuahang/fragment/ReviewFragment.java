@@ -3,6 +3,7 @@ package com.example.appcuahang.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -54,6 +55,7 @@ public class ReviewFragment extends Fragment {
     List<Rating> list;
     LinearLayoutManager manager;
     MySharedPreferences mySharedPreferences;
+    ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +141,10 @@ public class ReviewFragment extends Fragment {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Vui Lòng Chờ...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 Call<Rating> call = apiService.deleteDanhGia(id);
                 call.enqueue(new Callback<Rating>() {
                     @Override
@@ -147,6 +153,7 @@ public class ReviewFragment extends Fragment {
                             Toast.makeText(getContext(), "Xóa thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
 

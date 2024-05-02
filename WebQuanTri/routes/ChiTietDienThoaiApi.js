@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("../models/ChiTietDienThoai");
 require("../models/DienThoai");
 require('../models/CuaHang')
+require("../models/ChiTietHoaDon");
 const {
   getStorage,
   ref,
@@ -21,6 +22,8 @@ const DungLuong = require("../models/DungLuong");
 const ChiTietDienThoai = mongoose.model("chitietdienthoai");
 const DienThoai = mongoose.model("dienthoai");
 const CuaHang = mongoose.model("cuaHang");
+const ChiTietHoaDon = mongoose.model("chiTietHoaDon");
+
 router.post("/addChiTiet", async function (req, res, next) {
   try {
     const chiTiet = new ChiTietDienThoai({
@@ -60,7 +63,7 @@ router.post("/addChiTiet", async function (req, res, next) {
 /* GET loaidichvu listing. */
 router.get("/getChiTiet", async (req, res) => {
   try {
-    const chiTiet = await ChiTietDienThoai.find()
+    const dienThoai = await ChiTietDienThoai.find()
       .populate("maMau")
       .populate("maRam")
       .populate("maDungLuong")
@@ -71,7 +74,37 @@ router.get("/getChiTiet", async (req, res) => {
           { path: "maUuDai", populate: "maCuaHang" },
         ], // Liên kết với bảng 'hangSX'
       });
-    res.json(chiTiet);
+
+    const transformedResponse = await Promise.all(
+        dienThoai.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    res.json(transformedResponse);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -179,7 +212,7 @@ router.get("/getChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
           return {
             chiTietDienThoai: item,
             danhGias: danhGias,
-            // tbDiemDanhGia: averageRating
+            tbDiemDanhGia: averageRating
           };
         })
     );
@@ -1740,8 +1773,332 @@ router.get("/searchDienThoaiVaCuaHang", async (req, res) => {
   }
 });
 
+
+router.get("/filterDienThoaiHotNhat", async (req, res) => {
+  try {
+    const {
+      GiaMin,
+      GiaMax,
+      Ram,
+      boNho,
+      sortByPrice,
+      uuDaiHot,
+      maHangSanXuat,
+      sortDanhGia
+    } = req.query;
+    const dienThoaiDuocMuaNhieu = await ChiTietHoaDon.aggregate([
+      {
+        $group: {
+          _id: "$maChiTietDienThoai",
+          soLuong: { $sum: "$soLuong" },
+        },
+      },
+      {
+        $sort: { soLuong: -1 }, // Sắp xếp theo số lượng mua giảm dần
+      },
+    ]).exec();
+
+    // Lấy thông tin chi tiết của các điện thoại từ bảng Điện Thoại và danh sách đánh giá
+    const danhGiaPromises = dienThoaiDuocMuaNhieu.map(async (item) => {
+      const _id = await ChiTietDienThoai.findById(item._id)
+          .populate("maRam")
+          .populate("maDungLuong")
+          .populate("maMau")
+          .populate({
+            path: "maDienThoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          })
+          .exec();
+
+      const danhGias = await DanhGia.find({
+        idChiTietDienThoai: item._id,
+      })
+          .populate("idKhachHang")
+          .populate({
+            path: "idChiTietDienThoai",
+            populate: [
+              {
+                path: "maDienThoai",
+                model: "dienthoai",
+                populate: [
+                  { path: "maCuaHang", model: "cuaHang" },
+                  { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                  { path: "maHangSX", model: "hangSanXuat" },
+                ],
+              },
+              { path: "maMau", model: "mau" },
+              { path: "maDungLuong", model: "dungluong" },
+              { path: "maRam", model: "ram" },
+            ],
+          })
+          .exec();
+
+      const averageRating = calculateAverageRating(danhGias);
+      const dienThoaiInfo = {
+        _id,
+        danhGias,
+        tbDiemDanhGia: averageRating,
+        soLuong: item.soLuong, // Bổ sung trường soLuong vào kết quả trả về
+      };
+
+      return dienThoaiInfo;
+    });
+
+    let danhGiaResult = await Promise.all(danhGiaPromises);
+    danhGiaResult = danhGiaResult.filter(item => {
+
+      if (GiaMin && item._id.giaTien < GiaMin) return false;
+      if (GiaMax && item._id.giaTien > GiaMax) return false;
+      if (uuDaiHot === "true" && !item._id.maDienThoai.maUuDai) return false;
+
+      return true;
+    });
+
+    if (Ram){
+      const [minRam, maxRam] = Ram.split(",").map((value) => parseInt(value.trim()));
+      danhGiaResult = danhGiaResult.filter(item =>
+          item._id.maRam.RAM >= minRam && item._id.maRam.RAM <= maxRam
+      );
+    }
+
+    if (boNho){
+      const [minBoNho, maxBoNho] = boNho.split(",").map((value) => parseInt(value.trim()));
+      danhGiaResult = danhGiaResult.filter(item =>
+          item._id.maDungLuong.boNho >= minBoNho && item._id.maDungLuong.boNho <= maxBoNho
+      );
+    }
+
+    if (sortByPrice === "asc") {
+      danhGiaResult.sort((a, b) => a._id.giaTien - b._id.giaTien);
+    } else if (sortByPrice === "desc") {
+      danhGiaResult.sort((a, b) => b._id.giaTien - a._id.giaTien);
+    }
+    if (uuDaiHot === "true"){
+      danhGiaResult.sort((a, b) => {
+        if (a._id.maDienThoai.maUuDai && b._id.maDienThoai.maUuDai) {
+          return b._id.maDienThoai.maUuDai.giamGia - a._id.maDienThoai.maUuDai.giamGia;
+        } else if (a._id.maDienThoai.maUuDai) {
+          return -1;
+        } else if (b._id.maDienThoai.maUuDai) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+    if (sortDanhGia === "true") {
+      danhGiaResult.sort((a, b) => b.tbDiemDanhGia - a.tbDiemDanhGia);
+    }
+
+    res.status(200).json(danhGiaResult);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //get chi tiet dien thoai khuyen mai
 router.get("/getChiTietUuDai/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
+        .populate("maCuaHang", "_id")
+        .populate("maCuaHang");
+    const chiTietDienThoais = [];
+    for (const dt of dienThoai) {
+      const dienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
+          .populate("maRam")
+          .populate("maDungLuong")
+          .populate("maMau")
+          .populate({
+            path: "maDienThoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          });
+      if (dienThoai) {
+        chiTietDienThoais.push(...dienThoai);
+      }
+    }
+
+    const transformedResponse = await Promise.all(
+        chiTietDienThoais.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            // tbDiemDanhGia: averageRating,
+          };
+        })
+    );
+
+    // Lọc những bản ghi có maUuDai không null
+    const filteredResponse = transformedResponse.filter(
+        (item) => item.chiTietDienThoai.maDienThoai.maUuDai !== null
+    );
+
+    res.json(filteredResponse);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/sapxepGiaCao-Thap/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
+        .populate("maCuaHang", "_id")
+        .populate("maCuaHang");
+
+    // Sắp xếp các điện thoại theo giá từ cao đến thấp
+    dienThoai.sort((a, b) => b.giaTien - a.giaTien);
+
+    const chiTietDienThoais = [];
+    for (const dt of dienThoai) {
+      const chiTietDienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
+          .populate("maRam")
+          .populate("maDungLuong")
+          .populate("maMau")
+          .populate({
+            path: "maDienThoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          });
+
+      if (chiTietDienThoai) {
+        chiTietDienThoais.push(...chiTietDienThoai);
+      }
+    }
+
+    const transformedResponse = await Promise.all(
+        chiTietDienThoais.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            // tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    res.json(transformedResponse);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/sapxepGiaThap-Cao/:id", async (req, res) => {
+  try {
+    const idCuaHang = req.params.id;
+    const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
+        .populate("maCuaHang", "_id")
+        .populate("maCuaHang");
+
+    // Sắp xếp các điện thoại theo giá từ thấp đến cao
+    dienThoai.sort((a, b) => a.giaTien - b.giaTien);
+
+    const chiTietDienThoais = [];
+    for (const dt of dienThoai) {
+      const chiTietDienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
+          .populate("maRam")
+          .populate("maDungLuong")
+          .populate("maMau")
+          .populate({
+            path: "maDienThoai",
+            populate: [
+              { path: "maCuaHang", model: "cuaHang" },
+              { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+              { path: "maHangSX", model: "hangSanXuat" },
+            ],
+          });
+
+      if (chiTietDienThoai) {
+        chiTietDienThoais.push(...chiTietDienThoai);
+      }
+    }
+
+    const transformedResponse = await Promise.all(
+        chiTietDienThoais.map(async (item) => {
+          const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
+              .populate("idKhachHang")
+              .populate({
+                path: "idChiTietDienThoai",
+                populate: [
+                  {
+                    path: "maDienThoai",
+                    model: "dienthoai",
+                    populate: [
+                      { path: "maCuaHang", model: "cuaHang" },
+                      { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
+                      { path: "maHangSX", model: "hangSanXuat" },
+                    ],
+                  },
+                  { path: "maMau", model: "mau" },
+                  { path: "maDungLuong", model: "dungluong" },
+                  { path: "maRam", model: "ram" },
+                ],
+              });
+          const averageRating = calculateAverageRating(danhGias);
+          return {
+            chiTietDienThoai: item,
+            danhGias: danhGias,
+            // tbDiemDanhGia: averageRating
+          };
+        })
+    );
+    res.json(transformedResponse);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+//sap xep cao - thap cua hang
+router.get("/getSapXepTangChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
   try {
     const idCuaHang = req.params.id;
     const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
@@ -1766,8 +2123,21 @@ router.get("/getChiTietUuDai/:id", async (req, res) => {
       }
     }
 
+    // Tính giảm giá nếu có mã ưu đãi và sắp xếp theo giá tiền
+    const processedChiTietDT = chiTietDienThoais.map(ctdt => {
+      let giaTien = ctdt.giaTien;
+      if (ctdt.maDienThoai.maUuDai) {
+        // Nếu có mã ưu đãi, tính giảm giá
+        giaTien *= (100 - parseFloat(ctdt.maDienThoai.maUuDai.giamGia)) / 100;
+      }
+      return { ...ctdt.toObject(), giaTien: Math.round(giaTien) };
+    });
+
+    // Sắp xếp theo giá tiền
+    processedChiTietDT.sort((a, b) => a.giaTien - b.giaTien);
+
     const transformedResponse = await Promise.all(
-      chiTietDienThoais.map(async (item) => {
+      processedChiTietDT.map(async (item) => {
         const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
           .populate("idKhachHang")
           .populate({
@@ -1791,35 +2161,26 @@ router.get("/getChiTietUuDai/:id", async (req, res) => {
         return {
           chiTietDienThoai: item,
           danhGias: danhGias,
-          // tbDiemDanhGia: averageRating,
+          tbDiemDanhGia: averageRating
         };
       })
     );
-
-    // Lọc những bản ghi có maUuDai không null
-    const filteredResponse = transformedResponse.filter(
-      (item) => item.chiTietDienThoai.maDienThoai.maUuDai !== null
-    );
-
-    res.json(filteredResponse);
+    res.json(transformedResponse);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
 
-router.get("/sapxepGiaCao-Thap/:id", async (req, res) => {
+//sap xep thap - cao cua hang
+router.get("/getSapXepGiamChiTietDienThoaiTheoCuaHang/:id", async (req, res) => {
   try {
     const idCuaHang = req.params.id;
     const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
       .populate("maCuaHang", "_id")
       .populate("maCuaHang");
-
-    // Sắp xếp các điện thoại theo giá từ cao đến thấp
-    dienThoai.sort((a, b) => b.giaTien - a.giaTien);
-
     const chiTietDienThoais = [];
     for (const dt of dienThoai) {
-      const chiTietDienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
+      const dienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
         .populate("maRam")
         .populate("maDungLuong")
         .populate("maMau")
@@ -1831,14 +2192,26 @@ router.get("/sapxepGiaCao-Thap/:id", async (req, res) => {
             { path: "maHangSX", model: "hangSanXuat" },
           ],
         });
-
-      if (chiTietDienThoai) {
-        chiTietDienThoais.push(...chiTietDienThoai);
+      if (dienThoai) {
+        chiTietDienThoais.push(...dienThoai);
       }
     }
 
+    // Tính giảm giá nếu có mã ưu đãi và sắp xếp theo giá tiền
+    const processedChiTietDT = chiTietDienThoais.map(ctdt => {
+      let giaTien = ctdt.giaTien;
+      if (ctdt.maDienThoai.maUuDai) {
+        // Nếu có mã ưu đãi, tính giảm giá
+        giaTien *= (100 - parseFloat(ctdt.maDienThoai.maUuDai.giamGia)) / 100;
+      }
+      return { ...ctdt.toObject(), giaTien: Math.round(giaTien)};
+    });
+
+    // Sắp xếp theo giá tiền
+    processedChiTietDT.sort((a, b) => b.giaTien - a.giaTien);
+
     const transformedResponse = await Promise.all(
-      chiTietDienThoais.map(async (item) => {
+      processedChiTietDT.map(async (item) => {
         const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
           .populate("idKhachHang")
           .populate({
@@ -1862,7 +2235,7 @@ router.get("/sapxepGiaCao-Thap/:id", async (req, res) => {
         return {
           chiTietDienThoai: item,
           danhGias: danhGias,
-          // tbDiemDanhGia: averageRating
+          tbDiemDanhGia: averageRating
         };
       })
     );
@@ -1872,76 +2245,4 @@ router.get("/sapxepGiaCao-Thap/:id", async (req, res) => {
   }
 });
 
-router.get("/sapxepGiaThap-Cao/:id", async (req, res) => {
-  try {
-    const idCuaHang = req.params.id;
-    const dienThoai = await DienThoai.find({ maCuaHang: idCuaHang })
-      .populate("maCuaHang", "_id")
-      .populate("maCuaHang");
-
-    // Sắp xếp các điện thoại theo giá từ thấp đến cao
-    dienThoai.sort((a, b) => a.giaTien - b.giaTien);
-
-    const chiTietDienThoais = [];
-    for (const dt of dienThoai) {
-      const chiTietDienThoai = await ChiTietDienThoai.find({ maDienThoai: dt._id })
-        .populate("maRam")
-        .populate("maDungLuong")
-        .populate("maMau")
-        .populate({
-          path: "maDienThoai",
-          populate: [
-            { path: "maCuaHang", model: "cuaHang" },
-            { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-            { path: "maHangSX", model: "hangSanXuat" },
-          ],
-        });
-
-      if (chiTietDienThoai) {
-        chiTietDienThoais.push(...chiTietDienThoai);
-      }
-    }
-
-    const transformedResponse = await Promise.all(
-      chiTietDienThoais.map(async (item) => {
-        const danhGias = await DanhGia.find({ idChiTietDienThoai: item._id })
-          .populate("idKhachHang")
-          .populate({
-            path: "idChiTietDienThoai",
-            populate: [
-              {
-                path: "maDienThoai",
-                model: "dienthoai",
-                populate: [
-                  { path: "maCuaHang", model: "cuaHang" },
-                  { path: "maUuDai", model: "uudai", populate: "maCuaHang" },
-                  { path: "maHangSX", model: "hangSanXuat" },
-                ],
-              },
-              { path: "maMau", model: "mau" },
-              { path: "maDungLuong", model: "dungluong" },
-              { path: "maRam", model: "ram" },
-            ],
-          });
-        const averageRating = calculateAverageRating(danhGias);
-        return {
-          chiTietDienThoai: item,
-          danhGias: danhGias,
-          // tbDiemDanhGia: averageRating
-        };
-      })
-    );
-    res.json(transformedResponse);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-});
-
-
-function calculateAverageRating(danhGias) {
-  if (danhGias.length === 0) return 0;
-
-  const totalRating = danhGias.reduce((sum, danhGia) => sum + danhGia.diemDanhGia, 0);
-  return totalRating / danhGias.length;
-}
 module.exports = router;
