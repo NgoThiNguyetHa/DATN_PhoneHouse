@@ -108,7 +108,7 @@ public class InformationScreen extends AppCompatActivity {
         } else if (hoTen.isEmpty()) {
             edHotenHS.setError("Họ tên ko được bỏ trống");
             return false;
-        } else if (sdt.matches("\\p{L}+")) {
+        } else if (!sdt.matches("^0\\d{9}$")) {
             edSdtHS.setError("Số điện thoại phải là số");
             return false;
         } else if (sdt.isEmpty()) {

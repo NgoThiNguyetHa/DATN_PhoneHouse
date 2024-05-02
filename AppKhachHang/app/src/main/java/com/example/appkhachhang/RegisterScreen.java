@@ -137,6 +137,7 @@ public class RegisterScreen extends AppCompatActivity {
         String Email = edEmail.getText().toString().trim();
         String Password = edMatkhau.getText().toString().trim();
         String hoTen = edHoten.getText().toString().trim() ;
+        String sdt = edSdt.getText().toString().trim();
         String chuoiChu = "a-zA-Z";
 //        String emailPattern = "[a-zA-Z0-9._+-]+@[a-zA-Z0-9_-]+\\.+[a-z]+";
 ////        String emailPattern1 = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|([a-zA-Z0-9\\-]+\\.([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}))$";
@@ -172,8 +173,7 @@ public class RegisterScreen extends AppCompatActivity {
         } else if (!hoTen.matches("\\p{L}+")){
             edHoten.setError("Họ và tên phải là chữ");
             return false;
-        }
-        else if (edMatkhau.getText().toString().trim().matches("\\p{L}+")) {
+        }  else if (!sdt.matches("^0\\d{9}$")) {
             edSdt.setError("Số điện thoại phải là số");
             return false;
         } else if(edSdt.getText().toString().trim().isEmpty()){
