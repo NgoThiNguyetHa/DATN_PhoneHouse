@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +28,7 @@ import retrofit2.Response;
 public class InformationScreen extends AppCompatActivity {
     EditText edHotenHS, edSdtHS, edDiachiHS;
     Button btnSaveHS;
+    TextInputLayout textHoTen, textSdt, textDiaChi;
 
     Toolbar toolbar;
     MySharedPreferences mySharedPreferences;
@@ -38,6 +42,10 @@ public class InformationScreen extends AppCompatActivity {
         edSdtHS = findViewById(R.id.edSdtHS);
         edDiachiHS = findViewById(R.id.edDiaChiHS);
         btnSaveHS = findViewById(R.id.btnSaveHS);
+        textHoTen = findViewById(R.id.textHoTen);
+        textSdt = findViewById(R.id.textSdt);
+        textDiaChi = findViewById(R.id.textDiaChi);
+
         toolbar = findViewById(R.id.information_toolBar);
         toolbar.setTitle("Thông tin người dùng");
         setSupportActionBar(toolbar);
@@ -102,24 +110,88 @@ public class InformationScreen extends AppCompatActivity {
     boolean validate() {
         String hoTen = edHotenHS.getText().toString().trim();
         String sdt = edSdtHS.getText().toString().trim();
+        edHotenHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textHoTen.setError("");
+                    textHoTen.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edSdtHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textSdt.setError("");
+                    textSdt.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edDiachiHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textDiaChi.setError("");
+                    textDiaChi.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
          if (hoTen.isEmpty()) {
-            edHotenHS.setError("Họ tên ko được bỏ trống");
+            textHoTen.setError("Họ tên ko được bỏ trống");
+            textHoTen.setHelperText("");
             return false;
         }
         else if (!hoTen.matches("\\p{L}+")) {
-            edHotenHS.setError("Họ và tên phải là chữ");
+            textHoTen.setError("Họ và tên phải là chữ");
+            textHoTen.setHelperText("");
             return false;
         }  else if (!sdt.matches("^0\\d{9}$")) {
-            edSdtHS.setError("Số điện thoại phải là số");
+            textSdt.setError("Số điện thoại không hợp lệ");
+            textSdt.setHelperText("");
             return false;
         } else if (sdt.isEmpty()) {
-            edSdtHS.setError("Số điện thoại không được bỏ trống");
+            textSdt.setError("Số điện thoại không được bỏ trống");
+            textSdt.setHelperText("");
             return false;
         } else if (sdt.length() < 10) {
-            edSdtHS.setError("Số điện thoại không hợp lệ");
+            textSdt.setError("Số điện thoại không hợp lệ");
+            textSdt.setHelperText("");
             return false;
         } else if (edDiachiHS.getText().toString().trim().isEmpty()) {
-            edDiachiHS.setError("Bạn phải nhập địa chỉ");
+            textDiaChi.setError("Bạn phải nhập địa chỉ");
+            textDiaChi.setHelperText("");
             return false;
         }
         return true;
