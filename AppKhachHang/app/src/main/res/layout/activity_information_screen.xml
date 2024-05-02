@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformationScreen"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/information_toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        />
+        android:background="#FFF"/>
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"

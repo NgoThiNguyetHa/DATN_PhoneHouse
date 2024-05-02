@@ -39,6 +39,7 @@ public class InformationScreen extends AppCompatActivity {
         edDiachiHS = findViewById(R.id.edDiaChiHS);
         btnSaveHS = findViewById(R.id.btnSaveHS);
         toolbar = findViewById(R.id.information_toolBar);
+        toolbar.setTitle("Thông tin người dùng");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,9 +51,6 @@ public class InformationScreen extends AppCompatActivity {
         Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
-
-        toolbar.setTitle("Thông tin người dùng");
-        setSupportActionBar(toolbar);
 
 
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
