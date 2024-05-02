@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="5dp"
+    android:layout_margin="5dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/itemTop10_imgDienThoai"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"
+                android:src="@drawable/img_3" />
+            <LinearLayout
+                android:id="@+id/bg_giamGia"
+                android:layout_width="30dp"
+                android:layout_height="33dp"
+                android:background="@drawable/dialog_bg_sale"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/tv_giamGia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11dp"
+
+                   />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/itemTop10_tvTen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên điện thoại----"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:padding="5dp"
+            android:textSize="15dp"
+            android:maxLines="1"
+            android:layout_below="@+id/top"
+            />
+        <LinearLayout
+            android:id="@+id/itemListPhone_lnGiaTien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_below="@+id/itemTop10_tvTen"
+            >
+            <TextView
+                android:id="@+id/itemTop10_tvGiaTien"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19.999.999đ"
+                android:textStyle="bold"
+                android:textColor="#FF0000"
+                android:textSize="13dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="5dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                />
+            <TextView
+                android:id="@+id/itemListPhone_tvGiaTienGoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19.999.999đ"
+                android:textStyle="bold"
+                android:textColor="#7B7B7B"
+                android:textSize="11dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_below="@+id/itemListPhone_lnGiaTien"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/rating_sao_vang"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/itemTop10_danhGia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="---"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/itemTop10_tvSoLuongBan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Đã bán --"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

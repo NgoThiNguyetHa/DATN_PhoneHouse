@@ -1,7 +1,9 @@
 package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,24 +13,34 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.appkhachhang.Adapter.ListPhoneAdapter;
+import com.example.appkhachhang.Adapter.StoreViewPagerAdapter;
+import com.example.appkhachhang.Adapter.ViewPagerAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.Api.ChiTietSanPham_API;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
+import com.example.appkhachhang.Model.CuaHang;
+import com.example.appkhachhang.Model.DanhGia;
 import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SearchResponse;
 import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DetailScreen;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +50,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StoreDetailFragment extends Fragment {
-    LinearLayout ln_boLoc, ln_locGia , ln_locDlRam , ln_locBoNho, ln_sxGiaCao , ln_sxGiaThap, ln_sxDiemDanhGia, ln_sxUuDai;
-    RecyclerView rc_danhSachDienThoai;
-    EditText edSearch;
-    TextView tvTenCuaHang;
-    ProgressBar progressBar;
-    List<Root> list;
-    ListPhoneAdapter adapter;
-    GridLayoutManager manager;
-    Store store;
+
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    Store cuaHang;
+    TextView tvTenCuaHang , tvDanhGia, tvDiaChi;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,68 +64,86 @@ public class StoreDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_store_detail, container, false);
-        initView(view);
-        initVariable();
+        ((Activity)getContext()).setTitle("Cửa Hàng");
+        init(view);
         action();
+        customTabLayout();
+        getDataBundle();
         return view;
     }
-    private void initView(View view){
-        rc_danhSachDienThoai = view.findViewById(R.id.rc_danhSachDienThoai);
-        edSearch = view.findViewById(R.id.danhSach_edSearch);
-        ln_boLoc = view.findViewById(R.id.danhSach_linearBoLoc);
-        ln_locGia = view.findViewById(R.id.danhSach_linearLocGia);
-        ln_locDlRam = view.findViewById(R.id.danhSach_linearLocDlRam);
-        ln_locBoNho = view.findViewById(R.id.danhSach_linearLocBoNho);
-        ln_sxGiaCao = view.findViewById(R.id.danhSach_linearSXGiaCaoThap);
-        ln_sxGiaThap = view.findViewById(R.id.danhSach_linearSXGiaThapCao);
-        ln_sxDiemDanhGia = view.findViewById(R.id.danhSach_linearSXDiemDanhGia);
-        ln_sxUuDai = view.findViewById(R.id.danhSach_linearSXUuDai);
-        progressBar = view.findViewById(R.id.danhSach_progressBar);
-        tvTenCuaHang = view.findViewById(R.id.tvTenCuaHang);
+
+    private void init(View view){
+        mTabLayout = view.findViewById(R.id.tab_layout);
+        mViewPager = view.findViewById(R.id.viewPager2);
+        tvTenCuaHang = view.findViewById(R.id.storeDetail_tvTenCuaHang);
+        tvDanhGia = view.findViewById(R.id.storeDetail_tvDanhGia);
+        tvDiaChi = view.findViewById(R.id.storeDetail_tvDiaChi);
     }
-    private void initVariable(){
-        list = new ArrayList<>();
-        manager = new GridLayoutManager(getContext(), 2);
-        rc_danhSachDienThoai.setLayoutManager(manager);
-        adapter = new ListPhoneAdapter(getContext());
-        adapter.setData(list);
-        adapter.setOnClickListener(new IItemListPhoneListener() {
-            @Override
-            public void onClickDetail(Root root) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("idChiTietDienThoai", root.getChiTietDienThoai());
-                Intent intent = new Intent(getContext(), DetailScreen.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-        rc_danhSachDienThoai.setAdapter(adapter);
-    }
+
     private void action(){
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if (bundle != null) {
-            store = (Store) bundle.getSerializable("cuaHang");
-            // Sử dụng dữ liệu ở đây
-            getData(store.get_id());
-            tvTenCuaHang.setText(store.getUsername());
+        StoreViewPagerAdapter adapter = new StoreViewPagerAdapter(getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void customTabLayout(){
+        int tabCount = mTabLayout.getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            View tabView = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(i);
+            tabView.requestLayout();
+            ViewCompat.setBackground(tabView, setImageButtonStateNew(requireContext()));
+            ViewCompat.setPaddingRelative(tabView, tabView.getPaddingStart(), tabView.getPaddingTop(), tabView.getPaddingEnd(), tabView.getPaddingBottom());
         }
     }
-    public void getData(String id){
-        progressBar.setVisibility(View.VISIBLE);
-        ChiTietSanPham_API.chiTietSanPhamApi.getChiTietDienThoaiTheoCuaHang(id).enqueue(new Callback<List<Root>>() {
+    public StateListDrawable setImageButtonStateNew(Context mContext) {
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_selected}, ContextCompat.getDrawable(mContext, R.drawable.tab_bg_normal_blue));
+        states.addState(new int[]{-android.R.attr.state_selected}, ContextCompat.getDrawable(mContext, R.drawable.tab_bg_normal));
+
+        return states;
+    }
+
+    private void getDataBundle(){
+        Bundle bundle = getActivity().getIntent().getExtras();
+        if (bundle != null) {
+            cuaHang = (Store) bundle.getSerializable("cuaHang");
+            tvTenCuaHang.setText("Cửa Hàng "+cuaHang.getUsername());
+            tvDiaChi.setText("Địa Chỉ: "+cuaHang.getDiaChi());
+            setDanhGia(cuaHang.get_id());
+        }
+    }
+
+    private void setDanhGia(String id){
+        ApiService apiService = ApiRetrofit.getApiService();
+        Call<List<DanhGia>> ratingListCall = apiService.getDanhGiaTheoCuaHang(id);
+        ratingListCall.enqueue(new Callback<List<DanhGia>>() {
             @Override
-            public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    list.clear();
-                    list.addAll(response.body());
-                    adapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
+            public void onResponse(Call<List<DanhGia>> call, Response<List<DanhGia>> response) {
+                if (response.isSuccessful()) {
+                    List<DanhGia> data = response.body();
+
+                    int tongDiemDanhGia = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        tongDiemDanhGia += data.get(i).getDiemDanhGia();
+                    }
+                    int soLuongDanhGia = data.size();
+                    float diemTrungBinh = 0;
+                    if (soLuongDanhGia != 0) {
+                        diemTrungBinh = (float) tongDiemDanhGia / soLuongDanhGia;
+                        String formattedNumber = String.format("%.1f", diemTrungBinh);
+//                        float roundedNumber = Float.parseFloat(""+formattedNumber);
+                        tvDanhGia.setText(""+(formattedNumber) + "/5");
+                    }else{
+                        tvDanhGia.setText("0/5");
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Root>> call, Throwable t) {
-                Log.e("zzzz", "onFailure: " + t.getMessage() );
+            public void onFailure(Call<List<DanhGia>> call, Throwable t) {
+                Log.e("Rating", t.getMessage());
             }
         });
     }

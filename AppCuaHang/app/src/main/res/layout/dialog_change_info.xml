@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Thay đổi thông tin"
+            android:text="Thay Đổi Thông Tin"
             android:layout_gravity="center"
             android:textStyle="bold"
             android:layout_marginBottom="15dp"/>
@@ -55,7 +55,7 @@
                 android:id="@+id/dl_store_edAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Address*"/>
+                android:hint="Địa chỉ*"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +84,7 @@
                 android:id="@+id/dl_store_edPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone*"/>
+                android:hint="Số điện thoại*"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

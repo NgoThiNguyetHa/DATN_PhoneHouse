@@ -8,5 +8,4 @@ public interface IItemUuDaiListenner {
 
     public void editUuDai(UuDai idUuDai);
 
-    public void selectUuDai(String idUuDai);
-}
+    public void selectUuDai(String idUuDai , boolean isChecked);}

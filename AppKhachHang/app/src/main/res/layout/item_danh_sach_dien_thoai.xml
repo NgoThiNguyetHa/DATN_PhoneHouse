@@ -40,7 +40,7 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/itemListPhone_imgDienThoai"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/img_3"
@@ -54,6 +54,7 @@
             android:textColor="#000000"
             android:padding="5dp"
             android:textSize="15dp"
+            android:maxLines="1"
             android:layout_below="@+id/itemListPhone_imgDienThoai"
             />
         <LinearLayout
@@ -140,7 +141,7 @@
                 android:textStyle="bold"
                 android:textColor="#FF0000"
                 android:textSize="13dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="0dp"
                 android:paddingRight="5dp"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
@@ -164,13 +165,17 @@
             android:paddingBottom="0dp"
             android:layout_below="@+id/itemListPhone_lnGiaTien"
             >
+
             <RatingBar
                 android:id="@+id/itemListPhone_rbDiemDanhGia"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:backgroundTint="#ffbd00"
                 android:isIndicator="true"
                 android:numStars="5"
@@ -179,14 +184,6 @@
                 android:secondaryProgressTint="@android:color/black"
                 android:stepSize="1" />
 
-            <ImageView
-                android:id="@+id/itemListPhone_imgCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="5dp"
-                android:src="@drawable/icon_shopping_cart" />
         </RelativeLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

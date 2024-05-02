@@ -79,6 +79,7 @@ import java.util.regex.Pattern;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ChiTietDienThoaiFragment extends Fragment {
 
@@ -112,7 +113,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
     ImageView uploadImageChiTiet;
     ProgressDialog progressDialog;
-
+    List<Phone> phoneList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -180,7 +181,6 @@ public class ChiTietDienThoaiFragment extends Fragment {
         danhGiaAdapter = new DanhGiaAdapter(getContext());
         danhGiaAdapter.setData(ratingList);
         rc_DanhGia.setAdapter(danhGiaAdapter);
-
         listUuDai = new ArrayList<>();
     }
 
@@ -204,11 +204,18 @@ public class ChiTietDienThoaiFragment extends Fragment {
             getThongSoKyThuat(phone);
 
         }
-
+        mySharedPreferences = new MySharedPreferences(getContext());
         linear_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogUuDai();
+                if (phone.getMaUuDai() != null) {
+                    if (phone.getMaUuDai().get_id() != null) {
+                        getDataUuDai(mySharedPreferences.getUserId());
+                        dialogUuDai(phone.getMaUuDai().get_id());
+                    }
+                } else {
+                    dialogUuDai("");
+                }
             }
         });
 
@@ -346,9 +353,15 @@ public class ChiTietDienThoaiFragment extends Fragment {
                 if (checkValidateDetailPhone()) {
                     Integer strSoLuong = Integer.parseInt("" + edSoLuong.getText().toString());
                     Integer strGiaTien = Integer.parseInt("" + edGiaTien.getText().toString());
+                    if (strSoLuong.toString().trim().charAt(0) == '0') {
+                        edSoLuong.setText(" " + edSoLuong.getText().toString().trim().substring(1));
+                    }
+                    if (strGiaTien.toString().trim().charAt(0) == '0') {
+                        edGiaTien.setText(" " + edGiaTien.getText().toString().trim().substring(1));
+                    }
                     if (imageUri != null) {
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() + "." + getFileExtension(imageUri);
@@ -392,7 +405,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
                                     getData(detailPhone.get_id());
                                     action();
                                     dialogDetail.dismiss();
-                                    progressDialog.dismiss();
+//                                    progressDialog.dismiss();
                                     imageUri = null;
                                 }
                             }
@@ -543,7 +556,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
         });
     }
 
-    private void dialogUuDai(){
+    private void dialogUuDai(String idMaUuDai){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_uudaicuahang,null);
@@ -560,14 +573,29 @@ public class ChiTietDienThoaiFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-
         dl_udch_btnHuy = view.findViewById(R.id.dl_udch_btnHuy);
         dl_udch_btnCapNhat = view.findViewById(R.id.dl_udch_btnXacNhan);
         rc__udch_uuDai = view.findViewById(R.id.rc__udch_uuDai);
 
         Button btnXacNhan = view.findViewById(R.id.dl_udch_btnXacNhan);
         Button btnHuy = view.findViewById(R.id.dl_udch_btnHuy);
-
+//        call.enqueue(new Callback<List<Phone>>() {
+//            @Override
+//            public void onResponse(Call<List<Phone>> call, Response<List<Phone>> response) {
+//                if (response.isSuccessful()) {
+//                    List<Phone> data = response.body();
+//                    phoneList.clear();
+//                    phoneList.addAll(data);
+//                } else {
+//                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Phone>> call, Throwable t) {
+//                Log.e("Get Phone", t.getMessage());
+//            }
+//        });
         listUuDai = new ArrayList<>();
         linearLayoutManagerUuDai = new LinearLayoutManager(getContext());
         rc__udch_uuDai.setLayoutManager(linearLayoutManagerUuDai);
@@ -583,7 +611,7 @@ public class ChiTietDienThoaiFragment extends Fragment {
             }
 
             @Override
-            public void selectUuDai(String idUuDai) {
+            public void selectUuDai(String idUuDai, boolean isChecked) {
                 maUuDai = idUuDai;
                 Log.d("ZZZ", "selectUuDai: "+maUuDai);
 
@@ -592,26 +620,37 @@ public class ChiTietDienThoaiFragment extends Fragment {
         mySharedPreferences = new MySharedPreferences(getContext());
         getDataUuDai(mySharedPreferences.getUserId());
 
-        adapterUuDai.setData(listUuDai);
+        adapterUuDai.setData(listUuDai,idMaUuDai);
         rc__udch_uuDai.setAdapter(adapterUuDai);
-
-
-//        // Tìm và ánh xạ FrameLayout từ layout
-//        FrameLayout frameLayout = view.findViewById(R.id.frameLayout);
-//
-//        // Xử lý sự kiện khi FrameLayout được nhấp vào
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Thay đổi màu nền của FrameLayout khi được nhấp vào
-//                frameLayout.setBackgroundColor(Color.parseColor("#FF0000")); // Màu xám với độ trong suốt 50%
-//            }
-//        });
 
         btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UpdateUuDai(phone.get_id());
+                listUuDai = new ArrayList<>();
+                adapterUuDai = new ApDungUuDaiAdapter(getContext(), new IItemUuDaiListenner() {
+                    @Override
+                    public void showDetail(String idUuDai) {
+
+                    }
+
+                    @Override
+                    public void editUuDai(UuDai idUuDai) {
+
+                    }
+
+                    @Override
+                    public void selectUuDai(String idUuDai, boolean isChecked) {
+                        maUuDai = idUuDai;
+                        Log.d("ZZZ", "selectUuDai: "+maUuDai);
+
+                    }
+                });
+                mySharedPreferences = new MySharedPreferences(getContext());
+                getDataUuDai(mySharedPreferences.getUserId());
+
+                adapterUuDai.setData(listUuDai,idMaUuDai);
+                rc__udch_uuDai.setAdapter(adapterUuDai);
                 dialog.dismiss();
             }
         });
@@ -622,12 +661,10 @@ public class ChiTietDienThoaiFragment extends Fragment {
             }
         });
 
-
-
-
     }
     private void UpdateUuDai(String id){
         ApiService apiService = ApiRetrofit.getApiService();
+        mySharedPreferences = new MySharedPreferences(getContext());
         Log.d("ZZZ", "UpdateUuDai: " + maUuDai);
         Call<Phone> call = apiService.putUuDaiDienThoai(id,new UuDai(maUuDai));
         call.enqueue(new Callback<Phone>() {
@@ -635,8 +672,9 @@ public class ChiTietDienThoaiFragment extends Fragment {
             public void onResponse(Call<Phone> call, Response<Phone> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-
                     getData(id);
+                    getDataUuDai(mySharedPreferences.getUserId());
+
                 }
             }
 
@@ -664,22 +702,29 @@ public class ChiTietDienThoaiFragment extends Fragment {
 
     //validate chi tiết điện thoại
     private boolean checkValidateDetailPhone(){
-        if (edSoLuong.getText().toString().isEmpty()) {
+        if (edSoLuong.getText().toString().trim().isEmpty()) {
             edSoLuong.setError("Yêu cầu không được để trống!!");
             return false;
-        } else if (!Pattern.matches("\\d+", edSoLuong.getText().toString())) {
+        } else if (!Pattern.matches("\\d+", edSoLuong.getText().toString().trim())) {
             edSoLuong.setError("Yêu cầu nhập số lượng phải là số!!");
             return false;
-        }else if (edGiaTien.getText().toString().isEmpty()) {
+        }
+//        else if (edSoLuong.getText().toString().trim().charAt(0) == '0') {
+//            edSoLuong.setText(" " + edSoLuong.getText().toString().trim().substring(1));
+//            return false;
+//        }
+        else if (edGiaTien.getText().toString().isEmpty()) {
             edGiaTien.setError("Yêu cầu không được để trống!!");
             return false;
         }else if (!Pattern.matches("\\d+", edGiaTien.getText().toString())) {
             edGiaTien.setError("Yêu cầu nhập giá tiền phải là số!!");
             return false;
         }
+//        else if (edGiaTien.getText().toString().trim().charAt(0) == '0') {
+//            edGiaTien.setText(" " + edGiaTien.getText().toString().trim().substring(1));
+//            return false;
+//        }
         return true;
     }
-
-
 
 }
