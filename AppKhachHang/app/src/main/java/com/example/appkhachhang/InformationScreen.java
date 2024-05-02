@@ -39,6 +39,7 @@ public class InformationScreen extends AppCompatActivity {
         edDiachiHS = findViewById(R.id.edDiaChiHS);
         btnSaveHS = findViewById(R.id.btnSaveHS);
         toolbar = findViewById(R.id.information_toolBar);
+        toolbar.setTitle("Thông tin người dùng");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,15 +52,11 @@ public class InformationScreen extends AppCompatActivity {
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
-        toolbar.setTitle("Thông tin người dùng");
-        setSupportActionBar(toolbar);
-
 
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         edHotenHS.setText(mySharedPreferences.getUserName());
         edSdtHS.setText(mySharedPreferences.getPhone());
         edDiachiHS.setText(mySharedPreferences.getAddress());
-
 
         btnSaveHS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +105,20 @@ public class InformationScreen extends AppCompatActivity {
         if (!hoTen.matches("\\p{L}+")) {
             edHotenHS.setError("Họ và tên phải là chữ");
             return false;
-        } else if (sdt.matches("\\p{L}+")) {
+        } else if (hoTen.isEmpty()) {
+            edHotenHS.setError("Họ tên ko được bỏ trống");
+            return false;
+        } else if (!sdt.matches("^0\\d{9}$")) {
             edSdtHS.setError("Số điện thoại phải là số");
+            return false;
+        } else if (sdt.isEmpty()) {
+            edSdtHS.setError("Số điện thoại không được bỏ trống");
             return false;
         } else if (sdt.length() < 10) {
             edSdtHS.setError("Số điện thoại không hợp lệ");
+            return false;
+        } else if (edDiachiHS.getText().toString().trim().isEmpty()) {
+            edDiachiHS.setError("Bạn phải nhập địa chỉ");
             return false;
         }
         return true;

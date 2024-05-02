@@ -46,6 +46,7 @@ public class HistoryBuy extends AppCompatActivity {
         setContentView(R.layout.activity_history_buy);
         rc_HistoryBuy = findViewById(R.id.rc_HistoryBuy);
         toolbar = findViewById(R.id.historyBuy_toolBar);
+        toolbar.setTitle("Lịch sử mua hàng");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,8 +59,6 @@ public class HistoryBuy extends AppCompatActivity {
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
-        toolbar.setTitle("Lịch sử mua hàng");
-        setSupportActionBar(toolbar);
         getData();
 
 
