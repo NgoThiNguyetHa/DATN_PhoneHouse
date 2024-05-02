@@ -35,6 +35,8 @@ import retrofit2.Response;
 
 public class RegisterScreen extends AppCompatActivity {
 
+    TextInputLayout textEmail, textMatKhau, textHoTen, textSdt;
+
     EditText edEmail, edMatkhau, edHoten, edSdt;
     CheckBox checkBox;
     TextView tvSignin;
@@ -57,6 +59,10 @@ public class RegisterScreen extends AppCompatActivity {
         edSdt = findViewById(R.id.edSdtdk);
 
         checkBox = findViewById(R.id.checkboxdk);
+        textEmail = findViewById(R.id.textEmail);
+        textMatKhau = findViewById(R.id.textMatKhau);
+        textHoTen = findViewById(R.id.textHoTen);
+        textSdt = findViewById(R.id.textsdt);
 
         tvSignin = findViewById(R.id.tvSignindk);
         btnDangky = findViewById(R.id.btnDangky);
@@ -138,50 +144,139 @@ public class RegisterScreen extends AppCompatActivity {
         String Password = edMatkhau.getText().toString().trim();
         String hoTen = edHoten.getText().toString().trim() ;
         String sdt = edSdt.getText().toString().trim();
-        String chuoiChu = "a-zA-Z";
+
+
+
 //        String emailPattern = "[a-zA-Z0-9._+-]+@[a-zA-Z0-9_-]+\\.+[a-z]+";
 ////        String emailPattern1 = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|([a-zA-Z0-9\\-]+\\.([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}))$";
 //        String emailPattern1 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
 //                "fpt\\.edu\\.vn$";
         String emailPattern1 =  "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.){1,2}[a-zA-Z]{2,7}$";
 
+        edEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textEmail.setError("");
+                    textEmail.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edSdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textSdt.setError("");
+                    textSdt.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edMatkhau.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textMatKhau.setError("");
+                    textMatKhau.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edHoten.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textHoTen.setError("");
+                    textHoTen.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         if (Email.isEmpty()){
-            edEmail.setError("Email không được bỏ trống");
+            textEmail.setError("Email không được bỏ trống");
+            textEmail.setHelperText("");
             return false;
         } else if (Password.isEmpty()) {
-            edMatkhau.setError("Mật khẩu không được bỏ trống");
+            textMatKhau.setError("Mật khẩu không được bỏ trống");
+            textMatKhau.setHelperText("");
             return false;
         }  else if (!Email.matches(emailPattern1)) {
-            edEmail.setError("Email không hợp lệ");
+            textEmail.setError("Email không hợp lệ");
+            textEmail.setHelperText("");
             return false;
         } else if (!isStrongPassword(Password)) {
-            edMatkhau.setError("Mật khẩu phải có chữ cái viết hoa, số và có kí tự đặc biệt");
+            textMatKhau.setError("Mật khẩu phải có chữ cái viết hoa, số và có kí tự đặc biệt");
+            textMatKhau.setHelperText("");
             return false;
         }  else if (Password.length()<6) {
-            edMatkhau.setError("Password tối thiểu 6 ký tự");
-
+            textMatKhau.setError("Password tối thiểu 6 ký tự");
+            textMatKhau.setHelperText("");
             return false;
         } else if (!isValidEmail(Email)) {
-            edEmail.setError("Email không hợp lệ");
+            textEmail.setError("Email không hợp lệ");
+            textEmail.setHelperText("");
             return false;
         }else if(edHoten.getText().toString().trim().isEmpty()){
-            edHoten.setError("Bạn phải nhập họ tên");
+            textHoTen.setError("Bạn phải nhập họ tên");
+            textHoTen.setHelperText("");
             return false;
 //        }else if (!hoTen.matches("[a-zA-Z]+")){
 //            edHoten.setError("Họ và tên phải là chữ");
 //            return false;
         } else if (!hoTen.matches("\\p{L}+")){
-            edHoten.setError("Họ và tên phải là chữ");
+            textHoTen.setError("Họ và tên phải là chữ");
+            textHoTen.setHelperText("");
             return false;
         }  else if (!sdt.matches("^0\\d{9}$")) {
-            edSdt.setError("Số điện thoại phải là số");
+            textSdt.setError("Số điện thoại phải là số");
+            textSdt.setHelperText("");
             return false;
         } else if(edSdt.getText().toString().trim().isEmpty()){
-            edSdt.setError("Bạn phải nhập số điện thoại");
+            textSdt.setError("Bạn phải nhập số điện thoại");
+            textSdt.setHelperText("");
             return false;
         }else if(edSdt.getText().toString().trim().length()<1
                 ||edSdt.getText().toString().trim().length()>10){
-            edSdt.setError("Số điện thoại không đúng định dạng");
+            textSdt.setError("Số điện thoại không đúng định dạng");
+            textSdt.setHelperText("");
             return false;
         }else if(!checkBox.isChecked()){
             Toast.makeText(this, "Bạn cần đồng ý điều khoản", Toast.LENGTH_SHORT).show();

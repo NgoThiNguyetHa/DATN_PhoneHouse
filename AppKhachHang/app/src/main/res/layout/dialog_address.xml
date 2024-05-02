@@ -38,7 +38,7 @@
                 android:id="@+id/dl_edTenNguoiNhan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tên người nhận"/>
+                android:hint="Tên người nhận*"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:id="@+id/dl_edSDT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Số điện thoại"/>
+                android:hint="Số điện thoại*"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:id="@+id/dl_edDiaChiChiTiet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tên đường, Tòa nhà, Số nhà"/>
+                android:hint="Tên đường, Tòa nhà, Số nhà*"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -77,7 +77,7 @@
                 android:id="@+id/dl_edPhuongXa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phường/Xã"/>
+                android:hint="Phường/Xã*"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:id="@+id/dl_edQuanHuyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Quận/Huyện"/>
+                android:hint="Quận/Huyện*"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 android:id="@+id/dl_edTinhThanhPho"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tỉnh/Thành phố"/>
+                android:hint="Tỉnh/Thành phố*"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout

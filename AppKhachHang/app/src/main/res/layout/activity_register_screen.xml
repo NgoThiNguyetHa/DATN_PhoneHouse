@@ -25,6 +25,10 @@
         android:layout_marginLeft="30dp"
         />
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,10 +52,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
         app:helperText=""
         app:helperTextTextColor="#009688"
-        app:counterEnabled="true"
+        app:errorEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -63,12 +66,16 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
+        android:id="@+id/textHoTen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Họ và tên*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
+        app:errorEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -78,12 +85,16 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textsdt"
         app:errorEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Số điện thoại*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
         >
 
         <com.google.android.material.textfield.TextInputEditText
