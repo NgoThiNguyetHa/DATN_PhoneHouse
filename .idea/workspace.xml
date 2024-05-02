@@ -6,20 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c1fad3e8-7b02-4f30-8bcc-62cda4970749" name="Changes" comment="notification">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/FeedbackScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/AddressFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/AddressFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/HistoryBuy.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/HistoryBuy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/InformationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/InformationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/ViewFeedbackScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_address_delivery.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_address_delivery.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_change_password.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_change_password.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_feedback_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_history_buy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_history_buy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_information_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_information_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_view_feedback_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/activity_view_feedback_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_address.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_address.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/res/layout/fragment_user.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiRetrofit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Api/ApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/AppKhachHang/app/src/main/java/com/example/appkhachhang/Fragment/DetailScreenFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebQuanTri/routes/ChiTietGioHangAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,11 +1,15 @@
 package com.example.appkhachhang.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,12 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +37,7 @@ import com.example.appkhachhang.Adapter.DanhGiaAdapter;
 import com.example.appkhachhang.Api.ApiRetrofit;
 import com.example.appkhachhang.Api.ApiService;
 import com.example.appkhachhang.LoginScreen;
+import com.example.appkhachhang.MainActivity;
 import com.example.appkhachhang.Model.ChiTietDienThoai;
 import com.example.appkhachhang.Model.ChiTietGioHang;
 import com.example.appkhachhang.Model.DanhGia;
@@ -295,27 +303,30 @@ public class DetailScreenFragment extends Fragment {
                             chiTietGioHang.setGiaTien((int) (chiTietDienThoai.getGiaTien() - Math.round(chiTietDienThoai.getGiaTien() * (Double.parseDouble(chiTietDienThoai.getMaDienThoai().getMaUuDai().getGiamGia()) / 100))));
                         }
 
-                        ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<ChiTietGioHang>() {
+                        ApiRetrofit.getApiService().addGioHang(chiTietGioHang, mySharedPreferences.getUserId()).enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ChiTietGioHang> call, Response<ChiTietGioHang> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.body().equals("Thêm thành công")) {
+                                    Toast.makeText(getActivity(), response.body(), Toast.LENGTH_SHORT).show();
                                     CartSharedPreferences sharedPreferences = new CartSharedPreferences(getContext());
                                     boolean isSuccess = sharedPreferences.saveChiTietGioHangForId(getContext(), mySharedPreferences.getUserId(), chiTietGioHang);
                                     if (isSuccess) {
-                                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                                         quantity = 1;
+                                        Log.d("zzzz11", "onResponse: "+ response.body());
                                     } else {
-                                        Toast.makeText(getContext(), "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+                                        Log.d("zzzz22", "onResponse: "+ response.body());
+                                        Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(getContext(), "Thêm không thành công", Toast.LENGTH_SHORT).show();
-
+//                                    Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
+//                                    Log.d("zzzz", "onResponse: "+ response);
+                                    handleNotification(response.body());
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<ChiTietGioHang> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d("error", "onFailure: " + t.getMessage());
                             }
                         });
@@ -395,6 +406,41 @@ public class DetailScreenFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void handleNotification(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_yes_no, null);
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        Button btnYes = view.findViewById(R.id.yesButton);
+        Button btnNo = view.findViewById(R.id.noButton);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView tvTitle= view.findViewById(R.id.tvTitle);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView tvMessage = view.findViewById(R.id.tvMessage);
+
+        tvMessage.setText(message);
+        btnNo.setText("Đồng ý");
+        tvTitle.setVisibility(View.GONE);
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnYes.setVisibility(View.GONE);
     }
 
 }
