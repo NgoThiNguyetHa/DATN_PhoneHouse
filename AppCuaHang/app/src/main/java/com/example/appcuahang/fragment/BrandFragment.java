@@ -284,7 +284,7 @@ public class BrandFragment extends Fragment {
                     ApiService apiService = ApiRetrofit.getApiService();
                     if (imageUri != null){
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
@@ -382,7 +382,7 @@ public class BrandFragment extends Fragment {
                     if (imageUri != null){
                         //====
                         progressDialog = new ProgressDialog(getContext());
-                        progressDialog.setMessage("Loading...");
+                        progressDialog.setMessage("Vui Lòng Chờ...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         String url_src = System.currentTimeMillis() +"."+ getFileExtension(imageUri);
@@ -492,7 +492,7 @@ public class BrandFragment extends Fragment {
     }
 
     private boolean Validate(EditText edTenHang) {
-        if (edTenHang.getText().toString().isEmpty()) {
+        if (edTenHang.getText().toString().trim().isEmpty()) {
             edTenHang.setError("Yêu cầu không được để trống!!");
             return false;
         }
@@ -506,7 +506,7 @@ public class BrandFragment extends Fragment {
     }
 
     private boolean ValidateUpdate(Brand brand, EditText edTenHang) {
-        if (edTenHang.getText().toString().isEmpty()) {
+        if (edTenHang.getText().toString().trim().isEmpty()) {
             edTenHang.setError("Không được để trống!!");
             return false;
         }

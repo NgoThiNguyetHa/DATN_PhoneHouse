@@ -12,7 +12,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/danhSach_toolBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFF"/>
     <FrameLayout
         android:id="@+id/danhSach_frameLayout"
         android:layout_width="match_parent"

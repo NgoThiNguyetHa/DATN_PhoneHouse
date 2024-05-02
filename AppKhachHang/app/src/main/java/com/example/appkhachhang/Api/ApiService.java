@@ -8,6 +8,7 @@ import com.example.appkhachhang.Model.Notification;
 import com.example.appkhachhang.Model.Root;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.Model.ThongTinDonHang;
+import com.example.appkhachhang.Model.TopDienThoai;
 
 import java.util.List;
 
@@ -183,5 +184,42 @@ public interface ApiService {
     @PUT("thongbao/updateAll/{phanQuyen}/{id}")
     Call<String> updateAllThongBao(@Path("phanQuyen")String phanQuyen,
                                 @Path("id")String id);
+
+
+    //get top 10 ban chay
+    @GET("/thongke/topDienThoai/{maCuaHang}")
+    Call<List<TopDienThoai>> getTopDienThoai_CuaHang(@Path("maCuaHang") String id);
+    //get khuyen mai
+
+    //get all dien thoai theo maCuaHang
+    @GET("chitietdienthoais/getChiTietDienThoaiTheoCuaHang/{maCuaHang}")
+    Call<List<Root>> getAllDienThoai_CuaHang(@Path("maCuaHang") String id);
+
+    //get chi tiet dien thoai khuyen mai
+    @GET("chitietdienthoais/getChiTietUuDai/{id}")
+    Call<List<Root>> getChiTietDienThoaiKhuyenMai(@Path("id") String id);
+
+    @GET("danhgias/getDanhGiaTheoCuaHang/{id}")
+    Call<List<DanhGia>> getDanhGiaTheoCuaHang(@Path("id") String id);
+    //get so luot danh gia
+    @GET("danhgias/getDiemDanhGiaTheoCuaHang/{id}/{diemDanhGia}")
+    Call<List<DanhGia>> getSoLuotDanhGiaTheoCuaHang(@Path("id") String id, @Path("diemDanhGia") int diem);
+
+    //sắp xếp giá cao - thấp cua hang
+    @GET("chitietdienthoais/sapxepGiaCao-Thap/{maCuaHang}")
+    Call<List<Root>> getSortDownTheoCuaHang(@Path("maCuaHang")String id);
+    //sắp xếp giá thấp - cao cua hang
+    @GET("chitietdienthoais/sapxepGiaThap-Cao/{maCuaHang}")
+    Call<List<Root>> getSortUTheoCuaHang(@Path("maCuaHang")String id);
+    //get danh gia hinh anh
+    @GET("danhgias/getDanhGiaHinhAnhTheoCuaHang/{id}")
+    Call<List<DanhGia>> getDanhGiaHinhAnhTheoCuaHang(@Path("id") String id);
+
+    //sap xep giaTien cao - thap cuaHang
+    @GET("chitietdienthoais/getSapXepTangChiTietDienThoaiTheoCuaHang/{id}")
+    Call<List<Root>> getSapXepGiaTangCuaHang(@Path("id") String id);
+    //sap xep giaTien thap - cao cuaHang
+    @GET("chitietdienthoais/getSapXepGiamChiTietDienThoaiTheoCuaHang/{id}")
+    Call<List<Root>> getSapXepGiaGiamCuaHang(@Path("id") String id);
 }
 
