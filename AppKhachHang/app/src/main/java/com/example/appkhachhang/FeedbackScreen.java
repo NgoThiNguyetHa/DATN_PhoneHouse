@@ -87,24 +87,14 @@ public class FeedbackScreen extends AppCompatActivity {
         btnFeedback = findViewById(R.id.btnFeedback);
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         toolbar = findViewById(R.id.feedBack_toolBar);
+        toolbar.setTitle("Đánh giá");
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Đánh giá của tôi");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        toolbar.setNavigationOnClickListener(view -> onBackPressed());
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onBackPressed();
-//            }
-//        });
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
+
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
 //        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
         Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);

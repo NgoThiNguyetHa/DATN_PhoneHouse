@@ -47,6 +47,7 @@ public class ViewFeedbackScreen extends AppCompatActivity {
         setContentView(R.layout.activity_view_feedback_screen);
         rc_Feedback = findViewById(R.id.rc_ViewFeedback);
         toolbar = findViewById(R.id.viewFeedback_toolBar);
+        toolbar.setTitle("Đánh giá của tôi");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,8 +60,6 @@ public class ViewFeedbackScreen extends AppCompatActivity {
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
-        toolbar.setTitle("Đánh giá của tôi");
-        setSupportActionBar(toolbar);
         getData();
     }
 
