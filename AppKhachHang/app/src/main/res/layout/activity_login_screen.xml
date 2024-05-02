@@ -23,12 +23,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textField"
+        android:id="@+id/ed_layoutemail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:hint="Email*"
+        app:helperText=""
+        app:helperTextTextColor="#5FB1C1"
         android:layout_marginTop="20dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +42,6 @@
             android:id="@+id/edEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText=""
-            app:helperTextTextColor="#5FB1C1"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,8 +55,9 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:helperText=""
         app:helperTextTextColor="#5FB1C1"
-        app:layout_constraintTop_toBottomOf="@+id/textField"
+        app:layout_constraintTop_toBottomOf="@+id/ed_layoutemail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:passwordToggleEnabled="true">
         <com.google.android.material.textfield.TextInputEditText
