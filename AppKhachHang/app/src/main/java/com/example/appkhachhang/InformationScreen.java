@@ -169,7 +169,7 @@ public class InformationScreen extends AppCompatActivity {
         });
 
          if (hoTen.isEmpty()) {
-            textHoTen.setError("Họ tên ko được bỏ trống");
+            textHoTen.setError("Họ tên không được bỏ trống");
             textHoTen.setHelperText("");
             return false;
         }
@@ -177,21 +177,18 @@ public class InformationScreen extends AppCompatActivity {
             textHoTen.setError("Họ và tên phải là chữ");
             textHoTen.setHelperText("");
             return false;
-        }  else if (!sdt.matches("^0\\d{9}$")) {
+        }  else if (sdt.isEmpty()) {
+             textSdt.setError("Số điện thoại không được bỏ trống");
+             textSdt.setHelperText("");
+             return false;
+         }
+        else if (!sdt.matches("^0\\d{9}$")) {
             textSdt.setError("Số điện thoại không hợp lệ");
-            textSdt.setHelperText("");
-            return false;
-        } else if (sdt.isEmpty()) {
-            textSdt.setError("Số điện thoại không được bỏ trống");
             textSdt.setHelperText("");
             return false;
         } else if (sdt.length() < 10) {
             textSdt.setError("Số điện thoại không hợp lệ");
             textSdt.setHelperText("");
-            return false;
-        } else if (edDiachiHS.getText().toString().trim().isEmpty()) {
-            textDiaChi.setError("Bạn phải nhập địa chỉ");
-            textDiaChi.setHelperText("");
             return false;
         }
         return true;

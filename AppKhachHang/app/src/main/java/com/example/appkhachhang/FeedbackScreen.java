@@ -255,7 +255,7 @@ public class FeedbackScreen extends AppCompatActivity {
                                             @Override
                                             public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                                 if (response.isSuccessful()) {
-                                                    Toast.makeText(FeedbackScreen.this, "đã sửa", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(FeedbackScreen.this, "Sửa thành công", Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
                                                     startActivity(intent);
                                                 }
@@ -263,7 +263,7 @@ public class FeedbackScreen extends AppCompatActivity {
 
                                             @Override
                                             public void onFailure(Call<DanhGia> call, Throwable t) {
-                                                Toast.makeText(FeedbackScreen.this, "sửa thất bại", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(FeedbackScreen.this, "Sửa thất bại", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }
@@ -278,7 +278,7 @@ public class FeedbackScreen extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(FeedbackScreen.this, "Đã  sửa", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FeedbackScreen.this, "Sửa thành công", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
                                     startActivity(intent);
                                 }
@@ -286,7 +286,7 @@ public class FeedbackScreen extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<DanhGia> call, Throwable t) {
-                                Toast.makeText(FeedbackScreen.this, "Lỗi đánh giá", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FeedbackScreen.this, "Sửa thất bại", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -414,7 +414,7 @@ public class FeedbackScreen extends AppCompatActivity {
                                                 @Override
                                                 public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                                     if (response.isSuccessful()) {
-                                                        Toast.makeText(FeedbackScreen.this, "đã đánh giá", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(FeedbackScreen.this, "Đánh giá thành công", Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
                                                         startActivity(intent);
                                                     }
@@ -422,7 +422,7 @@ public class FeedbackScreen extends AppCompatActivity {
 
                                                 @Override
                                                 public void onFailure(Call<DanhGia> call, Throwable t) {
-                                                    Toast.makeText(FeedbackScreen.this, "Loi đánh giá", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(FeedbackScreen.this, "Đánh giá thất bại", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }
@@ -436,7 +436,7 @@ public class FeedbackScreen extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<DanhGia> call, Response<DanhGia> response) {
                                     if (response.isSuccessful()) {
-                                        Toast.makeText(FeedbackScreen.this, "Đã đánh giá", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FeedbackScreen.this, "Đánh giá thành công", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(FeedbackScreen.this, ViewFeedbackScreen.class);
                                         startActivity(intent);
                                     }
@@ -444,7 +444,7 @@ public class FeedbackScreen extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<DanhGia> call, Throwable t) {
-                                    Toast.makeText(FeedbackScreen.this, "Lỗi đánh giá", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FeedbackScreen.this, "Đánh giá thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
