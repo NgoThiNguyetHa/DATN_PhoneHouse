@@ -2,8 +2,11 @@ package com.example.appkhachhang.Fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,18 +14,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appkhachhang.Adapter.AdapterSpinnerDiaChi;
 import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
@@ -65,20 +75,20 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class ThanhToanFragment extends Fragment {
   User user;
-  TextView tvTen, tvSdt, tvGhiChu, tvDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
-  ImageView imgDiaChi;
-  LinearLayout ln_ghiChu;
-  RecyclerView rc_listChon, rcDiaChiNhanHang;
+  TextView tvThemDiaChi, tvTongTienHang, tvPhiVanChuyen, tvTongThanhToan, tvTongHoaDon;
+  RecyclerView rc_listChon;
   LinearLayoutManager linearLayoutManager;
   DienThoaiThanhToanAdapter adapter;
-  Spinner spnPhuongThucThanhToan;
+  Spinner spnPhuongThucThanhToan, spnDiaChi;
   List<AddressDelivery> list;
-  DiaChiNhanHangAdapter adapterDiaChi;
-  String idDiaChi, selectedItem, addressCheck;
+  String idDiaChi, selectedItem;
   List<ChiTietHoaDon> chiTietHoaDons;
   MySharedPreferences mySharedPreferences;
   ChiTietDienThoai chiTietDienThoai;
   List<ChiTietGioHang> chiTietGioHangList;
+  AdapterSpinnerDiaChi adapterSpinnerDiaChi;
+  int phiVanChuyen = 0;
+  EditText dl_edDiaChiChiTiet, dl_edPhuongXa, dl_edQuanHuyen, dl_edTinhThanhPho, edTenNguoiNhan, edSDT;
 
 
   @Override
@@ -104,16 +114,20 @@ public class ThanhToanFragment extends Fragment {
   }
 
   private void initView(View view) {
-    tvTen = view.findViewById(R.id.tv_tenKhachHang);
-    tvSdt = view.findViewById(R.id.tv_sdtKhachHang);
-    tvDiaChi = view.findViewById(R.id.tv_DiaChiKhachHang);
-    imgDiaChi = view.findViewById(R.id.imgDiaChi);
+//    tvTen = view.findViewById(R.id.tv_tenKhachHang);
+//    tvSdt = view.findViewById(R.id.tv_sdtKhachHang);
+//    tvDiaChi = view.findViewById(R.id.tv_DiaChiKhachHang);
+//    imgDiaChi = view.findViewById(R.id.imgDiaChi);
+
+    tvThemDiaChi = view.findViewById(R.id.thanhToan_tvThemDiaChi);
     rc_listChon = view.findViewById(R.id.rc_listChon);
     tvTongTienHang = view.findViewById(R.id.tv_tongTienHang);
     tvPhiVanChuyen = view.findViewById(R.id.tv_PhiVanChuyen);
     tvTongThanhToan = view.findViewById(R.id.tv_tongThanhToan);
     tvTongHoaDon = view.findViewById(R.id.tvTongHoaDon);
     spnPhuongThucThanhToan = view.findViewById(R.id.spn_PhuongThucThanhToan);
+    spnDiaChi = view.findViewById(R.id.spn_diaChiNhanHang);
+
   }
 
 //    private void getDataBundle(){
@@ -135,47 +149,134 @@ public class ThanhToanFragment extends Fragment {
     mySharedPreferences = new MySharedPreferences(getContext());
     list = new ArrayList<>();
     getData(mySharedPreferences.getUserId());
-    adapterDiaChi = new DiaChiNhanHangAdapter(getContext(), list);
-    imgDiaChi.setOnClickListener(new View.OnClickListener() {
+    adapterSpinnerDiaChi = new AdapterSpinnerDiaChi(getContext(),R.layout.item_selected_diachi, list);
+    spnDiaChi.setAdapter(adapterSpinnerDiaChi);
+    spnDiaChi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+          idDiaChi = adapterSpinnerDiaChi.getItem(i).get_id();
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+
+      }
+    });
+    tvThemDiaChi.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_diachi, null);
-        rcDiaChiNhanHang = dialog_view.findViewById(R.id.rc_diaChiNhanHang);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        rcDiaChiNhanHang.setLayoutManager(linearLayoutManager);
-        builder.setView(dialog_view);
+        view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_address, null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window == null) {
+          return;
+        }
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
 
-        rcDiaChiNhanHang.setAdapter(adapterDiaChi);
+        edTenNguoiNhan = view.findViewById(R.id.dl_edTenNguoiNhan);
+        edSDT = view.findViewById(R.id.dl_edSDT);
+        dl_edDiaChiChiTiet = view.findViewById(R.id.dl_edDiaChiChiTiet);
+        dl_edPhuongXa = view.findViewById(R.id.dl_edPhuongXa);
+        dl_edQuanHuyen = view.findViewById(R.id.dl_edQuanHuyen);
+        dl_edTinhThanhPho = view.findViewById(R.id.dl_edTinhThanhPho);
 
-        builder.setPositiveButton("Chọn", new DialogInterface.OnClickListener() {
+        Button btnSave = view.findViewById(R.id.yesButton);
+        TextView tvTitle = view.findViewById(R.id.dl_mau_tvTitle);
+        ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
+
+        tvTitle.setText("Dialog Thêm Địa chỉ");
+        btnSave.setOnClickListener(new View.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            adapterDiaChi.setOnItemCheckedChangeListener(new DiaChiNhanHangAdapter.OnItemCheckedChangeListener() {
-              @Override
-              public void onItemCheckedChanged(AddressDelivery addressDelivery) {
-                tvTen.setText(addressDelivery.getTenNguoiNhan() + " | ");
-                tvSdt.setText(addressDelivery.getSdt());
-                tvDiaChi.setText("Địa chỉ: " + addressDelivery.getDiaChi());
+          public void onClick(View v) {
+            if(Validate()){
+              String tenNguoiNhan = edTenNguoiNhan.getText().toString().trim();
+              String soDienThoai = edSDT.getText().toString().trim();
+              String diaChi = dl_edDiaChiChiTiet.getText().toString().trim() + ", "
+                      + dl_edPhuongXa.getText().toString().trim() + ", "
+                      + dl_edQuanHuyen.getText().toString().trim()+ ", "
+                      + dl_edTinhThanhPho.getText().toString().trim();
+              Address_API address_api = ApiRetrofit.getApiAddress();
+              mySharedPreferences = new MySharedPreferences(getContext());
+              Call<AddressDelivery> call = address_api.postDiaChi(new AddressDelivery(soDienThoai , tenNguoiNhan , diaChi , new User(mySharedPreferences.getUserId())));
+              call.enqueue(new Callback<AddressDelivery>() {
+                @Override
+                public void onResponse(Call<AddressDelivery> call, Response<AddressDelivery> response) {
+                  if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    getData(mySharedPreferences.getUserId());
+                  }
+                }
 
-                idDiaChi = addressDelivery.get_id();
-                addressCheck = addressDelivery.getDiaChi();
-              }
-            });
+                @Override
+                public void onFailure(Call<AddressDelivery> call, Throwable t) {
+                  Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+              });
+            }
           }
         });
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+
+        imgView.setOnClickListener(new View.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int i) {
-            dialogInterface.dismiss();
+          public void onClick(View v) {
+            dialog.dismiss();
           }
         });
-
-        builder.create().show();
       }
     });
+//    imgDiaChi.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View view) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialog_view = inflater.inflate(R.layout.dialog_diachi, null);
+//        rcDiaChiNhanHang = dialog_view.findViewById(R.id.rc_diaChiNhanHang);
+//        linearLayoutManager = new LinearLayoutManager(getContext());
+//        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+//        rcDiaChiNhanHang.setLayoutManager(linearLayoutManager);
+//        builder.setView(dialog_view);
+//
+//        rcDiaChiNhanHang.setAdapter(adapterDiaChi);
+//
+//        builder.setPositiveButton("Chọn", new DialogInterface.OnClickListener() {
+//          @Override
+//          public void onClick(DialogInterface dialogInterface, int i) {
+//            adapterDiaChi.setOnItemCheckedChangeListener(new DiaChiNhanHangAdapter.OnItemCheckedChangeListener() {
+//              @Override
+//              public void onItemCheckedChanged(AddressDelivery addressDelivery) {
+//                tvTen.setText(addressDelivery.getTenNguoiNhan() + " | ");
+//                tvSdt.setText(addressDelivery.getSdt());
+//                tvDiaChi.setText("Địa chỉ: " + addressDelivery.getDiaChi());
+//
+//                idDiaChi = addressDelivery.get_id();
+//                addressCheck = addressDelivery.getDiaChi();
+//                if (addressDelivery.getDiaChi().toLowerCase().equals("hà nội")){
+//                  phiVanChuyen += 15000;
+//                } else {
+//                  phiVanChuyen += 30000;
+//                }
+//              }
+//            });
+//          }
+//        });
+//        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//          @Override
+//          public void onClick(DialogInterface dialogInterface, int i) {
+//            dialogInterface.dismiss();
+//          }
+//        });
+//
+//        builder.create().show();
+//      }
+//    });
     linearLayoutManager = new LinearLayoutManager(getContext());
     linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
     rc_listChon.setLayoutManager(linearLayoutManager);
@@ -213,7 +314,6 @@ public class ThanhToanFragment extends Fragment {
     } catch (NumberFormatException e) {
       e.printStackTrace();
     }
-    int phiVanChuyen = 0;
 
     try {
       double tongTienGiamNumber = Double.parseDouble(String.valueOf(phiVanChuyen));
@@ -302,7 +402,7 @@ public class ThanhToanFragment extends Fragment {
               SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
               String formattedDate = dateFormat.format(calendar.getTime());
               HoaDon hoaDon = new HoaDon();
-              hoaDon.setTongTien(String.valueOf(0));
+              hoaDon.setTongTien(String.valueOf(0 + phiVanChuyen));
               hoaDon.setNgayTao(formattedDate);
               hoaDon.setPhuongThucThanhToan(selectedItem);
               hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
@@ -374,16 +474,16 @@ public class ThanhToanFragment extends Fragment {
         if (response.isSuccessful() && response.body() != null) {
           list.clear();
           list.addAll(response.body());
-          adapterDiaChi.notifyDataSetChanged();
-          if (!list.isEmpty()) {
-            AddressDelivery firstAddress = list.get(0);
-            idDiaChi = firstAddress.get_id();
-            tvTen.setText(firstAddress.getTenNguoiNhan() + " | ");
-            tvSdt.setText(firstAddress.getSdt());
-            tvDiaChi.setText("Địa chỉ: " + firstAddress.getDiaChi());
-          } else {
-            Toast.makeText(getContext(), "Không có địa chỉ nào.", Toast.LENGTH_SHORT).show();
-          }
+          adapterSpinnerDiaChi.notifyDataSetChanged();
+//          if (!list.isEmpty()) {
+//            AddressDelivery firstAddress = list.get(0);
+//            idDiaChi = firstAddress.get_id();
+//            tvTen.setText(firstAddress.getTenNguoiNhan() + " | ");
+//            tvSdt.setText(firstAddress.getSdt());
+//            tvDiaChi.setText("Địa chỉ: " + firstAddress.getDiaChi());
+//          } else {
+//            Toast.makeText(getContext(), "Không có địa chỉ nào.", Toast.LENGTH_SHORT).show();
+//          }
         } else {
           Toast.makeText(getContext(), "Không thể lấy danh sách địa chỉ.", Toast.LENGTH_SHORT).show();
         }
@@ -417,5 +517,45 @@ public class ThanhToanFragment extends Fragment {
 //    });
 //  }
 
+  private boolean Validate(){
+    String usernamePattern = "^[\\p{L}\\s]+$";
+    String phonePattern = "^0\\d{9}$";
+    String pattern = "^[\\p{L}0-9\\s\\-_]+$";
 
+    if(edTenNguoiNhan.getText().toString().isEmpty()){
+      edTenNguoiNhan.setError("Không được để trống!!");
+      return false;
+    }else if(!edTenNguoiNhan.getText().toString().trim().matches(usernamePattern)){
+      edTenNguoiNhan.setError("Tên người nhận phải là chữ cái!!");
+      return false;
+    }else if(edSDT.getText().toString().isEmpty()){
+      edSDT.setError("Không được để trống!!");
+      return false;
+    }else if(!edSDT.getText().toString().trim().matches(phonePattern)){
+      edSDT.setError("Số điện thoại không hợp lệ!!");
+      return false;
+    } else if(dl_edDiaChiChiTiet.getText().toString().isEmpty()){
+      dl_edDiaChiChiTiet.setError("Địa chỉ không được để trống!!");
+      return false;
+    } else if(dl_edPhuongXa.getText().toString().isEmpty()){
+      dl_edPhuongXa.setError("Phường xã không được để trống!!");
+      return false;
+    } else if(!dl_edPhuongXa.getText().toString().trim().matches(pattern)){
+      dl_edPhuongXa.setError("Phường xã không được nhập ký tự đặc biệt!!");
+      return false;
+    } else if(dl_edQuanHuyen.getText().toString().isEmpty()){
+      dl_edQuanHuyen.setError("Quận huyện không được để trống!!");
+      return false;
+    } else if(!dl_edQuanHuyen.getText().toString().trim().matches(pattern)){
+      dl_edQuanHuyen.setError("Quận huyện không được chứa ký tự đặc biệt!!");
+      return false;
+    } else if(dl_edTinhThanhPho.getText().toString().isEmpty()){
+      dl_edTinhThanhPho.setError("Tỉnh, thành phố không được để trống!!");
+      return false;
+    }else if(!dl_edTinhThanhPho.getText().toString().trim().matches(pattern)){
+      dl_edTinhThanhPho.setError("Tỉnh, thành phố không được chứa ký tự đặc biệt!!");
+      return false;
+    }
+    return true;
+  }
 }

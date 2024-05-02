@@ -50,7 +50,7 @@ dependencies {
 //        "dir" to "D:\\ZaloPay",
 //        "include" to listOf("*.aar", "*.jar")
 //    )))
-//    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
+    implementation(fileTree(mapOf("dir" to "D:\\FPT_Polytechnic\\DATN\\DATN_PhoneHouse\\AppKhachHang\\app\\libs", "include" to listOf("*.aar", "*.jar"))))
     implementation(fileTree(mapOf(
         "dir" to "D:\\abc\\DATN_PhoneHouse\\AppKhachHang\\app\\libs",
         "include" to listOf("*.aar", "*.jar"),
@@ -58,8 +58,12 @@ dependencies {
     implementation(fileTree(mapOf(
         "dir" to "/Users/yenyen/Desktop/DATN_PhoneHouse/AppKhachHang/app/libs",
         "include" to listOf("*.aar", "*.jar")
-
     )))
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\\\ZaloPay",
+        "include" to listOf("*.aar", "*.jar")
+    )))
+
 
 
     testImplementation("junit:junit:4.13.2")

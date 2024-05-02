@@ -49,6 +49,7 @@ public class ChangePassword extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
         toolbar = findViewById(R.id.changePass_toolBar);
+        toolbar.setTitle("Đổi mật khẩu");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,8 +62,6 @@ public class ChangePassword extends AppCompatActivity {
         Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
         getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
-        toolbar.setTitle("Đổi mật khẩu");
-        setSupportActionBar(toolbar);
 
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
