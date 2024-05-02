@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.appkhachhang.Fragment.BillOrderFragment;
 import com.example.appkhachhang.Fragment.HomeFragment;
 import com.example.appkhachhang.viewpager.DonDaGiaoFragment;
 import com.example.appkhachhang.viewpager.DonHuyFragment;
@@ -28,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return new DonHuyFragment();
         }
-        return new HomeFragment();
+        return new BillOrderFragment();
     }
 
     @Override

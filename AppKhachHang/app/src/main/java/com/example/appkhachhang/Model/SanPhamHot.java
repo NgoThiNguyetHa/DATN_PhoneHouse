@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SanPhamHot implements Serializable {
     ChiTietDienThoai _id;
-    private List<DanhGia> danhGias = new ArrayList<>();
+    List<DanhGia> danhGias;
     int soLuong;
 
     public SanPhamHot() {
@@ -35,5 +35,14 @@ public class SanPhamHot implements Serializable {
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
+    }
+
+    @Override
+    public String toString() {
+        return "SanPhamHot{" +
+                "_id=" + _id +
+                ", danhGias=" + danhGias +
+                ", soLuong=" + soLuong +
+                '}';
     }
 }
