@@ -122,7 +122,7 @@ public interface ApiService {
     Call<List<Root>> getUuDaiHot(@Query("uuDaiHot") String uuDaiHot,@Query("maHangSanXuat") String maHangSanXuat);
 
     @GET("chitietdienthoais/filterChiTietDienThoai")
-    Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+    Call<List<Root>> getBoLocFilter(@Query("Ram") String Ram , @Query("boNho") String boNho,@Query("GiaMin") int min, @Query("GiaMax") int max, @Query("maHangSanXuat") String maHangSanXuat);
 
     //get list đánh giá theo chi tiết
     @GET("danhgias/getDanhGia/{id}")
@@ -162,7 +162,7 @@ public interface ApiService {
     Call<List<SanPhamHot>> getUuDaiHotSPHot(@Query("uuDaiHot") String uuDaiHot,@Query("maHangSanXuat") String maHangSanXuat);
 
     @GET("chitietdienthoais/filterDienThoaiHotNhat")
-    Call<List<SanPhamHot>> getBoLocFilterSPHot(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("maHangSanXuat") String maHangSanXuat);
+    Call<List<SanPhamHot>> getBoLocFilterSPHot(@Query("Ram") String Ram , @Query("boNho") String boNho, @Query("GiaMin") int min, @Query("GiaMax") int max, @Query("maHangSanXuat") String maHangSanXuat);
 
     //get list đánh giá theo chi tiết
     @GET("danhgias/getDanhGia/{id}")

@@ -416,6 +416,65 @@ public class ProductFragment extends Fragment {
                 }
             }
         });
+        TextView tvMin, tvMax;
+        tvMin = dialog.findViewById(R.id.filterGiaTien_tvMin);
+        tvMax = dialog.findViewById(R.id.filterGiaTien_tvMax);
+        DoubleValueSeekBarView doubleValueSeekBarView = dialog.findViewById(R.id.double_range_seekbar);
+        final DecimalFormat[] decimalFormat = {new DecimalFormat("#,##0.##")};
+        String filterMin = String.valueOf(doubleValueSeekBarView.getMinValue() * 1000000);
+        String filterMax = String.valueOf(doubleValueSeekBarView.getMaxValue() * 1000000);
+        final int[] minValue = new int[1];
+        final int[] maxValue = new int[1];
+        try {
+            double minNumber = Double.parseDouble(filterMin);
+            double maxNumber = Double.parseDouble(filterMax);
+            String formattedMinNumber = decimalFormat[0].format(minNumber);
+            String formattedMaxNumber = decimalFormat[0].format(maxNumber);
+            tvMin.setText("" + formattedMinNumber + "đ");
+            tvMax.setText("" + formattedMaxNumber + "đ");
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        doubleValueSeekBarView.setOnRangeSeekBarViewChangeListener(new OnDoubleValueSeekBarChangeListener() {
+            @Override
+            public void onValueChanged(@Nullable DoubleValueSeekBarView seekBar, int min, int max, boolean fromUser) {
+                if (min < 0) {
+                    doubleValueSeekBarView.setMinValue(0);
+                }
+                // Kiểm tra nếu giá trị tối đa lớn hơn 999,999,999, đặt lại giá trị tối đa thành 999,999,999
+                if (max > 999999999) {
+                    doubleValueSeekBarView.setMaxValue(999999999);
+                }
+                minValue[0] = min;
+                maxValue[0] = max;
+                DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
+                String filterMin = String.valueOf(min * 1000000);
+                String filterMax = String.valueOf(max * 1000000);
+                try {
+                    double minNumber = Double.parseDouble(filterMin);
+                    double maxNumber = Double.parseDouble(filterMax);
+                    String formattedMinNumber = decimalFormat.format(minNumber);
+                    String formattedMaxNumber = decimalFormat.format(maxNumber);
+                    tvMin.setText("" + formattedMinNumber + "đ");
+                    tvMax.setText("" + formattedMaxNumber + "đ");
+
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(@Nullable DoubleValueSeekBarView seekBar, int min, int max) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(@Nullable DoubleValueSeekBarView seekBar, int min, int max) {
+            }
+        });
+        minValue[0] = doubleValueSeekBarView.getCurrentMinValue() * 1000000;
+        maxValue[0] = doubleValueSeekBarView.getCurrentMaxValue() * 1000000;
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -459,7 +518,7 @@ public class ProductFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), "");
+                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), minValue[0] * 1000000, maxValue[0] * 1000000, "");
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
