@@ -76,8 +76,6 @@ public class ReviewFragment extends Fragment {
 
     private void initView(View view){
         rc_QLDanhGia = view.findViewById(R.id.rc_qlDanhGia);
-        cv_sxTheoDiemDanhGia = view.findViewById(R.id.cv_sxDiemDanhGia);
-        cv_sxTheoNgay = view.findViewById(R.id.cv_sxNgayTao);
     }
 
     private void initVariable(){
