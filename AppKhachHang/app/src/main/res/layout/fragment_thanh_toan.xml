@@ -70,54 +70,6 @@
                                 android:dropDownWidth="match_parent"
                                 android:layout_weight="1"
                                 android:background="@drawable/background_spn"/>
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_weight="8"-->
-<!--                                android:padding="10dp"-->
-<!--                                android:orientation="vertical">-->
-<!--                                <LinearLayout-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:orientation="horizontal">-->
-<!--                                    <TextView-->
-<!--                                        android:id="@+id/tv_tenKhachHang"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:textSize="14dp"-->
-<!--                                        android:text="Long  |   "/>-->
-<!--                                    <TextView-->
-<!--                                        android:id="@+id/tv_sdtKhachHang"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:textSize="14dp"-->
-<!--                                        android:text="01234556789"/>-->
-<!--                                </LinearLayout>-->
-
-<!--                                <LinearLayout-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:orientation="horizontal">-->
-<!--                                    <TextView-->
-<!--                                        android:id="@+id/tv_DiaChiKhachHang"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:textSize="14dp"-->
-<!--                                        android:text="Địa chỉ: "/>-->
-<!--                                </LinearLayout>-->
-<!--                            </LinearLayout>-->
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_gravity="end|center_vertical"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:orientation="vertical">-->
-<!--                                <ImageView-->
-<!--                                    android:id="@+id/imgDiaChi"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:src="@drawable/right"/>-->
-<!--                            </LinearLayout>-->
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
