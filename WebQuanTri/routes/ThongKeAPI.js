@@ -412,7 +412,7 @@ router.get("/soLuongSanPham/:maCuaHang/:ngayTao", async (req, res) => {
     for (const hoaDon of hoaDonDaGiao) {
       const chiTietHoaDon = await ChiTietHoaDon.find({ maHoaDon: hoaDon._id });
       const uniqueSanPham = new Set(
-        chiTietHoaDon.map((item) => item.maDienThoai.toString())
+        chiTietHoaDon.map((item) => item.maChiTietDienThoai.toString())
       );
       soLuongDaBan += uniqueSanPham.size;
     }
