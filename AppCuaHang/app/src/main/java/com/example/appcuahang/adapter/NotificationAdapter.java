@@ -52,6 +52,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 
     int color = Color.parseColor("#D0dde4");
+    int colorGreen = Color.parseColor("#037C1F");
     if (notification.getTrangThai().equals("0")) {
       holder.item_mLinearThongBao.setBackgroundColor(color);
     } else {
@@ -79,7 +80,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       int start = fullText.indexOf(totalAmount);
       int end = start + (totalAmount.toString().length() + 4);
 
-      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new ForegroundColorSpan(colorGreen), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
       spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -98,7 +99,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       int start = fullText.indexOf(totalAmount);
       int end = start + (totalAmount.toString().length() + 4);
 
-      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new ForegroundColorSpan(colorGreen), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
       spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
@@ -117,7 +118,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       int start = fullText.indexOf(totalAmount);
       int end = start + (totalAmount.toString().length() + 4);
 
-      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new ForegroundColorSpan(colorGreen), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
