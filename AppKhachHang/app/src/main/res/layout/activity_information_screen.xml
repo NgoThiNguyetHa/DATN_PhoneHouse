@@ -5,21 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformationScreen"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/information_toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        />
+        android:background="#FFF"/>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/edituser" />
+
 
     <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
+        android:id="@+id/textHoTen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ tên"
+        android:hint="Họ và tên*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
+        app:errorEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -31,12 +41,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
+        android:id="@+id/textSdt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:hint="Số điện thoại*"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
+        app:errorEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,12 +61,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        app:errorEnabled="true"
+        android:id="@+id/textDiaChi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Địa chỉ"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperText=""
+        app:helperTextTextColor="#009688"
+        app:errorEnabled="true"
         >
 
         <com.google.android.material.textfield.TextInputEditText

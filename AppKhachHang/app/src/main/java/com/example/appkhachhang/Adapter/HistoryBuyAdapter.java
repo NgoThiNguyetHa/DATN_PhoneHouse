@@ -17,6 +17,7 @@ import com.example.appkhachhang.Model.ChiTietHoaDon;
 import com.example.appkhachhang.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.MyViewHolder> {
@@ -45,15 +46,22 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
         String tongTien = chiTietHoaDon.getGiaTien();
         String tenDienThoai = chiTietDienThoai.getMaDienThoai().getTenDienThoai();
         String mauDT = chiTietDienThoai.getMaMau().getTenMau();
-        String anh = chiTietDienThoai.getMaDienThoai().getHinhAnh();
+        String anh = chiTietDienThoai.getHinhAnh();
         String soLuong = String.valueOf(chiTietHoaDon.getSoLuong());
-
+        String cuaHang = chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().getUsername();
         holder.bill_item_tvSoLuong.setText("x" + soLuong);
-        holder.bill_item_tvDienThoai.setText(tenDienThoai+ ram + "/" + dungLuong);
+        holder.bill_item_tvDienThoai.setText(tenDienThoai+" RAM"+ ram + "/" + dungLuong+ "Gb");
         holder.bill_item_tvMau.setText("" +mauDT);
-        holder.bill_item_tvTongTien.setText( tongTien + "");
+        holder.tvCuaHangDG.setText(cuaHang);
         Picasso.get().load(anh).into(holder.imgDienThoai);
-
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,##0");
+        try {
+            double tongTienGiamNumber = Double.parseDouble(chiTietHoaDon.getGiaTien() + "");
+            String formattedNumber = decimalFormat1.format(tongTienGiamNumber);
+            holder.bill_item_tvTongTien.setText(formattedNumber + "₫");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         holder.btnDanhGia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,9 +80,9 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView bill_item_tvDienThoai, bill_item_tvMau,bill_item_tvSoLuong,bill_item_tvTongTien;
+        TextView bill_item_tvDienThoai, bill_item_tvMau,bill_item_tvSoLuong,bill_item_tvTongTien, tvCuaHangDG;
         ImageView imgDienThoai;
-        Button btnDanhGia;
+        Button btnDanhGia, btnMuaLai;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -85,7 +93,8 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
             bill_item_tvTongTien = itemView.findViewById(R.id.bill_item_tvTongTien);
             imgDienThoai = itemView.findViewById(R.id.imgDienThoai);
             btnDanhGia = itemView.findViewById(R.id.btnDanhGia);
-
+            btnMuaLai = itemView.findViewById(R.id.btnMuaLai);
+            tvCuaHangDG = itemView.findViewById(R.id.tvCuaHangDG);
 
 
         }

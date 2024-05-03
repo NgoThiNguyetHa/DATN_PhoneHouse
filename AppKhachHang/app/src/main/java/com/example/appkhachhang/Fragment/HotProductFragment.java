@@ -1,5 +1,6 @@
 package com.example.appkhachhang.Fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,9 +101,10 @@ public class HotProductFragment extends Fragment {
         mySharedPreferences = new MySharedPreferences(getContext());
         initView(view);
         actionFilter();
-        if (getActivity() != null) {
-            getActivity().setTitle("Danh sách sản phẩm hot");
-        }
+        ((Activity) getContext()).setTitle("Danh sách sản phẩm hot");
+//        if (getActivity() != null) {
+//            getActivity().setTitle("Danh sách sản phẩm hot");
+//        }
         sanPhamHot();
         listSPHotFilter = new ArrayList<>();
         edSearch.addTextChangedListener(new TextWatcher() {
@@ -121,7 +123,7 @@ public class HotProductFragment extends Fragment {
                 listSPHotFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for (int i = 0; i < listSPHot.size(); i++) {
-                    if (listSPHot.get(i).get_id().getMaDienThoai().getTenDienThoai().toString().toLowerCase().contains(edSearch.getText().toString().toLowerCase()) && edSearch.getText().length() != 0) {
+                    if (listSPHot.get(i).get_id().getMaDienThoai().getTenDienThoai().toString().trim().toLowerCase().contains(edSearch.getText().toString().trim().toLowerCase()) && edSearch.getText().length() != 0) {
                         listSPHotFilter.add(listSPHot.get(i));
                         tv_entry.setVisibility(View.GONE);
 
@@ -237,7 +239,7 @@ public class HotProductFragment extends Fragment {
     private void replaceFragment(Fragment fragment) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout, fragment);
+        transaction.replace(R.id.danhSachHot_frameLayout, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -885,5 +887,4 @@ public class HotProductFragment extends Fragment {
             }
         });
     }
-
 }

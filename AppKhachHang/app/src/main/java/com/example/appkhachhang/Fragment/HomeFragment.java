@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +36,7 @@ import com.example.appkhachhang.Api.ThongKe_API;
 import com.example.appkhachhang.Interface.OnItemClickListenerSanPhamHot;
 import com.example.appkhachhang.Interface_Adapter.IItemListPhoneListener;
 import com.example.appkhachhang.Model.Root;
+import com.example.appkhachhang.activity.CartActivity;
 import com.example.appkhachhang.activity.DetailScreen;
 import com.example.appkhachhang.Interface.OnItemClickListenerHang;
 import com.example.appkhachhang.LoginScreen;
@@ -43,6 +45,9 @@ import com.example.appkhachhang.Model.HangSanXuat;
 import com.example.appkhachhang.Model.SanPhamHot;
 import com.example.appkhachhang.R;
 import com.example.appkhachhang.activity.DanhSachActivity;
+import com.example.appkhachhang.activity.MomoActivity;
+import com.example.appkhachhang.activity.HotProductActivity;
+import com.example.appkhachhang.activity.ProductActivity;
 import com.example.appkhachhang.activity.SearchActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 
@@ -87,13 +92,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Xử lý khi click vào ảnh sản phẩm hot
-                replaceFragment(new HotProductFragment());
+//                replaceFragment(new HotProductFragment());
+                startActivity(new Intent(getContext(), HotProductActivity.class));
             }
         });
         imgSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new ProductFragment());
+                startActivity(new Intent(getContext(), ProductActivity.class));
+//                replaceFragment(new ProductFragment());
             }
         });
 //        toolbar = view.findViewById(R.id.main_toolBar);
@@ -275,11 +282,17 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.gioHang){
             if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                replaceFragment(new CartFragment());
+//                replaceFragment(new CartFragment());
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
             }else {
                 Intent intent = new Intent(getContext(), LoginScreen.class);
                 startActivity(intent);
             }
+//            Intent intent = new Intent(getContext(), LoginScreen.class);
+//            startActivity(intent);
+//            Intent intent = new Intent(getContext(), MomoActivity.class);
+//            startActivity(intent);
         }
         if (item.getItemId() == R.id.iconSearch){
             Intent intent = new Intent(getContext(), SearchActivity.class);

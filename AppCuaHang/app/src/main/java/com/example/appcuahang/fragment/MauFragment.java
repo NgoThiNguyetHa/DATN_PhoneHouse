@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class MauFragment extends Fragment {
     EditText edTenMau;
     TextView tv_entry;
     TextInputEditText mau_edSearch;
+    ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -93,7 +95,7 @@ public class MauFragment extends Fragment {
                 listFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for(int i = 0; i< list.size(); i++){
-                    if(list.get(i).getTenMau().toString().toLowerCase().contains(mau_edSearch.getText().toString().toLowerCase()) && mau_edSearch.getText().length() != 0){
+                    if(list.get(i).getTenMau().toString().trim().toLowerCase().contains(mau_edSearch.getText().toString().trim().toLowerCase()) && mau_edSearch.getText().length() != 0){
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
                     }
@@ -228,12 +230,16 @@ public class MauFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.dl_mau_imageView);
 
         tvTitle.setText("Dialog Thêm Màu");
+        btnSave.setText("Thêm mới");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Validate()){
 
-
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
                 Call<Mau> call = apiMauService.postMau(new Mau("", tenMau));
@@ -244,6 +250,7 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
 
@@ -293,7 +300,10 @@ public class MauFragment extends Fragment {
             public void onClick(View v) {
                 if(ValidateUpdate(mau)){
 
-
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Vui Lòng Chờ...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                 String tenMau = edTenMau.getText().toString().trim();
                 ApiMauService apiMauService = ApiRetrofit.getApiMauService();
                 Call<Mau> call = apiMauService.putMau(mau.get_id(), new Mau(mau.get_id(), tenMau));
@@ -304,6 +314,7 @@ public class MauFragment extends Fragment {
                             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                             getData();
                             dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     }
 

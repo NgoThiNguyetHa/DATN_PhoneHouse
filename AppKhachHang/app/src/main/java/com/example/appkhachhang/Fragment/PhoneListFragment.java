@@ -290,7 +290,7 @@ public class PhoneListFragment extends Fragment {
 
     private void sortDanhGia() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
@@ -797,7 +797,7 @@ public class PhoneListFragment extends Fragment {
 
     private void sortGiaTienCaoThap() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
@@ -826,7 +826,7 @@ public class PhoneListFragment extends Fragment {
 
     private void sortGiaTienThapCao() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();
@@ -855,7 +855,7 @@ public class PhoneListFragment extends Fragment {
 
     private void uuDaiHot() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui Lòng Chờ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         ApiService apiService = ApiRetrofit.getApiService();

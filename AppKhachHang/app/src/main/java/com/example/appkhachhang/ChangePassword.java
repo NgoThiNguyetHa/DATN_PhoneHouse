@@ -4,8 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +20,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.appkhachhang.Api.User_API;
+import com.example.appkhachhang.Fragment.UserFragment;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,6 +33,7 @@ import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
+    TextInputLayout textOldPass, textNewPass, textPassAgain;
     Button btnSave, btnCancle;
     FirebaseAuth mAuth;
     Toolbar toolbar;
@@ -42,7 +52,13 @@ public class ChangePassword extends AppCompatActivity {
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
+        textOldPass = findViewById(R.id.textOldPass);
+        textNewPass = findViewById(R.id.textNewPass);
+        textPassAgain = findViewById(R.id.textAgainPass);
+
         toolbar = findViewById(R.id.changePass_toolBar);
+
+        toolbar.setTitle("Đổi mật khẩu");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,9 +66,13 @@ public class ChangePassword extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
-        toolbar.setTitle("Đổi mật khẩu");
+//        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
+        getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
 
+        mySharedPreferences = new MySharedPreferences(getApplicationContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        Log.e("TAG", "onCreate: " + user.getEmail() );
 
@@ -62,28 +82,101 @@ public class ChangePassword extends AppCompatActivity {
                 edPassAgain.setText("");
                 edPassNew.setText("");
                 edPassOld.setText("");
+                finish();
             }
         });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String oldPassStr = edPassOld.getText().toString();
                 String newPassStr = edPassNew.getText().toString();
                 String againPassStr = edPassAgain.getText().toString();
-                if (oldPassStr.isEmpty()) {
-                    edPassOld.setError("Nhập đủ thông tin");
-                } else if (newPassStr.isEmpty()) {
-                    edPassNew.setError("Nhập đủ thông tin");
-                } else if (againPassStr.isEmpty()) {
-                    edPassAgain.setError("Nhập đủ thông tin");
-                } else if (newPassStr.length() < 6) {
-                    edPassNew.setError("Nhập đủ 6 kí tự");
-                } else if (againPassStr.length() < 6) {
-                    edPassAgain.setError("Nhập đủ 6 kí tự");
-                } else {
-                    updatePassword(oldPassStr, newPassStr);
 
+                edPassOld.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textOldPass.setError("");
+                            textOldPass.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                edPassNew.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textNewPass.setError("");
+                            textNewPass.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                edPassAgain.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textPassAgain.setError("");
+                            textPassAgain.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                if (oldPassStr.isEmpty()) {
+                    textOldPass.setError("Nhập đủ thông tin");
+                    textOldPass.setHelperText("");
+                } else if (newPassStr.isEmpty()) {
+                    textNewPass.setError("Nhập đủ thông tin");
+                    textNewPass.setHelperText("");
+                } else if (againPassStr.isEmpty()) {
+                    textPassAgain.setError("Nhập đủ thông tin");
+                    textPassAgain.setHelperText("");
+                } else if (newPassStr.length() < 6) {
+                    textNewPass.setError("Mật khẩu mới tối thiểu 6 kí tự");
+                    textNewPass.setHelperText("");
+                } else if (!edPassOld.getText().toString().trim().equals(mySharedPreferences.getPassword()+"")) {
+                    textOldPass.setError("Sai mật khẩu cũ");
+                    textOldPass.setHelperText("");
+                } else if (!isStrongPassword(edPassNew.getText().toString().trim())) {
+                    textNewPass.setError("Mật khẩu mới phải có chữ cái viết hoa, số và có kí tự đặc biệt");
+                    textNewPass.setHelperText("");
+                } else if (!edPassAgain.getText().toString().trim().equals(edPassNew.getText().toString().trim())) {
+                    textPassAgain.setError("Mật khẩu nhập lại không trùng khớp");
+                    textPassAgain.setHelperText("");
                 }
+
+                else {
+                    updatePassword(oldPassStr, newPassStr);
+                    }
 
 
             }
@@ -128,8 +221,12 @@ public class ChangePassword extends AppCompatActivity {
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response != null){
                             Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(ChangePassword.this, LoginScreen.class);
+                            MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
+                            sharedPreferences.saveUserData(sharedPreferences.getUserId() , sharedPreferences.getUserName(), sharedPreferences.getEmail(), newPassStr, sharedPreferences.getPhone() , sharedPreferences.getAddress());
+                            finish();
+//                            Intent intent = new Intent(ChangePassword.this, UserFragment.class);
 //                            startActivity(intent);
+
                         }
                     }
 
@@ -166,14 +263,26 @@ public class ChangePassword extends AppCompatActivity {
 //                });
             }
         });
-
-
     }
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
+    private Drawable resizeDrawable(Drawable drawable, int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(getResources(), resizedBitmap);
+    }
 
 
+    private boolean isStrongPassword(String password) {
+        // Kiểm tra xem mật khẩu có null hoặc độ dài không đủ không
+        if (password == null || password.length() < 6) {
+            return false;
+        }
 
+        // Kiểm tra xem mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt không
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
+        return password.matches(passwordPattern);
+    }
 }

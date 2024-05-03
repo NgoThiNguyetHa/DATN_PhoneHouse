@@ -2,6 +2,7 @@ package com.example.appcuahang.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,6 +35,8 @@ import retrofit2.Response;
 public class ManHinhDangNhap extends AppCompatActivity {
     ActivityManHinhDangNhapBinding binding;
     MySharedPreferences sharedPreferences;
+
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +105,10 @@ public class ManHinhDangNhap extends AppCompatActivity {
                 if (checkValidate()){
                     String email = binding.edTenDangNhap.getText().toString().trim();
                     String password = binding.edMatKhau.getText().toString().trim();
+//                    progressDialog = new ProgressDialog(getApplicationContext());
+//                    progressDialog.setMessage("Vui Lòng Chờ...");
+//                    progressDialog.setCancelable(false);
+//                    progressDialog.show();
                     ApiService apiService = ApiRetrofit.getApiService();
                     Call<LoginResponse> call = apiService.DangNhap(email,password);
 
@@ -117,6 +124,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                     String passWord = loginResponse.getCuaHang().getPassword();
                                     String phone = loginResponse.getCuaHang().getSdt();
                                     String address = loginResponse.getCuaHang().getDiaChi();
+
                                     sharedPreferences.saveUserData(cuaHangId,userName,email,passWord,phone,address);
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainActivity.class);
                                     startActivity(intent);

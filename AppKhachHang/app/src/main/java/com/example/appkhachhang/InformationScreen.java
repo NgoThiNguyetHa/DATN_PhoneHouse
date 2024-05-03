@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,9 +28,11 @@ import retrofit2.Response;
 public class InformationScreen extends AppCompatActivity {
     EditText edHotenHS, edSdtHS, edDiachiHS;
     Button btnSaveHS;
+    TextInputLayout textHoTen, textSdt, textDiaChi;
 
     Toolbar toolbar;
     MySharedPreferences mySharedPreferences;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +42,12 @@ public class InformationScreen extends AppCompatActivity {
         edSdtHS = findViewById(R.id.edSdtHS);
         edDiachiHS = findViewById(R.id.edDiaChiHS);
         btnSaveHS = findViewById(R.id.btnSaveHS);
+        textHoTen = findViewById(R.id.textHoTen);
+        textSdt = findViewById(R.id.textSdt);
+        textDiaChi = findViewById(R.id.textDiaChi);
+
         toolbar = findViewById(R.id.information_toolBar);
+        toolbar.setTitle("Thông tin người dùng");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,8 +55,10 @@ public class InformationScreen extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleText);
-        toolbar.setTitle("Thông tin người dùng");
-
+//        Drawable customBackIcon = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icon_back_toolbar);
+        Drawable customBackIcon = resizeDrawable(originalDrawable, 24, 24);
+        getSupportActionBar().setHomeAsUpIndicator(customBackIcon);
 
 
         mySharedPreferences = new MySharedPreferences(getApplicationContext());
@@ -51,22 +66,23 @@ public class InformationScreen extends AppCompatActivity {
         edSdtHS.setText(mySharedPreferences.getPhone());
         edDiachiHS.setText(mySharedPreferences.getAddress());
 
-
-
         btnSaveHS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String hoTen = edHotenHS.getText().toString().trim();
-               String sdt = edSdtHS.getText().toString().trim();
-               String diaChi = edDiachiHS.getText().toString().trim();
-                User_API.userApi.editKhachHang(mySharedPreferences.getUserId(), new User(mySharedPreferences.getUserId(),diaChi,hoTen,mySharedPreferences.getPassword(),mySharedPreferences.getEmail(),sdt)).enqueue(new Callback<User>() {
+                String hoTen = edHotenHS.getText().toString().trim();
+                String sdt = edSdtHS.getText().toString().trim();
+                String diaChi = edDiachiHS.getText().toString().trim();
+                User_API.userApi.editKhachHang(mySharedPreferences.getUserId(), new User(mySharedPreferences.getUserId(), diaChi, hoTen, mySharedPreferences.getPassword(), mySharedPreferences.getEmail(), sdt)).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        if(response!= null){
-                            User user = response.body();
-                            MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
-                            sharedPreferences.saveUserData( user.get_id(), user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt() , user.getDiaChi());
-                            Toast.makeText(InformationScreen.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                        if (validate() == true) {
+                            if (response != null) {
+                                User user = response.body();
+                                MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
+                                sharedPreferences.saveUserData(user.get_id(), user.getUsername(), user.getEmail(), user.getPassword(), user.getSdt(), user.getDiaChi());
+                                Toast.makeText(InformationScreen.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
                     }
 
@@ -79,8 +95,102 @@ public class InformationScreen extends AppCompatActivity {
             }
         });
     }
+
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    private Drawable resizeDrawable(Drawable drawable, int width, int height) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        return new BitmapDrawable(getResources(), resizedBitmap);
+    }
+
+    boolean validate() {
+        String hoTen = edHotenHS.getText().toString().trim();
+        String sdt = edSdtHS.getText().toString().trim();
+        edHotenHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textHoTen.setError("");
+                    textHoTen.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edSdtHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textSdt.setError("");
+                    textSdt.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edDiachiHS.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i1>i2){
+                    textDiaChi.setError("");
+                    textDiaChi.setHelperText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+         if (hoTen.isEmpty()) {
+            textHoTen.setError("Họ tên không được bỏ trống");
+            textHoTen.setHelperText("");
+            return false;
+        }
+        else if (!hoTen.matches("\\p{L}+")) {
+            textHoTen.setError("Họ và tên phải là chữ");
+            textHoTen.setHelperText("");
+            return false;
+        }  else if (sdt.isEmpty()) {
+             textSdt.setError("Số điện thoại không được bỏ trống");
+             textSdt.setHelperText("");
+             return false;
+         }
+        else if (!sdt.matches("^0\\d{9}$")) {
+            textSdt.setError("Số điện thoại không hợp lệ");
+            textSdt.setHelperText("");
+            return false;
+        } else if (sdt.length() < 10) {
+            textSdt.setError("Số điện thoại không hợp lệ");
+            textSdt.setHelperText("");
+            return false;
+        }
+        return true;
     }
 }

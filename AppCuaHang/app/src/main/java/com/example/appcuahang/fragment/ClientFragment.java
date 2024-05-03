@@ -80,7 +80,7 @@ public class ClientFragment extends Fragment {
                 listFilter.clear();
                 tv_entry.setVisibility(View.VISIBLE);
                 for(int i = 0; i< list.size(); i++){
-                    if(list.get(i).getUsername().toString().contains(client_edSearch.getText().toString()) && client_edSearch.getText().length() != 0){
+                    if(list.get(i).getUsername().toString().trim().contains(client_edSearch.getText().toString().trim()) && client_edSearch.getText().length() != 0){
                         listFilter.add(list.get(i));
                         tv_entry.setVisibility(View.GONE);
                     }

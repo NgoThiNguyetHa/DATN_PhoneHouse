@@ -15,5 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AppKhachHang"
-include(":app")
- 
+include(":app", ":momo_partner_sdk")
