@@ -123,7 +123,7 @@ router.post('/addChiTietHoaDon/:id', async function(req, res, next) {
     for (const pair of invoicesAndStores) {
       // Gửi thông báo cho cửa hàng
       const thongBaoCuaHang = new ThongBao({
-        noiDung: 'Có đơn hàng mới',
+        noiDung: 'Đang xử lý',
         thoiGian: thoiGianVietNam,
         trangThai: 0,
         maTaiKhoan: pair.maCuaHang,
@@ -134,7 +134,7 @@ router.post('/addChiTietHoaDon/:id', async function(req, res, next) {
 
       // Gửi thông báo cho khách hàng
       const thongBaoKH = new ThongBao({
-        noiDung: 'Đặt hàng thành công',
+        noiDung: 'Đang xử lý',
         thoiGian: thoiGianVietNam,
         trangThai: 0,
         maTaiKhoan: req.params.id,

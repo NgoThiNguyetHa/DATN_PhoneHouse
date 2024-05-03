@@ -264,7 +264,15 @@ router.get('/getDanhGiaTheoKhachHang/:id', async (req,res) => {
             {path: "maDungLuong", model:"dungluong"},
             {path: "maRam", model:"ram"}
           ]
-        });
+        }).sort({ ngayTao: -1 }); // Sắp xếp theo ngày tạo giảm dần
+
+    danhGia.sort((a, b) => {
+      const datePartsA = a.ngayTao.split("-").reverse(); // Chuyển định dạng ngày tháng từ dd-mm-yyyy thành yyyy-mm-dd
+      const datePartsB = b.ngayTao.split("-").reverse(); // Chuyển định dạng ngày tháng từ dd-mm-yyyy thành yyyy-mm-dd
+      const dateA = new Date(datePartsA.join("-"));
+      const dateB = new Date(datePartsB.join("-"));
+      return dateB - dateA; // Sắp xếp giảm dần
+    });
     res.json(danhGia);
   } catch (error) {
     res.status(500).json({ error: error.message });

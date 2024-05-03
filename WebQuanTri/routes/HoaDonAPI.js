@@ -194,9 +194,8 @@ router.put("/updateHoaDon/:id", async (req, res) => {
     const timeZoneOffset = 7; // Múi giờ của Việt Nam: UTC+7
     const thoiGianVietNam = new Date(now.getTime() + timeZoneOffset * 60 * 60 * 1000).toISOString();
 
-    if (trangThaiNhanHang === "Đã giao"){
       const thongBaoCuaHang = new ThongBao({
-        noiDung: 'Đơn hàng đã giao thành công!',
+        noiDung: trangThaiNhanHang,
         thoiGian: thoiGianVietNam,
         trangThai: 0,
         maTaiKhoan: updatedHoaDon.maCuaHang,
@@ -204,17 +203,17 @@ router.put("/updateHoaDon/:id", async (req, res) => {
         maHoaDon: req.params.id
       });
       await thongBaoCuaHang.save();
-    }else if (trangThaiNhanHang === "Đã hủy"){
-      const thongBaoCuaHang = new ThongBao({
-        noiDung: 'Đơn hàng đã hủy!',
+
+      const thongBaoKH = new ThongBao({
+        noiDung: trangThaiNhanHang,
         thoiGian: thoiGianVietNam,
         trangThai: 0,
-        maTaiKhoan: updatedHoaDon.maCuaHang,
-        phanQuyen: 'cuahang',
+        maTaiKhoan: updatedHoaDon.maKhachHang,
+        phanQuyen: 'khachhang',
         maHoaDon: req.params.id
       });
-      await thongBaoCuaHang.save();
-    }
+      await thongBaoKH.save();
+
     if (!updatedHoaDon) {
       return res.status(404).json({message: "update failed"})
 

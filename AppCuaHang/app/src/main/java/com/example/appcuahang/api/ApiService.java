@@ -7,6 +7,7 @@ import com.example.appcuahang.model.DungLuong;
 import com.example.appcuahang.model.HoaDon;
 import com.example.appcuahang.model.LoginResponse;
 import com.example.appcuahang.model.Mau;
+import com.example.appcuahang.model.Notification;
 import com.example.appcuahang.model.Phone;
 import com.example.appcuahang.model.Ram;
 import com.example.appcuahang.model.Rating;
@@ -192,4 +193,18 @@ public interface ApiService {
     @GET("thongke/top-products/{maCuaHang}")
     Call<List<Top10sanPham>> getTop10SP(@Path("maCuaHang") String id,
                                         @Query("day") String day );
+
+    //get thông báo
+    @GET("thongbao/getThongBao/{phanQuyen}/{id}")
+    Call<List<Notification>> getThongBao(@Path("phanQuyen")String phanQuyen,
+                                         @Path("id")String id);
+
+    //update trạng thái đọc của thông báo
+    @PUT("thongbao/updateTrangThaiThongBao/{id}")
+    Call<String> updateThongBao(@Path("id") String id, @Body Notification notification);
+
+    //đọc tất cả thông báo
+    @PUT("thongbao/updateAll/{phanQuyen}/{id}")
+    Call<String> updateAllThongBao(@Path("phanQuyen")String phanQuyen,
+                                   @Path("id")String id);
 }

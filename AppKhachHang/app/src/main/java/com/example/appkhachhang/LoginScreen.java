@@ -112,26 +112,26 @@ public class LoginScreen extends AppCompatActivity {
 //                editor.apply();
                 startActivity(intent);
                 // Lấy token thiết bị từ Firebase Messaging
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(task -> {
-                            if (!task.isSuccessful()) {
-                                // Xử lý lỗi
-                                return;
-                            }
-                            // Lấy token thiết bị
-                            String deviceToken = task.getResult();
-                            User_API.userApi.updateToken(user.get_id(), deviceToken).enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
-//                                    Log.d("zzz", "onResponse: "+response.body());
-                                }
-
-                                @Override
-                                public void onFailure(Call<String> call, Throwable t) {
-//                                    Log.d("zzz", "onFailure: "+t.getMessage());
-                                }
-                            });
-                        });
+//                FirebaseMessaging.getInstance().getToken()
+//                        .addOnCompleteListener(task -> {
+//                            if (!task.isSuccessful()) {
+//                                // Xử lý lỗi
+//                                return;
+//                            }
+//                            // Lấy token thiết bị
+//                            String deviceToken = task.getResult();
+//                            User_API.userApi.updateToken(user.get_id(), deviceToken).enqueue(new Callback<String>() {
+//                                @Override
+//                                public void onResponse(Call<String> call, Response<String> response) {
+////                                    Log.d("zzz", "onResponse: "+response.body());
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<String> call, Throwable t) {
+////                                    Log.d("zzz", "onFailure: "+t.getMessage());
+//                                }
+//                            });
+//                        });
                 break;
             }
         }

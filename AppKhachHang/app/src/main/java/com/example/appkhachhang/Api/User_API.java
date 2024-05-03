@@ -22,8 +22,8 @@ public interface User_API {
 
 
     User_API userApi = new Retrofit.Builder()
-//            .baseUrl("https://datn-phonehouse.onrender.com/khachhangs/")
-            .baseUrl("http://192.168.1.170:8686/khachhangs/")
+            .baseUrl("https://datn-phonehouse.onrender.com/khachhangs/")
+//            .baseUrl("http://192.168.1.170:8686/khachhangs/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build().create(User_API.class);
 

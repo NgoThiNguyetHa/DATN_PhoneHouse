@@ -1,4 +1,4 @@
-package com.example.appkhachhang.Adapter;
+package com.example.appcuahang.adapter;
 
 
 import android.content.Context;
@@ -16,12 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appkhachhang.Interface.OnItemClickListenerNotification;
-import com.example.appkhachhang.Model.Notification;
-import com.example.appkhachhang.R;
+import com.example.appcuahang.R;
+import com.example.appcuahang.interface_adapter.OnItemClickListenerNotification;
+import com.example.appcuahang.model.Notification;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,13 +42,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
   @NonNull
   @Override
-  public NotificationAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_notification, parent, false));
   }
 
   @Override
-  public void onBindViewHolder(@NonNull NotificationAdapter.MyViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
     Notification notification = list.get(position);
+    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+
     int color = Color.parseColor("#D0dde4");
     if (notification.getTrangThai().equals("0")) {
       holder.item_mLinearThongBao.setBackgroundColor(color);
@@ -66,21 +69,36 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     String orderCode = generateOrderCode(notification.getMaHoaDon().get_id());
     if (notification.getNoiDung().equals("Đang xử lý")) {
-      holder.tvTieuDe.setText("Đã xác nhận đơn hàng");
+      holder.tvTieuDe.setText("Có đơn hàng mới");
       String text = "Đơn hàng ";
-      SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã xác nhận thanh toán COD. Vui lòng giữ điện thoại để nhận cuộc gọi từ nhân viên giao hàng nhé.");
+      String totalAmount = decimalFormat.format(Double.parseDouble(notification.getMaHoaDon().getTongTien()));
+      String fullText = text + "DH" + orderCode + " có trị giá " + totalAmount + " VND vừa được tạo mới";
+      SpannableString spannableString = new SpannableString(fullText);
 
-// Tạo Span để gạch chân và thay đổi màu sắc của "DH" và orderCode
-      spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
-      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
-      spannableString.setSpan(new UnderlineSpan(), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân orderCode
-      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh orderCode
+
+      int start = fullText.indexOf(totalAmount);
+      int end = start + (totalAmount.toString().length() + 4);
+
+      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+      spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new UnderlineSpan(), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
       holder.tvMoTa.setText(spannableString);
     } else if (notification.getNoiDung().equals("Đã giao")) {
       holder.tvTieuDe.setText("Giao đơn hàng thành công");
       String text = "Đơn hàng ";
-      SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã giao thành công đến bạn.");
+      String totalAmount = decimalFormat.format(Double.parseDouble(notification.getMaHoaDon().getTongTien()));
+      String fullText = text + "DH" + orderCode + " có trị giá " + totalAmount + " VND vừa được tạo mới";
+      SpannableString spannableString = new SpannableString(fullText);
+
+
+      int start = fullText.indexOf(totalAmount);
+      int end = start + (totalAmount.toString().length() + 4);
+
+      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
       spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
@@ -90,8 +108,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
       holder.tvMoTa.setText(spannableString);
     } else if (notification.getNoiDung().equals("Đã hủy")) {
       holder.tvTieuDe.setText("Đơn hàng đã bị hủy");
-      String text = "Rất tiếc, đơn hàng ";
-      SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã bị hủy.");
+      String text = "Đơn hàng ";
+      String totalAmount = decimalFormat.format(Double.parseDouble(notification.getMaHoaDon().getTongTien()));
+      String fullText = text + "DH" + orderCode + " có trị giá " + totalAmount + " VND vừa được tạo mới";
+      SpannableString spannableString = new SpannableString(fullText);
+
+
+      int start = fullText.indexOf(totalAmount);
+      int end = start + (totalAmount.toString().length() + 4);
+
+      spannableString.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
 
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
       spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
