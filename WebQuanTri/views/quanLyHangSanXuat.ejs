@@ -640,7 +640,7 @@
   }
 
   async function updateDungLuong(id) {
-    if (validateForm('editDungLuong', existingData)) {
+    if (validateFormEdit('editDungLuong', existingData, id)) {
       const boNho = document.getElementById('editDungLuong').value;
       const response = await fetch(`/dungluongs/updateDungLuong/${id}`, {
         method: 'PUT',
@@ -658,7 +658,7 @@
   }
 
   async function updateRAM(id) {
-    if (validateForm('editRAM', existingData)) {
+    if (validateFormEdit('editRAM', existingData, id)) {
       const RAM = document.getElementById('editRAM').value;
       const response = await fetch(`/rams/updateRam/${id}`, {
         method: 'PUT',
@@ -676,7 +676,7 @@
   }
 
   async function updateMau(id) {
-    if (validateForm('editMau', existingData)) {
+    if (validateFormEdit('editMau', existingData, id)) {
       const tenMau = document.getElementById('editMau').value;
       const response = await fetch(`/maus/updateMau/${id}`, {
         method: 'PUT',
@@ -694,7 +694,7 @@
   }
 
   async function updateHangSanXuat(id) {
-    if (validateForm('editHangSanXuat', existingData)) {
+    if (validateFormEdit('editHangSanXuat', existingData, id)) {
       const fileInput = document.getElementById('editHinhAnh');
       const tenHang = document.getElementById('editTenHang').value;
       const formData = new FormData();
@@ -736,20 +736,7 @@
           alert('Hãng sản xuất này đã tồn tại');
         }
         break;
-      case 'editHangSanXuat':
-        tenHang = document.getElementById('editTenHang').value.trim();
-        fileInput = document.getElementById('editHinhAnh').files[0];
-        if (!tenHang) {
-          isValid = false;
-          alert('Vui lòng nhập tên hãng sản xuất');
-        } else if (fileInput && !isImageFile(fileInput)) {
-          isValid = false;
-          alert('Vui lòng chọn một file ảnh hợp lệ');
-        } else if (existingData.hangsanxuats.some(item => item.tenHang.toLowerCase() === tenHang.toLowerCase())) {
-          isValid = false;
-          alert('Hãng sản xuất này đã tồn tại');
-        }
-        break;
+
       case 'addRAM':
         RAM = document.getElementById('addRAM').value.trim();
         if (!RAM || isNaN(RAM) || RAM <= 0) {
@@ -760,16 +747,7 @@
           alert('RAM này đã tồn tại');
         }
         break;
-      case 'editRAM':
-        RAM = document.getElementById('editRAM').value.trim();
-        if (!RAM || isNaN(RAM) || RAM <= 0) {
-          isValid = false;
-          alert('Vui lòng nhập RAM là một số dương');
-        }else if (existingData.rams.some(item => item.RAM === parseInt(RAM))) {
-          isValid = false;
-          alert('RAM này đã tồn tại');
-        }
-        break;
+
       case 'addDungLuong':
         boNho = document.getElementById('addDungLuong').value.trim();
         if (!boNho || isNaN(boNho) || boNho <= 0) {
@@ -780,16 +758,7 @@
           alert('Dung lượng này đã tồn tại');
         }
         break;
-      case 'editDungLuong':
-        boNho = document.getElementById('editDungLuong').value.trim();
-        if (!boNho || isNaN(boNho) || boNho <= 0) {
-          isValid = false;
-          alert('Vui lòng nhập dung lượng là một số dương');
-        }else if (existingData.dungluongs.some(item => item.boNho === parseInt(boNho))) {
-          isValid = false;
-          alert('Dung lượng này đã tồn tại');
-        }
-        break;
+
       case 'addMau':
         tenMau = document.getElementById('addTenMau').value.trim();
         if (!tenMau) {
@@ -800,12 +769,61 @@
           alert('Màu này đã tồn tại');
         }
         break;
+
+    }
+
+    return isValid;
+  }
+
+  function validateFormEdit(formType, existingData, id) {
+    let isValid = true;
+    let tenHang, RAM, boNho, tenMau, fileInput;
+
+    switch (formType) {
+
+      case 'editHangSanXuat':
+        tenHang = document.getElementById('editTenHang').value.trim();
+        fileInput = document.getElementById('editHinhAnh').files[0];
+        if (!tenHang) {
+          isValid = false;
+          alert('Vui lòng nhập tên hãng sản xuất');
+        } else if (fileInput && !isImageFile(fileInput)) {
+          isValid = false;
+          alert('Vui lòng chọn một file ảnh hợp lệ');
+        } else if (existingData.hangsanxuats.some(item => item.tenHang.toLowerCase() === tenHang.toLowerCase() && item._id !== id)) {
+          isValid = false;
+          alert('Hãng sản xuất này đã tồn tại');
+        }
+        break;
+
+      case 'editRAM':
+        RAM = document.getElementById('editRAM').value.trim();
+        if (!RAM || isNaN(RAM) || RAM <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập RAM là một số dương');
+        }else if (existingData.rams.some(item => item.RAM === parseInt(RAM) && item._id !== id)) {
+          isValid = false;
+          alert('RAM này đã tồn tại');
+        }
+        break;
+
+      case 'editDungLuong':
+        boNho = document.getElementById('editDungLuong').value.trim();
+        if (!boNho || isNaN(boNho) || boNho <= 0) {
+          isValid = false;
+          alert('Vui lòng nhập dung lượng là một số dương');
+        }else if (existingData.dungluongs.some(item => item.boNho === parseInt(boNho) && item._id !== id)) {
+          isValid = false;
+          alert('Dung lượng này đã tồn tại');
+        }
+        break;
+
       case 'editMau':
         tenMau = document.getElementById('editMau').value.trim();
         if (!tenMau) {
           isValid = false;
           alert('Vui lòng nhập tên màu');
-        }else if (existingData.maus.some(item => item.tenMau.toLowerCase() === tenMau.toLowerCase())) {
+        }else if (existingData.maus.some(item => item.tenMau.toLowerCase() === tenMau.toLowerCase() && item._id !== id)) {
           isValid = false;
           alert('Màu này đã tồn tại');
         }

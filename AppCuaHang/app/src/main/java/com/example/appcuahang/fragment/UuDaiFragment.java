@@ -326,10 +326,6 @@ public class UuDaiFragment extends Fragment {
           @Override
           public void onClick(View view) {
            if(Validate()){
-               progressDialog = new ProgressDialog(getContext());
-               progressDialog.setMessage("Vui Lòng Chờ...");
-               progressDialog.setCancelable(false);
-               progressDialog.show();
                String giamGia = edGiamGia.getText().toString().trim();
                String thoiGian = edThoiGian.getText().toString().trim();
                String trangThai;
@@ -337,6 +333,10 @@ public class UuDaiFragment extends Fragment {
 
                // Kiểm tra nếu thời gian nhập từ người dùng lớn hơn hoặc bằng thời gian hiện tại
                if (isValidDate(thoiGian)) {
+                   progressDialog = new ProgressDialog(getContext());
+                   progressDialog.setMessage("Vui Lòng Chờ...");
+                   progressDialog.setCancelable(false);
+                   progressDialog.show();
                    trangThai = "Hoạt động";
 
                    ApiUuDaiService apiUuDaiService = ApiRetrofit.getApiUuDaiService();
@@ -357,6 +357,8 @@ public class UuDaiFragment extends Fragment {
                        public void onFailure(Call<UuDai> call, Throwable t) {
                            Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                            Log.d("zzz", "onFailure: "+ t.getMessage());
+                           progressDialog.dismiss();
+
                        }
                    });
                } else {

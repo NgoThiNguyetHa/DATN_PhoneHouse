@@ -65,8 +65,8 @@ dependencies {
     )))
 
     implementation(fileTree(mapOf(
-        "dir" to "/Users/yenyen/Desktop/DATN_PhoneHouse/AppKhachHang/app/libs",
-        "include" to listOf("*.aar", "*.jar")
+            "dir" to "/Users/yenyen/Desktop/DATN_PhoneHouse/AppKhachHang/app/libs",
+            "include" to listOf("*.aar", "*.jar")
 
     )))
     implementation("androidx.activity:activity:1.8.0")

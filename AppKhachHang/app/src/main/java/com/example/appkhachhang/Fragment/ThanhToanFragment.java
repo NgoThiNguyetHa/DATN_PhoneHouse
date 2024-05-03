@@ -4,11 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,18 +28,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.appkhachhang.Adapter.AdapterSpinnerDiaChi;
+import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
 import com.example.appkhachhang.Api.ApiRetrofit;
+import com.example.appkhachhang.Config.MomoPayment;
 import com.example.appkhachhang.Helper.AppInfo;
 import com.example.appkhachhang.Helper.CreateOrder;
 import com.example.appkhachhang.MainActivity;
@@ -44,6 +50,8 @@ import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
+import com.example.appkhachhang.ThanhToanActivity;
+import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -138,6 +146,7 @@ public class ThanhToanFragment extends Fragment {
     tvTongHoaDon = view.findViewById(R.id.tvTongHoaDon);
     spnPhuongThucThanhToan = view.findViewById(R.id.spn_PhuongThucThanhToan);
     spnDiaChi = view.findViewById(R.id.spn_diaChiNhanHang);
+
   }
 
 //    private void getDataBundle(){
@@ -368,7 +377,7 @@ public class ThanhToanFragment extends Fragment {
         if (selectedItem.toString().equals("Thanh toán qua ví Zalopay")) {
           CreateOrder orderApi = new CreateOrder();
           try {
-            JSONObject data = orderApi.createOrder(String.valueOf(10000));
+            JSONObject data = orderApi.createOrder(String.valueOf(tongTien/100000));
             String code = data.getString("returncode");
 
             if (code.equals("1")) {
@@ -469,9 +478,7 @@ public class ThanhToanFragment extends Fragment {
             e.printStackTrace();
           }
 
-        }else if (selectedItem.toString().equals("Thanh toán qua ví Momo")) {
-            requestPayment(chiTietDienThoai,tongTien);
-          }
+        }
         else if (selectedItem.toString().equals("Thanh toán khi nhận hàng")){
           List<String> addStores = new ArrayList<>();
           for (ChiTietGioHang item : chiTietGioHangList) {
@@ -520,6 +527,9 @@ public class ThanhToanFragment extends Fragment {
                           if (response.body().equals("Đặt hàng thành công")) {
                             //chuyển màn hình
                             Log.d("zzz", "onResponse: ");
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("key", "Thanh toan thanh cong");
+                            startActivity(intent);
                           }
                         }
                       }
@@ -639,7 +649,7 @@ public class ThanhToanFragment extends Fragment {
     return true;
   }
 
-    private void requestPayment(ChiTietDienThoai chiTietDienThoai, int tongTien) {
+    private void requestPayment( int tongTien) {
         AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
         AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
 
@@ -648,7 +658,7 @@ public class ThanhToanFragment extends Fragment {
         eventValue.put("merchantname",merchantName ); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
         eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
         eventValue.put("amount", tongTien); //Kiểu integer
-        eventValue.put("orderId", "dienthoai"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+        eventValue.put("orderId","Hóa đơn"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
         eventValue.put("orderLabel", merchantNameLabel); //gán nhãn
 
         //client Optional - bill info
@@ -682,118 +692,117 @@ public class ThanhToanFragment extends Fragment {
     }
 
     //Get token callback from MoMo app an submit to server side
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
-            if(data != null) {
-                if(data.getIntExtra("status", -1) == 0) {
-                    //TOKEN IS AVAILABLE
-                    Log.d("momopayment: ", data.getStringExtra("message"));
-//                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
-                    Log.d("momopayment: ","Get token " + data.getStringExtra("message"));
-                    String token = data.getStringExtra("data"); //Token response
-                    String phoneNumber = data.getStringExtra("phonenumber");
-                    String env = data.getStringExtra("env");
-//                    Intent intent = new Intent(getContext(), MainActivity.class);
-//                    startActivity(intent);
-                    List<String> addStores = new ArrayList<>();
-                    for (ChiTietGioHang item : chiTietGioHangList) {
-                        String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
-
-                        if (!addStores.contains(maCuaHang)) {
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                            String formattedDate = dateFormat.format(calendar.getTime());
-                            HoaDon hoaDon = new HoaDon();
-                            hoaDon.setTongTien(String.valueOf(0));
-                            hoaDon.setNgayTao(formattedDate);
-                            hoaDon.setPhuongThucThanhToan(selectedItem);
-                            hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
-                            hoaDon.setMaCuaHang(new Store(maCuaHang));
-                            hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
-                            hoaDon.setTrangThaiNhanHang("Đang xử lý");
-                            ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
-                                @Override
-                                public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
-                                    if (response.body() != null) {
-                                        String hoaDonId = response.body().getMaCuaHang().get_id();
-                                        chiTietHoaDons = new ArrayList<>();
-                                        for (ChiTietGioHang item : chiTietGioHangList) {
-                                            if (item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id().equals(hoaDonId)) {
-                                                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                                                chiTietHoaDon.setMaHoaDon(new HoaDon(response.body().get_id()));
-                                                chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
-                                                chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
-                                                if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() != null) {
-                                                    chiTietHoaDon.setGiaTien(String.valueOf((item.getSoLuong() * Math.round(item.getMaChiTietDienThoai().getGiaTien() * (100 - Double.parseDouble(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia())) / 100))));
-                                                } else {
-
-                                                    chiTietHoaDon.setGiaTien(String.valueOf(item.getSoLuong() * item.getMaChiTietDienThoai().getGiaTien()));
-                                                }
-                                                chiTietHoaDons.add(chiTietHoaDon);
-                                            } else {
-                                                Log.e("Error", "Response not successful");
-                                            }
-                                        }
-                                        ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<String>() {
-                                            @Override
-                                            public void onResponse(Call<String> call, Response<String> response) {
-                                                if (response.body() != null) {
-                                                    Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
-                                                    if (response.body().equals("Đặt hàng thành công")) {
-                                                        //chuyển màn hình
-                                                        Log.d("zzz", "onResponse: ");
-                                                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                                                        intent.putExtra("key", "Thanh toan thanh cong");
-                                                        startActivity(intent);
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<String> call, Throwable t) {
-                                                Log.d("themHoaDon", "onResponse: " + t.getMessage());
-                                            }
-                                        });
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<HoaDon> call, Throwable t) {
-                                    Log.e("errorrr", "onFailure: " + t.getMessage());
-                                }
-                            });
-                            addStores.add(maCuaHang);
-                        }
-                    }
-                    if(env == null){
-                        env = "app";
-                    }
-
-                    if(token != null && !token.equals("")) {
-                        // TODO: send phoneNumber & token to your server side to process payment with MoMo server
-                        // IF Momo topup success, continue to process your order
-                        Log.d("momopayment: ", "khong thanh cong");
-                    } else {
-                        Log.d("momopayment: ", "khong thanh cong");
-                    }
-                } else if(data.getIntExtra("status", -1) == 1) {
-                    //TOKEN FAIL
-                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
-                    Log.d("momopayment: ",  message);
-                } else if(data.getIntExtra("status", -1) == 2) {
-                    //TOKEN FAIL
-                    Log.d("momopayment: ","khong thanh cong");
-                } else {
-                    //TOKEN FAIL
-                    Log.d("momopayment: ","khong thanh cong");
-                }
-            } else {
-                Log.d("momopayment: ","khong thanh cong");
-            }
-        } else {
-            Log.d("momopayment: ","khong thanh cong");
-        }
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
+//            if(data != null) {
+//                if(data.getIntExtra("status", -1) == 0) {
+//                    //TOKEN IS AVAILABLE
+//                    Log.d("momopayment: ", data.getStringExtra("message"));
+////                    tvMessage.setText("message: " + "Get token " + data.getStringExtra("message"));
+//                    Log.d("momopayment: ","Get token " + data.getStringExtra("message"));
+//                    String token = data.getStringExtra("data"); //Token response
+//                  List<String> addStores = new ArrayList<>();
+//                  for (ChiTietGioHang item : chiTietGioHangList) {
+//                    String maCuaHang = item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id();
+//
+//                    if (!addStores.contains(maCuaHang)) {
+//                      Calendar calendar = Calendar.getInstance();
+//                      SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//                      String formattedDate = dateFormat.format(calendar.getTime());
+//                      HoaDon hoaDon = new HoaDon();
+//                      hoaDon.setTongTien(String.valueOf(0));
+//                      hoaDon.setNgayTao(formattedDate);
+//                      hoaDon.setPhuongThucThanhToan(selectedItem);
+//                      hoaDon.setMaKhachHang(new User(mySharedPreferences.getUserId()));
+//                      hoaDon.setMaCuaHang(new Store(maCuaHang));
+//                      hoaDon.setMaDiaChiNhanHang(new AddressDelivery(idDiaChi));
+//                      hoaDon.setTrangThaiNhanHang("Đang xử lý");
+//                      ApiRetrofit.getApiService().addHoaDon(hoaDon).enqueue(new Callback<HoaDon>() {
+//                        @Override
+//                        public void onResponse(Call<HoaDon> call, Response<HoaDon> response) {
+//                          if (response.body() != null) {
+//                            String hoaDonId = response.body().getMaCuaHang().get_id();
+//                            chiTietHoaDons = new ArrayList<>();
+//                            for (ChiTietGioHang item : chiTietGioHangList) {
+//                              if (item.getMaChiTietDienThoai().getMaDienThoai().getMaCuaHang().get_id().equals(hoaDonId)) {
+//                                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+//                                chiTietHoaDon.setMaHoaDon(new HoaDon(response.body().get_id()));
+//                                chiTietHoaDon.setMaChiTietDienThoai(item.getMaChiTietDienThoai());
+//                                chiTietHoaDon.setSoLuong(String.valueOf(item.getSoLuong()));
+//                                if (item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() != null) {
+//                                  chiTietHoaDon.setGiaTien(String.valueOf((item.getSoLuong() * Math.round(item.getMaChiTietDienThoai().getGiaTien() * (100 - Double.parseDouble(item.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia())) / 100))));
+//                                } else {
+//
+//                                  chiTietHoaDon.setGiaTien(String.valueOf(item.getSoLuong() * item.getMaChiTietDienThoai().getGiaTien()));
+//                                }
+//                                chiTietHoaDons.add(chiTietHoaDon);
+//                              } else {
+//                                Log.e("Error", "Response not successful");
+//                              }
+//                            }
+//                            ApiRetrofit.getApiService().addChiTietHoaDon(chiTietHoaDons, mySharedPreferences.getUserId()).enqueue(new Callback<String>() {
+//                              @Override
+//                              public void onResponse(Call<String> call, Response<String> response) {
+//                                if (response.body() != null) {
+//                                  Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
+//                                  if (response.body().equals("Đặt hàng thành công")) {
+//                                    //chuyển màn hình
+//                                    Log.d("zzz", "onResponse: ");
+//                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                                    intent.putExtra("key", "Thanh toan thanh cong");
+//                                    startActivity(intent);
+//                                  }
+//                                }
+//                              }
+//
+//                              @Override
+//                              public void onFailure(Call<String> call, Throwable t) {
+//                                Log.d("themHoaDon", "onResponse: " + t.getMessage());
+//                              }
+//                            });
+//                          }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<HoaDon> call, Throwable t) {
+//                          Log.e("errorrr", "onFailure: " + t.getMessage());
+//                        }
+//                      });
+//                      addStores.add(maCuaHang);
+//                    }
+//                  }
+//                    String phoneNumber = data.getStringExtra("phonenumber");
+//                    String env = data.getStringExtra("env");
+//
+//                    if(env == null){
+//                        env = "app";
+//                    }
+//
+//                    if(token != null && !token.equals("")) {
+//                        // TODO: send phoneNumber & token to your server side to process payment with MoMo server
+//                        // IF Momo topup success, continue to process your order
+//                        Log.d("momopayment: ", "khong thanh cong");
+//                    } else {
+//                        Log.d("momopayment: ", "khong thanh cong");
+//                    }
+//                } else if(data.getIntExtra("status", -1) == 1) {
+//                    //TOKEN FAIL
+//                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
+//                    Log.d("momopayment: ",  message);
+//                } else if(data.getIntExtra("status", -1) == 2) {
+//                    //TOKEN FAIL
+//                    Log.d("momopayment: ","khong thanh cong");
+//                } else {
+//                    //TOKEN FAIL
+//                    Log.d("momopayment: ","khong thanh cong");
+//                }
+//            } else {
+//                Log.d("momopayment: ","khong thanh cong");
+//            }
+//        } else {
+//            Log.d("momopayment: ","khong thanh cong");
+//        }
+//    }
 
 }

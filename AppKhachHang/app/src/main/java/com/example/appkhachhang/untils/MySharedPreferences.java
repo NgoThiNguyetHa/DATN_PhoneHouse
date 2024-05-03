@@ -69,4 +69,6 @@ public class MySharedPreferences {
         editor.remove(KEY_USER_Address);
         editor.apply();
     }
+
+    //
 }

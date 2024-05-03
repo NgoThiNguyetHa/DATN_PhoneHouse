@@ -48,6 +48,5 @@
     <string-array name="spn_phuongthuc">
         <item>Thanh toán khi nhận hàng</item>
         <item>Thanh toán qua ví Zalopay</item>
-        <item>Thanh toán qua ví Momo</item>
     </string-array>
 </resources>

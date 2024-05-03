@@ -296,11 +296,11 @@ public class DetailScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    progressDialog = new ProgressDialog(getContext());
-                    progressDialog.setMessage("Vui Lòng Chờ...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
                     if (quantity <= chiTietDienThoai.getSoLuong()) {
+                       // progressDialog = new ProgressDialog(getContext());
+                       // progressDialog.setMessage("Vui Lòng Chờ...");
+                       // progressDialog.setCancelable(false);
+                       // progressDialog.show();
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);
@@ -320,7 +320,7 @@ public class DetailScreenFragment extends Fragment {
                                     if (isSuccess) {
                                         Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                                         quantity = 1;
-                                        progressDialog.dismiss();
+//                                        progressDialog.dismiss();
                                     } else {
                                         Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                                     }
@@ -328,6 +328,7 @@ public class DetailScreenFragment extends Fragment {
 //                                    Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
 //                                    Log.d("zzzz", "onResponse: "+ response);
                                     handleNotification(response.body());
+                                    //progressDialog.dismiss();
                                 }
                             }
 
