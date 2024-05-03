@@ -4,18 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.StrictMode;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,17 +21,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.appkhachhang.Adapter.AdapterSpinnerDiaChi;
-import com.example.appkhachhang.Adapter.DiaChiNhanHangAdapter;
 import com.example.appkhachhang.Adapter.DienThoaiThanhToanAdapter;
 import com.example.appkhachhang.Api.Address_API;
 import com.example.appkhachhang.Api.ApiRetrofit;
-import com.example.appkhachhang.Config.MomoPayment;
 import com.example.appkhachhang.Helper.AppInfo;
 import com.example.appkhachhang.Helper.CreateOrder;
 import com.example.appkhachhang.MainActivity;
@@ -50,8 +44,6 @@ import com.example.appkhachhang.Model.HoaDon;
 import com.example.appkhachhang.Model.Store;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.R;
-import com.example.appkhachhang.ThanhToanActivity;
-import com.example.appkhachhang.activity.ZalopayActivity;
 import com.example.appkhachhang.untils.MySharedPreferences;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -146,7 +138,6 @@ public class ThanhToanFragment extends Fragment {
     tvTongHoaDon = view.findViewById(R.id.tvTongHoaDon);
     spnPhuongThucThanhToan = view.findViewById(R.id.spn_PhuongThucThanhToan);
     spnDiaChi = view.findViewById(R.id.spn_diaChiNhanHang);
-
   }
 
 //    private void getDataBundle(){
@@ -657,7 +648,7 @@ public class ThanhToanFragment extends Fragment {
         eventValue.put("merchantname",merchantName ); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
         eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
         eventValue.put("amount", tongTien); //Kiểu integer
-        eventValue.put("orderId", chiTietDienThoai.get_id()); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+        eventValue.put("orderId", "dienthoai"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
         eventValue.put("orderLabel", merchantNameLabel); //gán nhãn
 
         //client Optional - bill info

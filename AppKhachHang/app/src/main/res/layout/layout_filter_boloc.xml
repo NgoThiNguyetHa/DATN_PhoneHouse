@@ -165,6 +165,64 @@
                     android:padding="10dp"/>
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                android:text="Giá tiền"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                >
+                <TextView
+                    android:id="@+id/filterGiaTien_tvMin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0đ"
+                    android:textAlignment="textStart"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/filterGiaTien_tvMax"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0đ"
+                    android:textAlignment="textEnd"
+                    />
+            </LinearLayout>
+            <com.mohammedalaa.seekbar.DoubleValueSeekBarView
+                android:id="@+id/double_range_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:minValue="0"
+                app:maxValue="100"
+                app:r2CurrentMaxValue="100"
+                app:r2CurrentMinValue="0"
+                app:r2barHeight="5dp"
+                app:r2circleFillColor="#D6D6D6"
+                app:r2circleRadius="10dp"
+                app:r2circleTextColor="#D6D6D6"
+                app:r2baseColor="#D6D6D6"
+                app:r2circleTextSize="@dimen/value_bar_circleTextSize"
+                app:r2fillColor="@color/xanhduong"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
