@@ -46,7 +46,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tiêu đề"
-                    android:textSize="11dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -57,7 +56,7 @@
                     android:gravity="center_vertical|end"
                     android:text="Ngày giờ"
                     android:textColor="#989595"
-                    android:textSize="11dp" />
+                     />
             </LinearLayout>
 
             <TextView
@@ -67,7 +66,6 @@
                 android:layout_weight="1"
                 android:text="Mô tả"
                 android:textColor="#989595"
-                android:textSize="11dp"
                 android:textStyle="bold" />
 
 
