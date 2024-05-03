@@ -525,10 +525,11 @@ public class ThanhToanFragment extends Fragment {
                         if (response.body() != null) {
                           Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                           if (response.body().equals("Đặt hàng thành công")) {
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.putExtra("key", "Thanh toan thanh cong");
                             //chuyển màn hình
                             Log.d("zzz", "onResponse: ");
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("key", "Thanh toan thanh cong");
+                            startActivity(intent);
                           }
                         }
                       }
