@@ -51,10 +51,10 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
         holder.tvRamDungLuong.setText("Cấu hình: "+chiTietHoaDon.getMaChiTietDienThoai().getMaRam().getRAM()+"gb"+" / "+chiTietHoaDon.getMaChiTietDienThoai().getMaDungLuong().getBoNho()+"gb");
         holder.tvSoLuong.setText("x"+chiTietHoaDon.getSoLuong());
         if (chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-            holder.tvGiaTienGiam.setText("");
-            holder.tvGiaTienGiam.setVisibility(View.GONE);
+//            holder.tvGiaTienGiam.setText("");
+//            holder.tvGiaTienGiam.setVisibility(View.GONE);
         }else {
-            holder.tvGiaTienGiam.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia());
+//            holder.tvGiaTienGiam.setText("" + chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia());
         }
         //
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
@@ -62,22 +62,22 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
         try {
             double tongTienNumber = Double.parseDouble(tongTien);
             String formattedNumber = decimalFormat.format(tongTienNumber);
-            holder.tvGiaTienGiam.setPaintFlags(holder.tvGiaTienGiam.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.tvGiaTienGiam.setText(formattedNumber+"₫");
+//            holder.tvGiaTienGiam.setPaintFlags(holder.tvGiaTienGiam.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+//            holder.tvGiaTienGiam.setText(formattedNumber+"₫");
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         //
-        String tongTienGiam ;
-        if (chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
-            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien());
-
-        }else{
-            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
-
-        }
+//        String tongTienGiam ;
+//        if (chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai() == null){
+//            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien());
+//
+//        }else{
+//            tongTienGiam = String.valueOf(chiTietHoaDon.getMaChiTietDienThoai().getGiaTien() * Integer.parseInt(chiTietHoaDon.getMaChiTietDienThoai().getMaDienThoai().getMaUuDai().getGiamGia()) / 100);
+//
+//        }
         try {
-            double tongTienGiamNumber = Double.parseDouble(tongTienGiam);
+            double tongTienGiamNumber = Double.parseDouble(chiTietHoaDon.getGiaTien());
             String formattedNumber = decimalFormat.format(tongTienGiamNumber);
             holder.tvGiaTien.setText(formattedNumber+"₫");
         } catch (NumberFormatException e) {
@@ -96,7 +96,7 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvTenDienThoai, tvMau,tvRamDungLuong,tvSoLuong, tvGiaTien,tvGiaTienGiam, tvBaoHanh;
+        TextView tvTenDienThoai, tvMau,tvRamDungLuong,tvSoLuong, tvGiaTien, tvBaoHanh;
         ImageView imgDienThoai;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,7 +109,7 @@ public class InfoOrderAdapter extends RecyclerView.Adapter<InfoOrderAdapter.MyVi
             imgDienThoai = itemView.findViewById(R.id.imgDienThoai);
             tvGiaTien = itemView.findViewById(R.id.item_detailOrder_tvGiaTien);
             imgDienThoai = itemView.findViewById(R.id.item_detailOrder_imgDienThoai);
-            tvGiaTienGiam = itemView.findViewById(R.id.item_detailOrder_tvGiaTienGiam);
+//            tvGiaTienGiam = itemView.findViewById(R.id.item_detailOrder_tvGiaTienGiam);
             tvBaoHanh = itemView.findViewById(R.id.item_detailOrder_tvBaoHanh);
         }
     }

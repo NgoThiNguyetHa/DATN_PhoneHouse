@@ -6,5 +6,6 @@ const KhachHangSchema = mongoose.Schema({
     password:{type: String},
     email:{type: String},
     sdt:{type: String},
+    token:{type: String},
 });
 module.exports = mongoose.model('khachhang', KhachHangSchema);

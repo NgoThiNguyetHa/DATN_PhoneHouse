@@ -42,19 +42,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
   @NonNull
   @Override
   public NotificationAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_notification,parent,false));
+    return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_notification, parent, false));
   }
 
   @Override
   public void onBindViewHolder(@NonNull NotificationAdapter.MyViewHolder holder, int position) {
     Notification notification = list.get(position);
     int color = Color.parseColor("#D0dde4");
-    if (notification.getTrangThai().equals("0")){
+    if (notification.getTrangThai().equals("0")) {
       holder.item_mLinearThongBao.setBackgroundColor(color);
-    }else {
+    } else {
       holder.item_mLinearThongBao.setBackgroundColor(Color.TRANSPARENT);
     }
-    holder.tvTieuDe.setText(notification.getNoiDung());
 
     try {
       Date date = sdf.parse(notification.getThoiGian());
@@ -66,11 +65,34 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     String orderCode = generateOrderCode(notification.getMaHoaDon().get_id());
-    if (notification.getNoiDung().equals("Đặt hàng thành công")){
+    if (notification.getNoiDung().equals("Đang xử lý")) {
+      holder.tvTieuDe.setText("Đã xác nhận đơn hàng");
       String text = "Đơn hàng ";
       SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã xác nhận thanh toán COD. Vui lòng giữ điện thoại để nhận cuộc gọi từ nhân viên giao hàng nhé.");
 
 // Tạo Span để gạch chân và thay đổi màu sắc của "DH" và orderCode
+      spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
+      spannableString.setSpan(new UnderlineSpan(), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân orderCode
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh orderCode
+
+      holder.tvMoTa.setText(spannableString);
+    } else if (notification.getNoiDung().equals("Đã giao")) {
+      holder.tvTieuDe.setText("Giao đơn hàng thành công");
+      String text = "Đơn hàng ";
+      SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã giao thành công đến bạn.");
+
+      spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
+      spannableString.setSpan(new UnderlineSpan(), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân orderCode
+      spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh orderCode
+
+      holder.tvMoTa.setText(spannableString);
+    } else if (notification.getNoiDung().equals("Đã hủy")) {
+      holder.tvTieuDe.setText("Đơn hàng đã bị hủy");
+      String text = "Rất tiếc, đơn hàng ";
+      SpannableString spannableString = new SpannableString(text + "DH" + orderCode + " đã bị hủy.");
+
       spannableString.setSpan(new UnderlineSpan(), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân "DH"
       spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), text.length(), text.length() + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Màu xanh "DH"
       spannableString.setSpan(new UnderlineSpan(), text.length() + 2, text.length() + 2 + orderCode.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // Gạch chân orderCode
@@ -85,7 +107,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         listener.onItemClick(notification);
       }
     });
-  };
+  }
+
+  ;
 
 
   @Override
@@ -93,9 +117,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     return list.size();
   }
 
-  public class MyViewHolder extends RecyclerView.ViewHolder{
+  public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView tvTieuDe, tvNgayGio, tvMoTa;
     LinearLayout item_mLinearThongBao;
+
     public MyViewHolder(@NonNull View itemView) {
       super(itemView);
       tvTieuDe = itemView.findViewById(R.id.tvTieuDeNoiDung);
