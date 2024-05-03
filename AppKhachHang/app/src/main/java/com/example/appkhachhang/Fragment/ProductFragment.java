@@ -518,7 +518,7 @@ public class ProductFragment extends Fragment {
                     selectedBoNho.deleteCharAt(selectedBoNho.length() - 1);
                 }
 
-                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(), minValue[0] * 1000000, maxValue[0] * 1000000, "");
+                Call<List<Root>> call = apiService.getBoLocFilter(selectedRAMs.toString(), selectedBoNho.toString(),  minValue[0] * 1000000, maxValue[0] * 1000000, "");
                 call.enqueue(new Callback<List<Root>>() {
                     @Override
                     public void onResponse(Call<List<Root>> call, Response<List<Root>> response) {
