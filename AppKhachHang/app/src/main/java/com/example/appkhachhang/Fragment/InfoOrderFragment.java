@@ -54,7 +54,7 @@ public class InfoOrderFragment extends Fragment {
     InfoOrderAdapter adapter;
     LinearLayoutManager manager;
     RecyclerView rc_detailOrder;
-    int tienPhiVanChuyen;
+    int tienPhiVanChuyen = 0;
     Date currentDate = new Date();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,11 +123,11 @@ public class InfoOrderFragment extends Fragment {
                 e.printStackTrace();
             }
             //kiểm tra vị trí
-            if (hoaDon.getMaDiaChiNhanHang().getDiaChi().toLowerCase().equals("hà nội")) {
-                tienPhiVanChuyen += 15000;
-            } else {
-                tienPhiVanChuyen += 30000;
-            }
+//            if (hoaDon.getMaDiaChiNhanHang().getDiaChi().toLowerCase().equals("hà nội")) {
+//                tienPhiVanChuyen += 15000;
+//            } else {
+//                tienPhiVanChuyen += 30000;
+//            }
             DecimalFormat decimalFormat = new DecimalFormat("#,##0.##");
             String tongTien = String.valueOf(tienPhiVanChuyen);
             try {

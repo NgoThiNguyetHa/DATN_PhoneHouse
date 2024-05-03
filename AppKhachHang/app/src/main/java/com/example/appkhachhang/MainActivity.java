@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
           // Thay thế Fragment hiện tại bằng Fragment HoaDon
           getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, hoaDonFragment).commit();
+//            bottomNavigationView.setOnNavigationItemSelectedListener(myNavigationItemListener);
+            bottomNavigationView.setSelectedItemId(R.id.navBill);
         }
       }
 

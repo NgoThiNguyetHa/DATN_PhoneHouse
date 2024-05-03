@@ -296,11 +296,11 @@ public class DetailScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mySharedPreferences.getUserId() != null && !mySharedPreferences.getUserId().isEmpty()) {
-                    progressDialog = new ProgressDialog(getContext());
-                    progressDialog.setMessage("Vui Lòng Chờ...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
                     if (quantity <= chiTietDienThoai.getSoLuong()) {
+                        progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setMessage("Vui Lòng Chờ...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
                         ChiTietGioHang chiTietGioHang = new ChiTietGioHang();
                         chiTietGioHang.setMaChiTietDienThoai(chiTietDienThoai);
                         chiTietGioHang.setSoLuong(quantity);

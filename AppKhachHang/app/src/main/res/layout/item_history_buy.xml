@@ -45,7 +45,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
@@ -145,33 +145,24 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#F4F0F0"
-            android:layout_marginBottom="10dp"/>
+        />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:gravity="center|end"
-            android:layout_marginBottom="10dp"
            >
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDanhGia"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#5FB1C1"
+                android:layout_height="match_parent"
+                android:background="@drawable/linear_imgclose"
                 android:text="Đánh giá"
-                android:layout_gravity="end"
-                android:layout_marginRight="25dp"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:padding="10dp"
                 />
-            <Button
-                android:id="@+id/btnMuaLai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#5FB1C1"
-                android:text="Mua lại"
-                android:layout_gravity="end"
-                android:layout_marginRight="15dp"
-                />
-
         </LinearLayout>
     </LinearLayout>
 

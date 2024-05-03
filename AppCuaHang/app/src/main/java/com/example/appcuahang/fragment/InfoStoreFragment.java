@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +36,7 @@ import com.example.appcuahang.databinding.FragmentInfoStoreBinding;
 import com.example.appcuahang.model.Brand;
 import com.example.appcuahang.model.Store;
 import com.example.appcuahang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +53,7 @@ public class InfoStoreFragment extends Fragment {
     EditText edEmail ;
     EditText edPhone ;
     ProgressDialog progressDialog;
+    TextInputLayout textMkhauMoi , textNhapLaiMkhau , textMkhauCu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,11 +128,14 @@ public class InfoStoreFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String id = mySharedPreferences.getUserId();
+                String password = mySharedPreferences.getPassword();
                 if (validate()){
                     progressDialog = new ProgressDialog(getContext());
                     progressDialog.setMessage("Vui Lòng Chờ...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
+//                    mySharedPreferences.clearUserData();
                     String username = edUsername.getText().toString().trim();
                     String address = edAddress.getText().toString().trim();
                     String email = edEmail.getText().toString().trim();
@@ -138,6 +148,8 @@ public class InfoStoreFragment extends Fragment {
                             if (response.isSuccessful()) {
                                 Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
+                                mySharedPreferences.saveUserData(id, username,email,password, phone,address);
+                                replaceFragment(new InfoStoreFragment());
                                 progressDialog.dismiss();
                             } else {
                                 Toast.makeText(getContext(), "Cập nhập thất bại", Toast.LENGTH_SHORT).show();
@@ -181,12 +193,58 @@ public class InfoStoreFragment extends Fragment {
         EditText edOldPass = view.findViewById(R.id.dl_store_edOldPass);
         EditText edNewPass = view.findViewById(R.id.dl_store_edNewPass);
         EditText edConfirmPass = view.findViewById(R.id.dl_store_edConfirmPass);
-
+        textMkhauMoi = view.findViewById(R.id.textMkhauMoi);
+        textNhapLaiMkhau = view.findViewById(R.id.textNhapLaiMkhau);
+        textMkhauCu = view.findViewById(R.id.textMkhauCu);
         Button btnSave = view.findViewById(R.id.dl_store_btnSave);
         TextView tvTitle = view.findViewById(R.id.dl_store_tvTitle);
         ImageView imgView = view.findViewById(R.id.dl_store_imageView);
 
         tvTitle.setText("Đổi Mật Khẩu");
+//        edNewPass.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.length() < 6){
+//                    textMkhauMoi.setError("Yêu cầu mật khẩu tối thiểu 6 kí tự!!");
+//                    textMkhauMoi.setHelperText("");
+//                }else{
+//                    textMkhauMoi.setHelperText("Mật khẩu hợp lệ");
+//                    textMkhauMoi.setError("");
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//        edConfirmPass.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.length() < 6){
+//                    textNhapLaiMkhau.setError("Yêu cầu mật khẩu tối thiểu 6 kí tự!!");
+//                    textNhapLaiMkhau.setHelperText("");
+//                }else{
+//                    textNhapLaiMkhau.setHelperText("Mật khẩu hợp lệ");
+//                    textNhapLaiMkhau.setError("");
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,27 +253,36 @@ public class InfoStoreFragment extends Fragment {
                 String oldPass = edOldPass.getText().toString().trim();
                 String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
                 if (oldPass.isEmpty()){
-                    edOldPass.setError("Yêu cầu nhập mật khẩu cũ");
+                    textMkhauCu.setError("Yêu cầu nhập mật khẩu cũ");
+                    textMkhauMoi.setError("");
+                    textNhapLaiMkhau.setError("");
                     return;
                 }
                 else if (!oldPass.equals(mySharedPreferences.getPassword())) {
-                    edOldPass.setError("Mật khẩu cũ không đúng");
+                    textMkhauCu.setError("Mật khẩu cũ không đúng");
+                    textMkhauMoi.setError("");
+                    textNhapLaiMkhau.setError("");
                     return;
                 }else if (newPass.isEmpty()) {
-                    edNewPass.setError("Yêu cầu nhập mật khẩu mới!!");
+                    textMkhauMoi.setError("Yêu cầu nhập mật khẩu mới!!");
+                    textMkhauCu.setError("");
+                    textNhapLaiMkhau.setError("");
                     return;
                 }else if (newPass.length() < 6) {
-                    edNewPass.setError("Yêu cầu nhập mật khẩu tối thiểu 6 kí tự!!");
+                    textMkhauMoi.setError("Yêu cầu nhập mật khẩu tối thiểu 6 kí tự!!");
+                    textMkhauCu.setError("");
+                    textNhapLaiMkhau.setError("");
                     return;
                 }else if (!newPass.matches(passwordPattern)) {
-                    edNewPass.setError("Mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt!!");
-                    return;
-                }else if (!newPass.equals(oldPass)) {
-                    edConfirmPass.setError("Yêu cầu không được trùng mật khẩu cũ!!");
+                    textMkhauMoi.setError("Mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt!!");
+                    textMkhauCu.setError("");
+                    textNhapLaiMkhau.setError("");
                     return;
                 }
                 else if (!newPass.equals(confirmPass)) {
-                    edConfirmPass.setError("Mật khẩu không trùng khớp");
+                    textNhapLaiMkhau.setError("Mật khẩu không trùng khớp");
+                    textMkhauCu.setError("");
+                    textMkhauMoi.setError("");;
                     return;
                 } else {
                     progressDialog = new ProgressDialog(getContext());
@@ -228,11 +295,11 @@ public class InfoStoreFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Store> call, Response<Store> response) {
                             if (response.isSuccessful()) {
-                                Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 progressDialog.dismiss();
                             } else {
-                                Toast.makeText(getContext(), "Cập nhập thất bại", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -277,6 +344,11 @@ public class InfoStoreFragment extends Fragment {
         return true;
     }
 
-
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.main_frame,fragment);
+        transaction.commit();
+    }
 
 }

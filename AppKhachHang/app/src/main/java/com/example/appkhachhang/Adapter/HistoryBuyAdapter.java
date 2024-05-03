@@ -93,7 +93,7 @@ public class HistoryBuyAdapter extends RecyclerView.Adapter<HistoryBuyAdapter.My
             bill_item_tvTongTien = itemView.findViewById(R.id.bill_item_tvTongTien);
             imgDienThoai = itemView.findViewById(R.id.imgDienThoai);
             btnDanhGia = itemView.findViewById(R.id.btnDanhGia);
-            btnMuaLai = itemView.findViewById(R.id.btnMuaLai);
+//            btnMuaLai = itemView.findViewById(R.id.btnMuaLai);
             tvCuaHangDG = itemView.findViewById(R.id.tvCuaHangDG);
 
 
