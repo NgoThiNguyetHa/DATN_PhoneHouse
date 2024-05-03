@@ -44,6 +44,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="Có"
+                android:backgroundTint="@color/xanhduong"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -53,6 +54,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="Không"
+                android:backgroundTint="@color/xanhduong"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

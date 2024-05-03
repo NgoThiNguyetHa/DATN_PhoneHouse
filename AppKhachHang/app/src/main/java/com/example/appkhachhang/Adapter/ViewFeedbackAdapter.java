@@ -51,7 +51,7 @@ public class ViewFeedbackAdapter extends RecyclerView.Adapter<ViewFeedbackAdapte
         String mau = danhGia.getIdChiTietDienThoai().getMaMau().getTenMau();
 
         holder.tvViewTenKhachHang.setText(tenKhachHang);
-        holder.tvViewNoiDungDG.setText(noiDung);
+        holder.tvViewNoiDungDG.setText("Nội dung: "+noiDung);
         holder.tvViewTenDT.setText(tenDienThoai);
         holder.tvViewNgayDanhGia.setText(ngayTao);
         holder.tvViewPhanLoai.setText(" | Phân loại: RAM" +ram + "/" + dungLuong+"Gb, "+ mau);
