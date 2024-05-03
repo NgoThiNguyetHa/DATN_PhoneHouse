@@ -40,7 +40,7 @@
                 android:id="@+id/dl_store_edUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username*"/>
+                android:hint="Họ và Tên *"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,7 @@
                 android:id="@+id/dl_store_edAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Địa chỉ*"/>
+                android:hint="Địa chỉ *"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -70,7 +70,7 @@
                 android:id="@+id/dl_store_edEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email*"/>
+                android:hint="Email *"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                 android:id="@+id/dl_store_edPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Số điện thoại*"/>
+                android:hint="Số điện thoại *"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

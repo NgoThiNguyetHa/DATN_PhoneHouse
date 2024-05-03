@@ -10,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Fragment.UserFragment;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,6 +33,7 @@ import retrofit2.Response;
 
 public class ChangePassword extends AppCompatActivity {
     EditText edPassOld, edPassNew, edPassAgain;
+    TextInputLayout textOldPass, textNewPass, textPassAgain;
     Button btnSave, btnCancle;
     FirebaseAuth mAuth;
     Toolbar toolbar;
@@ -48,7 +52,12 @@ public class ChangePassword extends AppCompatActivity {
         edPassAgain = findViewById(R.id.edPassAgain);
         btnSave = findViewById(R.id.btnSave);
         btnCancle = findViewById(R.id.btnCancle);
+        textOldPass = findViewById(R.id.textOldPass);
+        textNewPass = findViewById(R.id.textNewPass);
+        textPassAgain = findViewById(R.id.textAgainPass);
+
         toolbar = findViewById(R.id.changePass_toolBar);
+
         toolbar.setTitle("Đổi mật khẩu");
         setSupportActionBar(toolbar);
 
@@ -83,21 +92,86 @@ public class ChangePassword extends AppCompatActivity {
                 String oldPassStr = edPassOld.getText().toString();
                 String newPassStr = edPassNew.getText().toString();
                 String againPassStr = edPassAgain.getText().toString();
+
+                edPassOld.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textOldPass.setError("");
+                            textOldPass.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                edPassNew.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textNewPass.setError("");
+                            textNewPass.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                edPassAgain.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(i1>i2){
+                            textPassAgain.setError("");
+                            textPassAgain.setHelperText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
                 if (oldPassStr.isEmpty()) {
-                    edPassOld.setError("Nhập đủ thông tin");
+                    textOldPass.setError("Nhập đủ thông tin");
+                    textOldPass.setHelperText("");
                 } else if (newPassStr.isEmpty()) {
-                    edPassNew.setError("Nhập đủ thông tin");
+                    textNewPass.setError("Nhập đủ thông tin");
+                    textNewPass.setHelperText("");
                 } else if (againPassStr.isEmpty()) {
-                    edPassAgain.setError("Nhập đủ thông tin");
+                    textPassAgain.setError("Nhập đủ thông tin");
+                    textPassAgain.setHelperText("");
                 } else if (newPassStr.length() < 6) {
-                    edPassNew.setError("Mật khẩu mới tối thiểu 6 kí tự");
+                    textNewPass.setError("Mật khẩu mới tối thiểu 6 kí tự");
+                    textNewPass.setHelperText("");
                 } else if (!edPassOld.getText().toString().trim().equals(mySharedPreferences.getPassword()+"")) {
-                    edPassOld.setError("Sai mật khẩu cũ");
-                    Log.e("zzzzz", "onClick: "+ mySharedPreferences.getPassword() );
+                    textOldPass.setError("Sai mật khẩu cũ");
+                    textOldPass.setHelperText("");
                 } else if (!isStrongPassword(edPassNew.getText().toString().trim())) {
-                    edPassNew.setError("Mật khẩu mới phải có chữ cái viết hoa và có kí tự đặc biệt");
+                    textNewPass.setError("Mật khẩu mới phải có chữ cái viết hoa, số và có kí tự đặc biệt");
+                    textNewPass.setHelperText("");
                 } else if (!edPassAgain.getText().toString().trim().equals(edPassNew.getText().toString().trim())) {
-                    edPassAgain.setError("Mật khẩu nhập lại không trùng khớp");
+                    textPassAgain.setError("Mật khẩu nhập lại không trùng khớp");
+                    textPassAgain.setHelperText("");
                 }
 
                 else {

@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import com.example.appkhachhang.Api.User_API;
 import com.example.appkhachhang.Model.User;
 import com.example.appkhachhang.untils.MySharedPreferences;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ import retrofit2.Response;
 public class LoginScreen extends AppCompatActivity {
     TextView txtForgotPassword, txtNonAccount;
     EditText edEmail, edPassword;
+    TextInputLayout edLayoutEmail, edLayoutPassword;
     List<User> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class LoginScreen extends AppCompatActivity {
 //        });
         edEmail = findViewById(R.id.edEmail);
         edPassword = findViewById(R.id.edPassword);
+        edLayoutEmail = findViewById(R.id.ed_layoutemail);
+        edLayoutPassword = findViewById(R.id.edLayoutPassword);
         list = new ArrayList<>();
         getListUser();
         findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
@@ -79,23 +86,66 @@ public class LoginScreen extends AppCompatActivity {
         }
         for (User user: list) {
             String emailPattern = "^[a-zA-Z][a-zA-Z0-9\\-_]+@[a-zA-Z]+(\\.[a-zA-Z]+){1,3}$";
+            edEmail.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (i1>i2){
+                        edLayoutEmail.setHelperText("");
+                        edLayoutEmail.setError("");
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            edPassword.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (i1>i2){
+                        edLayoutPassword.setHelperText("");
+                        edLayoutPassword.setError("");
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             if (Email.isEmpty()){
-                edEmail.setError("Email không được để trống");
+                edLayoutEmail.setError("Email không được để trống");
+                edLayoutEmail.setHelperText("");
                 return;
             } else if (Password.isEmpty()) {
-                edPassword.setError("Password không được để trống");
+                edLayoutPassword.setError("Password không được để trống");
                 return;
             }  else if (!Email.matches(emailPattern)) {
-                edEmail.setError("Email không hợp lệ");
+                edLayoutEmail.setError("Email không hợp lệ");
+                edLayoutEmail.setHelperText("");
                 return;
             } else if (!isStrongPassword(Password)) {
-                edPassword.setError("Sai format, vui lòng nhập lại");
+                edLayoutPassword.setError("Sai format, vui lòng nhập lại");
+                edLayoutPassword.setHelperText("");
                 return;
             } else if (Email.equals(user.getEmail())&&!Password.equals(user.getPassword())) {
-                edPassword.setError("Password không đúng");
+                edLayoutPassword.setError("Password không đúng");
+                edLayoutPassword.setHelperText("");
                 return;
             } else if (!isValidEmail(Email)) {
-                edEmail.setError("Email không hợp lệ");
+                edLayoutEmail.setError("Email không hợp lệ");
+                edLayoutEmail.setHelperText("");
                 return;
             } else if (Email.equals(user.getEmail()) && Password.equals(user.getPassword())){
                 MySharedPreferences sharedPreferences = new MySharedPreferences(getApplicationContext());
@@ -108,6 +158,27 @@ public class LoginScreen extends AppCompatActivity {
 //                editor.putString("user", json);
 //                editor.apply();
                 startActivity(intent);
+                // Lấy token thiết bị từ Firebase Messaging
+//                FirebaseMessaging.getInstance().getToken()
+//                        .addOnCompleteListener(task -> {
+//                            if (!task.isSuccessful()) {
+//                                // Xử lý lỗi
+//                                return;
+//                            }
+//                            // Lấy token thiết bị
+//                            String deviceToken = task.getResult();
+//                            User_API.userApi.updateToken(user.get_id(), deviceToken).enqueue(new Callback<String>() {
+//                                @Override
+//                                public void onResponse(Call<String> call, Response<String> response) {
+////                                    Log.d("zzz", "onResponse: "+response.body());
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<String> call, Throwable t) {
+////                                    Log.d("zzz", "onFailure: "+t.getMessage());
+//                                }
+//                            });
+//                        });
                 break;
             }
         }
@@ -146,11 +217,6 @@ public class LoginScreen extends AppCompatActivity {
         return partBeforeAt.matches(emailPattern);
     }
     private boolean isStrongPassword(String password) {
-        // Kiểm tra xem mật khẩu có null hoặc độ dài không đủ không
-//        if (password == null || password.length() < 8) {
-//            return false;
-//        }
-
         // Kiểm tra xem mật khẩu có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt không
         String passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
         return password.matches(passwordPattern);

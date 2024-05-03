@@ -171,7 +171,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hãy viết đánh giá của bạn..."
+        android:hint="      Hãy viết đánh giá của bạn..."
+
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText

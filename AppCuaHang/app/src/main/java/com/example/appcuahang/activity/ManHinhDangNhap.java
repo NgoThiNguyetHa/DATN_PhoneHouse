@@ -124,6 +124,7 @@ public class ManHinhDangNhap extends AppCompatActivity {
                                     String passWord = loginResponse.getCuaHang().getPassword();
                                     String phone = loginResponse.getCuaHang().getSdt();
                                     String address = loginResponse.getCuaHang().getDiaChi();
+
                                     sharedPreferences.saveUserData(cuaHangId,userName,email,passWord,phone,address);
                                     Intent intent = new Intent(ManHinhDangNhap.this, MainActivity.class);
                                     startActivity(intent);

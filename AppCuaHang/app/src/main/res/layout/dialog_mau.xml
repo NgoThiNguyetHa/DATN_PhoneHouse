@@ -44,7 +44,7 @@
             android:id="@+id/dl_mau_btnSave"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="Cập *"
+            android:text="Cập nhật"
             android:layout_margin="10dp"/>
     </LinearLayout>
 

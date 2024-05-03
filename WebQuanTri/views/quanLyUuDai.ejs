@@ -227,6 +227,13 @@
       return false;
     }
 
+    var ngayHienTai = new Date();
+    var ngayNhap = new Date(thoiGian);
+    if (ngayNhap <= ngayHienTai) {
+      alert('Thời gian phải là ngày trong tương lai');
+      return false;
+    }
+
     return true;
   }
 
